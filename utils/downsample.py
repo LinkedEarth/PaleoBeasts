@@ -6,7 +6,6 @@ Author: Alexander James
 
 # Import necessary modules
 import numpy as np
-import pyleoclim as pyleo
 
 def downsample(series,method='exponential',param=[1],return_index=False,seed=None):
     '''Function to downsample a time series by randomly selecting time increments.

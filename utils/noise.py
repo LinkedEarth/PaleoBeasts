@@ -7,7 +7,6 @@ Author: Alexander James
 # Import necessary modules
 import warnings
 
-import matplotlib.pyplot as plt
 import numpy as np
 import pyleoclim as pyleo
                 
