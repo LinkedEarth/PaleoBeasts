@@ -49,12 +49,7 @@ def from_series(target_series,method,number=1,seed=None,scale=1):
     --------
     
     SOI = pyleo.utils.load_dataset('SOI')
-    SOI_surr = pyleo.SurrogateSeries(method='phaseran', number=4) 
-    SOI_surr.from_series(SOI)
-    fig, ax = SOI_surr.plot_traces()
-    SOI.plot(ax=ax,color='black',linewidth=1, ylim=[-6,3])
-    ax.legend(loc='lower center', bbox_to_anchor=(0.5, 0), ncol=2)
-    ax.set_title(SOI_surr.label)
+    noise = from_series(SOI,method='ar1sim')
 
     '''    
     #settings = {} if settings is None else settings.copy()
@@ -149,6 +144,8 @@ def from_param(method = 'uar1',noise_param=[1,1],length=50, number = 1, time_pat
     Examples
     --------
 
+    noise = from_param(method='ar1sim',noise_param=[1,1])
+
     '''    
     noise_param = list(noise_param) if noise_param is not None else [] # coerce param into a list, no matter the original format
     nparam = len(noise_param)
@@ -188,6 +185,7 @@ def from_param(method = 'uar1',noise_param=[1,1],length=50, number = 1, time_pat
         y_noise = pyleo.utils.tsmodel.uar1_sim(t = times, tau=noise_param[0], sigma_2=noise_param[1])
         y_noise *= (scale/np.std(y_noise))
 
+    #Note I don't know if these methods (power law and fgn) are properly implemented because i made them with claude.
     elif method == 'power_law':
         beta = noise_param[0]
         # Generate the frequencies

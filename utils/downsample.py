@@ -86,7 +86,7 @@ def downsample(series,method='exponential',param=[1],return_index=False,seed=Non
     #create time index
     delta_t_tuned = []
     for delta in delta_t:
-        #Make sure that delta between values are greater than zero
+        #Make sure that delta between values is greater than zero
         if int(delta) == 0:
             delta_t_tuned.append(1)
         else:
