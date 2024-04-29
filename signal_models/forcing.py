@@ -8,15 +8,25 @@ class Forcing:
         --forcing from vector untested!!!!
 
         Parameters:
-        data: Could be a callable function or an array representing the forcing over time.
-        time: An array representing the time values corresponding to the data points or a single value representing uniform spacing.
-        derivative: A callable function representing the derivative of the forcing, or None if `data` is an array.
+        -----------
+        data : callable function or array
+            representing the forcing over time.
+
+        time : numeric or array
+            time values corresponding to the data points
+            if data is an array, time must be provided.
+
+        derivative : callable function representing the derivative of the forcing, or None if `data` is an array.
+
         """
         self.data = data
         self.time = time
         self.derivative = derivative
 
     def get_forcing(self, t):
+        """
+        Get the forcing value at time t.
+        """
         if callable(self.data):
             return self.data(t)
         elif isinstance(self.data, np.ndarray):
@@ -24,6 +34,9 @@ class Forcing:
             return self.data[idx]
 
     def get_derivative(self, t):
+        """
+        Get the derivative of the forcing at time t.
+        """
         if self.derivative is not None:
             return self.derivative(t)
         elif isinstance(self.data, np.ndarray):
