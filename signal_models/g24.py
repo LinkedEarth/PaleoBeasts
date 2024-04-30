@@ -46,6 +46,7 @@ class Model3:
         Tuple of parameters (f1, f2, t1, t2, vc) for the model.
 
     """
+
     def __init__(self, forcing, var_name='ice volume', f1=-16, f2=16, t1=30, t2=10, vc=1.4):
         self.forcing = forcing
         self.f1 = f1
@@ -54,11 +55,10 @@ class Model3:
         self.t2 = t2
         self.vc = vc
         self.variable_name = var_name
-        self.k_arr = []
-        self.t_arr = []
+        self.state_variables = []
         self.params = (f1, f2, t1, t2, vc)
 
-    def dVdt(self, t, x, f1, f2, t1, t2, vc):
+    def dydt(self, t, x, f1, f2, t1, t2, vc):
         """
         Differential equation for dv/dt (where v=ice volume) at state k.
 
@@ -70,7 +70,7 @@ class Model3:
 
         Inputs:
             t : time in kyr
-            x : [v, k] where v = ice volume and k = state of the system (1 = glacial, 2 = deglaciation)
+            x : [v] where v = ice volume
             f1 : insolation threshold for glacial inception (pinned at -20 to -15 W/m^2)
             f2 : insolation threshold for deglaciation inception (tunable; positive)
             t1 : relaxation time scale for glacial inception (in kyr)
@@ -81,17 +81,20 @@ class Model3:
 
         """
 
-        v, k = x
-        k = int(self.k_arr[-1])
+        v = x
+        k = int(self.state_variables[-1][0])
+        # k = int(self.k_arr[-1])
         f = self.forcing.get_forcing(t)
         dfdt = self.forcing.get_derivative(t)
 
         vc = self.calc_vc(t)
 
-        if k == 1 and dfdt > 0 and f > 0 and v > vc:
-            k = 2
-        elif k == 2 and f < f1:  # self.f1:
-            k = 1
+        k = self.calc_k(k, dfdt, f, v, vc)
+
+        # if k == 1 and dfdt > 0 and f > 0 and v > vc:
+        #     k = 2
+        # elif k == 2 and f < f1:  # self.f1:
+        #     k = 1
 
         if k == 1:
             ve = self.calc_ve(v, f)
@@ -99,13 +102,20 @@ class Model3:
         elif k == 2:
             dvdt = -vc / t2  # self.t2
 
+        self.state_variables.append([k])
+        # self.k_arr.append(k)
+        # self.t_arr.append(t)
 
-        self.k_arr.append(k)
-        self.t_arr.append(t)
+        return [dvdt]
 
-        return [dvdt, 0]
+    def calc_k(self, k, dfdt, f, v, vc):
+        if k == 1 and dfdt > 0 and f > 0 and v > vc:
+            k = 2
+        elif k == 2 and f < self.f1:
+            k = 1
+        return k
 
-    def calc_ve(self, v, f):
+    def calc_ve(self, v, f, vi=0):
         """
         Calculate equilibrium state towards which the system is attracted is a function of orbital forcing and,
         for the bi-stable regime, also depends on ice volume
@@ -130,11 +140,11 @@ class Model3:
         if f < self.f1:
             return vg
         elif f > self.f2:
-            return 0
+            return vi
         elif self.f1 < f < self.f2 and v > vu:
             return vg
         elif self.f1 < f < self.f2 and v < vu:
-            return 0
+            return vi
 
     def calc_vg(self, f):
         """
