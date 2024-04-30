@@ -2,7 +2,7 @@
 import numpy as np
 
 class Forcing:
-    def __init__(self, data, time=None, derivative=None):
+    def __init__(self, data, time=None, derivative=None, params=None):
         """
         Initialize the Forcing class.
         --forcing from vector untested!!!!
@@ -21,6 +21,7 @@ class Forcing:
         """
         self.data = data
         self.time = time
+        self.params = params if params is not None else {}
         self.derivative = derivative
 
     def get_forcing(self, t):
@@ -28,9 +29,9 @@ class Forcing:
         Get the forcing value at time t.
         """
         if callable(self.data):
-            return self.data(t)
+            return self.data(t, **self.params)
         elif isinstance(self.data, np.ndarray):
-            idx = int(t)  # Assuming t is an index; interpolate if not
+            idx = int(t)  # TODO Assuming t is an index; interpolate if not
             return self.data[idx]
 
     def get_derivative(self, t):
