@@ -32,16 +32,16 @@ class Solver:
             self.method = kwargs['method']
 
         if self.method == 'euler':
-            if 'state_param' not in kwargs:
-                kwargs['state_param'] = False
-            if kwargs['state_param']:
-                solution = euler_method_with_state_param(self.model.dVdt, self.y0, self.t_span[0], self.t_span[1],
-                                                         kwargs['dt'], args=self.model.params)
-            else:
-                solution = euler_method_system(self.model.dVdt, self.y0, self.t_span[0], self.t_span[1], kwargs['dt'],
+            solution = euler_method(self.model.dydt, self.y0, self.t_span[0], self.t_span[1], kwargs['dt'],
                                                args=self.model.params)
+
+            self.model.state_variables = np.array(self.model.state_variables).reshape(len(solution.y),
+                                                              len(self.model.state_variables[0]))
+
+            solution.y = np.concatenate((solution.y, self.model.state_variables), axis=1)
+
         else:
-            solution = solve_ivp(self.model.dVdt, self.t_span,
+            solution = solve_ivp(self.model.dydt, self.t_span,
                                  self.y0,
                                  dense_output=kwargs['dense_output'] if 'dense_output' in kwargs else True,
                                  method=self.method,
@@ -57,7 +57,7 @@ class Solution:
         self.y = y
 
 
-def euler_method_with_state_param(f, y0, t0, tf, dt, args=()):
+def euler_method(f, y0, t0, tf, dt, args=()):
     """
     Solves an ODE using the Euler method with a fixed timestep.
 
@@ -72,36 +72,14 @@ def euler_method_with_state_param(f, y0, t0, tf, dt, args=()):
     n_steps = int((tf - t0) / dt) + 1
     t = np.linspace(t0, tf, n_steps)
     y = np.zeros((n_steps, len(y0)))
-    y[0, :] = y0
-
-    for i in range(1, n_steps):
-        dvar = f(t[i - 1], y[i - 1], *args)
-        y[i, :-1] = y[i - 1, :-1] + np.multiply(dvar[:-1],dt)
-        y[i, -1] = dvar[-1]
-
-    solution = Solution(t, y.T)
-    return solution
-
-
-def euler_method_system(f, y0, t0, tf, dt, args=()):
-    """
-    Solves a system of ODEs using the Euler method with a fixed timestep.
-
-    :param args:
-    :param f: callable - The derivative function of the ODE system (returns a list or array of derivatives).
-    :param y0: array - Initial conditions for each variable.
-    :param t0: float - Initial time.
-    :param tf: float - Final time.
-    :param dt: float - Timestep for the integration.
-    :return: Solution - An object containing the time and value arrays.
-    """
-    n_steps = int((tf - t0) / dt) + 1
-    t = np.linspace(t0, tf, n_steps)
-    y = np.zeros((n_steps, len(y0)))
     y[0] = y0
 
     for i in range(1, n_steps):
-        y[i] = y[i - 1] + np.array(t[i - 1], f(y[i - 1]), *args) * dt
+        dy = f(t[i - 1], y[i - 1], *args)
+        y[i] = y[i - 1] + np.multiply(dy,dt)
 
-    solution = Solution(t, y.T)
+    solution = Solution(t, y)
     return solution
+
+
+
