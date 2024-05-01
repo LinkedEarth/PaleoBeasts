@@ -47,6 +47,8 @@ class Solver:
                                  method=self.method,
                                  args=self.model.params,
                                  **kwargs)
+            solution.y = solution.y.T
+
 
         self.solution = solution
 
