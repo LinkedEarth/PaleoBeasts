@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.interpolate import CubicSpline
 
 
 class Model3:
@@ -57,6 +58,7 @@ class Model3:
         self.variable_name = var_name
         self.state_variables = []
         self.params = (f1, f2, t1, t2, vc)
+        self.dfdt = None
 
     def dydt(self, t, x, f1, f2, t1, t2, vc):
         """
@@ -85,7 +87,9 @@ class Model3:
         k = int(self.state_variables[-1][0])
         # k = int(self.k_arr[-1])
         f = self.forcing.get_forcing(t)
-        dfdt = self.forcing.get_derivative(t)
+        # dfdt = self.forcing.get_derivative(t)
+        dfdt = self.calc_dfdt(t)
+
 
         vc = self.calc_vc(t)
 
@@ -201,6 +205,96 @@ class Model3:
         else:
             return self.vc  # vc is a constant
 
+    # def set_dfdt(self, time_range=None):
+    #     """
+    #     Set the derivative of the orbital forcing for the model.
+    #     """
+    #     if isinstance(self.forcing.data, np.ndarray):
+    #         data = self.forcing.data
+    #         time = self.forcing.time
+    #     elif callable(self.forcing.data):
+    #         data = self.forcing.get_forcing(time_range)
+    #         time= time_range
+    #
+    #     cs = CubicSpline(time, data)
+    #     d1 = cs.derivative(nu=1)
+    #     self.dfdt = d1
+
+    def calc_dfdt(self, t):
+        """
+        Calculate the derivative of the orbital forcing at time t.
+        """
+        if callable(self.dfdt):
+            return self.dfdt(t)  # Assuming vc is a function of time and the state vector x
+        else:
+            return self.dfdt  # vc is a constant
+
+    # def calc_df(self, t):
+    #     """
+    #     Calculate the derivative of the orbital forcing at time t.
+    #
+    #     Parameters
+    #     ----------
+    #     t : float
+    #         Time.
+    #
+    #     Returns
+    #     -------
+    #     df : float
+    #         The value of the derivative of the orbital forcing at time t.
+    #
+    #     """
+    #
+    #     if self.dfdt is not None:
+    #         return self.derivative(t)
+    #     elif isinstance(self.data, np.ndarray):
+    #         # Calculate numerical derivative if `derivative` is not provided and `data` is an array
+    #         if not hasattr(self, 'numeric_derivative'):
+    #             if self.time is not None:
+    #                 self.numeric_derivative = np.gradient(self.data, self.time)
+    #             else:
+    #                 self.numeric_derivative = np.gradient(self.data)  # Assumes uniform spacing of 1
+    #         idx = int(t)
+    #         return self.numeric_derivative[idx]
+    #     else:
+    #         raise ValueError("No method for derivative calculation provided.")
+
+
+def calc_df(t, A=25, eps=0.5, T1=100, T2=30):
+    """
+    Calculate the derivative of the orbital forcing at time t.
+
+    Parameters
+    ----------
+    t : float
+        Time.
+
+    A : float
+        Magnitude of forcing in Wm−2
+        Default is 25 w/m^2
+
+    eps : float
+        Nondimensional magnitude of eccentricity modulation. eps = 0 corresponds to no eccentricty modulation.
+        Default is 0.5
+
+    T1 : float
+        Eccentricity timescale
+        Default is 100 kyr
+
+    T2 : float
+        Precession timescale
+        Default is 30 kyr
+
+    Returns
+    -------
+    df : float
+        The value of the derivative of the orbital forcing at time t.
+
+    """
+    return A * eps * ((2 * np.pi / T1) * np.cos(2 * np.pi * t / T1) * np.cos(2 * np.pi * t / T2) -
+                      (2 * np.pi / T2) * np.sin(2 * np.pi * t / T2) * np.sin(2 * np.pi * t / T1))
+
+
 
 def calc_f(t, A=25, eps=0.5, T1=100, T2=30):
     """
@@ -238,39 +332,6 @@ def calc_f(t, A=25, eps=0.5, T1=100, T2=30):
     return A * (1 + eps * np.sin(2 * np.pi * t / T1)) * np.cos(2 * np.pi * t / T2)
 
 
-def calc_df(t, A=25, eps=0.5, T1=100, T2=30):
-    """
-    Calculate the derivative of the orbital forcing at time t.
-
-    Parameters
-    ----------
-    t : float
-        Time.
-
-    A : float
-        Magnitude of forcing in Wm−2
-        Default is 25 w/m^2
-
-    eps : float
-        Nondimensional magnitude of eccentricity modulation. eps = 0 corresponds to no eccentricty modulation.
-        Default is 0.5
-
-    T1 : float
-        Eccentricity timescale
-        Default is 100 kyr
-
-    T2 : float
-        Precession timescale
-        Default is 30 kyr
-
-    Returns
-    -------
-    df : float
-        The value of the derivative of the orbital forcing at time t.
-
-    """
-    return A * eps * ((2 * np.pi / T1) * np.cos(2 * np.pi * t / T1) * np.cos(2 * np.pi * t / T2) -
-                      (2 * np.pi / T2) * np.sin(2 * np.pi * t / T2) * np.sin(2 * np.pi * t / T1))
 
 
 def vc_func(t, vc1=.65, vc2=1.38, t1_mpt=-1050, tau1=250):
