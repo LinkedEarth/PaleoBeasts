@@ -35,7 +35,7 @@ def from_series(target_series,method,number=1,seed=None,scale=1):
     Returns
     -------
     ts or ens : Series or EnsembleSeries
-        Series or EnsembleSeries containing noise realizations. 
+        Series or EnsembleSeries containing original series + noise realizations. 
         If number > 1, returns EnsembleSeries. Else, returns Series.
 
     See also
@@ -75,18 +75,21 @@ def from_series(target_series,method,number=1,seed=None,scale=1):
         # generate matrix
         y_noise = pyleo.utils.tsmodel.uar1_sim(t = times, tau=tau, sigma_2=sigma_2) * scale
     
+    else:
+        raise ValueError('Noise method not recognized')
+    
     if number > 1:
         s_list = []
         for i, y in enumerate(y_noise.T):
             ts = target_series.copy() # copy Series
-            ts.value = y # replace value with y_noise column
+            ts.value += y.flatten() # replace value with y_noise column
             ts.label = str(target_series.label or '') + " surr #" + str(i+1)
             s_list.append(ts)
         ens = pyleo.EnsembleSeries(s_list)
         return ens
     else:
         ts = target_series.copy() # copy Series
-        ts.value = y_noise # replace value with y_noise column
+        ts.value += y_noise.flatten() # replace value with y_noise column
         ts.label = str(target_series.label or '') + " surr" 
         return ts
                   
