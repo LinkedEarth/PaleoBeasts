@@ -85,20 +85,12 @@ class Model3:
 
         v = x
         k = int(self.state_variables[-1][0])
-        # k = int(self.k_arr[-1])
         f = self.forcing.get_forcing(t)
-        # dfdt = self.forcing.get_derivative(t)
         dfdt = self.calc_dfdt(t)
-
 
         vc = self.calc_vc(t)
 
         k = self.calc_k(k, dfdt, f, v, vc)
-
-        # if k == 1 and dfdt > 0 and f > 0 and v > vc:
-        #     k = 2
-        # elif k == 2 and f < f1:  # self.f1:
-        #     k = 1
 
         if k == 1:
             ve = self.calc_ve(v, f)
@@ -107,8 +99,6 @@ class Model3:
             dvdt = -vc / t2  # self.t2
 
         self.state_variables.append([k])
-        # self.k_arr.append(k)
-        # self.t_arr.append(t)
 
         return [dvdt]
 
@@ -225,9 +215,9 @@ class Model3:
         Calculate the derivative of the orbital forcing at time t.
         """
         if callable(self.dfdt):
-            return self.dfdt(t)  # Assuming vc is a function of time and the state vector x
+            return self.dfdt(t)
         else:
-            return self.dfdt  # vc is a constant
+            return self.dfdt
 
     # def calc_df(self, t):
     #     """
