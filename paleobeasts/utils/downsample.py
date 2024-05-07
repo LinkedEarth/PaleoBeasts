@@ -3,7 +3,9 @@ Module Name: noise
 Description: This module provides functions for downsampling time series data.
 Author: Alexander James
 """
-
+__all__ = [
+    'downsample'
+]
 # Import necessary modules
 import numpy as np
 

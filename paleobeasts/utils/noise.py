@@ -4,6 +4,11 @@ Description: This module provides functions for generating and manipulating nois
 Author: Alexander James
 """
 
+__all__ = [
+    'from_series',
+    'from_param'
+]
+
 # Import necessary modules
 import warnings
 

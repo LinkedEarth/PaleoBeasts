@@ -13,6 +13,17 @@ class Solver:
         self.kwargs = kwargs if kwargs is not None else {}
         self.diagnostics = {}
 
+        # Define the structured array
+        if len(self.model.state_variables_names) > 0:
+            dtype = [(var, float) for i, var in enumerate(self.model.state_variables_names)]
+            self.model.dtypes = dtype
+        else:
+            dtype = [type(val) for i, val in enumerate(self.y0)]
+            self.model.dtypes = dtype
+
+        array = np.array(self.y0, dtype=dtype)
+        self.model.state_variables = array
+
     def define_t_eval(self, delta_t=None, num_points=None):
         if num_points is not None:
             self.t_eval = np.linspace(self.t_span[0], self.t_span[1], num_points)
@@ -32,25 +43,24 @@ class Solver:
             self.method = kwargs['method']
 
         if self.method == 'euler':
-            solution = euler_method(self.model.dydt, self.y0, self.t_span[0], self.t_span[1], kwargs['dt'],
-                                               args=self.model.params)
-
-            self.model.state_variables = np.array(self.model.state_variables).reshape(len(solution.y),
-                                                              len(self.model.state_variables[0]))
-
-            solution.y = np.concatenate((solution.y, self.model.state_variables), axis=1)
+            solution = euler_method(self.model.dydt, self.y0[:len(self.model.integrated_state_vars)], self.t_span[0], self.t_span[1], kwargs['dt'],
+                                    args=self.model.params)
 
         else:
             solution = solve_ivp(self.model.dydt, self.t_span,
-                                 self.y0,
+                                 self.y0[:len(self.model.integrated_state_vars)],
                                  dense_output=kwargs['dense_output'] if 'dense_output' in kwargs else True,
                                  method=self.method,
                                  args=self.model.params,
                                  **kwargs)
             solution.y = solution.y.T
 
-
         self.solution = solution
+        self.model.state_variables = self.model.state_variables[1:]
+
+        for var in self.model.diagnostic_variables.keys():
+            self.model.diagnostic_variables[var] = np.array(
+                self.model.diagnostic_variables[var])  # .reshape(len(solution.y)
 
 
 class Solution:
@@ -77,11 +87,11 @@ def euler_method(f, y0, t0, tf, dt, args=()):
     y[0] = y0
 
     for i in range(1, n_steps):
-        dy = f(t[i - 1], y[i - 1], *args)
-        y[i] = y[i - 1] + np.multiply(dy,dt)
+        if args is not None:
+            dy = f(t[i - 1], y[i - 1], *args)
+        else:
+            dy = f(t[i - 1], y[i - 1])
+        y[i] = y[i - 1] + np.multiply(dy, dt)
 
     solution = Solution(t, y)
     return solution
-
-
-
