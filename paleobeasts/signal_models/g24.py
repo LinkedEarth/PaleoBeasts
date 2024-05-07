@@ -1,5 +1,5 @@
 import numpy as np
-from ..signal_models.dynamical_model import PBModel
+from ..signal_models.pbmodel import PBModel
 from scipy.interpolate import CubicSpline
 
 
