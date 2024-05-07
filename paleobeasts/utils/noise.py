@@ -178,13 +178,11 @@ def from_param(method = 'uar1',noise_param=[1,1],length=50, number = 1, time_pat
         if "time" not in settings:
             raise ValueError("'time' not found in settings")
         else:
-            times =  np.tile(settings["time"], (number, 1)).T  
+            times =  np.tile(settings["time"], (number, 1)).T 
     else:
         raise ValueError(f"Unknown time pattern: {time_pattern}")
-        
-    # apply surrogate method
-    y_noise = np.empty_like(times)              
-    n = times.shape[0]   
+           
+    n = times.shape[0]
     
     if method in ['uar1','ar1sim']: #
         if nparam<2:
