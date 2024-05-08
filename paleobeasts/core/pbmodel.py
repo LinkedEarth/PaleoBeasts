@@ -127,7 +127,10 @@ class PBModel:
             The name of the state variable to be converted.'''
         
         if state_var_name not in self.state_variables_names:
-            raise ValueError(f"{state_var_name} is not a state variable in the model.")
+            raise ValueError(f"{state_var_name} not found. Please check the state variables.")
+        
+        if self.t_eval is None:
+            raise ValueError("Time axis not found. Please integrate the model first.")
 
         series = pyleo.Series(
             time = self.t_eval, 
