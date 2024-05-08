@@ -2,27 +2,27 @@ from scipy.integrate import solve_ivp
 import numpy as np
 
 
-class Solver:
-    def __init__(self, model, t_span, y0, method='RK45', kwargs=None):
-        self.model = model
-        self.t_span = t_span
-        self.y0 = y0
-        self.solution = None
-        self.method = method
-        self.t_eval = None
-        self.kwargs = kwargs if kwargs is not None else {}
-        self.diagnostics = {}
-
-        # Define the structured array
-        if len(self.model.state_variables_names) > 0:
-            dtype = [(var, float) for i, var in enumerate(self.model.state_variables_names)]
-            self.model.dtypes = dtype
-        else:
-            dtype = [type(val) for i, val in enumerate(self.y0)]
-            self.model.dtypes = dtype
-
-        array = np.array(self.y0, dtype=dtype)
-        self.model.state_variables = array
+# class Solver:
+#     def __init__(self, model, t_span, y0, method='RK45', kwargs=None):
+#         self.model = model
+#         self.t_span = t_span
+#         self.y0 = y0
+#         self.solution = None
+#         self.method = method
+#         self.t_eval = None
+#         self.kwargs = kwargs if kwargs is not None else {}
+#         self.diagnostics = {}
+#
+#         # Define the structured array
+#         if len(self.model.state_variables_names) > 0:
+#             dtype = [(var, float) for i, var in enumerate(self.model.state_variables_names)]
+#             self.model.dtypes = dtype
+#         else:
+#             dtype = [type(val) for i, val in enumerate(self.y0)]
+#             self.model.dtypes = dtype
+#
+#         array = np.array(self.y0, dtype=dtype)
+#         self.model.state_variables = array
 
     # def define_t_eval(self, delta_t=None, num_points=None):
     #     if num_points is not None:
