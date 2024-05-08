@@ -1,5 +1,7 @@
 from scipy.integrate import solve_ivp
 import numpy as np
+import pyleoclim as pyleo
+
 from ..utils.solver_util import euler_method
 class PBModel:
     '''The overarching model structure for Paleobeasts. 
@@ -107,6 +109,7 @@ class PBModel:
                                  **kwargs)
             solution.y = solution.y.T
 
+        self.t_eval = solution.t
         self.solution = solution
         self.state_variables = self.state_variables[1:]
 
@@ -114,7 +117,26 @@ class PBModel:
             self.diagnostic_variables[var] = np.array(
                 self.diagnostic_variables[var])  # .reshape(len(solution.y)
 
+    def to_pyleo(self,state_var_name):
+        '''Function to create a pyleoclim Series object from a state variable.
+        
+        Parameters
+        ----------
+        
+        state_var_name : str
+            The name of the state variable to be converted.'''
+        
+        if state_var_name not in self.state_variables_names:
+            raise ValueError(f"{state_var_name} is not a state variable in the model.")
 
+        series = pyleo.Series(
+            time = self.t_eval, 
+            value = self.state_variables[state_var_name],
+            value_name = state_var_name,
+            verbose=False,
+            auto_time_params=True
+            )
 
+        return series
 
 
