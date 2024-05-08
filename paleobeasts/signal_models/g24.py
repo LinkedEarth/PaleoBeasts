@@ -38,12 +38,6 @@ class Model3(PBModel):
         relaxation timescale for deglaciation (in kyr)
         default is 10
 
-    k_arr : list
-        List to store the state of the system at each time step.
-
-    t_arr : list
-        List to store the time at each time step.
-
     params : tuple
         Tuple of parameters (f1, f2, t1, t2, vc) for the model.
 
