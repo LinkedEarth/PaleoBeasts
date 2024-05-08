@@ -1,5 +1,5 @@
 import numpy as np
-from ..signal_models.pbmodel import PBModel
+from ..core.pbmodel import PBModel
 from scipy.interpolate import CubicSpline
 
 
@@ -55,7 +55,7 @@ class Model3(PBModel):
         self.t2 = t2
         self.vc = vc
         self.params = (f1, f2, t1, t2, vc)
-        self.dfdt = None
+        self.dfdt = calc_df
 
     def dydt(self, t, x, f1, f2, t1, t2, vc):
         """
