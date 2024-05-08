@@ -2,6 +2,13 @@ from scipy.integrate import solve_ivp
 import numpy as np
 from ..utils.solver_util import euler_method
 class PBModel:
+    '''The overarching model structure for Paleobeasts. 
+    
+    PBModel serves as the archetype/parent class for models within the signal_models directory.
+    This class is not meant to be instantiated, but rather to be inherited by other classes.
+
+    
+    '''
 
     def __init__(self, forcing, variable_name, state_variables=None, non_integrated_state_vars=None,
                  diagnostic_variables=None):
@@ -34,9 +41,31 @@ class PBModel:
         self.kwargs = None
 
     def dydt(self):
+        '''The differential equation of the model. 
+        
+        This method should be implemented and used from the child class.'''
         pass
 
     def integrate(self, t_span, y0, method='RK45', kwargs=None):
+        '''Integrates the model over a given time span.
+        
+        Parameters
+        ----------
+        
+        t_span : tuple, list
+            The time span over which the model will be integrated.
+            
+        y0 : list
+            Initial conditions for the model. The length of this list should be equal to the number of model state variables.
+        
+        method : str
+            The integration method to be use; options include 'RK45' (Runge Kutta) and 'euler'. Default is 'RK45'.
+
+        kwargs : dict
+            Additional keyword arguments to be passed to the solver.
+
+
+        '''
 
         self.t_span = t_span
         self.y0 = y0
