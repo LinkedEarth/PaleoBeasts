@@ -29,9 +29,9 @@ class PBModel:
         self.state_variables = None
 
         if diagnostic_variables is None:
-            diagnostic_variables = ['time']
-        if 'time' not in diagnostic_variables:
-            diagnostic_variables.append('time')
+            diagnostic_variables = []
+        # if 'time' not in diagnostic_variables:
+        #     diagnostic_variables.append('time')
         self.diagnostic_variables = {var:[] for var in diagnostic_variables}
         self.params = None
 
