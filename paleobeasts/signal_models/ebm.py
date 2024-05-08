@@ -1,6 +1,6 @@
 import numpy as np
 from ..utils import constants as phys
-from ..signal_models.pbmodel import PBModel
+from ..core.pbmodel import PBModel
 
 
 class EBM(PBModel):
@@ -11,8 +11,6 @@ class EBM(PBModel):
                          diagnostic_variables=diagnostic_variables )
         self.forcing = forcing #insolation
         self.variable_name = var_name
-        # self.state_variables = []
-        # self.diagnostic_variables = {'time':[], 'albedo':[], 'absorbed_SW':[], 'OLR':[], 'solar_incoming':[]} #[]
         self.C = C
         self.params = None  # (f1, f2, t1, t2, vc)
         self.albedo = albedo
