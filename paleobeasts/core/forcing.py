@@ -7,7 +7,6 @@ class Forcing:
     def __init__(self, data, time=None, params=None, interpolation='cubic'):
         """
         Initialize the Forcing class.
-        --forcing from vector untested!!!!
 
         Parameters:
         -----------
