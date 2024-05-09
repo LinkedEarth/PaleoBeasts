@@ -123,29 +123,43 @@ class PBModel:
             self.diagnostic_variables[var] = np.array(
                 self.diagnostic_variables[var])  # .reshape(len(solution.y)
 
-    def to_pyleo(self,state_var_name):
+    def to_pyleo(self,var_names):
         '''Function to create a pyleoclim Series object from a state variable.
         
         Parameters
         ----------
         
-        state_var_name : str
-            The name of the state variable to be converted.'''
-        
-        if state_var_name not in self.state_variables_names:
-            raise ValueError(f"{state_var_name} not found. Please check the state variables.")
-        
-        if self.t_eval is None:
+        var_names : str or list
+            The name(s) of the state or diagnostic variable(s) to be converted.'''
+
+        if self.time is None:
             raise ValueError("Time axis not found. Please integrate the model first.")
 
-        series = pyleo.Series(
-            time = self.t_eval, 
-            value = self.state_variables[state_var_name],
-            value_name = state_var_name,
-            verbose=False,
-            auto_time_params=True
-            )
+        if isinstance(var_names, str):
+            var_names= [var_names]
 
-        return series
+
+        pyleo_series = []
+        for var_name in var_names:
+            if var_name in self.state_variables_names:
+                value = self.state_variables[var_name]
+            elif var_name in self.diagnostic_variables.keys():
+                value = self.diagnostic_variables[var_name]
+            else:
+                raise ValueError(f"{var_name} not found. Please check the state variables or diagnostics.")
+
+            series = pyleo.Series(
+                time = self.time,
+                value = value,
+                value_name = var_name,
+                verbose=False,
+                auto_time_params=True
+                )
+
+            pyleo_series.append(series)
+        if len(pyleo_series) == 1:
+            return pyleo_series[0]
+        else:
+            return pyleo.MultipleSeries(pyleo_series)
 
 
