@@ -24,9 +24,11 @@ class Forcing:
         self.data = data
         self.time = time
         self.params = params if params is not None else {}
+        self.forcing_type = None
 
         if isinstance(self.data, np.ndarray):
             print('data is an array')
+            self.forcing_type = 'interpolated array {}'.format(interpolation)
             if interpolation == 'cubic':
                 interp_func = CubicSpline
             elif interpolation == 'linear':
@@ -37,6 +39,7 @@ class Forcing:
             else:
                 self.forcing_func = interp_func(time, data, **self.params)
         elif callable(self.data):
+            self.forcing_type = 'function'
             self.forcing_func = functools.partial(self.data, **self.params)
 
     def get_forcing(self, t):
