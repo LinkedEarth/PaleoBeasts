@@ -39,8 +39,10 @@ class PBModel:
         self.y0 = None
         self.solution = None
         self.method = None
-        self.t_eval = None
+        self.time = []
         self.kwargs = None
+        self.t_eval= None
+        self.run_name = None
 
     def dydt(self):
         '''The differential equation of the model. 
@@ -48,7 +50,7 @@ class PBModel:
         This method should be implemented and used from the child class.'''
         pass
 
-    def integrate(self, t_span, y0, method='RK45', kwargs=None):
+    def integrate(self, t_span, y0, method='RK45', kwargs=None, run_name=None):
         '''Integrates the model over a given time span.
         
         Parameters
@@ -73,8 +75,10 @@ class PBModel:
         self.y0 = y0
         self.solution = None
         self.method = method
-        self.t_eval = None
+        # self.t_eval = None
         self.kwargs = kwargs if kwargs is not None else {}
+        if self.method == 'euler':
+            assert 'dt' in kwargs, "Please provide a time step for the Euler method."
 
         # Define the structured array
         if len(self.state_variables_names) > 0:
@@ -107,11 +111,13 @@ class PBModel:
                                  method=self.method,
                                  args=self.params,
                                  **kwargs)
+            self.kwargs['dt'] = 'variable'
             solution.y = solution.y.T
 
-        self.t_eval = solution.t
+        self.run_name = run_name if run_name is not None else f'{self.method}, dt={self.kwargs["dt"]}'
         self.solution = solution
         self.state_variables = self.state_variables[1:]
+        self.time = np.array(self.time)
 
         for var in self.diagnostic_variables.keys():
             self.diagnostic_variables[var] = np.array(
