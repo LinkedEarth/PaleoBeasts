@@ -20,17 +20,25 @@ class EBM(PBModel):
 
     def dydt(self, t, x):
         T =x
+        if isinstance(T, np.ndarray):
+            T = T[-1]
+
         f_solar_incoming = self.forcing.get_forcing(t)
         albedo = self.calc_albedo(T)
         absorbed_SW = (1 - albedo) * f_solar_incoming
         OLR = self.OLR(T)
-        self.diagnostic_variables['time'].append(t)
+        # self.diagnostic_variables['time'].append(t)
         self.diagnostic_variables['albedo'].append(albedo)
         self.diagnostic_variables['absorbed_SW'].append(absorbed_SW)
         self.diagnostic_variables['OLR'].append(OLR)
         self.diagnostic_variables['solar_incoming'].append(f_solar_incoming)
          # self.diagnostic_variables.append([albedo, absorbed_SW, OLR])
         dTdt = 1 / self.C * (absorbed_SW - OLR + self.calc_merid_diff(T))
+
+        new_row = np.array([(T)], dtype=self.dtypes)
+        self.state_variables = np.concatenate([self.state_variables, new_row], axis=0)
+        self.time.append(t)
+
         return [dTdt]
 
     def calc_OLR(self, T):
