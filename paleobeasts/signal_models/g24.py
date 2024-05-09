@@ -7,6 +7,8 @@ class Model3(PBModel):
     """
     Model 3 from Ganopolski (2024) which describes the evolution of ice volume as a function of orbital forcing.
 
+    
+
     Parameters
     ----------
     Parameter defaults taken From Ganopolski 2024:
