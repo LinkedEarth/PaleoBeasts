@@ -117,7 +117,7 @@ class PBModel:
         self.run_name = run_name if run_name is not None else f'{self.method}, dt={self.kwargs["dt"]}'
         self.solution = solution
         self.state_variables = self.state_variables[1:]
-        self.time = np.array(self.time)
+        self.time = np.array(solution.t)
 
         for var in self.diagnostic_variables.keys():
             self.diagnostic_variables[var] = np.array(
