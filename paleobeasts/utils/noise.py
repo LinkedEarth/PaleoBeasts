@@ -105,6 +105,7 @@ def from_param(method = 'uar1',noise_param=[1,1],length=50, number = 1, time_pat
 
     Parameters
     ----------
+
     method : str
         surrogate method to use. Supported methods are: 'ar1sim', 'phaseran', 'uar1', 'power_law', 'fGn','white'
 
@@ -188,8 +189,12 @@ def from_param(method = 'uar1',noise_param=[1,1],length=50, number = 1, time_pat
         if nparam<2:
             warnings.warn(f'The AR(1) model needs 2 parameters, tau and sigma2 (in that order); {nparam} provided. default values used, tau=5, sigma=0.5',UserWarning, stacklevel=2)
             noise_param = [5,0.5]
-        y_noise = pyleo.utils.tsmodel.uar1_sim(t = times, tau=noise_param[0], sigma_2=noise_param[1])
-        y_noise *= (scale/np.std(y_noise))
+        ar1_vectors = []
+        for i in range(number):
+            ar1_noise = pyleo.utils.tsmodel.ar1_model(t = times.T[i], tau=noise_param[0], output_sigma=noise_param[1])
+            ar1_noise = ar1_noise * (scale/np.std(ar1_noise))
+            ar1_vectors.append(ar1_noise)
+        y_noise = np.column_stack(ar1_vectors)
 
     #Note I don't know if these methods (power law and fgn) are properly implemented because i made them with claude.
     elif method == 'power_law':
