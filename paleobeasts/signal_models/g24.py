@@ -84,8 +84,7 @@ class Model3(PBModel):
         v = x[0]  # int(self.state_variables[-1][0])
         if isinstance(v, np.ndarray):
             v = v[-1]
-        if v<0:
-            v=0
+
         k = int(self.state_variables['k'][-1])
         f = self.forcing.get_forcing(self.time_util(t))
         dfdt = self.calc_dfdt(self.time_util(t))
