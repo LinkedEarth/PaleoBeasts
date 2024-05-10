@@ -46,7 +46,7 @@ class Model3(PBModel):
     """
 
     def __init__(self, forcing, var_name='ice volume', f1=-16, f2=16, t1=30, t2=10, vc=1.4,
-                 state_variables=['v', 'k'], non_integrated_state_vars=['k'], diagnostic_variables=None, *args,
+                 state_variables=['v', 'k'], non_integrated_state_vars=['k'], diagnostic_variables=['insolation'], *args,
                  **kwargs):
         super().__init__(forcing, var_name, state_variables=state_variables,
                          non_integrated_state_vars=non_integrated_state_vars,
@@ -102,6 +102,7 @@ class Model3(PBModel):
         new_row = np.array([(v, k)], dtype=self.dtypes)
         self.state_variables = np.concatenate([self.state_variables, new_row], axis=0)
         self.time.append(t)
+        self.diagnostic_variables['insolation'].append(f)
 
         return [dvdt]
 
