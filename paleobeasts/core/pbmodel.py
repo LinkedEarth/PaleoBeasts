@@ -39,10 +39,11 @@ class PBModel:
         self.y0 = None
         self.solution = None
         self.method = None
-        self.time = []
+        self.time = None
         self.kwargs = None
         self.t_eval= None
         self.run_name = None
+        self.time_util = lambda t: t
 
     def dydt(self):
         '''The differential equation of the model. 
@@ -75,6 +76,7 @@ class PBModel:
         self.y0 = y0
         self.solution = None
         self.method = method
+        self.time = [0]
         # self.t_eval = None
         self.kwargs = kwargs if kwargs is not None else {}
         if self.method == 'euler':

@@ -25,6 +25,7 @@ class Forcing:
         self.params = params if params is not None else {}
         self.forcing_type = None
 
+
         if isinstance(self.data, np.ndarray):
             print('data is an array')
             self.forcing_type = 'interpolated array {}'.format(interpolation)
