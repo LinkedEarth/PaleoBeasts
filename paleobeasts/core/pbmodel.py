@@ -45,6 +45,13 @@ class PBModel:
         self.run_name = None
         self.time_util = lambda t: t
 
+    def __copy__(self):
+        new_obj = type(self)(self.forcing, self.variable_name)  # create a new instance of the same class
+        new_obj.__dict__.update(self.__dict__)  # copy instance attributes
+
+        new_obj.diagnostic_variables = {var: [] for var in self.diagnostic_variables}
+        return new_obj
+
     def dydt(self):
         '''The differential equation of the model. 
         
@@ -119,7 +126,7 @@ class PBModel:
         self.run_name = run_name if run_name is not None else f'{self.method}, dt={self.kwargs["dt"]}'
         self.solution = solution
         self.state_variables = self.state_variables[1:]
-        self.time = np.array(solution.t)
+        self.time = np.array(self.time)
 
         for var in self.diagnostic_variables.keys():
             self.diagnostic_variables[var] = np.array(
