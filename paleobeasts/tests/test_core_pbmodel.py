@@ -1,4 +1,4 @@
-''' Tests for paleobeasts.core.forcing
+''' Tests for paleobeasts.core.pbmodel
 
 Naming rules:
 1. class: Test{filename}{Class}{method} with appropriate camel case
@@ -12,3 +12,7 @@ Notes on how to test:
 4. after `pip install pytest-xdist`, one may execute "pytest -n 4" to test in parallel with number of workers specified by `-n`
 5. for more details, see https://docs.pytest.org/en/stable/usage.html
 '''
+
+import pytest
+import numpy as np
+import paleobeasts as pb
