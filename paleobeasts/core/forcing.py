@@ -54,6 +54,8 @@ class Forcing:
         dataset : str; {'vieira_tsi', 'insolation'}
             Name of the dataset. If None, then file_path must be provided.
             Currently 'vieira_tsi' and 'insolation' are supported.
+                - vieira_tsi: Vieira et al. (2011) TSI reconstruction. Default value_name is '1' (first realization), default time_name is 'Age (kyrs BP)'.
+                - insolation: Insolation data from climlab. Default value_name is 'insol_65N_d172', default time_name is 'kyear'.
 
         file_path : str
             Path to the csv file. If None, then dataset must be provided.
