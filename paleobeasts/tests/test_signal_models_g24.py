@@ -20,7 +20,7 @@ import paleobeasts as pb
 from paleobeasts.signal_models import g24
 
 class TestSignalModelsG24Integrate:
-    @pytest.mark.parametrize('y0', [[1,1],[10,1]])
+    @pytest.mark.parametrize('y0', [[0,1],[1,1]])
     @pytest.mark.parametrize('t_span', [(0,10),(0,100)])
     @pytest.mark.parametrize('method, kwargs', [('euler',{'dt':1}),('RK45',None)])
     def test_integrate_t0(self,t_span,y0,method,kwargs):
@@ -33,12 +33,12 @@ class TestSignalModelsG24Integrate:
 
 class TestSignalModelsG24toPyleo:
     @pytest.mark.parametrize('method, kwargs', [('euler',{'dt':1}),('RK45',None)])
-    @pytest.mark.parametrize('var_names', ['v','k',['v','k'],pytest.param(['k','v','insolation'], marks=pytest.mark.xfail)])
+    @pytest.mark.parametrize('var_names', ['v','k','insolation', ['v','k'], pytest.param(['k','v','insolation'], marks=pytest.mark.xfail)])
     def test_topyleo_t0(self,method,kwargs,var_names):
         '''Test to_pyleo method'''
         def func(x):
             return 1
         forcing = pb.core.Forcing(func)
         model3 = g24.Model3(forcing=forcing)
-        model3.integrate(t_span=[1,10],y0=[1,1],method=method,kwargs=kwargs)
+        model3.integrate(t_span=(0,10),y0=[1,1],method=method,kwargs=kwargs)
         _ = model3.to_pyleo(var_names=var_names)
