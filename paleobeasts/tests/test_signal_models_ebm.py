@@ -20,7 +20,7 @@ import paleobeasts as pb
 from paleobeasts.signal_models import ebm
 
 class TestSignalModelsEBMIntegrate:
-    @pytest.mark.parametrize('y0', [[1,10]])
+    @pytest.mark.parametrize('y0', [[1],[10]])
     @pytest.mark.parametrize('t_span', [(0,10),(0,100)])
     @pytest.mark.parametrize('method, kwargs', [('euler',{'dt':1}),('RK45',None)])
     def test_integrate_t0(self,t_span,y0,method,kwargs):
@@ -44,5 +44,5 @@ class TestSignalModelsEBMtoPyleo:
             return 1
         forcing = pb.core.Forcing(func)
         model = ebm.EBM(forcing=forcing)
-        model.integrate(t_span=[1,10],y0=[100],method=method,kwargs=kwargs)
+        model.integrate(t_span=(0,10),y0=[100],method=method,kwargs=kwargs)
         _ = model.to_pyleo(var_names=var_names)
