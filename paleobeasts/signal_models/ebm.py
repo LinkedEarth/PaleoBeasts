@@ -28,16 +28,26 @@ class EBM(PBModel):
         absorbed_SW = (1 - albedo) * f_solar_incoming
         OLR = self.OLR(T)
         # self.diagnostic_variables['time'].append(t)
-        self.diagnostic_variables['albedo'].append(albedo)
-        self.diagnostic_variables['absorbed_SW'].append(absorbed_SW)
-        self.diagnostic_variables['OLR'].append(OLR)
-        self.diagnostic_variables['solar_incoming'].append(f_solar_incoming)
+        
          # self.diagnostic_variables.append([albedo, absorbed_SW, OLR])
         dTdt = 1 / self.C * (absorbed_SW - OLR + self.calc_merid_diff(T))
 
         new_row = np.array([(T)], dtype=self.dtypes)
         self.state_variables = np.concatenate([self.state_variables, new_row], axis=0)
-        self.time.append(t)
+        self.diagnostic_variables['albedo'].append(albedo)
+        self.diagnostic_variables['absorbed_SW'].append(absorbed_SW)
+        self.diagnostic_variables['OLR'].append(OLR)
+        self.diagnostic_variables['solar_incoming'].append(f_solar_incoming)
+        
+        if t>0:
+            self.time.append(t)
+        # new_row = np.array([(T)], dtype=self.dtypes)
+        # self.state_variables = np.concatenate([self.state_variables, new_row], axis=0)
+        # 
+        # # if t > 0:
+        # self.time.append(t)
+            
+
 
         return [dTdt]
 
