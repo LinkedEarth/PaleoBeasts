@@ -92,7 +92,7 @@ class Forcing:
                 if time_name is None:
                     time_name = 'kyear'
                 if value_name is None:
-                    value_name = 'insol_65N_d172'
+                    value_name = 'insol_65N_d172_centered'
             else:
                 raise ValueError('Dataset not recognized')
         else:
