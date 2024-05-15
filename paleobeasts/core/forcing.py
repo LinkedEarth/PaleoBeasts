@@ -19,6 +19,12 @@ class Forcing:
             time values corresponding to the data points
             if data is an array, time must be provided.
 
+        params : dict
+            Parameters to pass to the interpolation function.
+
+        interpolation : str; {'cubic', 'linear'}
+            Type of interpolation to use. Default is 'cubic'.
+
         derivative : callable function representing the derivative of the forcing, or None if `data` is an array.
 
         """
@@ -59,6 +65,7 @@ class Forcing:
 
         file_path : str
             Path to the csv file. If None, then dataset must be provided.
+            Note that this function expects forcing data to be stored as a column in the csv.
 
         time_name : str
             Name of the column containing the time data. If None, then the index will be used.
