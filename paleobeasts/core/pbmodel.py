@@ -2,7 +2,7 @@ from scipy.integrate import solve_ivp
 import numpy as np
 import pyleoclim as pyleo
 
-from ..utils.solver_util import euler_method
+from ..utils.solver import euler_method
 class PBModel:
     '''The overarching model structure for Paleobeasts. 
     
@@ -58,7 +58,7 @@ class PBModel:
         This method should be implemented and used from the child class.'''
         pass
 
-    def integrate(self, t_span, y0, method='RK45', kwargs=None, run_name=None):
+    def integrate(self, t_span=None, y0=None, method='RK45', kwargs=None, run_name=None):
         '''Integrates the model over a given time span.
         
         Parameters
@@ -132,7 +132,7 @@ class PBModel:
             self.diagnostic_variables[var] = np.array(
                 self.diagnostic_variables[var])  # .reshape(len(solution.y)
 
-    def to_pyleo(self,var_names):
+    def to_pyleo(self,var_names=None):
         '''Function to create a pyleoclim Series object from a state variable.
         
         Parameters
@@ -156,7 +156,7 @@ class PBModel:
                 value = self.diagnostic_variables[var_name]
             else:
                 raise ValueError(f"{var_name} not found. Please check the state variables or diagnostics.")
-
+                        
             series = pyleo.Series(
                 time = self.time,
                 value = value,

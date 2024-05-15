@@ -2,7 +2,7 @@ import paleobeasts.utils as utils
 from .signal_models import *
 from .core import *
 
-from .utils.utilities import *
+# from .utils import *
 
 # get the version
 from importlib.metadata import version
