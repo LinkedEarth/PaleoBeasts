@@ -1,7 +1,9 @@
-import numpy as np
-from scipy.interpolate import CubicSpline, interp1d
 import functools
+import importlib
 
+import numpy as np
+import pandas as pd
+from scipy.interpolate import CubicSpline, interp1d
 
 class Forcing:
     def __init__(self, data, time=None, params=None, interpolation='cubic'):
@@ -41,6 +43,62 @@ class Forcing:
         elif callable(self.data):
             self.forcing_type = 'function'
             self.forcing_func = functools.partial(self.data, **self.params)
+
+    @classmethod
+    def from_csv(self,dataset=None,file_path=None,value_name=None,time_name=None,params=None,interpolation='cubic'):
+        '''Function to create a forcing object from a csv file
+        
+        Parameters
+        ----------
+        
+        dataset : str; {'vieira_tsi', 'insolation'}
+            Name of the dataset. If None, then file_path must be provided.
+            Currently 'vieira_tsi' and 'insolation' are supported.
+
+        file_path : str
+            Path to the csv file. If None, then dataset must be provided.
+
+        time_name : str
+            Name of the column containing the time data. If None, then the index will be used.
+        
+        value_name : str
+            Name of the column containing the forcing data. If None, then the first column will be used.
+
+        params : dict
+            Parameters to pass to the interpolation function.
+
+        interpolation : str; {'cubic', 'linear'}
+            Type of interpolation to use. Default is 'cubic'.
+        '''
+
+        if dataset is not None:
+            if dataset == 'vieira_tsi':
+                my_resources = importlib.resources.files("paleobeasts") / "data"
+                file_path = my_resources.joinpath("vieira_tsi.csv")
+                df = pd.read_csv(file_path)
+
+                #Load default time and value
+                if time_name is None:
+                    time_name = 'Age (kyrs BP)'
+                if value_name is None:
+                    value_name = '0'
+            elif dataset == 'insolation':
+                my_resources = importlib.resources.files("paleobeasts") / "data"
+                file_path = my_resources.joinpath("insolation.csv")
+                df = pd.read_csv(file_path)
+
+                if time_name is None:
+                    time_name = 'kyear'
+                if value_name is None:
+                    value_name = 'insol_65N_d172'
+            else:
+                raise ValueError('Dataset not recognized')
+        else:
+            df = pd.read_csv(file_path)
+        
+        forcing = Forcing(data=df[value_name].values,time=df[time_name].values,params=params,interpolation=interpolation)
+
+        return forcing
 
     def get_forcing(self, t):
         """
