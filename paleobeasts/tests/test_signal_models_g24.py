@@ -33,7 +33,7 @@ class TestSignalModelsG24Integrate:
 
 class TestSignalModelsG24toPyleo:
     @pytest.mark.parametrize('method, kwargs', [('euler',{'dt':1}),('RK45',None)])
-    @pytest.mark.parametrize('var_names', ['v','k','insolation', ['v','k'], pytest.param(['k','v','insolation'], marks=pytest.mark.xfail)])
+    @pytest.mark.parametrize('var_names', ['v','k','insolation', ['v','k'], ['k','v','insolation']])
     def test_topyleo_t0(self,method,kwargs,var_names):
         '''Test to_pyleo method'''
         def func(x):

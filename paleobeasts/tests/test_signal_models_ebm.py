@@ -34,9 +34,13 @@ class TestSignalModelsEBMIntegrate:
 class TestSignalModelsEBMtoPyleo:
     @pytest.mark.parametrize('method, kwargs', [('euler',{'dt':1}),('RK45',None)])
     @pytest.mark.parametrize('var_names', [
-                                    pytest.param('T', marks=pytest.mark.xfail),
-                                    pytest.param(['T','albedo'], marks=pytest.mark.xfail),
-                                    pytest.param(['albedo', 'absorbed_SW', 'OLR', 'solar_incoming'],marks=pytest.mark.xfail),
+                                    'T',
+                                    'albedo',
+                                    'absorbed_SW', 
+                                    'OLR', 
+                                    'solar_incoming',
+                                    ['T','albedo'],
+                                    ['T','albedo','absorbed_SW','OLR','solar_incoming'],
                                 ])
     def test_topyleo_t0(self,method,kwargs,var_names):
         '''Test to_pyleo method'''
