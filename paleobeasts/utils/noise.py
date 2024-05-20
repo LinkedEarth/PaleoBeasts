@@ -39,9 +39,8 @@ def from_series(target_series,method,number=1,seed=None,label=None):
 
     Returns
     -------
-    ts or ens : Series or EnsembleSeries
-        Series or EnsembleSeries containing original series + noise realizations. 
-        If number > 1, returns EnsembleSeries. Else, returns Series.
+    surr : SurrogateSeries
+        SurrogateSeries object. surr.series_list will contain as many series objects as specified by `number`
 
     See also
     --------
@@ -145,9 +144,8 @@ def from_param(method = 'uar1',noise_param=[1,1],length=50, number = 1, time_pat
 
     Returns
     -------
-    ts or ens : Series or EnsembleSeries
-        Series or EnsembleSeries containing noise realizations.
-        If number > 1, returns EnsembleSeries. Else, returns Series.
+    surr : SurrogateSeries
+        SurrogateSeries object. surr.series_list will contain as many series objects as specified by `number`
 
     See also
     --------
