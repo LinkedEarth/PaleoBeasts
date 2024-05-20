@@ -88,7 +88,7 @@ class Forcing:
 
                 #Load default time and value
                 if time_name is None:
-                    time_name = 'Age (kyrs BP)'
+                    time_name = 'Age (yrs BP)'
                 if value_name is None:
                     value_name = '0'
             elif dataset == 'insolation':
