@@ -132,9 +132,6 @@ def from_param(method = 'uar1',noise_param=[1,1],length=50, number = 1, time_pat
 
     settings : dict
         Parameters for surrogate generator. See individual methods for details. 
-
-    scale : float
-        Scaling factor for the noise series. Default: 1   
         
     seed : int
         Control random seed option for reproducibility
