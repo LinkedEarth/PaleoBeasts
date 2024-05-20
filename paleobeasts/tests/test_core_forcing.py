@@ -18,7 +18,7 @@ import numpy as np
 import paleobeasts as pb
 
 class TestSignalModelsFromCSV:
-    @pytest.mark.parametrize('dataset, value_name, time_name', [('vieira_tsi',None,None),('vieira_tsi','10','Age (kyrs BP)'),
+    @pytest.mark.parametrize('dataset, value_name, time_name', [('vieira_tsi',None,None),('vieira_tsi','10','Age (yrs BP)'),
                                                                 ('insolation',None,None),('insolation','insol_65N_d233','kyear')])
     def test_from_csv_t0(self,dataset,value_name,time_name):
         '''Test from_sv method'''
