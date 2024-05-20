@@ -23,9 +23,12 @@ class EBM(PBModel):
         if isinstance(T, np.ndarray):
             T = T[-1]
 
+        # assumes forcing is S0
+        # 1/4 factor because Earth emits radiation over full surface (4πR2)
+        # but at any given time only receives incoming (solar) radiation over its cross-sectional area, πR2
         f_solar_incoming = self.forcing.get_forcing(t)
         albedo = self.calc_albedo(T)
-        absorbed_SW = (1 - albedo) * f_solar_incoming
+        absorbed_SW = (1 - albedo) * f_solar_incoming/4
         OLR = self.OLR(T)
         # self.diagnostic_variables['time'].append(t)
         
@@ -106,7 +109,7 @@ def OLR_func(Ts, pRad=650, ps=1000):
 
 
 def incoming_SW_func(t, S_0=1360.8):
-    return np.ones(np.array(t).shape)*S_0 / 4
+    return np.ones(np.array(t).shape)*S_0
 
 
 # def advection_diffusion(ebm_model, T, D):
@@ -114,4 +117,4 @@ def incoming_SW_func(t, S_0=1360.8):
 #     return D / np.cos(phi) * (np.gradient(phi, T) * -np.sin(phi) + np.gradient(T, phi) * np.cos(phi))
 
 def calc_f(t, S_0=1360.8, T1=11):
-    return S_0/4+ np.sin(t*(2 * np.pi)/T1)
+    return S_0+ np.sin(t*(2 * np.pi)/T1)
