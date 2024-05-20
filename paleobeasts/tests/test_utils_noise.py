@@ -21,23 +21,20 @@ class TestUtilsNoiseFromSeries:
     @pytest.mark.parametrize('method', ['uar1','ar1sim','phaseran'])
     @pytest.mark.parametrize('number', [1,10])
     @pytest.mark.parametrize('seed', [None,42])
-    @pytest.mark.parametrize('scale', [1,10])
-    def test_fromseries_t0(self,gen_ts,method,number,seed,scale):
+    def test_fromseries_t0(self,gen_ts,method,number,seed):
         '''Test from_series method'''
         series = gen_ts
-        _ = pb.utils.noise.from_series(target_series=series,method=method,number=number,seed=seed,scale=scale)
+        _ = pb.utils.noise.from_series(target_series=series,method=method,number=number,seed=seed)
 
 class TestUtilsNoiseFromParams:
     @pytest.mark.parametrize('method, noise_param', [('uar1',[1,5]),
-                                                      ('power_law',[1]),
-                                                      ('fGn',[1]),
-                                                      ('white',None)])
+                                                     ('CN',[1]),
+                                                     ('ar1sim',[1,5]),])
     @pytest.mark.parametrize('number', [1,10])
     @pytest.mark.parametrize('seed', [None,42])
-    @pytest.mark.parametrize('scale', [1,10])
     @pytest.mark.parametrize('time_pattern,settings',[('even',None),
                                                        ('random',None),
-                                                       ('specified',{'time':np.arange(100)})])
-    def test_fromparams_t0(self,method,noise_param,number,seed,scale,time_pattern,settings):
+                                                       ('specified',{'time':np.arange(50)})])
+    def test_fromparams_t0(self,method,noise_param,number,seed,time_pattern,settings):
         '''Test from_series method'''
-        _ = pb.utils.noise.from_param(method=method,noise_param=noise_param,number=number,seed=seed,scale=scale,time_pattern=time_pattern,settings=settings)
+        _ = pb.utils.noise.from_param(method=method,noise_param=noise_param,number=number,seed=seed,time_pattern=time_pattern,settings=settings)
