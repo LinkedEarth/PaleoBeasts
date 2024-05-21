@@ -68,7 +68,7 @@ class Forcing:
             Note that this function expects forcing data to be stored as a column in the csv.
 
         time_name : str
-            Name of the column containing the time data. If None, then the index will be used.
+            Name of the column containing the time data. If None, then a dummy time axis will be created.
         
         value_name : str
             Name of the column containing the forcing data. If None, then the first column will be used.
@@ -102,10 +102,23 @@ class Forcing:
                     value_name = 'insol_65N_d172_centered'
             else:
                 raise ValueError('Dataset not recognized')
+            
+            data = df[value_name].values
+            time = df[time_name].values
         else:
             df = pd.read_csv(file_path)
+
+            if value_name is None:
+                value_name = df.columns[0]
+
+            if time_name is None:
+                data = df[value_name].values
+                time = np.arange(len(data))
+            else:
+                data = df[value_name].values
+                time = df[time_name].values
         
-        forcing = Forcing(data=df[value_name].values,time=df[time_name].values,params=params,interpolation=interpolation)
+        forcing = Forcing(data=data,time=time,params=params,interpolation=interpolation)
 
         return forcing
 
