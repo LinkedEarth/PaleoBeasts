@@ -49,4 +49,4 @@ class TestSignalModelsEBMtoPyleo:
         forcing = pb.core.Forcing(func)
         model = ebm.EBM(forcing=forcing)
         model.integrate(t_span=(0,10),y0=[100],method=method,kwargs=kwargs)
-        _ = model.to_pyleo(var_names=var_names)
+        model.to_pyleo(var_names=var_names)

@@ -41,4 +41,4 @@ class TestSignalModelsG24toPyleo:
         forcing = pb.core.Forcing(func)
         model3 = g24.Model3(forcing=forcing)
         model3.integrate(t_span=(0,10),y0=[1,1],method=method,kwargs=kwargs)
-        _ = model3.to_pyleo(var_names=var_names)
+        model3.to_pyleo(var_names=var_names)
