@@ -22,8 +22,9 @@ from paleobeasts.signal_models import ebm
 class TestSignalModelsEBMIntegrate:
     @pytest.mark.parametrize('y0', [[1],[10]])
     @pytest.mark.parametrize('t_span', [(0,10),(0,100)])
+    @pytest.mark.parametrize('OLR', [(None),(ebm.OLR_func(1000, 1000))])
     @pytest.mark.parametrize('method, kwargs', [('euler',{'dt':1}),('RK45',None)])
-    def test_integrate_t0(self,t_span,y0,method,kwargs):
+    def test_integrate_t0(self,t_span,y0,method,OLR, kwargs):
         '''Test integrate method'''
         def func(x):
             return 1
