@@ -1,24 +1,69 @@
 import numpy as np
+from functools import partial
 from ..utils import constants as phys
 from ..core.pbmodel import PBModel
 
 
 class EBM(PBModel):
+    """Energy Balance Model (EBM) class
+
+    A simple model that describes the evolution of the temperature of the Earth's surface
+    as a function of the radiative balance between incoming solar radiation and outgoing longwave radiation. The model
+    is described by the following ordinary differential equation:
+
+    \begin{equation}
+    C \frac{dT}{dt} = (1 - \alpha) \frac{S_0}{4} - OLR
+    \end{equation}
+
+    where $C$ is the heat capacity of the Earth's surface, $\alpha$ is the albedo, $S_0$ is the incoming solar radiation,
+    $OLR$ is the outgoing longwave radiation.
+
+    #TODO: implement meridional heat transport; currently limited to 0D
+
+
+    Parameters
+    ----------
+    forcing : pb.Forcing
+        Object that provides the forcing at time t.
+
+    state_variables : list
+        List of state variables for the model. Default is ['T'].
+
+    diagnostic_variables : list
+        List of diagnostic variables for the model. Default is ['albedo', 'absorbed_SW', 'OLR', 'solar_incoming'].
+
+    var_name : str
+        Name of the variable being modeled. Default is 'temperature'.
+
+    OLR : function
+        Function that calculates the outgoing longwave radiation as a function of temperature. Default is the Stefan-Boltzmann law with prad=650, ps=1000.
+        To specify different values, pass OLR_func(pRad, ps) where pRad is the radiative forcing and ps is the surface pressure.
+
+    C : float
+        Heat capacity of the Earth's surface. Default is 4.
+
+    albedo : float or function
+        Albedo of the Earth's surface. Default is 0.3.
+
+
+    """
     def __init__(self, forcing, state_variables= ['T'],
                  diagnostic_variables = ['albedo', 'absorbed_SW', 'OLR', 'solar_incoming'],
                  var_name='temperature', OLR=None, C=4, merid_diff=0, albedo=.3):
         super().__init__(forcing, var_name, state_variables=state_variables,
                          diagnostic_variables=diagnostic_variables )
-        self.forcing = forcing #insolation
+
+        self.forcing = forcing
         self.variable_name = var_name
         self.C = C
         self.params = None  # (f1, f2, t1, t2, vc)
         self.albedo = albedo
-        self.OLR = OLR if OLR is not None else OLR_func
+        self.OLR = OLR if OLR is not None else OLR_func()
         self.merid_diff = merid_diff
         self.phi = np.linspace(-np.pi / 2, np.pi / 2, 100)
 
     def dydt(self, t, x):
+
         T =x
         if isinstance(T, np.ndarray):
             T = T[-1]
@@ -29,10 +74,8 @@ class EBM(PBModel):
         f_solar_incoming = self.forcing.get_forcing(t)
         albedo = self.calc_albedo(T)
         absorbed_SW = (1 - albedo) * f_solar_incoming/4
-        OLR = self.OLR(T)
-        # self.diagnostic_variables['time'].append(t)
-        
-         # self.diagnostic_variables.append([albedo, absorbed_SW, OLR])
+        OLR = self.calc_OLR(T)
+
         dTdt = 1 / self.C * (absorbed_SW - OLR + self.calc_merid_diff(T))
 
         new_row = np.array([(T)], dtype=self.dtypes)
@@ -44,13 +87,6 @@ class EBM(PBModel):
         
         if t>0:
             self.time.append(t)
-        # new_row = np.array([(T)], dtype=self.dtypes)
-        # self.state_variables = np.concatenate([self.state_variables, new_row], axis=0)
-        # 
-        # # if t > 0:
-        # self.time.append(t)
-            
-
 
         return [dTdt]
 
@@ -59,9 +95,9 @@ class EBM(PBModel):
 
     def calc_albedo(self, T):
         if callable(self.albedo):
-            return self.albedo(self, T)  # Assuming vc is a function of time and the state vector x
+            return self.albedo(self, T)  # albedo is a function of temperature
         else:
-            return self.albedo  # vc is a constant
+            return self.albedo  # albedo is a constant
 
     def calc_merid_diff(self, T):
         if callable(self.merid_diff):
@@ -70,7 +106,6 @@ class EBM(PBModel):
             return self.merid_diff
 
     def calc_C(self, T):
-
         if callable(self.C):
             return self.C(self, T)
         else:
@@ -99,7 +134,7 @@ def albedo_func1D(ebm_model, Ts, a2=.25, alpha_ice=.6, alpha_0=.1, T1=260., T2=2
     return a0 + a2 * P2
 
 
-def OLR_func(Ts, pRad=650, ps=1000):
+def _OLR_func(Ts, pRad=650, ps=1000):
     if isinstance(Ts, np.ndarray):
         Ts = Ts[-1]
         # print(Ts)
@@ -107,10 +142,19 @@ def OLR_func(Ts, pRad=650, ps=1000):
     # print('Te', Te)
     return phys.sigma * (Te ** 4.)
 
+def OLR_func(pRad=650, ps=1000):
+    return partial(_OLR_func, pRad=pRad, ps=ps)
+    # if isinstance(Ts, np.ndarray):
+    #     Ts = Ts[-1]
+    #     # print(Ts)
+    # Te = (pRad / ps) ** (2. / 7.) * Ts  # emission temperature assuming dry adiabat
+    # # print('Te', Te)
+    # return phys.sigma * (Te ** 4.)
 
+
+### Future support for 1D models
 def incoming_SW_func(t, S_0=1360.8):
     return np.ones(np.array(t).shape)*S_0
-
 
 # def advection_diffusion(ebm_model, T, D):
 #     phi = ebm_model.phi
