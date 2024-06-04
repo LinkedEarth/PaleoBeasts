@@ -11,9 +11,7 @@ class EBM(PBModel):
     as a function of the radiative balance between incoming solar radiation and outgoing longwave radiation. The model
     is described by the following ordinary differential equation:
 
-    \begin{equation}
-    C \frac{dT}{dt} = (1 - \alpha) \frac{S_0}{4} - OLR
-    \end{equation}
+    $C \frac{dT}{dt} = (1 - \alpha) \frac{S_0}{4} - OLR$
 
     where $C$ is the heat capacity of the Earth's surface, $\alpha$ is the albedo, $S_0$ is the incoming solar radiation,
     $OLR$ is the outgoing longwave radiation.
