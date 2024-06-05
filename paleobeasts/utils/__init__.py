@@ -7,7 +7,7 @@ This module contains utility functions for the paleobeasts package.
 
 from .resample import *
 from .func import *
-from .forcing import *
+from .forcing_utils import *
 from .solver import *
 from .noise import *
 from .constants import *
