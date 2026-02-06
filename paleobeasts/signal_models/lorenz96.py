@@ -17,8 +17,13 @@ class Lorenz96(PBModel):
     n : int
         Number of state variables. Default is 40.
 
-    F : float
-        Constant forcing when forcing is None. Default is 8.
+    F : float or callable or pb.Forcing
+        Constant forcing when forcing is None, or a time-varying parameter. Default is 8.
+
+    Notes
+    -----
+    If ``forcing`` is provided, it takes precedence over ``F``. Otherwise ``F`` can be
+    a constant, callable, or ``pb.Forcing`` for time-varying behavior.
     """
 
     def __init__(self, forcing=None, var_name='lorenz96', n=40, F=8.0,
@@ -33,16 +38,20 @@ class Lorenz96(PBModel):
 
         self.n = n
         self.F = F
-        self.params = (n, F)
+        self.param_values = {
+            'F': F,
+        }
+        self.params = ()
 
-    def _forcing_value(self, t):
+    def _forcing_value(self, t, x):
         if self.forcing is None:
-            return self.F
+            return self.get_param('F', t, x)
         return self.forcing.get_forcing(self.time_util(t))
 
-    def dydt(self, t, x, n, F):
+    def dydt(self, t, x):
         x = np.asarray(x, dtype=float)
-        F_t = self._forcing_value(t)
+        F_t = self._forcing_value(t, x)
+        n = self.n
 
         dxdt = np.zeros(n, dtype=float)
         for i in range(n):

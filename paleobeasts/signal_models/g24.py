@@ -20,25 +20,30 @@ class Model3(PBModel):
         Name of the variable being modeled.
         Default is 'ice volume'
 
-    vc : numeric or function
+    vc : numeric, callable, or pb.Forcing
         value for critical ice volume; controls the dominant periodicity and degree of asymmetry of glacial cycles
         default is 1.4
 
-    f1 : numeric (float, int)
+    f1 : numeric, callable, or pb.Forcing
         insolation threshold for glacial inception (pinned at -20 to -15 W/m^2)
         default is -16
 
-    t1 : numeric (float, int)
+    t1 : numeric, callable, or pb.Forcing
         relaxation timescale for glacial inception (in kyr)
         default is 30
 
-    f2 : numeric (float, int)
+    f2 : numeric, callable, or pb.Forcing
         insolation threshold for deglaciation inception (tunable; positive)
         default is 16
 
-    t2 : numeric (float, int)
+    t2 : numeric, callable, or pb.Forcing
         relaxation timescale for deglaciation (in kyr)
         default is 10
+
+    Notes
+    -----
+    Time-varying parameters can be provided as callables with common signatures such as
+    ``(t)``, ``(t, state)``, ``(t, state, model)``, ``(model, state)``, or ``(state)``.
 
     params : tuple
         Tuple of parameters (f1, f2, t1, t2, vc) for the model.
@@ -56,10 +61,18 @@ class Model3(PBModel):
         self.t1 = t1
         self.t2 = t2
         self.vc = vc
-        self.params = (f1, f2, t1, t2, vc)
         self.dfdt = calc_df
+        self.param_values = {
+            'f1': f1,
+            'f2': f2,
+            't1': t1,
+            't2': t2,
+            'vc': vc,
+            'dfdt': self.dfdt,
+        }
+        self.params = ()
 
-    def dydt(self, t, x, f1, f2, t1, t2, vc):
+    def dydt(self, t, x):
         """
         Differential equation for dv/dt (where v=ice volume) at state k.
 
@@ -85,19 +98,24 @@ class Model3(PBModel):
         if isinstance(v, np.ndarray):
             v = v[-1]
 
+        f1 = self.get_param('f1', t, x)
+        f2 = self.get_param('f2', t, x)
+        t1 = self.get_param('t1', t, x)
+        t2 = self.get_param('t2', t, x)
+
         k = int(self.state_variables['k'][-1])
         f = self.forcing.get_forcing(self.time_util(t))
-        dfdt = self.calc_dfdt(self.time_util(t))
+        dfdt = self.calc_dfdt(self.time_util(t), x)
 
-        vc = self.calc_vc(t)
+        vc = self.get_param('vc', t, x)
 
-        k = self.calc_k(k, dfdt, f, v, vc)
+        k = self.calc_k(k, dfdt, f, v, vc, f1)
 
         if k == 1:
-            ve = self.calc_ve(v, f)
-            dvdt = (ve - v) / t1  # self.t1
+            ve = self.calc_ve(v, f, f1, f2)
+            dvdt = (ve - v) / t1
         elif k == 2:
-            dvdt = -vc / t2  # self.t2
+            dvdt = -vc / t2
 
         if t>0:
             new_row = np.array([(v, k)], dtype=self.dtypes)
@@ -107,14 +125,14 @@ class Model3(PBModel):
 
         return [dvdt]
 
-    def calc_k(self, k, dfdt, f, v, vc):
+    def calc_k(self, k, dfdt, f, v, vc, f1):
         if k == 1 and dfdt > 0 and f > 0 and v > vc:
             k = 2
-        elif k == 2 and f < self.f1:
+        elif k == 2 and f < f1:
             k = 1
         return k
 
-    def calc_ve(self, v, f, vi=0):
+    def calc_ve(self, v, f, f1, f2, vi=0):
         """
         Calculate equilibrium state towards which the system is attracted is a function of orbital forcing and,
         for the bi-stable regime, also depends on ice volume
@@ -133,19 +151,19 @@ class Model3(PBModel):
             ice volume of the equilibrium state to which the system is attracted
 
         """
-        vg = self.calc_vg(f)
-        vu = self.calc_vu(f)
+        vg = self.calc_vg(f, f1, f2)
+        vu = self.calc_vu(f, f1, f2)
 
-        if f < self.f1:
+        if f < f1:
             return vg
-        elif f > self.f2:
+        elif f > f2:
             return vi
-        elif self.f1 < f < self.f2 and v > vu:
+        elif f1 < f < f2 and v > vu:
             return vg
-        elif self.f1 < f < self.f2 and v < vu:
+        elif f1 < f < f2 and v < vu:
             return vi
 
-    def calc_vg(self, f):
+    def calc_vg(self, f, f1, f2):
         """
         Calculate glacial equilibrium state.
 
@@ -160,9 +178,9 @@ class Model3(PBModel):
             ice volume of the glacial equilibrium state
 
         """
-        return 1 + np.sqrt((self.f2 - f) / (self.f2 - self.f1))
+        return 1 + np.sqrt((f2 - f) / (f2 - f1))
 
-    def calc_vu(self, f):
+    def calc_vu(self, f, f1, f2):
         """
         Calculate unstable equilibrium ice volume which separates the glacial and interglacial attraction domains.
 
@@ -177,37 +195,23 @@ class Model3(PBModel):
             ice volume of the unstable equilibrium state
 
         """
-        return 1 - np.sqrt((self.f2 - f) / (self.f2 - self.f1))
+        return 1 - np.sqrt((f2 - f) / (f2 - f1))
 
-    def calc_vc(self, t):
+    def calc_vc(self, t, x=None):
         """
         Evaluate vc which can be a function of time and state or a constant.
-
-        Parameters
-        ----------
-        t : float
-            Time
-
-        Returns
-        -------
-        vc : float
-            Critical ice volume
-
         """
+        if x is None:
+            x = self.state_variables[-1] if self.state_variables is not None else None
+        return self.get_param('vc', t, x)
 
-        if callable(self.vc):
-            return self.vc(t)  # Assuming vc is a function of time and the state vector x
-        else:
-            return self.vc  # vc is a constant
-
-    def calc_dfdt(self, t):
+    def calc_dfdt(self, t, x=None):
         """
         Calculate the derivative of the orbital forcing at time t.
         """
-        if callable(self.dfdt):
-            return self.dfdt(t)
-        else:
-            return self.dfdt
+        if x is None:
+            x = self.state_variables[-1] if self.state_variables is not None else None
+        return self.get_param('dfdt', t, x)
 
 
 def calc_df(t, A=25, eps=0.5, T1=100, T2=30):

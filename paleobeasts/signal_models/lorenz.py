@@ -15,14 +15,19 @@ class Lorenz63(PBModel):
     var_name : str
         Name of the variable being modeled. Default is 'lorenz63'.
 
-    sigma : float
+    sigma : float or callable or pb.Forcing
         Prandtl number. Default is 10.
 
-    rho : float
+    rho : float or callable or pb.Forcing
         Rayleigh number. Default is 28.
 
-    beta : float
+    beta : float or callable or pb.Forcing
         Geometric factor. Default is 8/3.
+
+    Notes
+    -----
+    Time-varying parameters can be provided as callables with common signatures such as
+    ``(t)``, ``(t, state)``, ``(t, state, model)``, ``(model, state)``, or ``(state)``.
     """
 
     def __init__(self, forcing, var_name='lorenz63', sigma=10.0, rho=28.0, beta=8 / 3,
@@ -38,7 +43,12 @@ class Lorenz63(PBModel):
         self.sigma = sigma
         self.rho = rho
         self.beta = beta
-        self.params = (sigma, rho, beta)
+        self.param_values = {
+            'sigma': sigma,
+            'rho': rho,
+            'beta': beta,
+        }
+        self.params = ()
 
     def _forcing_vector(self, t):
         if self.forcing is None:
@@ -55,8 +65,11 @@ class Lorenz63(PBModel):
 
         return f_arr.reshape(3,)
 
-    def dydt(self, t, x, sigma, rho, beta):
+    def dydt(self, t, x):
         x_val, y_val, z_val = x[0], x[1], x[2]
+        sigma = self.get_param('sigma', t, x)
+        rho = self.get_param('rho', t, x)
+        beta = self.get_param('beta', t, x)
         f_vec = self._forcing_vector(t)
 
         dxdt = sigma * (y_val - x_val) + f_vec[0]

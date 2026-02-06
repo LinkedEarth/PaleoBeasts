@@ -1,4 +1,5 @@
 from scipy.integrate import solve_ivp
+import inspect
 import numpy as np
 import pyleoclim as pyleo
 
@@ -9,6 +10,14 @@ class PBModel:
     PBModel serves as the archetype/parent class for models within the signal_models directory.
     This class is not meant to be instantiated, but rather to be inherited by other classes.
 
+    Parameter handling
+    ------------------
+    Models may define a ``param_values`` dict that maps parameter names to either:
+    - constants (floats/ints)
+    - callables (time/state/model aware)
+    - objects with ``get_forcing`` (e.g., ``pb.core.Forcing``)
+
+    Use ``get_param(name, t, state)`` inside ``dydt`` to resolve time-varying parameters.
     
     '''
 
@@ -33,7 +42,8 @@ class PBModel:
         # if 'time' not in diagnostic_variables:
         #     diagnostic_variables.append('time')
         self.diagnostic_variables = {var:[] for var in diagnostic_variables}
-        self.params = None
+        self.params = ()
+        self.param_values = {}
 
         self.t_span = None
         self.y0 = None
@@ -44,6 +54,73 @@ class PBModel:
         self.t_eval= None
         self.run_name = None
         self.time_util = lambda t: t
+
+    def resolve_param(self, param, t, state):
+        """Resolve a parameter value at time t for the given state.
+
+        Supports constants, callables, and objects with ``get_forcing``.
+        """
+        if param is None:
+            return None
+        if hasattr(param, 'get_forcing'):
+            return param.get_forcing(self.time_util(t))
+        if callable(param):
+            return self._call_param(param, t, state)
+        return param
+
+    def _call_param(self, param, t, state):
+        """Call a parameter function using a flexible signature heuristic."""
+        try:
+            sig = inspect.signature(param)
+        except (TypeError, ValueError):
+            return param(t, state, self)
+
+        params = [
+            p for p in sig.parameters.values()
+            if p.kind in (inspect.Parameter.POSITIONAL_ONLY,
+                          inspect.Parameter.POSITIONAL_OR_KEYWORD)
+        ]
+        if not params:
+            return param()
+
+        first_name = params[0].name.lower()
+
+        if first_name in ('t', 'time'):
+            if len(params) >= 3:
+                return param(t, state, self)
+            if len(params) == 2:
+                return param(t, state)
+            return param(t)
+
+        if first_name in ('model', 'self', 'ebm_model'):
+            if len(params) >= 2:
+                return param(self, state)
+            return param(self)
+
+        if len(params) >= 2:
+            second_name = params[1].name.lower()
+            if second_name in ('t', 'time'):
+                return param(state, t)
+            if second_name in ('model', 'self', 'ebm_model'):
+                return param(state, self)
+
+        return param(state)
+
+    def get_param(self, name, t, state):
+        """Fetch a named parameter from ``param_values`` and resolve it."""
+        if name not in self.param_values:
+            raise KeyError(f"Parameter '{name}' not found in param_values.")
+        return self.resolve_param(self.param_values[name], t, state)
+
+    def set_param(self, name, value):
+        """Set a parameter value and keep ``param_values`` in sync.
+
+        This is a convenience for users who update parameters after model
+        initialization. The solver always reads from ``param_values``, so
+        this avoids subtle mismatches when mutating attributes directly.
+        """
+        self.param_values[name] = value
+        setattr(self, name, value)
 
     def __copy__(self):
         new_obj = type(self)(self.forcing, self.variable_name)  # create a new instance of the same class
@@ -223,4 +300,3 @@ class PBModel:
             self.state_variables = reframed
 
         return reframed
-
