@@ -43,3 +43,16 @@ class TestSignalModelsLorenz96TimeVaryingParams:
         tv_last = np.array([model_tv.state_variables[f'x{i}'][-1] for i in range(5)])
 
         assert np.allclose(const_last, tv_last, rtol=1e-8, atol=1e-10)
+
+
+class TestSignalModelsLorenz96TwoScale:
+    def test_integrate_euler_t0(self):
+        K = 5
+        J = 2
+        model = lorenz96.Lorenz96TwoScale(K=K, J=J, F=10.0, h=1.0, b=10.0, c=10.0)
+        y0 = np.zeros(K + K * J)
+        model.integrate(t_span=(0, 0.05), y0=y0, method='euler', kwargs={'dt': 0.01})
+
+        assert model.state_variables.shape[0] > 0
+        assert model.state_variables.dtype.names[0] == 'x0'
+        assert model.state_variables.dtype.names[K] == 'y0'
