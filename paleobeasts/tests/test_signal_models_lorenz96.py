@@ -1,0 +1,28 @@
+''' Tests for paleobeasts.signal_models.lorenz96
+
+Naming rules:
+1. class: Test{filename}{Class}{method} with appropriate camel case
+2. function: test_{method}_t{test_id}
+'''
+
+import numpy as np
+import paleobeasts as pb
+
+from paleobeasts.signal_models import lorenz96
+
+
+class TestSignalModelsLorenz96Integrate:
+    def test_integrate_rk45_t0(self):
+        model = lorenz96.Lorenz96(forcing=None, n=5, F=8.0)
+        model.integrate(t_span=(0, 5), y0=[1, 1, 1, 1, 1], method='RK45')
+
+    def test_integrate_euler_t0(self):
+        model = lorenz96.Lorenz96(forcing=None, n=5, F=8.0)
+        model.integrate(t_span=(0, 5), y0=[1, 1, 1, 1, 1], method='euler', kwargs={'dt': 0.01})
+
+
+class TestSignalModelsLorenz96toPyleo:
+    def test_topyleo_t0(self):
+        model = lorenz96.Lorenz96(forcing=None, n=5, F=8.0)
+        model.integrate(t_span=(0, 5), y0=[1, 1, 1, 1, 1], method='RK45')
+        model.to_pyleo(var_names=['x0', 'x1'])
