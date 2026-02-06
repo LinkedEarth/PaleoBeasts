@@ -171,4 +171,56 @@ class PBModel:
         else:
             return pyleo.MultipleSeries(pyleo_series)
 
+    def reframe_time_axis(self, t_eval, update_state=True):
+        '''Reframe the solution onto a specified time axis.
+
+        Parameters
+        ----------
+        t_eval : array-like
+            Target time axis for resampling.
+
+        update_state : bool
+            If True, update self.time and self.state_variables to the reframed values.
+            If False, leave the model state intact and return the reframed values only.
+
+        Returns
+        -------
+        reframed : structured array or ndarray
+            The reframed state variables on t_eval. Structured array if the model
+            has named state variables, otherwise a 2D ndarray.
+        '''
+
+        if self.solution is None:
+            raise ValueError("No solution found. Please integrate the model first.")
+
+        t_eval = np.asarray(t_eval, dtype=float)
+
+        # Prefer solve_ivp dense output when available
+        if hasattr(self.solution, 'sol') and self.solution.sol is not None:
+            y_eval = self.solution.sol(t_eval).T
+        else:
+            # Fallback to linear interpolation (Euler / no dense output)
+            t_src = np.asarray(self.solution.t, dtype=float)
+            y_src = np.asarray(self.solution.y, dtype=float)
+            if y_src.ndim == 1:
+                y_src = y_src.reshape(-1, 1)
+
+            y_eval = np.column_stack([
+                np.interp(t_eval, t_src, y_src[:, i])
+                for i in range(y_src.shape[1])
+            ])
+
+        if self.state_variables_names:
+            dtype = [(var, float) for var in self.state_variables_names]
+            reframed = np.zeros(len(t_eval), dtype=dtype)
+            for i, var in enumerate(self.state_variables_names):
+                reframed[var] = y_eval[:, i]
+        else:
+            reframed = y_eval
+
+        if update_state:
+            self.time = t_eval
+            self.state_variables = reframed
+
+        return reframed
 
