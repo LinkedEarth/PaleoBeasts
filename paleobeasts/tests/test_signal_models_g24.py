@@ -42,3 +42,29 @@ class TestSignalModelsG24toPyleo:
         model3 = g24.Model3(forcing=forcing)
         model3.integrate(t_span=(0,10),y0=[1,1],method=method,kwargs=kwargs)
         model3.to_pyleo(var_names=var_names)
+
+
+class TestSignalModelsG24TimeVaryingParams:
+    def test_time_varying_params_match_constants_t0(self):
+        forcing = pb.core.Forcing(lambda t: 1.0)
+
+        model_const = g24.Model3(forcing=forcing, f1=-16, f2=16, t1=30, t2=10, vc=1.4)
+        model_tv = g24.Model3(
+            forcing=forcing,
+            f1=lambda t: -16,
+            f2=lambda t, x: 16,
+            t1=lambda model, x: 30,
+            t2=lambda x, t: 10,
+            vc=lambda t, x, m: 1.4,
+        )
+
+        t_span = (0, 10)
+        kwargs = {'dt': 1}
+        y0 = [1, 1]
+        model_const.integrate(t_span=t_span, y0=y0, method='euler', kwargs=kwargs)
+        model_tv.integrate(t_span=t_span, y0=y0, method='euler', kwargs=kwargs)
+
+        const_last = np.array([model_const.state_variables['v'][-1], model_const.state_variables['k'][-1]])
+        tv_last = np.array([model_tv.state_variables['v'][-1], model_tv.state_variables['k'][-1]])
+
+        assert np.allclose(const_last, tv_last, rtol=1e-8, atol=1e-10)

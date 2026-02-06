@@ -26,3 +26,20 @@ class TestSignalModelsLorenz96toPyleo:
         model = lorenz96.Lorenz96(forcing=None, n=5, F=8.0)
         model.integrate(t_span=(0, 5), y0=[1, 1, 1, 1, 1], method='RK45')
         model.to_pyleo(var_names=['x0', 'x1'])
+
+
+class TestSignalModelsLorenz96TimeVaryingParams:
+    def test_time_varying_param_matches_constant_t0(self):
+        model_const = lorenz96.Lorenz96(forcing=None, n=5, F=8.0)
+        model_tv = lorenz96.Lorenz96(forcing=None, n=5, F=lambda t, x, m: 8.0)
+
+        t_span = (0, 0.05)
+        kwargs = {'dt': 0.01}
+        y0 = [1, 1, 1, 1, 1]
+        model_const.integrate(t_span=t_span, y0=y0, method='euler', kwargs=kwargs)
+        model_tv.integrate(t_span=t_span, y0=y0, method='euler', kwargs=kwargs)
+
+        const_last = np.array([model_const.state_variables[f'x{i}'][-1] for i in range(5)])
+        tv_last = np.array([model_tv.state_variables[f'x{i}'][-1] for i in range(5)])
+
+        assert np.allclose(const_last, tv_last, rtol=1e-8, atol=1e-10)
