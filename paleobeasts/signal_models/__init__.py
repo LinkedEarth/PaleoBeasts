@@ -5,3 +5,5 @@ This module contains the signal models used in the paleoclimate project. The sig
 
 from .g24 import *
 from .ebm import *
+from .lorenz import *
+from .lorenz96 import *
