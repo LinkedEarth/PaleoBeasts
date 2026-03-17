@@ -2,7 +2,8 @@ import numpy as np
 from scipy.interpolate import CubicSpline
 
 __all__ = [
-    'make_derivative_func'
+    'make_derivative_func',
+    'smooth_and_interpolate',
 ]
 def make_derivative_func(method='numpy', derivative=None, data=None, time=None):
     """
@@ -31,3 +32,34 @@ def make_derivative_func(method='numpy', derivative=None, data=None, time=None):
             return d1
     else:
         raise ValueError("No method for derivative calculation provided.")
+
+
+def smooth_and_interpolate(years, values, target_years=None, window=50):
+    """Apply a centered moving-average smoothing window and interpolate annually.
+
+    Parameters
+    ----------
+    years : array-like
+        Input time axis.
+    values : array-like
+        Values to smooth and interpolate.
+    target_years : array-like or None
+        Target time axis. Defaults to yearly spacing spanning the input range.
+    window : int
+        Moving-average window length. Values <= 1 disable smoothing.
+    """
+    years = np.asarray(years, dtype=float)
+    values = np.asarray(values, dtype=float)
+
+    if target_years is None:
+        target_years = np.arange(int(years.min()), int(years.max()) + 1, 1.0)
+    target_years = np.asarray(target_years, dtype=float)
+
+    if int(window) <= 1:
+        smoothed = values
+    else:
+        kernel = np.ones(int(window), dtype=float) / float(window)
+        padded = np.pad(values, (window // 2, window - 1 - window // 2), mode='edge')
+        smoothed = np.convolve(padded, kernel, mode='valid')
+
+    return np.interp(target_years, years, smoothed)
