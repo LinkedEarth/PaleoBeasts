@@ -20,6 +20,11 @@ class TestSignalModelsLorenz96Integrate:
         model = lorenz96.Lorenz96(forcing=None, n=5, F=8.0)
         model.integrate(t_span=(0, 5), y0=[1, 1, 1, 1, 1], method='euler', kwargs={'dt': 0.01})
 
+    def test_integrate_l96_rk4_t0(self):
+        model = lorenz96.Lorenz96TwoScale(K=4, J=2, F=10.0, h=1.0, b=10.0, c=10.0, exact_rhs=True)
+        y0 = np.zeros(4 + 4 * 2)
+        model.integrate(t_span=(0, 1.0), y0=y0, method='l96_rk4', kwargs={'dt': 0.01, 'si': 0.05})
+
 
 class TestSignalModelsLorenz96toPyleo:
     def test_topyleo_t0(self):

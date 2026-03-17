@@ -8,6 +8,7 @@ Naming rules:
 import numpy as np
 import paleobeasts as pb
 
+from paleobeasts.core.pbmodel import PBModel
 from paleobeasts.signal_models import lorenz
 
 
@@ -39,3 +40,28 @@ class TestCorePBModelReframeTimeAxis:
 
         assert len(reframed) == len(t_eval)
         assert np.allclose(model.time, t_eval)
+
+
+class _PostHistoryModel(PBModel):
+    def __init__(self):
+        super().__init__(forcing=None, variable_name='post_history', state_variables=['x'],
+                         diagnostic_variables=['x_squared'])
+
+    def uses_post_history(self):
+        return True
+
+    def dydt(self, t, x):
+        return [-x[0]]
+
+    def populate_diagnostics_from_history(self, time, history):
+        self.diagnostic_variables['x_squared'] = history[:, 0] ** 2
+
+
+class TestCorePBModelPostHistoryHooks:
+    def test_post_history_model_integrates_t0(self):
+        model = _PostHistoryModel()
+        model.integrate(t_span=(0, 1), y0=[1.0], method='euler', kwargs={'dt': 0.1})
+
+        assert model.state_variables.dtype.names == ('x',)
+        assert len(model.time) == len(model.diagnostic_variables['x_squared'])
+        assert np.isclose(model.state_variables['x'][0], 1.0)

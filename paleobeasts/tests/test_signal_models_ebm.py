@@ -73,3 +73,18 @@ class TestSignalModelsEBMTimeVaryingParams:
         tv_last = model_tv.state_variables['T'][-1]
 
         assert np.isclose(const_last, tv_last, rtol=1e-8, atol=1e-10)
+
+
+class TestSignalModelsEBMSequenceForcing:
+    def test_sequence_forcing_integrates_t0(self):
+        forcing = pb.core.Forcing.from_sequence(
+            [
+                pb.core.Hold(duration=6.0, value=1360.0),
+                pb.core.Ramp(duration=4.0, y0=1360.0, yf=1365.0, shape='linear'),
+            ],
+            label='ebm_sequence',
+        )
+        model = ebm.EBM(forcing=forcing)
+        model.integrate(t_span=(0, 10), y0=[280], method='euler', kwargs={'dt': 1})
+        assert len(model.time) > 1
+        assert np.isfinite(model.state_variables['T'][-1])

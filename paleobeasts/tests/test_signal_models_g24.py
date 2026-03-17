@@ -68,3 +68,17 @@ class TestSignalModelsG24TimeVaryingParams:
         tv_last = np.array([model_tv.state_variables['v'][-1], model_tv.state_variables['k'][-1]])
 
         assert np.allclose(const_last, tv_last, rtol=1e-8, atol=1e-10)
+
+
+class TestSignalModelsG24SequenceForcing:
+    def test_sequence_forcing_integrates_t0(self):
+        forcing = pb.core.Forcing.from_sequence(
+            [
+                pb.core.Hold(duration=4.0, value=1.0),
+                pb.core.Harmonic(duration=6.0, period=4.0, A=0.2, y0=1.0),
+            ],
+            label='g24_sequence',
+        )
+        model3 = g24.Model3(forcing=forcing)
+        model3.integrate(t_span=(0, 10), y0=[1, 1], method='euler', kwargs={'dt': 1})
+        assert np.isfinite(model3.state_variables['v'][-1])
