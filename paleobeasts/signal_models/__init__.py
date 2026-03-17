@@ -7,3 +7,6 @@ from .g24 import *
 from .ebm import *
 from .lorenz import *
 from .lorenz96 import *
+from .stommel import *
+from .daisyworld import *
+from .methane_d13c import *
