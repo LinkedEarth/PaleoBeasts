@@ -1,7 +1,7 @@
 from scipy.integrate import solve_ivp
 import inspect
 import numpy as np
-import pyleoclim as pyleo
+from pyleoclim.core import Series, MultipleSeries
 
 from ..utils.solver import euler_method
 class PBModel:
@@ -135,6 +135,35 @@ class PBModel:
         This method should be implemented and used from the child class.'''
         pass
 
+    def uses_post_history(self):
+        """Whether solved trajectories should populate state/diagnostics post-solve."""
+        return False
+
+    def build_state_from_history(self, time, history):
+        """Build structured state output from a solved trajectory."""
+        time = np.asarray(time, dtype=float)
+        history = np.asarray(history, dtype=float)
+
+        if self.state_variables_names:
+            dtype = [(var, float) for var in self.state_variables_names]
+            state = np.zeros(len(time), dtype=dtype)
+            for i, var in enumerate(self.state_variables_names):
+                state[var] = history[:, i]
+            return state
+        return history
+
+    def populate_diagnostics_from_history(self, time, history):
+        """Populate diagnostic arrays from a solved trajectory."""
+        return None
+
+    def post_integrate(self, time, history):
+        """Post-solve hook for models that derive outputs from solved histories."""
+        self.state_variables = self.build_state_from_history(time, history)
+        self.time = np.asarray(time, dtype=float)
+        self.populate_diagnostics_from_history(time, history)
+        for var in self.diagnostic_variables.keys():
+            self.diagnostic_variables[var] = np.asarray(self.diagnostic_variables[var])
+
     def integrate(self, t_span=None, y0=None, method='RK45', kwargs=None, run_name=None):
         '''Integrates the model over a given time span.
         
@@ -202,12 +231,17 @@ class PBModel:
 
         self.run_name = run_name if run_name is not None else f'{self.method}, dt={self.kwargs["dt"]}'
         self.solution = solution
-        self.state_variables = self.state_variables[1:]
-        self.time = np.array(self.time)#[1:])
+        if self.uses_post_history():
+            history = np.asarray(solution.y, dtype=float)
+            if history.ndim == 1:
+                history = history.reshape(-1, 1)
+            self.post_integrate(solution.t, history)
+        else:
+            self.state_variables = self.state_variables[1:]
+            self.time = np.array(self.time)
 
-        for var in self.diagnostic_variables.keys():
-            self.diagnostic_variables[var] = np.array(
-                self.diagnostic_variables[var])  # .reshape(len(solution.y)
+            for var in self.diagnostic_variables.keys():
+                self.diagnostic_variables[var] = np.array(self.diagnostic_variables[var])
 
     def to_pyleo(self,var_names=None):
         '''Function to create a pyleoclim Series object from a state variable.
@@ -234,7 +268,7 @@ class PBModel:
             else:
                 raise ValueError(f"{var_name} not found. Please check the state variables or diagnostics.")
                         
-            series = pyleo.Series(
+            series = Series(
                 time = self.time,
                 value = value,
                 value_name = var_name,
@@ -246,7 +280,7 @@ class PBModel:
         if len(pyleo_series) == 1:
             return pyleo_series[0]
         else:
-            return pyleo.MultipleSeries(pyleo_series)
+            return MultipleSeries(pyleo_series)
 
     def reframe_time_axis(self, t_eval, update_state=True):
         '''Reframe the solution onto a specified time axis.
