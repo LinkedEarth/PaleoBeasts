@@ -69,6 +69,29 @@ class TestSignalModelsG24TimeVaryingParams:
 
         assert np.allclose(const_last, tv_last, rtol=1e-8, atol=1e-10)
 
+    def test_time_varying_params_strict_contract_t1(self):
+        forcing = pb.core.Forcing(lambda t: 1.0)
+
+        model_tv = g24.Model3(
+            forcing=forcing,
+            f1=lambda t: -16,
+            f2=lambda t, x: 16,
+            t1=lambda t, x, m: 30,
+            t2=lambda t: 10,
+            vc=lambda t, x: 1.4,
+            parameter_contract='strict',
+        )
+
+        model_tv.integrate(t_span=(0, 10), y0=[1, 1], method='euler', kwargs={'dt': 1})
+        assert np.isfinite(model_tv.state_variables['v'][-1])
+
+    def test_dfdt_attribute_assignment_updates_param_store_t2(self):
+        forcing = pb.core.Forcing(lambda t: 1.0)
+        model3 = g24.Model3(forcing=forcing)
+        model3.dfdt = lambda t: 123.0
+        assert model3.param_values['dfdt'](0.0) == 123.0
+        assert model3.calc_dfdt(0.0, [1.0]) == 123.0
+
 
 class TestSignalModelsG24SequenceForcing:
     def test_sequence_forcing_integrates_t0(self):

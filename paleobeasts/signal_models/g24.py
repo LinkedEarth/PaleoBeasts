@@ -211,7 +211,19 @@ class Model3(PBModel):
         """
         if x is None:
             x = self.state_variables[-1] if self.state_variables is not None else None
-        return self.get_param('dfdt', t, x)
+        dfdt_spec = self.param_values['dfdt']
+        eval_t = self.time_util(t)
+
+        if hasattr(dfdt_spec, 'get_forcing'):
+            return dfdt_spec.get_forcing(eval_t)
+        if callable(dfdt_spec):
+            # Prefer time-only evaluation first for scientific derivative functions
+            # like calc_df(t, A=..., eps=..., T1=..., T2=...) used in the paper.
+            try:
+                return dfdt_spec(eval_t)
+            except TypeError:
+                return self.resolve_param(dfdt_spec, t, x)
+        return dfdt_spec
 
 
 def calc_df(t, A=25, eps=0.5, T1=100, T2=30):

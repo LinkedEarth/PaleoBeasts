@@ -1,9 +1,11 @@
 from scipy.integrate import solve_ivp
 import inspect
+from types import MethodType
+import warnings
 import numpy as np
 from pyleoclim.core import Series, MultipleSeries
 
-from ..utils.solver import euler_method
+from ..utils.solver import euler_method, euler_maruyama_method
 class PBModel:
     '''The overarching model structure for Paleobeasts. 
     
@@ -22,9 +24,14 @@ class PBModel:
     '''
 
     def __init__(self, forcing, variable_name, state_variables=None, non_integrated_state_vars=None,
-                 diagnostic_variables=None):
+                 diagnostic_variables=None, parameter_contract='legacy'):
+        if parameter_contract not in ('legacy', 'strict'):
+            raise ValueError(
+                "parameter_contract must be either 'legacy' or 'strict'."
+            )
         self.variable_name = variable_name
         self.forcing = forcing
+        self.parameter_contract = parameter_contract
 
         if state_variables is None:
             state_variables = []
@@ -44,6 +51,7 @@ class PBModel:
         self.diagnostic_variables = {var:[] for var in diagnostic_variables}
         self.params = ()
         self.param_values = {}
+        self._warned_legacy_params = set()
 
         self.t_span = None
         self.y0 = None
@@ -54,6 +62,13 @@ class PBModel:
         self.t_eval= None
         self.run_name = None
         self.time_util = lambda t: t
+        self.rng = None
+
+    def __setattr__(self, name, value):
+        object.__setattr__(self, name, value)
+        param_values = self.__dict__.get('param_values', None)
+        if isinstance(param_values, dict) and name in param_values:
+            param_values[name] = value
 
     def resolve_param(self, param, t, state):
         """Resolve a parameter value at time t for the given state.
@@ -65,11 +80,77 @@ class PBModel:
         if hasattr(param, 'get_forcing'):
             return param.get_forcing(self.time_util(t))
         if callable(param):
+            if self.parameter_contract == 'strict':
+                return self._call_param_strict(param, t, state)
             return self._call_param(param, t, state)
         return param
 
+    def _strict_positional_params(self, param):
+        sig = inspect.signature(param)
+        if any(p.kind == inspect.Parameter.VAR_POSITIONAL for p in sig.parameters.values()):
+            raise TypeError(
+                "Strict parameter contract does not allow var-positional (*args) callables."
+            )
+        return [
+            p for p in sig.parameters.values()
+            if p.kind in (inspect.Parameter.POSITIONAL_ONLY,
+                          inspect.Parameter.POSITIONAL_OR_KEYWORD)
+        ]
+
+    def _is_strict_compatible_callable(self, param):
+        try:
+            params = self._strict_positional_params(param)
+        except (TypeError, ValueError):
+            return False
+        n_positional = len(params)
+        if n_positional not in (1, 2, 3):
+            return False
+        return params[0].name.lower() in ('t', 'time')
+
+    def _call_param_strict(self, param, t, state):
+        try:
+            params = self._strict_positional_params(param)
+        except (TypeError, ValueError) as exc:
+            raise TypeError(
+                "Strict parameter contract requires inspectable callables with signature "
+                "(t), (t, state), or (t, state, model)."
+            ) from exc
+
+        n_positional = len(params)
+        if n_positional in (1, 2, 3) and params[0].name.lower() not in ('t', 'time'):
+            raise TypeError(
+                "Strict parameter contract requires the first argument to be time "
+                "(e.g., `t` or `time`)."
+            )
+
+        if n_positional == 1:
+            return param(t)
+        if n_positional == 2:
+            return param(t, state)
+        if n_positional == 3:
+            return param(t, state, self)
+        raise TypeError(
+            "Strict parameter contract only supports signatures "
+            "(t), (t, state), or (t, state, model)."
+        )
+
+    def _warn_legacy_param_callable(self, param):
+        key = id(param)
+        if key in self._warned_legacy_params:
+            return
+        self._warned_legacy_params.add(key)
+        warnings.warn(
+            "Legacy parameter-callable dispatch is deprecated. "
+            "Use strict signatures: (t), (t, state), or (t, state, model).",
+            DeprecationWarning,
+            stacklevel=3,
+        )
+
     def _call_param(self, param, t, state):
         """Call a parameter function using a flexible signature heuristic."""
+        if not self._is_strict_compatible_callable(param):
+            self._warn_legacy_param_callable(param)
+
         try:
             sig = inspect.signature(param)
         except (TypeError, ValueError):
@@ -121,6 +202,45 @@ class PBModel:
         """
         self.param_values[name] = value
         setattr(self, name, value)
+
+    def set_function(self, name, function, bind=None):
+        """Replace a model function on this instance.
+
+        Parameters
+        ----------
+        name : str
+            Existing function attribute name (e.g., ``calc_k``).
+        function : callable
+            Replacement callable.
+        bind : bool or None
+            - ``True``: bind as instance method (expects ``self`` first)
+            - ``False``: assign as plain callable
+            - ``None``: infer from first argument name (``self``/``model`` => bind)
+        """
+        if not isinstance(name, str) or not name:
+            raise ValueError("Function name must be a non-empty string.")
+        if not callable(function):
+            raise TypeError(f"Replacement for '{name}' must be callable.")
+        if not hasattr(self, name):
+            raise AttributeError(f"Function '{name}' does not exist on {type(self).__name__}.")
+        if not callable(getattr(self, name)):
+            raise TypeError(f"Attribute '{name}' exists but is not callable.")
+
+        if bind is None:
+            try:
+                sig = inspect.signature(function)
+                positional = [
+                    p for p in sig.parameters.values()
+                    if p.kind in (inspect.Parameter.POSITIONAL_ONLY,
+                                  inspect.Parameter.POSITIONAL_OR_KEYWORD)
+                ]
+                bind = bool(positional) and positional[0].name.lower() in ('self', 'model')
+            except (TypeError, ValueError):
+                bind = False
+
+        replacement = MethodType(function, self) if bind else function
+        setattr(self, name, replacement)
+        return getattr(self, name)
 
     def __copy__(self):
         new_obj = type(self)(self.forcing, self.variable_name)  # create a new instance of the same class
@@ -177,7 +297,8 @@ class PBModel:
             Initial conditions for the model. The length of this list should be equal to the number of model state variables.
         
         method : str
-            The integration method to be use; options include 'RK45' (Runge Kutta) and 'euler'. Default is 'RK45'.
+            The integration method to be use; options include 'RK45' (Runge Kutta),
+            'euler', and 'euler_maruyama'. Default is 'RK45'.
 
         kwargs : dict
             Additional keyword arguments to be passed to the solver.
@@ -192,7 +313,7 @@ class PBModel:
         self.time = [0]
         # self.t_eval = None
         self.kwargs = kwargs if kwargs is not None else {}
-        if self.method == 'euler':
+        if self.method in ('euler', 'euler_maruyama'):
             assert 'dt' in kwargs, "Please provide a time step for the Euler method."
 
         # Define the structured array
@@ -218,6 +339,24 @@ class PBModel:
         if self.method == 'euler':
             solution = euler_method(self.dydt, self.t_span,self.y0[:len(self.integrated_state_vars)],  kwargs['dt'],
                                     args=self.params)
+        elif self.method == 'euler_maruyama':
+            seed = kwargs.get('random_seed', None)
+            self.rng = np.random.default_rng(seed) if seed is not None else np.random.default_rng()
+
+            if hasattr(self, 'sde_noise') and callable(getattr(self, 'sde_noise')):
+                noise_func = self.sde_noise
+            else:
+                noise_func = lambda _t, x: np.zeros_like(np.asarray(x, dtype=float))
+
+            solution = euler_maruyama_method(
+                self.dydt,
+                self.t_span,
+                self.y0[:len(self.integrated_state_vars)],
+                kwargs['dt'],
+                noise_func=noise_func,
+                rng=self.rng,
+                args=self.params,
+            )
 
         else:
             solution = solve_ivp(self.dydt, self.t_span,

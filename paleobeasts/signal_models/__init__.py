@@ -10,3 +10,4 @@ from .lorenz96 import *
 from .stommel import *
 from .daisyworld import *
 from .methane_d13c import *
+from .melcher2025_do import *

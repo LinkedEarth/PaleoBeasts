@@ -105,3 +105,59 @@ def euler_method(f, t_span, y0, dt, args=()):
 
     solution = Solution(t, y)
     return solution
+
+
+def euler_maruyama_method(f, t_span, y0, dt, noise_func=None, rng=None, args=()):
+    """
+    Solves an SDE using fixed-step Euler-Maruyama integration.
+
+    Parameters
+    ----------
+    f : callable
+        Drift function with signature f(t, y, *args).
+    t_span : tuple[float, float]
+        Integration bounds (t0, tf).
+    y0 : array-like
+        Initial state vector.
+    dt : float
+        Fixed timestep.
+    noise_func : callable or None
+        Function returning per-state diffusion scale at (t, y) with signature
+        noise_func(t, y). If None, deterministic Euler is recovered.
+    rng : np.random.Generator or None
+        Random generator used for Wiener increments.
+    args : tuple
+        Extra positional args passed to f.
+    """
+    n_steps = int((t_span[1] - t_span[0]) / dt) + 1
+    t = np.linspace(t_span[0], t_span[1], n_steps)
+    y = np.zeros((n_steps, len(y0)))
+    y[0] = y0
+
+    if rng is None:
+        rng = np.random.default_rng()
+
+    sqrt_dt = np.sqrt(dt)
+
+    for i in range(1, n_steps):
+        t_prev = t[i - 1]
+        y_prev = y[i - 1]
+        if args is not None:
+            dy = np.asarray(f(t_prev, y_prev, *args), dtype=float)
+        else:
+            dy = np.asarray(f(t_prev, y_prev), dtype=float)
+
+        if noise_func is None:
+            diffusion = np.zeros_like(y_prev, dtype=float)
+        else:
+            diffusion = np.asarray(noise_func(t_prev, y_prev), dtype=float)
+            if diffusion.shape != y_prev.shape:
+                raise ValueError(
+                    "noise_func must return diffusion vector with same shape as state."
+                )
+
+        dW = rng.normal(0.0, 1.0, size=len(y_prev)) * sqrt_dt
+        y[i] = y_prev + dy * dt + diffusion * dW
+
+    solution = Solution(t, y)
+    return solution
