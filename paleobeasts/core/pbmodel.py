@@ -63,6 +63,8 @@ class PBModel:
         self.run_name = None
         self.time_util = lambda t: t
         self.rng = None
+        self._noise_originals = {}
+        self._noisy_vars = set()
 
     def __setattr__(self, name, value):
         object.__setattr__(self, name, value)
@@ -276,13 +278,96 @@ class PBModel:
         """Populate diagnostic arrays from a solved trajectory."""
         return None
 
+    def finalize_diagnostics(self):
+        """Convert diagnostic containers to NumPy arrays."""
+        for var in self.diagnostic_variables.keys():
+            self.diagnostic_variables[var] = np.asarray(self.diagnostic_variables[var])
+
+    def validate_initial_state(self, y0):
+        """Validate and normalize the initial state vector."""
+        y0_arr = np.asarray(y0, dtype=float).reshape(-1)
+        n_integrated = len(self.integrated_state_vars)
+        if n_integrated > 0 and y0_arr.size < n_integrated:
+            raise ValueError(
+                f"Initial state length {y0_arr.size} is smaller than the number of integrated "
+                f"state variables ({n_integrated})."
+            )
+        if len(self.state_variables_names) > 0 and y0_arr.size != len(self.state_variables_names):
+            raise ValueError(
+                f"Initial state length {y0_arr.size} does not match declared state variable "
+                f"count ({len(self.state_variables_names)})."
+            )
+        return y0_arr
+
+    def get_param_vector(self, name, t, state, size):
+        """Resolve a parameter and broadcast it to a fixed vector length."""
+        value = self.get_param(name, t, state)
+        if np.isscalar(value):
+            return np.full(int(size), float(value), dtype=float)
+        arr = np.asarray(value, dtype=float).reshape(-1)
+        if arr.size != int(size):
+            raise ValueError(
+                f"Parameter '{name}' resolved to size {arr.size}, expected size {int(size)}."
+            )
+        return arr
+
     def post_integrate(self, time, history):
         """Post-solve hook for models that derive outputs from solved histories."""
         self.state_variables = self.build_state_from_history(time, history)
         self.time = np.asarray(time, dtype=float)
         self.populate_diagnostics_from_history(time, history)
-        for var in self.diagnostic_variables.keys():
-            self.diagnostic_variables[var] = np.asarray(self.diagnostic_variables[var])
+        self.finalize_diagnostics()
+
+    def get_series_by_name(self, var_name):
+        if self.state_variables is not None and self.state_variables_names and var_name in self.state_variables_names:
+            return np.asarray(self.state_variables[var_name], dtype=float), "state"
+        if var_name in self.diagnostic_variables:
+            return np.asarray(self.diagnostic_variables[var_name], dtype=float), "diagnostic"
+        raise ValueError(f"{var_name} not found in state variables or diagnostics.")
+
+    def add_noise(self, var_name, noise_ts):
+        """Add externally provided noise to an emitted variable.
+
+        Parameters
+        ----------
+        var_name : str
+            Name of a state or diagnostic variable.
+        noise_ts : array-like
+            Noise series with the same shape as the target variable.
+        """
+        values, location = self.get_series_by_name(var_name)
+        noise_arr = np.asarray(noise_ts, dtype=float)
+        if noise_arr.shape != values.shape:
+            raise ValueError(
+                f"Noise shape {noise_arr.shape} does not match variable shape {values.shape} for '{var_name}'."
+            )
+
+        if var_name not in self._noise_originals:
+            self._noise_originals[var_name] = values.copy()
+
+        noisy = values + noise_arr
+        if location == "state":
+            self.state_variables[var_name] = noisy
+        else:
+            self.diagnostic_variables[var_name] = noisy
+        self._noisy_vars.add(var_name)
+
+    def remove_noise(self, var_name):
+        """Restore a variable previously modified with ``add_noise``."""
+        if var_name not in self._noise_originals:
+            raise ValueError(f"No stored clean version for '{var_name}'.")
+        original = self._noise_originals[var_name]
+        _, location = self.get_series_by_name(var_name)
+        if location == "state":
+            self.state_variables[var_name] = original
+        else:
+            self.diagnostic_variables[var_name] = original
+        self._noise_originals.pop(var_name, None)
+        self._noisy_vars.discard(var_name)
+
+    def _reset_noise_overlays(self):
+        self._noise_originals = {}
+        self._noisy_vars = set()
 
     def integrate(self, t_span=None, y0=None, method='RK45', kwargs=None, run_name=None):
         '''Integrates the model over a given time span.
@@ -311,10 +396,14 @@ class PBModel:
         self.solution = None
         self.method = method
         self.time = [0]
+        self._reset_noise_overlays()
         # self.t_eval = None
         self.kwargs = kwargs if kwargs is not None else {}
         if self.method in ('euler', 'euler_maruyama'):
             assert 'dt' in kwargs, "Please provide a time step for the Euler method."
+
+        y0 = self.validate_initial_state(y0)
+        self.y0 = y0
 
         # Define the structured array
         if len(self.state_variables_names) > 0:
@@ -324,7 +413,10 @@ class PBModel:
             dtype = [type(val) for i, val in enumerate(self.y0)]
             self.dtypes = dtype
 
-        array = np.array(self.y0, dtype=dtype)
+        if len(self.state_variables_names) > 0:
+            array = np.array([tuple(self.y0)], dtype=dtype)
+        else:
+            array = np.array(self.y0, dtype=dtype)
         self.state_variables = array
 
         if kwargs is None:
@@ -379,8 +471,7 @@ class PBModel:
             self.state_variables = self.state_variables[1:]
             self.time = np.array(self.time)
 
-            for var in self.diagnostic_variables.keys():
-                self.diagnostic_variables[var] = np.array(self.diagnostic_variables[var])
+            self.finalize_diagnostics()
 
     def to_pyleo(self,var_names=None):
         '''Function to create a pyleoclim Series object from a state variable.
@@ -406,9 +497,16 @@ class PBModel:
                 value = self.diagnostic_variables[var_name]
             else:
                 raise ValueError(f"{var_name} not found. Please check the state variables or diagnostics.")
+
+            time = np.asarray(self.time)
+            value = np.asarray(value)
+            if len(time) != len(value):
+                n = min(len(time), len(value))
+                time = time[:n]
+                value = value[:n]
                         
             series = Series(
-                time = self.time,
+                time = time,
                 value = value,
                 value_name = var_name,
                 verbose=False,
