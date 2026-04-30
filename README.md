@@ -1,5 +1,12 @@
 # PaleoBeasts
-A bestiary of minimal paleoclimate models and the scars that taphonomy carves on their hides
+A bestiary of minimal paleoclimate models and the scars that taphonomy carves on their hides.
+
+## Rationale
+Much of the progress in [strong inference]() in modern biology derives from the study of model organisms: non-human species extensively studied to understand fundamental biological phenomena. Then findings often translate to other organisms, including humans. These model organisms (model models?) are still lacking the climate world of climate modeling, despite [influential calls to explore this framework](https://doi.org/10.1175/BAMS-86-11-1609). The purpose of `PaleoBeasts` is to gather a collection of existing, simple models illuminating key aspects of climate dynamics (chaos, multiple equilibria, energy balance, etc) using a unified interface that makes it easy to experiment with those models, including:
+- exploring sensitivity via parameter sweeps
+- exploring taphonomic effects like observational noise, bioturbation or age errors
+- 
+
 
 General Structure:
 
