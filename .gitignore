@@ -1,9 +1,11 @@
+
 __pycache__
 .DS_store
 *.egg-info
 /notes_for_codex/
 /.idea/
 /build/
+
 ### JupyterNotebooks template
 # gitignore template for Jupyter Notebooks
 # website: http://jupyter.org/
@@ -258,3 +260,4 @@ fabric.properties
 
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
+
