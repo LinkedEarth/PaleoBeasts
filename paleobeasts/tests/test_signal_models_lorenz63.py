@@ -13,6 +13,7 @@ Notes on how to test:
 5. for more details, see https://docs.pytest.org/en/stable/usage.html
 '''
 
+import numpy as np
 import pytest
 import paleobeasts as pb
 
@@ -45,3 +46,34 @@ class TestSignalModelsLorenz63toPyleo:
         model = lorenz.Lorenz63(forcing=forcing)
         model.integrate(t_span=(0, 10), y0=[1, 1, 1], method=method, kwargs=kwargs)
         model.to_pyleo(var_names=var_names)
+
+
+class TestSignalModelsLorenz63TimeVaryingParams:
+    def test_time_varying_params_match_constants_t0(self):
+        forcing = pb.core.Forcing(lambda t: 0.0)
+
+        model_const = lorenz.Lorenz63(forcing=forcing, sigma=10.0, rho=28.0, beta=8 / 3)
+        model_tv = lorenz.Lorenz63(
+            forcing=forcing,
+            sigma=lambda t, x, m: 10.0,
+            rho=lambda t: 28.0,
+            beta=lambda x, t: 8 / 3,
+        )
+
+        t_span = (0, 0.05)
+        kwargs = {'dt': 0.01}
+        model_const.integrate(t_span=t_span, y0=[1, 1, 1], method='euler', kwargs=kwargs)
+        model_tv.integrate(t_span=t_span, y0=[1, 1, 1], method='euler', kwargs=kwargs)
+
+        const_last = np.array([
+            model_const.state_variables['x'][-1],
+            model_const.state_variables['y'][-1],
+            model_const.state_variables['z'][-1],
+        ])
+        tv_last = np.array([
+            model_tv.state_variables['x'][-1],
+            model_tv.state_variables['y'][-1],
+            model_tv.state_variables['z'][-1],
+        ])
+
+        assert np.allclose(const_last, tv_last, rtol=1e-8, atol=1e-10)

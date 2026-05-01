@@ -1,0 +1,243 @@
+"""Stocker & Johnsen (2003) thermal bipolar seesaw model.
+
+This module implements a minimum thermodynamic model in which a southern
+temperature anomaly responds to a prescribed northern anomaly with a single
+timescale:
+
+    dTs/dt = (beta * Tn(t) - Ts) / tau
+"""
+
+from __future__ import annotations
+
+import numpy as np
+
+from ..core.pbmodel import PBModel
+
+
+class Stocker2003BipolarSeesaw(PBModel):
+    """Minimum thermodynamic model for the thermal bipolar seesaw."""
+
+    def __init__(
+        self,
+        forcing=None,
+        var_name="stocker2003_bipolar_seesaw",
+        tau=1000.0,
+        beta=-1.0,
+        Tn=0.0,
+        state_variables=None,
+        diagnostic_variables=None,
+        *args,
+        **kwargs,
+    ):
+        if state_variables is None:
+            state_variables = ["Ts"]
+        if diagnostic_variables is None:
+            diagnostic_variables = ["Tn"]
+
+        super().__init__(
+            forcing,
+            var_name,
+            state_variables=state_variables,
+            diagnostic_variables=diagnostic_variables,
+            *args,
+            **kwargs,
+        )
+
+        self.tau = tau
+        self.beta = beta
+        self.Tn = Tn
+        self.param_values = {
+            "tau": tau,
+            "beta": beta,
+            "Tn": Tn,
+        }
+        self.params = ()
+
+    def uses_post_history(self):
+        return True
+
+    def dydt(self, t, x):
+        Ts = float(np.asarray(x, dtype=float)[0])
+        tau = float(self.get_param("tau", t, x))
+        if tau <= 0:
+            raise ValueError("tau must be > 0.")
+        beta = float(self.get_param("beta", t, x))
+        if self.forcing is not None:
+            Tn_t = float(self.forcing.get_forcing(self.time_util(t)))
+        else:
+            Tn_t = float(self.get_param("Tn", t, x))
+        dTsdt = (beta * Tn_t - Ts) / tau
+        return [dTsdt]
+
+    def populate_diagnostics_from_history(self, time, history):
+        time = np.asarray(time, dtype=float)
+        history = np.asarray(history, dtype=float)
+        Tn_vals = []
+        for t, row in zip(time, history):
+            if self.forcing is not None:
+                Tn_vals.append(float(self.forcing.get_forcing(self.time_util(t))))
+            else:
+                Tn_vals.append(float(self.get_param("Tn", t, row)))
+        Tn_vals = np.asarray(Tn_vals, dtype=float)
+        self.diagnostic_variables = {"Tn": Tn_vals}
+
+
+class Stocker2003ExtendedSeaIceSeesaw(PBModel):
+    """Extended Stocker-style model with reservoir, Southern Ocean, sea-ice, and Antarctic states.
+
+    The model integrates four coupled ODEs with prescribed northern forcing T_N(t):
+
+        tau_R * dT_R/dt   = -(T_R - T_N) + epsilon_R
+        tau_S * dT_S/dt   = kappa*(T_R - T_S) - lambda_S*(T_S - T_S0) + alpha*(1 - A) + epsilon_S
+        tau_A * dA/dt     = -beta*(T_S - T_S0) - gamma*A*(1-A)*(T_S - T_c) + epsilon_A
+        tau_ANT * dT_ANT/dt = delta*(T_S - T_ANT) + eta*(1-A) + epsilon_ANT
+
+    Sea-ice area fraction ``A`` is physically constrained to [0, 1] via:
+    - outward-derivative suppression at boundaries in ``dydt``
+    - post-solve clipping in ``build_state_from_history``
+    """
+
+    def __init__(
+        self,
+        forcing=None,
+        var_name="stocker2003_extended_seaice_seesaw",
+        tau_R=300.0,
+        tau_S=1200.0,
+        tau_A=100.0,
+        tau_ANT=20.0,
+        kappa=1.0,
+        lambda_S=0.2,
+        alpha=0.3,
+        beta=0.2,
+        gamma=4.0,
+        delta=1.0,
+        eta=0.2,
+        T_S0=0.0,
+        T_c=0.0,
+        T_N=0.0,
+        epsilon_R=0.0,
+        epsilon_S=0.0,
+        epsilon_A=0.0,
+        epsilon_ANT=0.0,
+        state_variables=None,
+        diagnostic_variables=None,
+        *args,
+        **kwargs,
+    ):
+        if state_variables is None:
+            state_variables = ["T_R", "T_S", "A", "T_ANT"]
+        if diagnostic_variables is None:
+            diagnostic_variables = ["T_N"]
+
+        super().__init__(
+            forcing,
+            var_name,
+            state_variables=state_variables,
+            diagnostic_variables=diagnostic_variables,
+            *args,
+            **kwargs,
+        )
+
+        self.tau_R = tau_R
+        self.tau_S = tau_S
+        self.tau_A = tau_A
+        self.tau_ANT = tau_ANT
+        self.kappa = kappa
+        self.lambda_S = lambda_S
+        self.alpha = alpha
+        self.beta = beta
+        self.gamma = gamma
+        self.delta = delta
+        self.eta = eta
+        self.T_S0 = T_S0
+        self.T_c = T_c
+        self.T_N = T_N
+        self.epsilon_R = epsilon_R
+        self.epsilon_S = epsilon_S
+        self.epsilon_A = epsilon_A
+        self.epsilon_ANT = epsilon_ANT
+
+        self.param_values = {
+            "tau_R": tau_R,
+            "tau_S": tau_S,
+            "tau_A": tau_A,
+            "tau_ANT": tau_ANT,
+            "kappa": kappa,
+            "lambda_S": lambda_S,
+            "alpha": alpha,
+            "beta": beta,
+            "gamma": gamma,
+            "delta": delta,
+            "eta": eta,
+            "T_S0": T_S0,
+            "T_c": T_c,
+            "T_N": T_N,
+            "epsilon_R": epsilon_R,
+            "epsilon_S": epsilon_S,
+            "epsilon_A": epsilon_A,
+            "epsilon_ANT": epsilon_ANT,
+        }
+        self.params = ()
+
+    def uses_post_history(self):
+        return True
+
+    def resolve_north(self, t, state):
+        if self.forcing is not None:
+            return float(self.forcing.get_forcing(self.time_util(t)))
+        return float(self.get_param("T_N", t, state))
+
+    def dydt(self, t, x):
+        state = np.asarray(x, dtype=float).reshape(-1)
+        T_R, T_S, A, T_ANT = [float(v) for v in state]
+        A_eff = float(np.clip(A, 0.0, 1.0))
+
+        tau_R = float(self.get_param("tau_R", t, state))
+        tau_S = float(self.get_param("tau_S", t, state))
+        tau_A = float(self.get_param("tau_A", t, state))
+        tau_ANT = float(self.get_param("tau_ANT", t, state))
+        for name, value in (("tau_R", tau_R), ("tau_S", tau_S), ("tau_A", tau_A), ("tau_ANT", tau_ANT)):
+            if value <= 0.0:
+                raise ValueError(f"{name} must be > 0.")
+
+        kappa = float(self.get_param("kappa", t, state))
+        lambda_s = float(self.get_param("lambda_S", t, state))
+        alpha = float(self.get_param("alpha", t, state))
+        beta = float(self.get_param("beta", t, state))
+        gamma = float(self.get_param("gamma", t, state))
+        delta = float(self.get_param("delta", t, state))
+        eta = float(self.get_param("eta", t, state))
+        T_S0 = float(self.get_param("T_S0", t, state))
+        T_c = float(self.get_param("T_c", t, state))
+        T_N = self.resolve_north(t, state)
+        eps_R = float(self.get_param("epsilon_R", t, state))
+        eps_S = float(self.get_param("epsilon_S", t, state))
+        eps_A = float(self.get_param("epsilon_A", t, state))
+        eps_ANT = float(self.get_param("epsilon_ANT", t, state))
+
+        dT_R = (-(T_R - T_N) + eps_R) / tau_R
+        dT_S = (kappa * (T_R - T_S) - lambda_s * (T_S - T_S0) + alpha * (1.0 - A_eff) + eps_S) / tau_S
+        dA = (-beta * (T_S - T_S0) - gamma * A_eff * (1.0 - A_eff) * (T_S - T_c) + eps_A) / tau_A
+        dT_ANT = (delta * (T_S - T_ANT) + eta * (1.0 - A_eff) + eps_ANT) / tau_ANT
+
+        if A_eff <= 0.0 and dA < 0.0:
+            dA = 0.0
+        elif A_eff >= 1.0 and dA > 0.0:
+            dA = 0.0
+
+        return [dT_R, dT_S, dA, dT_ANT]
+
+    def build_state_from_history(self, time, history):
+        state = super().build_state_from_history(time, history)
+        if isinstance(state, np.ndarray) and state.dtype.names is not None and "A" in state.dtype.names:
+            state["A"] = np.clip(state["A"], 0.0, 1.0)
+        return state
+
+    def populate_diagnostics_from_history(self, time, history):
+        time = np.asarray(time, dtype=float)
+        history = np.asarray(history, dtype=float)
+        Tn_vals = []
+        for t, row in zip(time, history):
+            Tn_vals.append(self.resolve_north(t, row))
+        self.diagnostic_variables = {"T_N": np.asarray(Tn_vals, dtype=float)}
+

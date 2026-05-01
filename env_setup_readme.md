@@ -5,7 +5,7 @@ To setup the environment, run the following commands in the terminal:
 ```
 conda install -n base conda-libmamba-solver
 conda config --set solver libmamba
-conda env create -f env.yml
+conda env create -f env_jpl.yml
 
 conda activate pb_env
 conda install ipykernel    

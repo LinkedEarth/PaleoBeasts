@@ -68,6 +68,36 @@ class Solution:
         self.t = t
         self.y = y
 
+
+def validate_monotonic_grid(values, name="grid"):
+    """Validate a strictly increasing 1D coordinate array."""
+    arr = np.asarray(values, dtype=float).reshape(-1)
+    if arr.size < 2:
+        raise ValueError(f"{name} must contain at least two points.")
+    diffs = np.diff(arr)
+    if np.any(diffs <= 0.0):
+        raise ValueError(f"{name} must be strictly increasing.")
+    return arr
+
+
+def validate_layer_thicknesses(dz, n_layers=None):
+    """Validate positive layer thicknesses."""
+    dz_arr = np.asarray(dz, dtype=float).reshape(-1)
+    if n_layers is not None and dz_arr.size != int(n_layers):
+        raise ValueError(f"Layer thickness size {dz_arr.size} does not match n_layers={int(n_layers)}.")
+    if np.any(dz_arr <= 0.0):
+        raise ValueError("All layer thicknesses must be > 0.")
+    return dz_arr
+
+
+def flux_divergence(face_fluxes, dz):
+    """Compute finite-volume tendency from face fluxes and layer thicknesses."""
+    flux_arr = np.asarray(face_fluxes, dtype=float).reshape(-1)
+    dz_arr = np.asarray(dz, dtype=float).reshape(-1)
+    if flux_arr.size != dz_arr.size + 1:
+        raise ValueError("face_fluxes must have length n_layers + 1.")
+    return -(flux_arr[1:] - flux_arr[:-1]) / dz_arr
+
 def define_t_eval(t_span, delta_t=None, num_points=None):
     t_eval = None
     if num_points is not None:
@@ -102,6 +132,62 @@ def euler_method(f, t_span, y0, dt, args=()):
         else:
             dy = f(t[i - 1], y[i - 1])
         y[i] = y[i - 1] + np.multiply(dy, dt)
+
+    solution = Solution(t, y)
+    return solution
+
+
+def euler_maruyama_method(f, t_span, y0, dt, noise_func=None, rng=None, args=()):
+    """
+    Solves an SDE using fixed-step Euler-Maruyama integration.
+
+    Parameters
+    ----------
+    f : callable
+        Drift function with signature f(t, y, *args).
+    t_span : tuple[float, float]
+        Integration bounds (t0, tf).
+    y0 : array-like
+        Initial state vector.
+    dt : float
+        Fixed timestep.
+    noise_func : callable or None
+        Function returning per-state diffusion scale at (t, y) with signature
+        noise_func(t, y). If None, deterministic Euler is recovered.
+    rng : np.random.Generator or None
+        Random generator used for Wiener increments.
+    args : tuple
+        Extra positional args passed to f.
+    """
+    n_steps = int((t_span[1] - t_span[0]) / dt) + 1
+    t = np.linspace(t_span[0], t_span[1], n_steps)
+    y = np.zeros((n_steps, len(y0)))
+    y[0] = y0
+
+    if rng is None:
+        rng = np.random.default_rng()
+
+    sqrt_dt = np.sqrt(dt)
+
+    for i in range(1, n_steps):
+        t_prev = t[i - 1]
+        y_prev = y[i - 1]
+        if args is not None:
+            dy = np.asarray(f(t_prev, y_prev, *args), dtype=float)
+        else:
+            dy = np.asarray(f(t_prev, y_prev), dtype=float)
+
+        if noise_func is None:
+            diffusion = np.zeros_like(y_prev, dtype=float)
+        else:
+            diffusion = np.asarray(noise_func(t_prev, y_prev), dtype=float)
+            if diffusion.shape != y_prev.shape:
+                raise ValueError(
+                    "noise_func must return diffusion vector with same shape as state."
+                )
+
+        dW = rng.normal(0.0, 1.0, size=len(y_prev)) * sqrt_dt
+        y[i] = y_prev + dy * dt + diffusion * dW
 
     solution = Solution(t, y)
     return solution

@@ -6,8 +6,10 @@ Naming rules:
 '''
 
 import numpy as np
+import pytest
 import paleobeasts as pb
 
+from paleobeasts.core.pbmodel import PBModel
 from paleobeasts.signal_models import lorenz
 
 
@@ -39,3 +41,120 @@ class TestCorePBModelReframeTimeAxis:
 
         assert len(reframed) == len(t_eval)
         assert np.allclose(model.time, t_eval)
+
+
+class _PostHistoryModel(PBModel):
+    def __init__(self):
+        super().__init__(forcing=None, variable_name='post_history', state_variables=['x'],
+                         diagnostic_variables=['x_squared'])
+
+    def uses_post_history(self):
+        return True
+
+    def dydt(self, t, x):
+        return [-x[0]]
+
+    def populate_diagnostics_from_history(self, time, history):
+        self.diagnostic_variables['x_squared'] = history[:, 0] ** 2
+
+
+class TestCorePBModelPostHistoryHooks:
+    def test_post_history_model_integrates_t0(self):
+        model = _PostHistoryModel()
+        model.integrate(t_span=(0, 1), y0=[1.0], method='euler', kwargs={'dt': 0.1})
+
+        assert model.state_variables.dtype.names == ('x',)
+        assert len(model.time) == len(model.diagnostic_variables['x_squared'])
+        assert np.isclose(model.state_variables['x'][0], 1.0)
+
+
+class _ParamContractModel(PBModel):
+    def __init__(self, parameter_contract='legacy', coeff=1.0):
+        super().__init__(
+            forcing=None,
+            variable_name='param_contract',
+            state_variables=['x'],
+            diagnostic_variables=[],
+            parameter_contract=parameter_contract,
+        )
+        self.coeff = coeff
+        self.param_values = {'coeff': coeff}
+
+    def dydt(self, t, x):
+        coeff = self.get_param('coeff', t, x)
+        return [coeff * x[0]]
+
+
+class TestCorePBModelParameterContract:
+    def test_parameter_contract_validation_t0(self):
+        with pytest.raises(ValueError):
+            _ParamContractModel(parameter_contract='not-a-mode')
+
+    def test_strict_contract_accepts_supported_signatures_t0(self):
+        model_t = _ParamContractModel(parameter_contract='strict', coeff=lambda t: 2.0)
+        model_ts = _ParamContractModel(parameter_contract='strict', coeff=lambda t, state: 2.0)
+        model_tsm = _ParamContractModel(parameter_contract='strict', coeff=lambda t, state, model: 2.0)
+
+        assert model_t.get_param('coeff', 0.0, [1.0]) == 2.0
+        assert model_ts.get_param('coeff', 0.0, [1.0]) == 2.0
+        assert model_tsm.get_param('coeff', 0.0, [1.0]) == 2.0
+
+    def test_strict_contract_rejects_legacy_signature_t0(self):
+        model = _ParamContractModel(parameter_contract='strict', coeff=lambda model, state: 2.0)
+        with pytest.raises(TypeError):
+            model.get_param('coeff', 0.0, [1.0])
+
+    def test_legacy_contract_warns_on_non_strict_signature_t0(self):
+        model = _ParamContractModel(parameter_contract='legacy', coeff=lambda model, state: 2.0)
+        with pytest.warns(DeprecationWarning):
+            out = model.get_param('coeff', 0.0, [1.0])
+        assert out == 2.0
+
+    def test_attribute_assignment_syncs_param_values_t0(self):
+        model = _ParamContractModel(parameter_contract='legacy', coeff=1.0)
+        model.coeff = lambda t: 3.0
+        assert model.param_values['coeff'](0.0) == 3.0
+
+
+class _FunctionSwapModel(PBModel):
+    def __init__(self):
+        super().__init__(forcing=None, variable_name='function_swap', state_variables=['x'])
+
+    def calc_term(self, value):
+        return value + 1
+
+
+class TestCorePBModelSetFunction:
+    def test_set_function_plain_callable_t0(self):
+        model = _FunctionSwapModel()
+
+        def plain_calc_term(value):
+            return value + 5
+
+        model.set_function('calc_term', plain_calc_term)
+        assert model.calc_term(2) == 7
+
+    def test_set_function_bound_callable_t1(self):
+        model = _FunctionSwapModel()
+
+        def bound_calc_term(self, value):
+            return value + 9
+
+        model.set_function('calc_term', bound_calc_term)
+        assert model.calc_term(1) == 10
+
+    def test_set_function_force_bind_t2(self):
+        model = _FunctionSwapModel()
+
+        def bound_calc_term(self, value):
+            return value + 4
+
+        model.set_function('calc_term', bound_calc_term, bind=True)
+        assert model.calc_term(3) == 7
+
+    def test_set_function_errors_t3(self):
+        model = _FunctionSwapModel()
+        with pytest.raises(AttributeError):
+            model.set_function('missing_function', lambda x: x)
+        with pytest.raises(TypeError):
+            model.set_function('calc_term', 123)

@@ -33,16 +33,21 @@ class EBM(PBModel):
     var_name : str
         Name of the variable being modeled. Default is 'temperature'.
 
-    OLR : function
+    OLR : float or function or pb.Forcing
         Function that calculates the outgoing longwave radiation as a function of temperature. Default is the Stefan-Boltzmann law with prad=650, ps=1000.
         To specify different values, pass OLR_func(pRad, ps) where pRad is the radiative forcing and ps is the surface pressure.
 
-    C : float
+    C : float or callable or pb.Forcing
         Heat capacity of the Earth's surface. Default is 4.
 
-    albedo : float or function
+    albedo : float or function or pb.Forcing
         Albedo of the Earth's surface. Default is 0.3.
 
+    Notes
+    -----
+    Parameters may be constants, callables, or ``pb.Forcing`` objects. Callables can use
+    common signatures such as ``(t)``, ``(t, state)``, ``(t, state, model)``,
+    ``(model, state)``, or ``(state)``.
 
     """
     def __init__(self, forcing, state_variables= ['T'],
@@ -54,11 +59,17 @@ class EBM(PBModel):
         self.forcing = forcing
         self.variable_name = var_name
         self.C = C
-        self.params = None  # (f1, f2, t1, t2, vc)
+        self.params = ()
         self.albedo = albedo
         self.OLR = OLR if OLR is not None else OLR_func()
         self.merid_diff = merid_diff
         self.phi = np.linspace(-np.pi / 2, np.pi / 2, 100)
+        self.param_values = {
+            'C': self.C,
+            'albedo': self.albedo,
+            'OLR': self.OLR,
+            'merid_diff': self.merid_diff,
+        }
 
     def dydt(self, t, x):
 
@@ -70,11 +81,12 @@ class EBM(PBModel):
         # 1/4 factor because Earth emits radiation over full surface (4πR2)
         # but at any given time only receives incoming (solar) radiation over its cross-sectional area, πR2
         f_solar_incoming = self.forcing.get_forcing(t)
-        albedo = self.calc_albedo(T)
+        albedo = self.calc_albedo(T, t)
         absorbed_SW = (1 - albedo) * f_solar_incoming/4
-        OLR = self.calc_OLR(T)
+        OLR = self.calc_OLR(T, t)
 
-        dTdt = 1 / self.C * (absorbed_SW - OLR + self.calc_merid_diff(T))
+        C = self.calc_C(T, t)
+        dTdt = 1 / C * (absorbed_SW - OLR + self.calc_merid_diff(T, t))
 
         new_row = np.array([(T)], dtype=self.dtypes)
         self.state_variables = np.concatenate([self.state_variables, new_row], axis=0)
@@ -88,26 +100,17 @@ class EBM(PBModel):
 
         return [dTdt]
 
-    def calc_OLR(self, T):
-        return self.OLR(T)
+    def calc_OLR(self, T, t):
+        return self.get_param('OLR', t, T)
 
-    def calc_albedo(self, T):
-        if callable(self.albedo):
-            return self.albedo(self, T)  # albedo is a function of temperature
-        else:
-            return self.albedo  # albedo is a constant
+    def calc_albedo(self, T, t):
+        return self.get_param('albedo', t, T)
 
-    def calc_merid_diff(self, T):
-        if callable(self.merid_diff):
-            return self.merid_diff(self, T)
-        else:
-            return self.merid_diff
+    def calc_merid_diff(self, T, t):
+        return self.get_param('merid_diff', t, T)
 
-    def calc_C(self, T):
-        if callable(self.C):
-            return self.C(self, T)
-        else:
-            return self.C
+    def calc_C(self, T, t):
+        return self.get_param('C', t, T)
 
 
 
