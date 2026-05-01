@@ -68,6 +68,36 @@ class Solution:
         self.t = t
         self.y = y
 
+
+def validate_monotonic_grid(values, name="grid"):
+    """Validate a strictly increasing 1D coordinate array."""
+    arr = np.asarray(values, dtype=float).reshape(-1)
+    if arr.size < 2:
+        raise ValueError(f"{name} must contain at least two points.")
+    diffs = np.diff(arr)
+    if np.any(diffs <= 0.0):
+        raise ValueError(f"{name} must be strictly increasing.")
+    return arr
+
+
+def validate_layer_thicknesses(dz, n_layers=None):
+    """Validate positive layer thicknesses."""
+    dz_arr = np.asarray(dz, dtype=float).reshape(-1)
+    if n_layers is not None and dz_arr.size != int(n_layers):
+        raise ValueError(f"Layer thickness size {dz_arr.size} does not match n_layers={int(n_layers)}.")
+    if np.any(dz_arr <= 0.0):
+        raise ValueError("All layer thicknesses must be > 0.")
+    return dz_arr
+
+
+def flux_divergence(face_fluxes, dz):
+    """Compute finite-volume tendency from face fluxes and layer thicknesses."""
+    flux_arr = np.asarray(face_fluxes, dtype=float).reshape(-1)
+    dz_arr = np.asarray(dz, dtype=float).reshape(-1)
+    if flux_arr.size != dz_arr.size + 1:
+        raise ValueError("face_fluxes must have length n_layers + 1.")
+    return -(flux_arr[1:] - flux_arr[:-1]) / dz_arr
+
 def define_t_eval(t_span, delta_t=None, num_points=None):
     t_eval = None
     if num_points is not None:
