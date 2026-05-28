@@ -11,3 +11,4 @@ from .forcing_utils import *
 from .solver import *
 from .noise import *
 from .constants import *
+from .synthetic_series import *
