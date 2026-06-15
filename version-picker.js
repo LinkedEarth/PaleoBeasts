@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const a = document.createElement('a');
     a.className = 'dropdown-item' + (v === current ? ' active' : '');
     a.href = '#';
+    a.setAttribute('data-version', v);
     a.textContent = v;
     a.addEventListener('click', (e) => {
       e.preventDefault();
