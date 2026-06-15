@@ -4,6 +4,11 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag to rebuild (e.g. v0.1.0b1). Leave empty to use current HEAD.'
+        required: false
+        type: string
 
 jobs:
   build-deploy:
@@ -12,10 +17,18 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Resolve version
+        run: |
+          if [ -n "${{ inputs.version }}" ]; then
+            echo "RELEASE_VERSION=${{ inputs.version }}" >> $GITHUB_ENV
+          else
+            echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+          fi
 
-      - name: Extract version
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version || github.ref }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -60,7 +73,7 @@ jobs:
           destination_dir: ${{ env.RELEASE_VERSION }}
           keep_files: true
 
-      - name: Update /stable/ and versions.json
+      - name: Update /stable/, versions.json, and version-picker.js
         run: |
           cp -r docs/_site /tmp/site_build
 
@@ -70,15 +83,19 @@ jobs:
           git fetch origin gh-pages
           git checkout gh-pages
 
-          # copy release build to stable/ (symlinks don't work on GitHub Pages)
-          rm -rf stable
-          cp -r /tmp/site_build stable
+          # update shared version picker (fixes all deployed versions at once)
+          cp docs/gh-pages-root/version-picker.js version-picker.js
+          git add version-picker.js
 
-          # append version to versions.json (create if missing)
-          if [ ! -f versions.json ]; then
-            echo "[]" > versions.json
-          fi
-          python3 -c "
+          # only update stable/ and versions.json for real version tags (not bare workflow_dispatch)
+          if [[ "${{ env.RELEASE_VERSION }}" == v* ]]; then
+            rm -rf stable
+            cp -r /tmp/site_build stable
+
+            if [ ! -f versions.json ]; then
+              echo "[]" > versions.json
+            fi
+            python3 -c "
           import json
           v = '${{ env.RELEASE_VERSION }}'
           versions = json.load(open('versions.json'))
@@ -86,9 +103,10 @@ jobs:
               versions.insert(0, v)
           json.dump(versions, open('versions.json', 'w'), indent=2)
           "
+            git add stable versions.json
+          fi
 
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add stable versions.json
-          git commit -m "docs: stable -> ${{ env.RELEASE_VERSION }}"
+          git diff --cached --quiet || git commit -m "docs: stable -> ${{ env.RELEASE_VERSION }}"
           git push origin gh-pages
