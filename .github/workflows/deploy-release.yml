@@ -76,8 +76,10 @@ jobs:
       - name: Update /stable/, versions.json, and version-picker.js
         run: |
           cp -r docs/_site /tmp/site_build
-          cp docs/gh-pages-root/version-picker.js /tmp/version-picker.js
-          cp docs/gh-pages-root/index.html /tmp/gh-pages-index.html
+          # always pull root files from main, not the release tag (they may not exist on old tags)
+          git fetch origin main
+          git show origin/main:docs/gh-pages-root/version-picker.js > /tmp/version-picker.js
+          git show origin/main:docs/gh-pages-root/index.html > /tmp/gh-pages-index.html
 
           # discard build artifacts (e.g. docs/objects.txt) so checkout doesn't abort
           git checkout -- .
