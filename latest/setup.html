@@ -33,7 +33,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./thumbnails/ClimateCritters_logo.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -84,8 +83,9 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">ClimateCritters</span>
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./thumbnails/logo_beta_horiz_cropped.png" alt="ClimateCritters" class="navbar-logo light-content">
+    <img src="./thumbnails/logo_beta_horiz_cropped.png" alt="ClimateCritters" class="navbar-logo dark-content">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -153,6 +153,8 @@ quarto add machow/quartodoc</code></pre>
 <p>Pages and figures are handled separately. Figures do not get regenerated on build, nor do notebooks get rerun.</p>
 <p>To rebuild the pages:</p>
 <pre><code>cd docs
+python scripts/sync_notebooks.py
+python scripts/generate_tutorials_index.py
 quartodoc build
 quarto render</code></pre>
 <p>This will produce a _site folder and you can inspect the built documentation by opening <code>index.html</code> in a browser.</p>
@@ -162,6 +164,7 @@ quarto render</code></pre>
 </section>
 <section id="deploy" class="level2">
 <h2 class="anchored" data-anchor-id="deploy">Deploy</h2>
+<p>Site will be built and deployed automatically via github actions when changes are pushed to <code>main</code> or a release is made. Additionally, a build can be triggered manually via github actions.</p>
 
 
 </section>

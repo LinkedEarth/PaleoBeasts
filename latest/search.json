@@ -18,14 +18,14 @@
     "href": "setup.html#build",
     "title": "ClimateCritters",
     "section": "Build",
-    "text": "Build\nPages and figures are handled separately. Figures do not get regenerated on build, nor do notebooks get rerun.\nTo rebuild the pages:\ncd docs\nquartodoc build\nquarto render\nThis will produce a _site folder and you can inspect the built documentation by opening index.html in a browser.\nTo regenerate the figures:\npython scripts/make_doc_figures.py\nNotebooks will be added as-is."
+    "text": "Build\nPages and figures are handled separately. Figures do not get regenerated on build, nor do notebooks get rerun.\nTo rebuild the pages:\ncd docs\npython scripts/sync_notebooks.py\npython scripts/generate_tutorials_index.py\nquartodoc build\nquarto render\nThis will produce a _site folder and you can inspect the built documentation by opening index.html in a browser.\nTo regenerate the figures:\npython scripts/make_doc_figures.py\nNotebooks will be added as-is."
   },
   {
     "objectID": "setup.html#deploy",
     "href": "setup.html#deploy",
     "title": "ClimateCritters",
     "section": "Deploy",
-    "text": "Deploy"
+    "text": "Deploy\nSite will be built and deployed automatically via github actions when changes are pushed to main or a release is made. Additionally, a build can be triggered manually via github actions."
   },
   {
     "objectID": "notebooks/functionality_demos/noise_demo.html",
