@@ -1,0 +1,31 @@
+# core.forcing.ResolvedSegment { #climatecritters.core.forcing.ResolvedSegment }
+
+```python
+core.forcing.ResolvedSegment(kind, t0, tf, y0, yf, eval_mode, params)
+```
+
+Immutable record describing one compiled segment of a `ForcingSequence`.
+
+Users do not construct this directly.
+
+## Attributes {.doc-section .doc-section-attributes}
+
+<code>[**kind**]{.parameter-name} [:]{.parameter-annotation-sep} [[str](`str`)]{.parameter-annotation}</code>
+
+:   Element kind (``'hold'``, ``'ramp'``, ``'harmonic'``, ``'func'``).
+
+<code>[**t0, tf**]{.parameter-name} [:]{.parameter-annotation-sep} [[float](`float`)]{.parameter-annotation}</code>
+
+:   Absolute start and end times in model time units.
+
+<code>[**y0, yf**]{.parameter-name} [:]{.parameter-annotation-sep} [[float](`float`)]{.parameter-annotation}</code>
+
+:   Forcing value at ``t0`` and ``tf``.
+
+<code>[**eval_mode**]{.parameter-name} [:]{.parameter-annotation-sep} [[str](`str`)]{.parameter-annotation}</code>
+
+:   Evaluation rule (``'constant'``, ``'linear'``, ``'cosine'``, ``'harmonic'``, ``'func'``).
+
+<code>[**params**]{.parameter-name} [:]{.parameter-annotation-sep} [[dict](`dict`)]{.parameter-annotation}</code>
+
+:   Mode-specific evaluation parameters (e.g. amplitude, omega, callable).

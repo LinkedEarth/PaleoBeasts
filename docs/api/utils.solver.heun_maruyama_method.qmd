@@ -1,0 +1,84 @@
+# utils.solver.heun_maruyama_method { #climatecritters.utils.solver.heun_maruyama_method }
+
+```python
+utils.solver.heun_maruyama_method(
+    f,
+    t_span,
+    y0,
+    dt,
+    noise_func=None,
+    rng=None,
+    args=(),
+)
+```
+
+Fixed-step Heun-Maruyama integrator for stochastic differential equations.
+
+A predictor-corrector scheme that achieves strong order 1.0 for SDEs with
+additive noise (diffusion independent of state) and weak order 2.0.  This
+is a meaningful improvement over :func:`euler_maruyama_method` (strong
+order 0.5) when transition timing is the quantity of interest, as in
+bistable climate models.
+
+Solves:
+
+    dy = f(t, y) dt + g(t, y) dW
+
+using the two-stage Heun scheme::
+
+    ỹ  = y  + f(t, y) dt + g(t, y) dW          (Euler predictor)
+    y' = y  + ½[f(t, y) + f(t+dt, ỹ)] dt
+            + ½[g(t, y) + g(t+dt, ỹ)] dW       (Heun corrector)
+
+A single Wiener increment ``dW`` is shared between predictor and corrector
+steps, which is the standard approach for strong convergence.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**f**]{.parameter-name} [:]{.parameter-annotation-sep} [[callable](`callable`)]{.parameter-annotation}</code>
+
+:   Drift function with signature ``f(t, y, *args)``.
+
+<code>[**t_span**]{.parameter-name} [:]{.parameter-annotation-sep} [tuple of float]{.parameter-annotation}</code>
+
+:   ``(t0, tf)`` integration bounds.
+
+<code>[**y0**]{.parameter-name} [:]{.parameter-annotation-sep} [[array](`array`) - [like](`like`)]{.parameter-annotation}</code>
+
+:   Initial state vector.
+
+<code>[**dt**]{.parameter-name} [:]{.parameter-annotation-sep} [[float](`float`)]{.parameter-annotation}</code>
+
+:   Fixed timestep.
+
+<code>[**noise_func**]{.parameter-name} [:]{.parameter-annotation-sep} [[callable](`callable`) or None]{.parameter-annotation} [ = ]{.parameter-default-sep} [None]{.parameter-default}</code>
+
+:   Diffusion function with signature ``noise_func(t, y)``, returning a vector of per-state diffusion scales.  If ``None``, the stochastic term is zero and the Heun deterministic ODE solver is recovered.
+
+<code>[**rng**]{.parameter-name} [:]{.parameter-annotation-sep} [[numpy](`numpy`).[random](`numpy.random`).[Generator](`numpy.random.Generator`) or None]{.parameter-annotation} [ = ]{.parameter-default-sep} [None]{.parameter-default}</code>
+
+:   Random generator for Wiener increments.  A fresh generator is created if ``None``.
+
+<code>[**args**]{.parameter-name} [:]{.parameter-annotation-sep} [[tuple](`tuple`)]{.parameter-annotation} [ = ]{.parameter-default-sep} [()]{.parameter-default}</code>
+
+:   Extra positional arguments forwarded to ``f``.
+
+## Returns {.doc-section .doc-section-returns}
+
+<code>[**solution**]{.parameter-name} [:]{.parameter-annotation-sep} [[Solution](`climatecritters.utils.solver.Solution`)]{.parameter-annotation}</code>
+
+:   Object with attributes ``t`` (time axis) and ``y`` (state trajectory).
+
+## Raises {.doc-section .doc-section-raises}
+
+<code>[:]{.parameter-annotation-sep} [[ValueError](`ValueError`)]{.parameter-annotation}</code>
+
+:   If ``noise_func`` returns a vector whose shape does not match the state vector.
+
+## Notes {.doc-section .doc-section-notes}
+
+For purely additive noise (``g`` constant or state-independent) this
+scheme achieves strong order 1.0.  For multiplicative noise (``g``
+depends on ``y``) strong order drops back toward 0.5 but weak order 2.0
+is retained, still outperforming Euler-Maruyama in distribution-level
+statistics.  See Rößler (2010) for a full convergence analysis.

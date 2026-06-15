@@ -1,0 +1,29 @@
+# utils.solver.flux_divergence { #climatecritters.utils.solver.flux_divergence }
+
+```python
+utils.solver.flux_divergence(face_fluxes, dz)
+```
+
+Compute finite-volume tendency from face fluxes and layer thicknesses.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**face_fluxes**]{.parameter-name} [:]{.parameter-annotation-sep} [([array](`array`) - [like](`like`), [shape](`shape`)([n_layers](`n_layers`) + 1))]{.parameter-annotation}</code>
+
+:   Fluxes at cell faces.
+
+<code>[**dz**]{.parameter-name} [:]{.parameter-annotation-sep} [([array](`array`) - [like](`like`), [shape](`shape`)([n_layers](`n_layers`)))]{.parameter-annotation}</code>
+
+:   Layer thicknesses.
+
+## Returns {.doc-section .doc-section-returns}
+
+<code>[**tendency**]{.parameter-name} [:]{.parameter-annotation-sep} [([ndarray](`ndarray`), [shape](`shape`)([n_layers](`n_layers`)))]{.parameter-annotation}</code>
+
+:   Per-layer tendency ``-(flux_out - flux_in) / dz``.
+
+## Raises {.doc-section .doc-section-raises}
+
+<code>[:]{.parameter-annotation-sep} [[ValueError](`ValueError`)]{.parameter-annotation}</code>
+
+:   If ``face_fluxes`` does not have length ``n_layers + 1``.

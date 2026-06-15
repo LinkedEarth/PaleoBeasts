@@ -1,0 +1,17 @@
+# utils.solver.Solution { #climatecritters.utils.solver.Solution }
+
+```python
+utils.solver.Solution(t, y)
+```
+
+Minimal container for the output of a fixed-step integrator.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**t**]{.parameter-name} [:]{.parameter-annotation-sep} [([ndarray](`ndarray`), [shape](`shape`)([n_steps](`n_steps`)))]{.parameter-annotation}</code>
+
+:   Time axis.
+
+<code>[**y**]{.parameter-name} [:]{.parameter-annotation-sep} [([ndarray](`ndarray`), [shape](`shape`)([n_steps](`n_steps`), [n_vars](`n_vars`)))]{.parameter-annotation}</code>
+
+:   State trajectory; row ``i`` is the state at ``t[i]``.

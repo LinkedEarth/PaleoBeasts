@@ -1,0 +1,49 @@
+# utils.noise.from_series { #climatecritters.utils.noise.from_series }
+
+```python
+utils.noise.from_series(target_series, method, number=1, seed=None, label=None)
+```
+
+Generate surrogate series matched to a target Pyleoclim series.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**target_series**]{.parameter-name} [:]{.parameter-annotation-sep} [[pyleoclim](`pyleoclim`).[Series](`pyleoclim.Series`)]{.parameter-annotation}</code>
+
+:   Target series used to infer surrogate properties (time axis, autocorrelation structure, etc.).
+
+<code>[**method**]{.parameter-name} [:]{.parameter-annotation-sep} [[str](`str`)]{.parameter-annotation}</code>
+
+:   Surrogate method.  Supported values: ``'ar1sim'``, ``'phaseran'``, ``'uar1'``.
+
+<code>[**number**]{.parameter-name} [:]{.parameter-annotation-sep} [[int](`int`)]{.parameter-annotation} [ = ]{.parameter-default-sep} [1]{.parameter-default}</code>
+
+:   Number of surrogate realizations to generate.  Default 1.
+
+<code>[**seed**]{.parameter-name} [:]{.parameter-annotation-sep} [[int](`int`) or None]{.parameter-annotation} [ = ]{.parameter-default-sep} [None]{.parameter-default}</code>
+
+:   Random seed for reproducibility.  Default ``None``.
+
+<code>[**label**]{.parameter-name} [:]{.parameter-annotation-sep} [[str](`str`) or None]{.parameter-annotation} [ = ]{.parameter-default-sep} [None]{.parameter-default}</code>
+
+:   Label attached to the returned ``SurrogateSeries``.  Default ``None``.
+
+## Returns {.doc-section .doc-section-returns}
+
+<code>[**surr**]{.parameter-name} [:]{.parameter-annotation-sep} [[pyleoclim](`pyleoclim`).[SurrogateSeries](`pyleoclim.SurrogateSeries`)]{.parameter-annotation}</code>
+
+:   Surrogate series object; ``surr.series_list`` contains ``number`` series.
+
+## See also {.doc-section .doc-section-see-also}
+
+pyleoclim.SurrogateSeries : Underlying surrogate generator.
+
+## Examples {.doc-section .doc-section-examples}
+
+```python
+import pyleoclim as pyleo
+from climatecritters.utils.noise import from_series
+
+soi = pyleo.utils.load_dataset('SOI')
+surr = from_series(soi, method='ar1sim', number=10, seed=42)
+```

@@ -1,0 +1,44 @@
+# utils.solver.euler_method { #climatecritters.utils.solver.euler_method }
+
+```python
+utils.solver.euler_method(f, t_span, y0, dt, args=(), post_step=None)
+```
+
+Fixed-step forward Euler integrator.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**f**]{.parameter-name} [:]{.parameter-annotation-sep} [[callable](`callable`)]{.parameter-annotation}</code>
+
+:   Derivative function with signature ``f(t, y, *args)``.
+
+<code>[**t_span**]{.parameter-name} [:]{.parameter-annotation-sep} [tuple of float]{.parameter-annotation}</code>
+
+:   ``(t0, tf)`` integration bounds.
+
+<code>[**y0**]{.parameter-name} [:]{.parameter-annotation-sep} [[array](`array`) - [like](`like`)]{.parameter-annotation}</code>
+
+:   Initial state vector.
+
+<code>[**dt**]{.parameter-name} [:]{.parameter-annotation-sep} [[float](`float`)]{.parameter-annotation}</code>
+
+:   Fixed timestep.
+
+<code>[**args**]{.parameter-name} [:]{.parameter-annotation-sep} [[tuple](`tuple`)]{.parameter-annotation} [ = ]{.parameter-default-sep} [()]{.parameter-default}</code>
+
+:   Extra positional arguments forwarded to ``f``.
+
+<code>[**post_step**]{.parameter-name} [:]{.parameter-annotation-sep} [[callable](`callable`) or None]{.parameter-annotation} [ = ]{.parameter-default-sep} [None]{.parameter-default}</code>
+
+:   Optional hook called after each accepted step with signature ``post_step(t, y) -> y``.  The returned array replaces the current state, allowing post-step corrections (e.g. state nudging).
+
+## Returns {.doc-section .doc-section-returns}
+
+<code>[**solution**]{.parameter-name} [:]{.parameter-annotation-sep} [[Solution](`climatecritters.utils.solver.Solution`)]{.parameter-annotation}</code>
+
+:   Object with attributes ``t`` (time axis) and ``y`` (state trajectory).
+
+## Notes {.doc-section .doc-section-notes}
+
+Forward Euler is first-order accurate and can be unstable for stiff
+systems or large ``dt``.  Prefer :func:`rk4_method` for most applications.

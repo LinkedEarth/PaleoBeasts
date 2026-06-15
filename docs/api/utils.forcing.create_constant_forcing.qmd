@@ -1,0 +1,33 @@
+# utils.forcing.create_constant_forcing { #climatecritters.utils.forcing.create_constant_forcing }
+
+```python
+utils.forcing.create_constant_forcing(value, duration=None)
+```
+
+Build a constant forcing.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**value**]{.parameter-name} [:]{.parameter-annotation-sep} [[float](`float`)]{.parameter-annotation}</code>
+
+:   The constant value returned for all ``t``.
+
+<code>[**duration**]{.parameter-name} [:]{.parameter-annotation-sep} [[float](`float`)]{.parameter-annotation} [ = ]{.parameter-default-sep} [None]{.parameter-default}</code>
+
+:   If given, returns a :class:`~climatecritters.core.ForcingElement`. If omitted, returns an indefinite :class:`~climatecritters.core.Forcing`.
+
+## Returns {.doc-section .doc-section-returns}
+
+<code>[]{.parameter-name} [:]{.parameter-annotation-sep} [[Forcing](`climatecritters.core.forcing.Forcing`) or [ForcingElement](`climatecritters.core.forcing.ForcingElement`)]{.parameter-annotation}</code>
+
+:   
+
+## Examples {.doc-section .doc-section-examples}
+
+```python
+from climatecritters.utils.forcing import create_constant_forcing
+
+f = create_constant_forcing(8.0)
+print(f.get_forcing(0.0))    # 8.0
+print(f.get_forcing(999.9))  # 8.0
+```

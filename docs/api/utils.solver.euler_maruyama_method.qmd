@@ -1,0 +1,68 @@
+# utils.solver.euler_maruyama_method { #climatecritters.utils.solver.euler_maruyama_method }
+
+```python
+utils.solver.euler_maruyama_method(
+    f,
+    t_span,
+    y0,
+    dt,
+    noise_func=None,
+    rng=None,
+    args=(),
+    post_step=None,
+)
+```
+
+Fixed-step Euler-Maruyama integrator for stochastic differential equations.
+
+Solves:
+
+    dy = f(t, y) dt + noise_func(t, y) dW
+
+where ``dW`` is a Wiener increment with variance ``dt``.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**f**]{.parameter-name} [:]{.parameter-annotation-sep} [[callable](`callable`)]{.parameter-annotation}</code>
+
+:   Drift function with signature ``f(t, y, *args)``.
+
+<code>[**t_span**]{.parameter-name} [:]{.parameter-annotation-sep} [tuple of float]{.parameter-annotation}</code>
+
+:   ``(t0, tf)`` integration bounds.
+
+<code>[**y0**]{.parameter-name} [:]{.parameter-annotation-sep} [[array](`array`) - [like](`like`)]{.parameter-annotation}</code>
+
+:   Initial state vector.
+
+<code>[**dt**]{.parameter-name} [:]{.parameter-annotation-sep} [[float](`float`)]{.parameter-annotation}</code>
+
+:   Fixed timestep.
+
+<code>[**noise_func**]{.parameter-name} [:]{.parameter-annotation-sep} [[callable](`callable`) or None]{.parameter-annotation} [ = ]{.parameter-default-sep} [None]{.parameter-default}</code>
+
+:   Diffusion function with signature ``noise_func(t, y)``, returning a vector of per-state diffusion scales.  If ``None``, the stochastic term is zero and deterministic Euler is recovered.
+
+<code>[**rng**]{.parameter-name} [:]{.parameter-annotation-sep} [[numpy](`numpy`).[random](`numpy.random`).[Generator](`numpy.random.Generator`) or None]{.parameter-annotation} [ = ]{.parameter-default-sep} [None]{.parameter-default}</code>
+
+:   Random generator for Wiener increments.  A fresh generator is created if ``None``.
+
+<code>[**args**]{.parameter-name} [:]{.parameter-annotation-sep} [[tuple](`tuple`)]{.parameter-annotation} [ = ]{.parameter-default-sep} [()]{.parameter-default}</code>
+
+:   Extra positional arguments forwarded to ``f``.
+
+<code>[**post_step**]{.parameter-name} [:]{.parameter-annotation-sep} [[callable](`callable`) or None]{.parameter-annotation} [ = ]{.parameter-default-sep} [None]{.parameter-default}</code>
+
+:   Optional hook called after each accepted step with signature ``post_step(t, y) -> y``.  The returned array replaces the current state, allowing post-step corrections (e.g. state nudging).
+
+## Returns {.doc-section .doc-section-returns}
+
+<code>[**solution**]{.parameter-name} [:]{.parameter-annotation-sep} [[Solution](`climatecritters.utils.solver.Solution`)]{.parameter-annotation}</code>
+
+:   Object with attributes ``t`` (time axis) and ``y`` (state trajectory).
+
+## Raises {.doc-section .doc-section-raises}
+
+<code>[:]{.parameter-annotation-sep} [[ValueError](`ValueError`)]{.parameter-annotation}</code>
+
+:   If ``noise_func`` returns a vector whose shape does not match the state vector.

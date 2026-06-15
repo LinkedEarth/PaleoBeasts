@@ -1,0 +1,37 @@
+# utils.solver.validate_initial_state { #climatecritters.utils.solver.validate_initial_state }
+
+```python
+utils.solver.validate_initial_state(
+    y0,
+    integrated_state_vars,
+    state_variables_names,
+)
+```
+
+Validate and normalize the initial state vector.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**y0**]{.parameter-name} [:]{.parameter-annotation-sep} [[array](`array`) - [like](`like`)]{.parameter-annotation}</code>
+
+:   Proposed initial state.
+
+<code>[**integrated_state_vars**]{.parameter-name} [:]{.parameter-annotation-sep} [[list](`list`)]{.parameter-annotation}</code>
+
+:   Names of integrated (ODE) state variables.
+
+<code>[**state_variables_names**]{.parameter-name} [:]{.parameter-annotation-sep} [[list](`list`)]{.parameter-annotation}</code>
+
+:   All declared state variable names.
+
+## Returns {.doc-section .doc-section-returns}
+
+<code>[**y0_arr**]{.parameter-name} [:]{.parameter-annotation-sep} [[ndarray](`ndarray`)]{.parameter-annotation}</code>
+
+:   Validated, flattened float array.
+
+## Raises {.doc-section .doc-section-raises}
+
+<code>[:]{.parameter-annotation-sep} [[ValueError](`ValueError`)]{.parameter-annotation}</code>
+
+:   If the length of ``y0`` is inconsistent with the declared state variable counts.

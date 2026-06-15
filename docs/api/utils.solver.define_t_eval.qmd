@@ -1,0 +1,33 @@
+# utils.solver.define_t_eval { #climatecritters.utils.solver.define_t_eval }
+
+```python
+utils.solver.define_t_eval(t_span, delta_t=None, num_points=None)
+```
+
+Build a ``t_eval`` array for use with :func:`scipy.integrate.solve_ivp`.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**t_span**]{.parameter-name} [:]{.parameter-annotation-sep} [tuple of float]{.parameter-annotation}</code>
+
+:   ``(t0, tf)`` integration bounds.
+
+<code>[**delta_t**]{.parameter-name} [:]{.parameter-annotation-sep} [[float](`float`) or None]{.parameter-annotation} [ = ]{.parameter-default-sep} [None]{.parameter-default}</code>
+
+:   Output spacing.  Used when ``num_points`` is not provided.
+
+<code>[**num_points**]{.parameter-name} [:]{.parameter-annotation-sep} [[int](`int`) or None]{.parameter-annotation} [ = ]{.parameter-default-sep} [None]{.parameter-default}</code>
+
+:   Number of evenly-spaced output points.  Takes precedence over ``delta_t`` when both are provided.
+
+## Returns {.doc-section .doc-section-returns}
+
+<code>[**t_eval**]{.parameter-name} [:]{.parameter-annotation-sep} [[ndarray](`ndarray`)]{.parameter-annotation}</code>
+
+:   1-D array of output times.
+
+## Raises {.doc-section .doc-section-raises}
+
+<code>[:]{.parameter-annotation-sep} [[ValueError](`ValueError`)]{.parameter-annotation}</code>
+
+:   If neither ``delta_t`` nor ``num_points`` is provided.

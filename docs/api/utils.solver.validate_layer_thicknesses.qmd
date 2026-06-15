@@ -1,0 +1,29 @@
+# utils.solver.validate_layer_thicknesses { #climatecritters.utils.solver.validate_layer_thicknesses }
+
+```python
+utils.solver.validate_layer_thicknesses(dz, n_layers=None)
+```
+
+Validate positive layer thicknesses.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**dz**]{.parameter-name} [:]{.parameter-annotation-sep} [[array](`array`) - [like](`like`)]{.parameter-annotation}</code>
+
+:   Layer thickness values.
+
+<code>[**n_layers**]{.parameter-name} [:]{.parameter-annotation-sep} [[int](`int`) or None]{.parameter-annotation} [ = ]{.parameter-default-sep} [None]{.parameter-default}</code>
+
+:   Expected number of layers.  If provided, the size of ``dz`` must match.  Default ``None`` (no size check).
+
+## Returns {.doc-section .doc-section-returns}
+
+<code>[**dz_arr**]{.parameter-name} [:]{.parameter-annotation-sep} [[ndarray](`ndarray`)]{.parameter-annotation}</code>
+
+:   Validated, flattened float array.
+
+## Raises {.doc-section .doc-section-raises}
+
+<code>[:]{.parameter-annotation-sep} [[ValueError](`ValueError`)]{.parameter-annotation}</code>
+
+:   If the size does not match ``n_layers`` or any thickness is ≤ 0.

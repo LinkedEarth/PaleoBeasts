@@ -1,0 +1,164 @@
+# core.CCOutput { #climatecritters.core.CCOutput }
+
+```python
+core.CCOutput(
+    time,
+    state_variables,
+    state_variable_names,
+    diagnostic_variables,
+    solution,
+    run_name,
+)
+```
+
+Container for the results of one call to ``CCModel.integrate()``.
+
+``CCOutput`` carries the full trajectory produced by the solver and
+exposes output-focused operations (noise addition, pyleoclim export,
+time resampling).  Keeping these on the output rather than on the model
+means a single model instance can produce multiple independent outputs
+without them overwriting each other.
+
+## Attributes {.doc-section .doc-section-attributes}
+
+<code>[**model_time**]{.parameter-name} [:]{.parameter-annotation-sep} [ndarray of float]{.parameter-annotation}</code>
+
+:   Raw time axis as returned by the solver.  Never modified after construction; inspect this to understand the solver's actual grid.
+
+<code>[**time**]{.parameter-name} [:]{.parameter-annotation-sep} [ndarray of float]{.parameter-annotation}</code>
+
+:   User-facing time axis.  Starts equal to ``model_time``; replaced by ``reframe_time_axis`` when a different grid is requested. ``state_variables`` is always aligned to ``time``.
+
+<code>[**state_variables**]{.parameter-name} [:]{.parameter-annotation-sep} [structured ndarray]{.parameter-annotation}</code>
+
+:   Named state variable arrays, indexed by variable name.
+
+<code>[**state_variable_names**]{.parameter-name} [:]{.parameter-annotation-sep} [list of str]{.parameter-annotation}</code>
+
+:   Ordered list of state variable names.
+
+<code>[**diagnostic_variables**]{.parameter-name} [:]{.parameter-annotation-sep} [dict of str → ndarray]{.parameter-annotation}</code>
+
+:   Named diagnostic arrays.
+
+<code>[**solution**]{.parameter-name} [:]{.parameter-annotation-sep} [[object](`object`)]{.parameter-annotation}</code>
+
+:   Raw solver output (retained for dense-output resampling via ``reframe_time_axis``).
+
+<code>[**run_name**]{.parameter-name} [:]{.parameter-annotation-sep} [[str](`str`)]{.parameter-annotation}</code>
+
+:   Label for this integration run.
+
+## Methods
+
+| Name | Description |
+| --- | --- |
+| [add_noise](#climatecritters.core.CCOutput.add_noise) | Add externally provided noise to an output variable. |
+| [get_series_by_name](#climatecritters.core.CCOutput.get_series_by_name) | Return a variable's array and its storage location. |
+| [reframe_time_axis](#climatecritters.core.CCOutput.reframe_time_axis) | Resample state variables onto a new time axis. |
+| [remove_noise](#climatecritters.core.CCOutput.remove_noise) | Restore a variable to its pre-noise values. |
+| [to_pyleo](#climatecritters.core.CCOutput.to_pyleo) | Export one or more variables as pyleoclim Series objects. |
+
+### add_noise { #climatecritters.core.CCOutput.add_noise }
+
+```python
+core.CCOutput.add_noise(var_name, noise_ts)
+```
+
+Add externally provided noise to an output variable.
+
+The unmodified values are saved on the first call so that
+``remove_noise`` can restore the clean series.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+<code>[**var_name**]{.parameter-name} [:]{.parameter-annotation-sep} [[str](`str`)]{.parameter-annotation}</code>
+
+:   Name of a state or diagnostic variable.
+
+<code>[**noise_ts**]{.parameter-name} [:]{.parameter-annotation-sep} [[array](`array`) - [like](`like`)]{.parameter-annotation}</code>
+
+:   Noise series with the same shape as the target variable.
+
+### get_series_by_name { #climatecritters.core.CCOutput.get_series_by_name }
+
+```python
+core.CCOutput.get_series_by_name(var_name)
+```
+
+Return a variable's array and its storage location.
+
+State variables live in a structured numpy array; diagnostic
+variables live in a dict.  Returning the location string lets
+callers that write back (e.g. ``add_noise``) know which container
+to update.
+
+#### Returns {.doc-section .doc-section-returns}
+
+<code>[**values**]{.parameter-name} [:]{.parameter-annotation-sep} [ndarray of float]{.parameter-annotation}</code>
+
+:   
+
+<code>[**location**]{.parameter-name} [:]{.parameter-annotation-sep} [{\'state\', \'diagnostic\'}]{.parameter-annotation}</code>
+
+:   
+
+### reframe_time_axis { #climatecritters.core.CCOutput.reframe_time_axis }
+
+```python
+core.CCOutput.reframe_time_axis(t_eval)
+```
+
+Resample state variables onto a new time axis.
+
+Uses the dense output from ``solve_ivp`` when available (accurate
+polynomial interpolation); falls back to linear interpolation for
+fixed-step solvers.
+
+After this call, ``time`` is replaced by ``t_eval`` and
+``state_variables`` is replaced by the interpolated values.
+``model_time`` is never modified and always reflects the solver's
+original grid.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+<code>[**t_eval**]{.parameter-name} [:]{.parameter-annotation-sep} [[array](`array`) - [like](`like`)]{.parameter-annotation}</code>
+
+:   Target time axis.
+
+#### Returns {.doc-section .doc-section-returns}
+
+<code>[**reframed**]{.parameter-name} [:]{.parameter-annotation-sep} [structured ndarray or ndarray]{.parameter-annotation}</code>
+
+:   Resampled state variables on ``t_eval``.
+
+### remove_noise { #climatecritters.core.CCOutput.remove_noise }
+
+```python
+core.CCOutput.remove_noise(var_name)
+```
+
+Restore a variable to its pre-noise values.
+
+Reverses ``add_noise`` by replacing the noisy array with the
+clean copy saved on the first ``add_noise`` call.
+
+### to_pyleo { #climatecritters.core.CCOutput.to_pyleo }
+
+```python
+core.CCOutput.to_pyleo(var_names=None)
+```
+
+Export one or more variables as pyleoclim Series objects.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+<code>[**var_names**]{.parameter-name} [:]{.parameter-annotation-sep} [str or list of str]{.parameter-annotation} [ = ]{.parameter-default-sep} [None]{.parameter-default}</code>
+
+:   Name(s) of state or diagnostic variable(s) to export.
+
+#### Returns {.doc-section .doc-section-returns}
+
+<code>[]{.parameter-name} [:]{.parameter-annotation-sep} [[pyleoclim](`pyleoclim`).[Series](`pyleoclim.Series`) or [pyleoclim](`pyleoclim`).[MultipleSeries](`pyleoclim.MultipleSeries`)]{.parameter-annotation}</code>
+
+:   

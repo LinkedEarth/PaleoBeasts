@@ -1,0 +1,84 @@
+# utils.solver.milstein_method { #climatecritters.utils.solver.milstein_method }
+
+```python
+utils.solver.milstein_method(
+    f,
+    t_span,
+    y0,
+    dt,
+    noise_func=None,
+    rng=None,
+    args=(),
+)
+```
+
+Fixed-step Milstein integrator for stochastic differential equations.
+
+Achieves strong order 1.0 for both additive *and* multiplicative noise
+(diagonal diffusion), making it the right choice when ``sde_noise``
+depends on the state.  For additive noise it reduces to Euler-Maruyama
+plus a zero correction; prefer :func:`heun_maruyama_method` in that case
+as it also improves the drift approximation.
+
+Solves:
+
+    dy = f(t, y) dt + g(t, y) dW
+
+using the Milstein correction::
+
+    y' = y + f dt + g dW + ½ g (∂g/∂y)(dW² - dt)
+
+The derivative ``∂g/∂y`` is approximated element-wise by a forward
+finite difference with step ``h = √ε · max(1, |y|)``, so no analytical
+Jacobian is required from the model author.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**f**]{.parameter-name} [:]{.parameter-annotation-sep} [[callable](`callable`)]{.parameter-annotation}</code>
+
+:   Drift function with signature ``f(t, y, *args)``.
+
+<code>[**t_span**]{.parameter-name} [:]{.parameter-annotation-sep} [tuple of float]{.parameter-annotation}</code>
+
+:   ``(t0, tf)`` integration bounds.
+
+<code>[**y0**]{.parameter-name} [:]{.parameter-annotation-sep} [[array](`array`) - [like](`like`)]{.parameter-annotation}</code>
+
+:   Initial state vector.
+
+<code>[**dt**]{.parameter-name} [:]{.parameter-annotation-sep} [[float](`float`)]{.parameter-annotation}</code>
+
+:   Fixed timestep.
+
+<code>[**noise_func**]{.parameter-name} [:]{.parameter-annotation-sep} [[callable](`callable`) or None]{.parameter-annotation} [ = ]{.parameter-default-sep} [None]{.parameter-default}</code>
+
+:   Diffusion function with signature ``noise_func(t, y)``, returning a vector of per-state diffusion scales.  If ``None``, the stochastic term is zero and forward Euler is recovered.
+
+<code>[**rng**]{.parameter-name} [:]{.parameter-annotation-sep} [[numpy](`numpy`).[random](`numpy.random`).[Generator](`numpy.random.Generator`) or None]{.parameter-annotation} [ = ]{.parameter-default-sep} [None]{.parameter-default}</code>
+
+:   Random generator for Wiener increments.  A fresh generator is created if ``None``.
+
+<code>[**args**]{.parameter-name} [:]{.parameter-annotation-sep} [[tuple](`tuple`)]{.parameter-annotation} [ = ]{.parameter-default-sep} [()]{.parameter-default}</code>
+
+:   Extra positional arguments forwarded to ``f``.
+
+## Returns {.doc-section .doc-section-returns}
+
+<code>[**solution**]{.parameter-name} [:]{.parameter-annotation-sep} [[Solution](`climatecritters.utils.solver.Solution`)]{.parameter-annotation}</code>
+
+:   Object with attributes ``t`` (time axis) and ``y`` (state trajectory).
+
+## Raises {.doc-section .doc-section-raises}
+
+<code>[:]{.parameter-annotation-sep} [[ValueError](`ValueError`)]{.parameter-annotation}</code>
+
+:   If ``noise_func`` returns a vector whose shape does not match the state vector.
+
+## Notes {.doc-section .doc-section-notes}
+
+The finite-difference step uses ``h = √(machine_eps) · max(1, |yᵢ|)``
+per component, which balances truncation and floating-point cancellation
+errors.  For SDEs where an exact ``∂g/∂y`` is available, accuracy can be
+improved by subclassing and overriding the correction directly, but the
+finite-difference approximation is adequate for all current ClimateCritters
+use cases.

@@ -1,0 +1,27 @@
+# utils.solver.build_state_from_history { #climatecritters.utils.solver.build_state_from_history }
+
+```python
+utils.solver.build_state_from_history(time, history, state_variables_names)
+```
+
+Build a structured state array from a solved trajectory.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**time**]{.parameter-name} [:]{.parameter-annotation-sep} [[array](`array`) - [like](`like`)]{.parameter-annotation}</code>
+
+:   Time axis of the solution.
+
+<code>[**history**]{.parameter-name} [:]{.parameter-annotation-sep} [([array](`array`) - [like](`like`), [shape](`shape`)([n_times](`n_times`), [n_vars](`n_vars`)))]{.parameter-annotation}</code>
+
+:   Solution array.
+
+<code>[**state_variables_names**]{.parameter-name} [:]{.parameter-annotation-sep} [list of str]{.parameter-annotation}</code>
+
+:   Names of state variables used to build a structured dtype.
+
+## Returns {.doc-section .doc-section-returns}
+
+<code>[**state**]{.parameter-name} [:]{.parameter-annotation-sep} [structured ndarray or ndarray]{.parameter-annotation}</code>
+
+:   Structured array with named fields if ``state_variables_names`` is non-empty; otherwise the raw history array.

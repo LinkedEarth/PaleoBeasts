@@ -1,0 +1,29 @@
+# utils.solver.validate_monotonic_grid { #climatecritters.utils.solver.validate_monotonic_grid }
+
+```python
+utils.solver.validate_monotonic_grid(values, name='grid')
+```
+
+Validate a strictly increasing 1-D coordinate array.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**values**]{.parameter-name} [:]{.parameter-annotation-sep} [[array](`array`) - [like](`like`)]{.parameter-annotation}</code>
+
+:   Coordinate values to validate.
+
+<code>[**name**]{.parameter-name} [:]{.parameter-annotation-sep} [[str](`str`)]{.parameter-annotation} [ = ]{.parameter-default-sep} [\'grid\']{.parameter-default}</code>
+
+:   Label used in error messages.  Default ``'grid'``.
+
+## Returns {.doc-section .doc-section-returns}
+
+<code>[**arr**]{.parameter-name} [:]{.parameter-annotation-sep} [[ndarray](`ndarray`)]{.parameter-annotation}</code>
+
+:   Validated, flattened float array.
+
+## Raises {.doc-section .doc-section-raises}
+
+<code>[:]{.parameter-annotation-sep} [[ValueError](`ValueError`)]{.parameter-annotation}</code>
+
+:   If the array has fewer than 2 points or is not strictly increasing.

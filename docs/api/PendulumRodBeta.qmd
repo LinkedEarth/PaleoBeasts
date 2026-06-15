@@ -1,0 +1,31 @@
+# PendulumRodBeta { #climatecritters.PendulumRodBeta }
+
+```python
+PendulumRodBeta(m, L, damping=0.0, forcing=None)
+```
+
+Properties of one rod in a :class:`MultiPendulumBeta` chain.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**m**]{.parameter-name} [:]{.parameter-annotation-sep} [[float](`float`)]{.parameter-annotation}</code>
+
+:   Bob mass (kg or dimensionless). Must be > 0.
+
+<code>[**L**]{.parameter-name} [:]{.parameter-annotation-sep} [[float](`float`)]{.parameter-annotation}</code>
+
+:   Rod length (m or dimensionless). Must be > 0.
+
+<code>[**damping**]{.parameter-name} [:]{.parameter-annotation-sep} [[float](`float`)]{.parameter-annotation} [ = ]{.parameter-default-sep} [0.0]{.parameter-default}</code>
+
+:   Linear joint-damping coefficient applied to this rod. Must be >= 0.
+
+<code>[**forcing**]{.parameter-name} [:]{.parameter-annotation-sep} [[object](`object`)]{.parameter-annotation} [ = ]{.parameter-default-sep} [None]{.parameter-default}</code>
+
+:   Optional external torque term for this rod. May be a constant, callable, or ``cc.Forcing``-like object with ``get_forcing``.
+
+## Notes {.doc-section .doc-section-notes}
+
+``forcing`` is resolved at runtime using the same contract as
+:class:`CCModel` parameters, so constants, ``lambda t: ...`` callables,
+``lambda t, state: ...`` callables, and forcing objects are all accepted.

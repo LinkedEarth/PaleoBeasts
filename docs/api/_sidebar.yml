@@ -1,0 +1,84 @@
+website:
+  sidebar:
+  - contents:
+    - api/index.qmd
+    - contents:
+      - contents:
+        - api/core.CCModel.qmd
+        - api/core.CCOutput.qmd
+        - api/core.Forcing.qmd
+        section: Base Classes
+      - contents:
+        - api/core.forcing.ForcingElement.qmd
+        - api/core.forcing.ResolvedSegment.qmd
+        - api/core.forcing.ForcingSequence.qmd
+        - api/core.forcing.Hold.qmd
+        - api/core.forcing.Ramp.qmd
+        - api/core.forcing.Harmonic.qmd
+        section: Forcing
+      section: Core
+    - contents:
+      - contents:
+        - api/EBMBase.qmd
+        - api/EBM0D.qmd
+        - api/EBM1DLat.qmd
+        section: EBMs
+      - contents:
+        - api/BoxModelSpec.qmd
+        - api/TwoBoxCarbon.qmd
+        section: Box Models
+      - contents:
+        - api/Lorenz63.qmd
+        - api/Lorenz96.qmd
+        - api/Roessler.qmd
+        section: Lorenz & Roessler
+      - contents:
+        - api/SimplePendulum.qmd
+        - api/DoublePendulum.qmd
+        - api/MultiPendulumBeta.qmd
+        - api/PendulumRodBeta.qmd
+        - api/DampedSpring.qmd
+        section: Pendulums & Oscillators
+      - contents:
+        - api/ENSORechargeOscillator.qmd
+        - api/Model3.qmd
+        - api/Stocker2003BipolarSeesaw.qmd
+        - api/Stocker2003ExtendedSeaIceSeesaw.qmd
+        - api/Stommel.qmd
+        section: Individual Models
+      section: Models
+    - contents:
+      - contents:
+        - api/utils.noise.from_series.qmd
+        - api/utils.noise.from_param.qmd
+        section: Noise
+      - contents:
+        - api/utils.resample.downsample.qmd
+        section: Resampling
+      - contents:
+        - api/utils.forcing.create_periodic_forcing.qmd
+        - api/utils.forcing.create_constant_forcing.qmd
+        - api/utils.forcing.create_sinusoid_forcing.qmd
+        - api/utils.forcing.create_piecewise_forcing.qmd
+        section: Forcing
+      - contents:
+        - api/utils.solver.Solution.qmd
+        - api/utils.solver.rk4_method.qmd
+        - api/utils.solver.euler_method.qmd
+        - api/utils.solver.euler_maruyama_method.qmd
+        - api/utils.solver.heun_maruyama_method.qmd
+        - api/utils.solver.milstein_method.qmd
+        - api/utils.solver.define_t_eval.qmd
+        - api/utils.solver.validate_monotonic_grid.qmd
+        - api/utils.solver.validate_layer_thicknesses.qmd
+        - api/utils.solver.flux_divergence.qmd
+        - api/utils.solver.validate_initial_state.qmd
+        - api/utils.solver.build_state_from_history.qmd
+        section: Solvers
+      - contents:
+        - api/utils.func.make_derivative_func.qmd
+        - api/utils.func.smooth_and_interpolate.qmd
+        section: Functions
+      section: Utils
+    id: api
+  - id: dummy-sidebar
