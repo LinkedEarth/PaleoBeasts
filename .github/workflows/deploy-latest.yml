@@ -61,3 +61,15 @@ jobs:
           publish_dir: docs/_site
           destination_dir: latest
           keep_files: true
+
+      - name: Update shared version-picker.js at gh-pages root
+        run: |
+          git checkout -- .
+          git fetch origin gh-pages
+          git checkout gh-pages
+          cp docs/gh-pages-root/version-picker.js version-picker.js
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add version-picker.js
+          git diff --cached --quiet || git commit -m "docs: update shared version-picker.js"
+          git push origin gh-pages
