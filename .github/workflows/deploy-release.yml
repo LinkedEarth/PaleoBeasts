@@ -76,6 +76,8 @@ jobs:
       - name: Update /stable/, versions.json, and version-picker.js
         run: |
           cp -r docs/_site /tmp/site_build
+          cp docs/gh-pages-root/version-picker.js /tmp/version-picker.js
+          cp docs/gh-pages-root/index.html /tmp/gh-pages-index.html
 
           # discard build artifacts (e.g. docs/objects.txt) so checkout doesn't abort
           git checkout -- .
@@ -83,9 +85,10 @@ jobs:
           git fetch origin gh-pages
           git checkout gh-pages
 
-          # update shared version picker (fixes all deployed versions at once)
-          cp docs/gh-pages-root/version-picker.js version-picker.js
-          git add version-picker.js
+          # update shared root files (fixes picker in all deployed versions at once)
+          cp /tmp/version-picker.js version-picker.js
+          cp /tmp/gh-pages-index.html index.html
+          git add version-picker.js index.html
 
           # only update stable/ and versions.json for real version tags (not bare workflow_dispatch)
           if [[ "${{ env.RELEASE_VERSION }}" == v* ]]; then
