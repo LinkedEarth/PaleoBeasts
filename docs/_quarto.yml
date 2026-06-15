@@ -6,6 +6,7 @@ project:
     - scripts
     - figures
     - objects.txt
+    - thumbnails
   pre-render:
     - python scripts/sync_notebooks.py
     - python scripts/generate_tutorials_index.py
@@ -42,9 +43,12 @@ execute:
 website:
   title: "ClimateCritters"
   description: "Synthetic paleoclimate signal models"
-  favicon: thumbnails/ClimateCritters_logo.png
+  # favicon: thumbnails/logo_beta.png
   page-navigation: true
   navbar:
+    title: false
+    logo: thumbnails/logo_beta_horiz_cropped.png
+    logo-alt: "ClimateCritters"
     left:
       - file: get-started/installation.qmd
         text: Get Started

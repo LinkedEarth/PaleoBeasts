@@ -113,3 +113,7 @@ td:first-child a {
   margin-right: 60px;
 
 }
+
+.navbar-logo {
+  max-height: 70px;
+}
