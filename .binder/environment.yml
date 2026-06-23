@@ -1,0 +1,13 @@
+name: cc_env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.14.5
+  - jupyterlab
+  - ipykernel
+  - pip
+  - pip:
+    - setuptools
+    - git+https://github.com/LinkedEarth/Pyleoclim_util.git
+    - pandas>=2.0.0

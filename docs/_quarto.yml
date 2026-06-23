@@ -1,0 +1,288 @@
+project:
+  type: website
+  output-dir: _site
+  resources:
+    - notebooks
+    - scripts
+    - figures
+    - objects.txt
+    - thumbnails
+  pre-render:
+    - python scripts/sync_notebooks.py
+    - python scripts/generate_tutorials_index.py
+    - python scripts/inject_doc_figures.py
+
+metadata-files:
+  - api/_sidebar.yml
+
+filters:
+  - "interlinks"
+
+interlinks:
+  fast: true
+  autolink: true
+  sources:
+    numpy:
+      url: https://numpy.org/doc/stable/
+    python:
+      url: https://docs.python.org/3/
+    pyleoclim:
+      url: https://pyleoclim-util.readthedocs.io/en/latest/
+    climatecritters:
+      url: /
+      inv: objects.txt
+  aliases:
+    climatecritters.core.forcing: null
+    climatecritters.core.ccmodel: null
+    climatecritters.core.ccoutput: null
+    pandas: pd
+
+execute:
+  freeze: true
+
+website:
+  title: "ClimateCritters"
+  description: "Synthetic paleoclimate signal models"
+  # favicon: thumbnails/logo_beta.png
+  page-navigation: true
+  navbar:
+    title: false
+    logo: thumbnails/logo_beta_horiz_cropped.png
+    logo-alt: "ClimateCritters"
+    left:
+      - file: get-started/installation.qmd
+        text: Get Started
+      - file: tutorials/index.qmd
+        text: Tutorials
+      - href: api/index.qmd
+        text: Reference
+  
+    right:
+      - icon: github
+        href: https://github.com/LinkedEarth/ClimateCritters
+  
+  sidebar:
+    - id: get-started
+      title: Get Started
+      style: floating
+      align: left
+      contents:
+        - get-started/overview.qmd
+        - section: "Basic Use"
+          contents:
+          - get-started/installation.qmd
+          - get-started/quickstart.qmd
+
+        - section: "Package Design"
+          contents:
+          - section: "Core Components"
+            contents:
+            - get-started/concepts.qmd
+            - get-started/models.qmd
+
+          - section: "Utilities"
+            contents:
+              - get-started/forcing.qmd
+              - get-started/downsampling.qmd
+              - get-started/noise.qmd
+              - get-started/solvers.qmd
+
+
+    - id: tutorials
+      title: Tutorials
+      style: floating
+      align: left      
+      contents:
+        - tutorials/index.qmd
+        - section: "Getting started"
+          contents:
+            - text: "CCModel Basics"
+              href: notebooks/base_classes/ccmodel_basics.ipynb
+            - text: "Forcing Basics"
+              href: notebooks/base_classes/forcing.ipynb
+
+        - section: "Model demos"
+          contents:
+            - section: Energy Balance Models
+              contents:
+                - text: "0D"
+                  href: notebooks/model_demos/ebm0d.ipynb
+                - text: "1D (latitude)"
+                  href: notebooks/model_demos/ebm1d_lat.ipynb
+            - section: Oscillators
+              contents:
+                - text: "SimplePendulum & Spring"
+                  href: notebooks/model_demos/pendulums_and_spring.ipynb
+                - text: "Double Pendulum"
+                  href: notebooks/model_demos/double_pendulum.ipynb
+            - section: Climate 
+              contents:
+                - text: "ENSO"
+                  href: notebooks/model_demos/enso_recharge.ipynb
+                - text: "Ganopolski 2024, Model 3"
+                  href: notebooks/model_demos/g24.ipynb
+                - text: "Stommel"
+                  href: notebooks/model_demos/stommel.ipynb
+            - section: Attractors
+              contents:
+                - text: "Roessler"
+                  href: notebooks/model_demos/roessler.ipynb
+                - text: "Lorenz63"
+                  href: notebooks/model_demos/lorenz63.ipynb
+                - text: "Lorenz96"
+                  href: notebooks/model_demos/lorenz96.ipynb
+            - section: Box Models
+              contents:
+                - text: "Carbon Cycle Demo"
+                  href: notebooks/model_demos/box_models_carbon.ipynb
+
+
+        - section: "Functionality demos"
+          contents:
+            - section: "Noise"
+              contents: 
+                - notebooks/functionality_demos/noise_demo.ipynb
+                - notebooks/functionality_demos/model_noise_starter.ipynb
+            - text: "Downsampling"
+              href: notebooks/functionality_demos/downsample_starter.ipynb
+            - text: "Solvers"
+              href: notebooks/functionality_demos/solver_demo.ipynb
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 5
+    toc-location: right
+    include-after-body: _version-picker.html
+    css:
+      - api/_styles-quartodoc.css
+      - styles.css
+
+quartodoc:
+  style: pkgdown
+  dir: api
+  package: climatecritters
+  out_index: index.qmd
+  render_interlinks: true
+  renderer:
+    style: markdown
+    table_style: description-list  
+  # parser: numpy
+  # source_url: "https://github.com/LinkedEarth/ClimateCritters/blob/main/"
+  sidebar: "api/_sidebar.yml"
+  css: "api/_styles-quartodoc.css"
+
+  sections:
+    - title: Core
+
+    - subtitle: Base Classes
+      desc: |
+        Base classes underlying all models.
+      contents:
+        - core.CCModel
+        - core.CCOutput
+        - core.Forcing
+
+    - subtitle: Forcing
+      desc: |
+        Forcing elements.
+      contents:
+        - core.forcing.ForcingElement
+        - core.forcing.ResolvedSegment
+        - core.forcing.ForcingSequence
+        - core.forcing.Hold
+        - core.forcing.Ramp
+        - core.forcing.Harmonic
+
+    - title: Models
+
+    - subtitle: EBMs
+      desc: |
+        Energy balance models.
+      contents:
+        - EBMBase
+        - EBM0D
+        - EBM1DLat
+
+    - subtitle: Box Models
+      desc: |
+        Composable framework for building custom multi-reservoir models.
+      contents:
+        - BoxModelSpec
+        - TwoBoxCarbon
+
+    - subtitle: Lorenz & Roessler
+      desc: |
+        Single-scale & two-scale Lorenz atmospheric models + Roessler system.
+      contents:
+        - Lorenz63
+        - Lorenz96
+        - Roessler
+
+    - subtitle: Pendulums & Oscillators
+      desc: Mechanical oscillators ranging from simple SHM to chaotic driven pendulums.
+      contents:
+        - SimplePendulum
+        - DoublePendulum
+        - MultiPendulumBeta
+        - PendulumRodBeta
+        - DampedSpring
+
+    - subtitle: Individual Models
+      desc: |
+        Standalone paleoclimate and dynamical systems models.
+      contents:
+        - ENSORechargeOscillator
+        - Model3
+        - Stocker2003BipolarSeesaw
+        - Stocker2003ExtendedSeaIceSeesaw
+        - Stommel
+
+    - title: Utils
+
+    - subtitle: Noise
+      desc: Post-hoc observation noise and stochastic process noise generation.
+      contents:
+        - utils.noise.from_series
+        - utils.noise.from_param
+
+    - subtitle: Resampling
+      desc: |
+        Irregular downsampling utilities for paleoclimate time series.
+      contents:
+        - utils.resample.downsample
+
+    - subtitle: Forcing
+      desc: |
+        Factory functions for common Forcing patterns.
+      contents:
+        - utils.forcing.create_periodic_forcing
+        - utils.forcing.create_constant_forcing
+        - utils.forcing.create_sinusoid_forcing
+        - utils.forcing.create_piecewise_forcing
+
+    - subtitle: Solvers
+      desc: |
+        Numerical integration backends and solver helpers.
+      contents:
+        - utils.solver.Solution
+        - utils.solver.rk4_method
+        - utils.solver.euler_method
+        - utils.solver.euler_maruyama_method
+        - utils.solver.heun_maruyama_method
+        - utils.solver.milstein_method
+
+        - utils.solver.define_t_eval
+        - utils.solver.validate_monotonic_grid
+        - utils.solver.validate_layer_thicknesses
+        - utils.solver.flux_divergence
+        - utils.solver.validate_initial_state
+        - utils.solver.build_state_from_history
+
+    - subtitle: Functions
+      desc: |
+        Signal processing and interpolation utilities.
+      contents:
+        - utils.func.make_derivative_func
+        - utils.func.smooth_and_interpolate
