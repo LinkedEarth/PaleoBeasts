@@ -5,6 +5,8 @@ Naming rules:
 2. function: test_{method}_t{test_id}
 '''
 
+import warnings
+
 import numpy as np
 import pytest
 import climatecritters as cc
@@ -57,6 +59,166 @@ class TestCoreCCModelPostHistoryHooks:
         assert model.state_variables.dtype.names == ('x',)
         assert len(model.time) == len(model.diagnostic_variables['x_squared'])
         assert np.isclose(model.state_variables['x'][0], 1.0)
+
+
+class _SDEPostHistoryModel(CCModel):
+    """uses_post_history=True model with additive noise, for si/forcing tests."""
+
+    uses_post_history = True
+
+    def __init__(self):
+        super().__init__(variable_name='sde_post_history', state_variables=['x'])
+        self.param_values = {'k': 0.0}
+        self.params = ()
+
+    def dydt(self, t, x):
+        k = self.get_param_value('k', t, x)
+        return [-x[0] + k]
+
+    def sde_noise(self, t, x):
+        return np.array([0.1])
+
+
+class _SDENoPostHistoryModel(CCModel):
+    """uses_post_history=False model, to exercise the si guard."""
+
+    uses_post_history = False
+
+    def __init__(self):
+        super().__init__(variable_name='sde_no_post_history', state_variables=['x'])
+        self.param_values = {}
+        self.params = ()
+
+    def dydt(self, t, x):
+        return [-x[0]]
+
+    def sde_noise(self, t, x):
+        return np.array([0.1])
+
+
+class _SDENoNoiseOverrideModel(CCModel):
+    """uses_post_history=True model that does NOT override sde_noise, to
+    confirm the base-class stub recovers deterministic integration."""
+
+    uses_post_history = True
+
+    def __init__(self):
+        super().__init__(variable_name='sde_no_noise_override', state_variables=['x'])
+        self.param_values = {}
+        self.params = ()
+
+    def dydt(self, t, x):
+        return [-x[0]]
+
+
+class TestCoreCCModelSDENoiseStub:
+    def test_default_sde_noise_returns_zeros_t0(self):
+        model = _SDENoNoiseOverrideModel()
+        zeros = model.sde_noise(0.0, [1.0, 2.0])
+        np.testing.assert_array_equal(zeros, [0.0, 0.0])
+
+    @pytest.mark.parametrize('method', ['euler_maruyama', 'heun_maruyama', 'milstein'])
+    def test_unoverridden_sde_noise_is_seed_independent_t1(self, method):
+        """Without an sde_noise override, the diffusion term is always zero,
+        so different random seeds must produce identical (deterministic)
+        trajectories for euler_maruyama/heun_maruyama/milstein."""
+        out_seed0 = _SDENoNoiseOverrideModel().integrate(
+            t_span=(0.0, 1.0), y0=[1.0], method=method, dt=0.1,
+            kwargs={'random_seed': 0},
+        )
+        out_seed1 = _SDENoNoiseOverrideModel().integrate(
+            t_span=(0.0, 1.0), y0=[1.0], method=method, dt=0.1,
+            kwargs={'random_seed': 1},
+        )
+
+        np.testing.assert_array_equal(
+            out_seed0.state_variables['x'], out_seed1.state_variables['x']
+        )
+
+    def test_unoverridden_sde_noise_matches_deterministic_euler_for_euler_maruyama_t2(self):
+        """euler_maruyama's drift discretization is forward Euler, so with
+        zero diffusion it should match plain euler exactly."""
+        sde_out = _SDENoNoiseOverrideModel().integrate(
+            t_span=(0.0, 1.0), y0=[1.0], method='euler_maruyama', dt=0.1,
+            kwargs={'random_seed': 0},
+        )
+        euler_out = _SDENoNoiseOverrideModel().integrate(
+            t_span=(0.0, 1.0), y0=[1.0], method='euler', dt=0.1,
+        )
+
+        np.testing.assert_allclose(
+            sde_out.state_variables['x'], euler_out.state_variables['x'], atol=1e-8
+        )
+
+
+class TestCoreCCModelSDESamplingInterval:
+    @pytest.mark.parametrize('method', ['euler_maruyama', 'heun_maruyama', 'milstein'])
+    def test_si_subsamples_output_t0(self, method):
+        model = _SDEPostHistoryModel()
+        output = model.integrate(
+            t_span=(0.0, 5.0), y0=[1.0], method=method, dt=0.01,
+            kwargs={'random_seed': 0, 'si': 0.1},
+        )
+        assert len(output.time) == 51
+        np.testing.assert_allclose(output.time, np.linspace(0.0, 5.0, 51), atol=1e-9)
+
+    @pytest.mark.parametrize('method', ['euler_maruyama', 'heun_maruyama', 'milstein'])
+    def test_si_requires_uses_post_history_t1(self, method):
+        model = _SDENoPostHistoryModel()
+        with pytest.raises(ValueError, match="uses_post_history"):
+            model.integrate(
+                t_span=(0.0, 1.0), y0=[1.0], method=method, dt=0.01,
+                kwargs={'si': 0.1},
+            )
+
+    @pytest.mark.parametrize('method', ['euler_maruyama', 'heun_maruyama', 'milstein'])
+    def test_reframe_stochastic_coarser_grid_warns_t2(self, method):
+        """t_eval spacing (0.5) coarser than the integrated grid (dt=0.1) warns,
+        but still resamples (it's a soft warning, not a hard failure)."""
+        model = _SDEPostHistoryModel()
+        output = model.integrate(
+            t_span=(0.0, 5.0), y0=[1.0], method=method, dt=0.1,
+            kwargs={'random_seed': 0},
+        )
+        with pytest.warns(UserWarning, match="coarser grid"):
+            reframed = output.reframe_time_axis(np.linspace(0.0, 5.0, 11))
+        assert len(reframed) == 11
+        np.testing.assert_allclose(output.time, np.linspace(0.0, 5.0, 11))
+
+    @pytest.mark.parametrize('method', ['euler_maruyama', 'heun_maruyama', 'milstein'])
+    def test_reframe_stochastic_matching_grid_no_warning_t2b(self, method):
+        """t_eval spacing equal to the integrated grid (dt=0.1) is an exact
+        subsample, not interpolation, so no warning should fire."""
+        model = _SDEPostHistoryModel()
+        output = model.integrate(
+            t_span=(0.0, 5.0), y0=[1.0], method=method, dt=0.1,
+            kwargs={'random_seed': 0},
+        )
+        with warnings.catch_warnings():
+            warnings.simplefilter("error")
+            output.reframe_time_axis(np.linspace(0.0, 5.0, 51))
+
+    @pytest.mark.parametrize('method', ['heun_maruyama', 'milstein'])
+    def test_pre_step_forcing_applied_t3(self, method):
+        """heun_maruyama/milstein previously called self.dydt directly,
+        silently dropping registered forcings; they must now use the
+        forcing-wrapped dydt."""
+        unforced = _SDEPostHistoryModel()
+        out_unforced = unforced.integrate(
+            t_span=(0.0, 1.0), y0=[1.0], method=method, dt=0.1,
+            kwargs={'random_seed': 0},
+        )
+
+        forced = _SDEPostHistoryModel()
+        forced.register_forcing('k', lambda t: 5.0)
+        out_forced = forced.integrate(
+            t_span=(0.0, 1.0), y0=[1.0], method=method, dt=0.1,
+            kwargs={'random_seed': 0},
+        )
+
+        assert not np.isclose(
+            out_unforced.state_variables['x'][-1], out_forced.state_variables['x'][-1]
+        )
 
 
 class _ParamContractModel(CCModel):

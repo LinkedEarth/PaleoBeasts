@@ -190,6 +190,64 @@ def _ou_terminal_mean(solver, n_paths, dt, sigma=0.3, T=2.0, y0=1.0, seed=0):
     return float(np.mean(ends))
 
 
+# ---------------------------------------------------------------------------
+# 4. Sampling-interval (si) tests
+# ---------------------------------------------------------------------------
+# si lets the solver integrate at a fine dt while saving output only every
+# si time units, by exact subsampling (no interpolation) of the accumulated
+# Wiener path.  These tests cover euler_maruyama_method, heun_maruyama_method,
+# and milstein_method.
+
+_SI_SOLVERS = [euler_maruyama_method, heun_maruyama_method, milstein_method]
+
+
+class TestSamplingInterval:
+    @pytest.mark.parametrize('solver', _SI_SOLVERS)
+    def test_si_output_length(self, solver):
+        sol = solver(_ou_drift, (0.0, 5.0), _Y0, dt=0.01, si=0.1,
+                     noise_func=_ou_noise_add, rng=np.random.default_rng(0))
+        assert sol.t.shape == (51,)
+        assert sol.y.shape == (51, 1)
+
+    @pytest.mark.parametrize('solver', _SI_SOLVERS)
+    def test_si_exact_grid(self, solver):
+        sol = solver(_ou_drift, (0.0, 5.0), _Y0, dt=0.01, si=0.1,
+                     noise_func=_ou_noise_add, rng=np.random.default_rng(0))
+        expected_t = np.linspace(0.0, 5.0, 51)
+        np.testing.assert_allclose(sol.t, expected_t, atol=1e-9)
+
+    @pytest.mark.parametrize('solver', _SI_SOLVERS)
+    def test_si_path_values_match_fine_grid(self, solver):
+        """Subsampled output at coarse indices matches a fine-grid run with
+        the same seed at the corresponding fine-grid indices — confirming
+        si subsamples exactly rather than approximating."""
+        fine = solver(_ou_drift, (0.0, 5.0), _Y0, dt=0.01,
+                      noise_func=_ou_noise_add, rng=np.random.default_rng(7))
+        coarse = solver(_ou_drift, (0.0, 5.0), _Y0, dt=0.01, si=0.1,
+                        noise_func=_ou_noise_add, rng=np.random.default_rng(7))
+        np.testing.assert_array_equal(coarse.y, fine.y[::10])
+
+    @pytest.mark.parametrize('solver', _SI_SOLVERS)
+    def test_si_not_multiple_of_dt_raises(self, solver):
+        with pytest.raises(ValueError, match="integer multiple"):
+            solver(_ou_drift, (0.0, 1.0), _Y0, dt=0.03, si=0.1,
+                  noise_func=_ou_noise_add)
+
+    @pytest.mark.parametrize('solver', _SI_SOLVERS)
+    def test_t_span_not_multiple_of_si_raises(self, solver):
+        with pytest.raises(ValueError, match="integer multiple of si"):
+            solver(_ou_drift, (0.0, 1.03), _Y0, dt=0.01, si=0.1,
+                  noise_func=_ou_noise_add)
+
+    @pytest.mark.parametrize('solver', _SI_SOLVERS)
+    def test_si_defaults_to_dt(self, solver):
+        sol_default = solver(_ou_drift, (0.0, 1.0), _Y0, dt=0.1,
+                             noise_func=_ou_noise_add, rng=np.random.default_rng(3))
+        sol_explicit = solver(_ou_drift, (0.0, 1.0), _Y0, dt=0.1, si=0.1,
+                              noise_func=_ou_noise_add, rng=np.random.default_rng(3))
+        np.testing.assert_array_equal(sol_default.y, sol_explicit.y)
+
+
 class TestConvergence:
     """Verify that heun_maruyama and milstein produce lower bias than
     euler_maruyama at the same dt, consistent with their higher order."""

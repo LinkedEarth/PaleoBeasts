@@ -7,6 +7,8 @@ run's results independently accessible.
 
 from __future__ import annotations
 
+import warnings
+
 import numpy as np
 
 
@@ -59,6 +61,7 @@ class CCOutput:
         self.run_name = str(run_name) if run_name is not None else None
         self._noise_originals = {}
         self._noisy_vars = set()
+        self._is_stochastic = False
 
     # ------------------------------------------------------------------
     # Variable lookup
@@ -215,13 +218,39 @@ class CCOutput:
         -------
         reframed : structured ndarray or ndarray
             Resampled state variables on ``t_eval``.
+
+        Warns
+        -----
+        UserWarning
+            If this output was produced by a stochastic (SDE) solver without
+            dense output, and ``t_eval`` is coarser than the integrated time
+            series.  Linearly interpolating between two stochastic path points
+            spaced wider than the original grid invents values that were
+            never realised, discarding Wiener increments and distorting
+            distributional properties.  Use ``si=`` at integration time to
+            control output spacing instead.
         """
         if self.solution is None:
             raise ValueError("No solution stored in this output.")
 
+        has_dense_output = hasattr(self.solution, 'sol') and self.solution.sol is not None
         t_eval = np.asarray(t_eval, dtype=float)
 
-        if hasattr(self.solution, 'sol') and self.solution.sol is not None:
+        if self._is_stochastic and not has_dense_output:
+            src_dt = np.diff(np.asarray(self.model_time, dtype=float))
+            target_dt = np.diff(t_eval)
+            if src_dt.size and target_dt.size and np.min(target_dt) > np.min(src_dt):
+                warnings.warn(
+                    "reframe_time_axis is interpolating SDE output onto a coarser grid "
+                    f"(min Δt={np.min(target_dt):.6g}) than the integrated time series "
+                    f"(Δt={np.min(src_dt):.6g}). This invents path values that were never "
+                    "realised, discarding Wiener increments and distorting distributional "
+                    "properties. Use si= at integration time for exact subsampling instead.",
+                    UserWarning,
+                    stacklevel=2,
+                )
+
+        if has_dense_output:
             y_eval = self.solution.sol(t_eval).T
         else:
             t_src = np.asarray(self.solution.t, dtype=float)

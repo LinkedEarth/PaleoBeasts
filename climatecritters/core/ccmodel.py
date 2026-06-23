@@ -167,9 +167,9 @@ class CCModel:
 
         Parameters can be stored as constants, callables, or Forcing objects.
         This method is the single place that handles all three cases, so that
-        ``get_param`` and any future callers don't need to repeat the type logic.
-        It is private because callers should always go through ``get_param``
-        rather than resolving values directly.
+        ``get_param_value`` and any future callers don't need to repeat the type
+        logic.  It is private because callers should always go through
+        ``get_param_value`` rather than resolving values directly.
         """
         if param is None:
             return None
@@ -241,9 +241,9 @@ class CCModel:
 
         Spatial models often allow parameters to be either a single scalar
         (applied uniformly) or a full grid-length array.  This method resolves
-        the parameter via ``get_param`` and then either broadcasts a scalar or
-        validates that an array has the expected size, eliminating that boilerplate
-        from every ``dydt`` that works on a spatial grid.
+        the parameter via ``get_param_value`` and then either broadcasts a
+        scalar or validates that an array has the expected size, eliminating
+        that boilerplate from every ``dydt`` that works on a spatial grid.
         """
         value = self.get_param_value(name, t, state)
         if np.isscalar(value):
@@ -457,7 +457,8 @@ class CCModel:
     # Forcing application helpers
     # ------------------------------------------------------------------
 
-    _FIXED_STEP_METHODS = {"euler", "euler_maruyama", "rk4"}
+    _FIXED_STEP_METHODS = {"euler", "euler_maruyama", "heun_maruyama", "milstein", "rk4"}
+    _SDE_METHODS = {"euler_maruyama", "heun_maruyama", "milstein"}
 
     def _build_forced_dydt(self):
         """Return a wrapped dydt that applies all pre-step forcings.
@@ -559,10 +560,22 @@ class CCModel:
 
         Must be overridden by every subclass.  The solver calls this at each
         timestep with the current time ``t`` and state vector ``y``, and expects
-        a list of derivatives of the same length as ``y``.  Use ``get_param``
-        inside the implementation to access parameters.
+        a list of derivatives of the same length as ``y``.  Use
+        ``get_param_value`` inside the implementation to access parameters.
         """
         pass
+
+    def sde_noise(self, t, y):
+        """Define the diffusion term for stochastic (SDE) integration methods.
+
+        Override in subclasses that use ``method='euler_maruyama'``,
+        ``'heun_maruyama'``, or ``'milstein'``.  Called at each timestep with
+        the current time ``t`` and state vector ``y``; must return a vector
+        of per-state diffusion scales the same shape as ``y``.  The base
+        implementation returns zeros, recovering deterministic integration
+        for models that don't define stochastic dynamics.
+        """
+        return np.zeros_like(np.asarray(y, dtype=float))
 
 
     def integrate(self, t_span=None, y0=None, method='RK45', dt=None,
@@ -592,8 +605,8 @@ class CCModel:
               approximation of ``∂g/∂y``, so no analytical Jacobian is
               required.
         dt : float, optional
-            Fixed timestep for ``euler``, ``euler_maruyama``, and ``rk4``.
-            Required for those methods.
+            Fixed timestep for ``euler``, ``euler_maruyama``, ``heun_maruyama``,
+            ``milstein``, and ``rk4``.  Required for those methods.
         output_time : array-like, optional
             If provided, the returned ``CCOutput`` is immediately reframed onto
             this time axis (e.g. to exclude a spin-up period).
@@ -603,8 +616,14 @@ class CCModel:
         kwargs : dict, optional
             Additional solver options.  For ``solve_ivp`` methods these are
             forwarded directly (e.g. ``rtol``, ``atol``, ``t_eval``).  For
-            ``euler_maruyama``, ``random_seed`` is extracted here.  For
-            ``rk4``, ``si`` (sampling interval) is extracted here.
+            ``euler_maruyama``, ``heun_maruyama``, and ``milstein``,
+            ``random_seed`` is extracted here.  For ``rk4``,
+            ``euler_maruyama``, ``heun_maruyama``, and ``milstein``, ``si``
+            (sampling interval) is extracted here — integration runs at
+            ``dt`` but output (and Wiener increment accumulation, for SDE
+            methods) is saved every ``si`` time units with no interpolation.
+            Passing ``si != dt`` requires ``uses_post_history = True`` on the
+            subclass.
 
             .. deprecated::
                 Passing ``dt`` inside ``kwargs`` is deprecated.  Use the
@@ -666,7 +685,8 @@ class CCModel:
             warnings.warn(
                 f"Post-step forcings are registered but method='{method}' is adaptive. "
                 "Post-step forcings will not be applied during integration. "
-                "Use a fixed-step method ('euler', 'rk4', 'euler_maruyama') to apply them.",
+                "Use a fixed-step method ('euler', 'rk4', 'euler_maruyama', "
+                "'heun_maruyama', 'milstein') to apply them.",
                 UserWarning,
                 stacklevel=2,
             )
@@ -681,36 +701,50 @@ class CCModel:
 
         elif method == 'euler_maruyama':
             seed = kwargs.pop('random_seed', None)
+            si = float(kwargs.pop('si', dt))
+            if si != dt and not self.uses_post_history:
+                raise ValueError(
+                    "si != dt requires uses_post_history = True on the subclass; "
+                    "otherwise the accumulated state_variables would not match "
+                    "the subsampled solution grid."
+                )
             self.rng = np.random.default_rng(seed) if seed is not None else np.random.default_rng()
-            noise_func = getattr(self, 'sde_noise', None)
-            if not callable(noise_func):
-                noise_func = lambda _t, x: np.zeros_like(np.asarray(x, dtype=float))
             solution = euler_maruyama_method(
-                dydt_fn, t_span, y0_integrated, dt,
-                noise_func=noise_func, rng=self.rng, args=self.params,
+                dydt_fn, t_span, y0_integrated, dt, si=si,
+                noise_func=self.sde_noise, rng=self.rng, args=self.params,
                 post_step=post_step,
             )
 
         elif method == 'heun_maruyama':
             seed = kwargs.pop('random_seed', None)
+            si = float(kwargs.pop('si', dt))
+            if si != dt and not self.uses_post_history:
+                raise ValueError(
+                    "si != dt requires uses_post_history = True on the subclass; "
+                    "otherwise the accumulated state_variables would not match "
+                    "the subsampled solution grid."
+                )
             self.rng = np.random.default_rng(seed) if seed is not None else np.random.default_rng()
-            noise_func = getattr(self, 'sde_noise', None)
-            if not callable(noise_func):
-                noise_func = lambda _t, x: np.zeros_like(np.asarray(x, dtype=float))
             solution = heun_maruyama_method(
-                self.dydt, t_span, y0_integrated, dt,
-                noise_func=noise_func, rng=self.rng, args=self.params,
+                dydt_fn, t_span, y0_integrated, dt, si=si,
+                noise_func=self.sde_noise, rng=self.rng, args=self.params,
+                post_step=post_step,
             )
 
         elif method == 'milstein':
             seed = kwargs.pop('random_seed', None)
+            si = float(kwargs.pop('si', dt))
+            if si != dt and not self.uses_post_history:
+                raise ValueError(
+                    "si != dt requires uses_post_history = True on the subclass; "
+                    "otherwise the accumulated state_variables would not match "
+                    "the subsampled solution grid."
+                )
             self.rng = np.random.default_rng(seed) if seed is not None else np.random.default_rng()
-            noise_func = getattr(self, 'sde_noise', None)
-            if not callable(noise_func):
-                noise_func = lambda _t, x: np.zeros_like(np.asarray(x, dtype=float))
             solution = milstein_method(
-                self.dydt, t_span, y0_integrated, dt,
-                noise_func=noise_func, rng=self.rng, args=self.params,
+                dydt_fn, t_span, y0_integrated, dt, si=si,
+                noise_func=self.sde_noise, rng=self.rng, args=self.params,
+                post_step=post_step,
             )
 
         elif method == 'rk4':
@@ -784,6 +818,7 @@ class CCModel:
             solution=solution,
             run_name=run_name,
         )
+        output._is_stochastic = method in self._SDE_METHODS
         if output_time is not None:
             output.reframe_time_axis(output_time)
         return output
@@ -962,73 +997,3 @@ class CCModel:
 
         print(thick)
         print()
-
-    # def add_noise(self, var_name, noise_ts):
-    #     """Add noise to a variable in the latest output.
-    #
-    #     Delegates to ``self.output.add_noise``.  The clean values are saved
-    #     inside the output so that ``remove_noise`` can restore them.  To
-    #     generate multiple stochastic realizations from the same deterministic
-    #     run, capture the return value of ``integrate()`` and call
-    #     ``output.add_noise`` on each copy independently.
-    #     """
-    #     if self.output is None:
-    #         raise RuntimeError("No output available. Call integrate() first.")
-    #     self.output.add_noise(var_name, noise_ts)
-
-    # def remove_noise(self, var_name):
-    #     """Restore a variable in the latest output to its pre-noise values.
-    #
-    #     Delegates to ``self.output.remove_noise``.
-    #     """
-    #     if self.output is None:
-    #         raise RuntimeError("No output available. Call integrate() first.")
-    #     self.output.remove_noise(var_name)
-
-
-    #
-    # def to_pyleo(self, var_names=None):
-    #     """Export one or more variables from the latest output as pyleoclim Series.
-    #
-    #     Delegates to ``self.output.to_pyleo``.  Returns a single ``Series``
-    #     for one variable or a ``MultipleSeries`` for several.
-    #
-    #     Parameters
-    #     ----------
-    #     var_names : str or list of str
-    #         Name(s) of state or diagnostic variable(s) to export.
-    #     """
-    #     if self.output is None:
-    #         raise RuntimeError("No output available. Call integrate() first.")
-    #     return self.output.to_pyleo(var_names)
-    #
-    # def reframe_time_axis(self, t_eval, update_state=True):
-    #     """Resample the solution onto a target time axis.
-    #
-    #     Delegates to ``self.output.reframe_time_axis``, which updates
-    #     ``output.time`` and ``output.state_variables`` to the resampled grid
-    #     while leaving ``output.model_time`` intact.  When ``update_state=True``
-    #     (the default), ``self.time`` and ``self.state_variables`` are also
-    #     synced to keep backward-compatible attribute access working.
-    #
-    #     Parameters
-    #     ----------
-    #     t_eval : array-like
-    #         Target time axis.
-    #     update_state : bool
-    #         If ``True`` (default), sync ``self.time`` and
-    #         ``self.state_variables`` to the reframed values after updating
-    #         the output.
-    #
-    #     Returns
-    #     -------
-    #     reframed : structured ndarray or ndarray
-    #         Resampled state variables on ``t_eval``.
-    #     """
-    #     if self.output is None:
-    #         raise RuntimeError("No output available. Call integrate() first.")
-    #     reframed = self.output.reframe_time_axis(t_eval)
-    #     if update_state:
-    #         self.time = self.output.time
-    #         self.state_variables = self.output.state_variables
-    #     return reframed
