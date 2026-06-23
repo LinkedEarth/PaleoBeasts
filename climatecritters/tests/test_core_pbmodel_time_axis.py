@@ -5,6 +5,8 @@ Naming rules:
 2. function: test_{method}_t{test_id}
 '''
 
+import warnings
+
 import numpy as np
 import pytest
 import climatecritters as cc
@@ -115,14 +117,31 @@ class TestCoreCCModelSDESamplingInterval:
             )
 
     @pytest.mark.parametrize('method', ['euler_maruyama', 'heun_maruyama', 'milstein'])
-    def test_reframe_stochastic_raises_t2(self, method):
+    def test_reframe_stochastic_coarser_grid_warns_t2(self, method):
+        """t_eval spacing (0.5) coarser than the integrated grid (dt=0.1) warns,
+        but still resamples (it's a soft warning, not a hard failure)."""
         model = _SDEPostHistoryModel()
         output = model.integrate(
             t_span=(0.0, 5.0), y0=[1.0], method=method, dt=0.1,
             kwargs={'random_seed': 0},
         )
-        with pytest.raises(ValueError, match="invalid for SDE output"):
-            output.reframe_time_axis(np.linspace(0.0, 5.0, 11))
+        with pytest.warns(UserWarning, match="coarser grid"):
+            reframed = output.reframe_time_axis(np.linspace(0.0, 5.0, 11))
+        assert len(reframed) == 11
+        np.testing.assert_allclose(output.time, np.linspace(0.0, 5.0, 11))
+
+    @pytest.mark.parametrize('method', ['euler_maruyama', 'heun_maruyama', 'milstein'])
+    def test_reframe_stochastic_matching_grid_no_warning_t2b(self, method):
+        """t_eval spacing equal to the integrated grid (dt=0.1) is an exact
+        subsample, not interpolation, so no warning should fire."""
+        model = _SDEPostHistoryModel()
+        output = model.integrate(
+            t_span=(0.0, 5.0), y0=[1.0], method=method, dt=0.1,
+            kwargs={'random_seed': 0},
+        )
+        with warnings.catch_warnings():
+            warnings.simplefilter("error")
+            output.reframe_time_axis(np.linspace(0.0, 5.0, 51))
 
     @pytest.mark.parametrize('method', ['heun_maruyama', 'milstein'])
     def test_pre_step_forcing_applied_t3(self, method):
