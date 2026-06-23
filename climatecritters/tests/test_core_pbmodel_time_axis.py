@@ -96,6 +96,61 @@ class _SDENoPostHistoryModel(CCModel):
         return np.array([0.1])
 
 
+class _SDENoNoiseOverrideModel(CCModel):
+    """uses_post_history=True model that does NOT override sde_noise, to
+    confirm the base-class stub recovers deterministic integration."""
+
+    uses_post_history = True
+
+    def __init__(self):
+        super().__init__(variable_name='sde_no_noise_override', state_variables=['x'])
+        self.param_values = {}
+        self.params = ()
+
+    def dydt(self, t, x):
+        return [-x[0]]
+
+
+class TestCoreCCModelSDENoiseStub:
+    def test_default_sde_noise_returns_zeros_t0(self):
+        model = _SDENoNoiseOverrideModel()
+        zeros = model.sde_noise(0.0, [1.0, 2.0])
+        np.testing.assert_array_equal(zeros, [0.0, 0.0])
+
+    @pytest.mark.parametrize('method', ['euler_maruyama', 'heun_maruyama', 'milstein'])
+    def test_unoverridden_sde_noise_is_seed_independent_t1(self, method):
+        """Without an sde_noise override, the diffusion term is always zero,
+        so different random seeds must produce identical (deterministic)
+        trajectories for euler_maruyama/heun_maruyama/milstein."""
+        out_seed0 = _SDENoNoiseOverrideModel().integrate(
+            t_span=(0.0, 1.0), y0=[1.0], method=method, dt=0.1,
+            kwargs={'random_seed': 0},
+        )
+        out_seed1 = _SDENoNoiseOverrideModel().integrate(
+            t_span=(0.0, 1.0), y0=[1.0], method=method, dt=0.1,
+            kwargs={'random_seed': 1},
+        )
+
+        np.testing.assert_array_equal(
+            out_seed0.state_variables['x'], out_seed1.state_variables['x']
+        )
+
+    def test_unoverridden_sde_noise_matches_deterministic_euler_for_euler_maruyama_t2(self):
+        """euler_maruyama's drift discretization is forward Euler, so with
+        zero diffusion it should match plain euler exactly."""
+        sde_out = _SDENoNoiseOverrideModel().integrate(
+            t_span=(0.0, 1.0), y0=[1.0], method='euler_maruyama', dt=0.1,
+            kwargs={'random_seed': 0},
+        )
+        euler_out = _SDENoNoiseOverrideModel().integrate(
+            t_span=(0.0, 1.0), y0=[1.0], method='euler', dt=0.1,
+        )
+
+        np.testing.assert_allclose(
+            sde_out.state_variables['x'], euler_out.state_variables['x'], atol=1e-8
+        )
+
+
 class TestCoreCCModelSDESamplingInterval:
     @pytest.mark.parametrize('method', ['euler_maruyama', 'heun_maruyama', 'milstein'])
     def test_si_subsamples_output_t0(self, method):

@@ -565,6 +565,18 @@ class CCModel:
         """
         pass
 
+    def sde_noise(self, t, y):
+        """Define the diffusion term for stochastic (SDE) integration methods.
+
+        Override in subclasses that use ``method='euler_maruyama'``,
+        ``'heun_maruyama'``, or ``'milstein'``.  Called at each timestep with
+        the current time ``t`` and state vector ``y``; must return a vector
+        of per-state diffusion scales the same shape as ``y``.  The base
+        implementation returns zeros, recovering deterministic integration
+        for models that don't define stochastic dynamics.
+        """
+        return np.zeros_like(np.asarray(y, dtype=float))
+
 
     def integrate(self, t_span=None, y0=None, method='RK45', dt=None,
                   output_time=None, run_name=None, kwargs=None):
@@ -696,12 +708,9 @@ class CCModel:
                     "the subsampled solution grid."
                 )
             self.rng = np.random.default_rng(seed) if seed is not None else np.random.default_rng()
-            noise_func = getattr(self, 'sde_noise', None)
-            if not callable(noise_func):
-                noise_func = lambda _t, x: np.zeros_like(np.asarray(x, dtype=float))
             solution = euler_maruyama_method(
                 dydt_fn, t_span, y0_integrated, dt, si=si,
-                noise_func=noise_func, rng=self.rng, args=self.params,
+                noise_func=self.sde_noise, rng=self.rng, args=self.params,
                 post_step=post_step,
             )
 
@@ -715,12 +724,9 @@ class CCModel:
                     "the subsampled solution grid."
                 )
             self.rng = np.random.default_rng(seed) if seed is not None else np.random.default_rng()
-            noise_func = getattr(self, 'sde_noise', None)
-            if not callable(noise_func):
-                noise_func = lambda _t, x: np.zeros_like(np.asarray(x, dtype=float))
             solution = heun_maruyama_method(
                 dydt_fn, t_span, y0_integrated, dt, si=si,
-                noise_func=noise_func, rng=self.rng, args=self.params,
+                noise_func=self.sde_noise, rng=self.rng, args=self.params,
                 post_step=post_step,
             )
 
@@ -734,12 +740,9 @@ class CCModel:
                     "the subsampled solution grid."
                 )
             self.rng = np.random.default_rng(seed) if seed is not None else np.random.default_rng()
-            noise_func = getattr(self, 'sde_noise', None)
-            if not callable(noise_func):
-                noise_func = lambda _t, x: np.zeros_like(np.asarray(x, dtype=float))
             solution = milstein_method(
                 dydt_fn, t_span, y0_integrated, dt, si=si,
-                noise_func=noise_func, rng=self.rng, args=self.params,
+                noise_func=self.sde_noise, rng=self.rng, args=self.params,
                 post_step=post_step,
             )
 
