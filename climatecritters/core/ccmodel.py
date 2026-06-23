@@ -167,9 +167,9 @@ class CCModel:
 
         Parameters can be stored as constants, callables, or Forcing objects.
         This method is the single place that handles all three cases, so that
-        ``get_param`` and any future callers don't need to repeat the type logic.
-        It is private because callers should always go through ``get_param``
-        rather than resolving values directly.
+        ``get_param_value`` and any future callers don't need to repeat the type
+        logic.  It is private because callers should always go through
+        ``get_param_value`` rather than resolving values directly.
         """
         if param is None:
             return None
@@ -241,9 +241,9 @@ class CCModel:
 
         Spatial models often allow parameters to be either a single scalar
         (applied uniformly) or a full grid-length array.  This method resolves
-        the parameter via ``get_param`` and then either broadcasts a scalar or
-        validates that an array has the expected size, eliminating that boilerplate
-        from every ``dydt`` that works on a spatial grid.
+        the parameter via ``get_param_value`` and then either broadcasts a
+        scalar or validates that an array has the expected size, eliminating
+        that boilerplate from every ``dydt`` that works on a spatial grid.
         """
         value = self.get_param_value(name, t, state)
         if np.isscalar(value):
@@ -560,8 +560,8 @@ class CCModel:
 
         Must be overridden by every subclass.  The solver calls this at each
         timestep with the current time ``t`` and state vector ``y``, and expects
-        a list of derivatives of the same length as ``y``.  Use ``get_param``
-        inside the implementation to access parameters.
+        a list of derivatives of the same length as ``y``.  Use
+        ``get_param_value`` inside the implementation to access parameters.
         """
         pass
 
@@ -685,7 +685,8 @@ class CCModel:
             warnings.warn(
                 f"Post-step forcings are registered but method='{method}' is adaptive. "
                 "Post-step forcings will not be applied during integration. "
-                "Use a fixed-step method ('euler', 'rk4', 'euler_maruyama') to apply them.",
+                "Use a fixed-step method ('euler', 'rk4', 'euler_maruyama', "
+                "'heun_maruyama', 'milstein') to apply them.",
                 UserWarning,
                 stacklevel=2,
             )
@@ -996,73 +997,3 @@ class CCModel:
 
         print(thick)
         print()
-
-    # def add_noise(self, var_name, noise_ts):
-    #     """Add noise to a variable in the latest output.
-    #
-    #     Delegates to ``self.output.add_noise``.  The clean values are saved
-    #     inside the output so that ``remove_noise`` can restore them.  To
-    #     generate multiple stochastic realizations from the same deterministic
-    #     run, capture the return value of ``integrate()`` and call
-    #     ``output.add_noise`` on each copy independently.
-    #     """
-    #     if self.output is None:
-    #         raise RuntimeError("No output available. Call integrate() first.")
-    #     self.output.add_noise(var_name, noise_ts)
-
-    # def remove_noise(self, var_name):
-    #     """Restore a variable in the latest output to its pre-noise values.
-    #
-    #     Delegates to ``self.output.remove_noise``.
-    #     """
-    #     if self.output is None:
-    #         raise RuntimeError("No output available. Call integrate() first.")
-    #     self.output.remove_noise(var_name)
-
-
-    #
-    # def to_pyleo(self, var_names=None):
-    #     """Export one or more variables from the latest output as pyleoclim Series.
-    #
-    #     Delegates to ``self.output.to_pyleo``.  Returns a single ``Series``
-    #     for one variable or a ``MultipleSeries`` for several.
-    #
-    #     Parameters
-    #     ----------
-    #     var_names : str or list of str
-    #         Name(s) of state or diagnostic variable(s) to export.
-    #     """
-    #     if self.output is None:
-    #         raise RuntimeError("No output available. Call integrate() first.")
-    #     return self.output.to_pyleo(var_names)
-    #
-    # def reframe_time_axis(self, t_eval, update_state=True):
-    #     """Resample the solution onto a target time axis.
-    #
-    #     Delegates to ``self.output.reframe_time_axis``, which updates
-    #     ``output.time`` and ``output.state_variables`` to the resampled grid
-    #     while leaving ``output.model_time`` intact.  When ``update_state=True``
-    #     (the default), ``self.time`` and ``self.state_variables`` are also
-    #     synced to keep backward-compatible attribute access working.
-    #
-    #     Parameters
-    #     ----------
-    #     t_eval : array-like
-    #         Target time axis.
-    #     update_state : bool
-    #         If ``True`` (default), sync ``self.time`` and
-    #         ``self.state_variables`` to the reframed values after updating
-    #         the output.
-    #
-    #     Returns
-    #     -------
-    #     reframed : structured ndarray or ndarray
-    #         Resampled state variables on ``t_eval``.
-    #     """
-    #     if self.output is None:
-    #         raise RuntimeError("No output available. Call integrate() first.")
-    #     reframed = self.output.reframe_time_axis(t_eval)
-    #     if update_state:
-    #         self.time = self.output.time
-    #         self.state_variables = self.output.state_variables
-    #     return reframed
