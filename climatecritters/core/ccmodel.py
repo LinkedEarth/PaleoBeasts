@@ -457,7 +457,8 @@ class CCModel:
     # Forcing application helpers
     # ------------------------------------------------------------------
 
-    _FIXED_STEP_METHODS = {"euler", "euler_maruyama", "rk4"}
+    _FIXED_STEP_METHODS = {"euler", "euler_maruyama", "heun_maruyama", "milstein", "rk4"}
+    _SDE_METHODS = {"euler_maruyama", "heun_maruyama", "milstein"}
 
     def _build_forced_dydt(self):
         """Return a wrapped dydt that applies all pre-step forcings.
@@ -592,8 +593,8 @@ class CCModel:
               approximation of ``∂g/∂y``, so no analytical Jacobian is
               required.
         dt : float, optional
-            Fixed timestep for ``euler``, ``euler_maruyama``, and ``rk4``.
-            Required for those methods.
+            Fixed timestep for ``euler``, ``euler_maruyama``, ``heun_maruyama``,
+            ``milstein``, and ``rk4``.  Required for those methods.
         output_time : array-like, optional
             If provided, the returned ``CCOutput`` is immediately reframed onto
             this time axis (e.g. to exclude a spin-up period).
@@ -603,8 +604,14 @@ class CCModel:
         kwargs : dict, optional
             Additional solver options.  For ``solve_ivp`` methods these are
             forwarded directly (e.g. ``rtol``, ``atol``, ``t_eval``).  For
-            ``euler_maruyama``, ``random_seed`` is extracted here.  For
-            ``rk4``, ``si`` (sampling interval) is extracted here.
+            ``euler_maruyama``, ``heun_maruyama``, and ``milstein``,
+            ``random_seed`` is extracted here.  For ``rk4``,
+            ``euler_maruyama``, ``heun_maruyama``, and ``milstein``, ``si``
+            (sampling interval) is extracted here — integration runs at
+            ``dt`` but output (and Wiener increment accumulation, for SDE
+            methods) is saved every ``si`` time units with no interpolation.
+            Passing ``si != dt`` requires ``uses_post_history = True`` on the
+            subclass.
 
             .. deprecated::
                 Passing ``dt`` inside ``kwargs`` is deprecated.  Use the
@@ -681,36 +688,59 @@ class CCModel:
 
         elif method == 'euler_maruyama':
             seed = kwargs.pop('random_seed', None)
+            si = float(kwargs.pop('si', dt))
+            if si != dt and not self.uses_post_history:
+                raise ValueError(
+                    "si != dt requires uses_post_history = True on the subclass; "
+                    "otherwise the accumulated state_variables would not match "
+                    "the subsampled solution grid."
+                )
             self.rng = np.random.default_rng(seed) if seed is not None else np.random.default_rng()
             noise_func = getattr(self, 'sde_noise', None)
             if not callable(noise_func):
                 noise_func = lambda _t, x: np.zeros_like(np.asarray(x, dtype=float))
             solution = euler_maruyama_method(
-                dydt_fn, t_span, y0_integrated, dt,
+                dydt_fn, t_span, y0_integrated, dt, si=si,
                 noise_func=noise_func, rng=self.rng, args=self.params,
                 post_step=post_step,
             )
 
         elif method == 'heun_maruyama':
             seed = kwargs.pop('random_seed', None)
+            si = float(kwargs.pop('si', dt))
+            if si != dt and not self.uses_post_history:
+                raise ValueError(
+                    "si != dt requires uses_post_history = True on the subclass; "
+                    "otherwise the accumulated state_variables would not match "
+                    "the subsampled solution grid."
+                )
             self.rng = np.random.default_rng(seed) if seed is not None else np.random.default_rng()
             noise_func = getattr(self, 'sde_noise', None)
             if not callable(noise_func):
                 noise_func = lambda _t, x: np.zeros_like(np.asarray(x, dtype=float))
             solution = heun_maruyama_method(
-                self.dydt, t_span, y0_integrated, dt,
+                dydt_fn, t_span, y0_integrated, dt, si=si,
                 noise_func=noise_func, rng=self.rng, args=self.params,
+                post_step=post_step,
             )
 
         elif method == 'milstein':
             seed = kwargs.pop('random_seed', None)
+            si = float(kwargs.pop('si', dt))
+            if si != dt and not self.uses_post_history:
+                raise ValueError(
+                    "si != dt requires uses_post_history = True on the subclass; "
+                    "otherwise the accumulated state_variables would not match "
+                    "the subsampled solution grid."
+                )
             self.rng = np.random.default_rng(seed) if seed is not None else np.random.default_rng()
             noise_func = getattr(self, 'sde_noise', None)
             if not callable(noise_func):
                 noise_func = lambda _t, x: np.zeros_like(np.asarray(x, dtype=float))
             solution = milstein_method(
-                self.dydt, t_span, y0_integrated, dt,
+                dydt_fn, t_span, y0_integrated, dt, si=si,
                 noise_func=noise_func, rng=self.rng, args=self.params,
+                post_step=post_step,
             )
 
         elif method == 'rk4':
@@ -784,6 +814,7 @@ class CCModel:
             solution=solution,
             run_name=run_name,
         )
+        output._is_stochastic = method in self._SDE_METHODS
         if output_time is not None:
             output.reframe_time_axis(output_time)
         return output

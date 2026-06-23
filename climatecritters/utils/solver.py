@@ -329,7 +329,8 @@ def euler_method(f, t_span, y0, dt, args=(), post_step=None):
     return Solution(t, y)
 
 
-def euler_maruyama_method(f, t_span, y0, dt, noise_func=None, rng=None, args=(), post_step=None):
+def euler_maruyama_method(f, t_span, y0, dt, si=None, noise_func=None, rng=None, args=(),
+                          post_step=None):
     """Fixed-step Euler-Maruyama integrator for stochastic differential equations.
 
     Solves:
@@ -347,7 +348,12 @@ def euler_maruyama_method(f, t_span, y0, dt, noise_func=None, rng=None, args=(),
     y0 : array-like
         Initial state vector.
     dt : float
-        Fixed timestep.
+        Integration timestep.
+    si : float or None
+        Sampling interval — output is saved every ``si`` time units, with
+        Wiener increments accumulated across the intervening sub-steps (no
+        interpolation).  Must be an integer multiple of ``dt``.  Defaults to
+        ``dt`` (every step is saved).
     noise_func : callable or None
         Diffusion function with signature ``noise_func(t, y)``, returning a
         vector of per-state diffusion scales.  If ``None``, the stochastic
@@ -358,7 +364,7 @@ def euler_maruyama_method(f, t_span, y0, dt, noise_func=None, rng=None, args=(),
     args : tuple
         Extra positional arguments forwarded to ``f``.
     post_step : callable or None
-        Optional hook called after each accepted step with signature
+        Optional hook called after each accepted sub-step with signature
         ``post_step(t, y) -> y``.  The returned array replaces the current
         state, allowing post-step corrections (e.g. state nudging).
 
@@ -370,41 +376,68 @@ def euler_maruyama_method(f, t_span, y0, dt, noise_func=None, rng=None, args=(),
     Raises
     ------
     ValueError
-        If ``noise_func`` returns a vector whose shape does not match the
+        If ``t_span`` is invalid, ``si`` is not an integer multiple of
+        ``dt``, ``t_span`` length is not an integer multiple of ``si``, or
+        ``noise_func`` returns a vector whose shape does not match the
         state vector.
     """
-    n_steps = int((t_span[1] - t_span[0]) / dt) + 1
-    t = np.linspace(t_span[0], t_span[1], n_steps)
-    y = np.zeros((n_steps, len(y0)))
-    y[0] = y0
+    t0, t1 = float(t_span[0]), float(t_span[1])
+    dt = float(dt)
+    si = float(si) if si is not None else dt
+
+    if t1 - t0 <= 0:
+        raise ValueError("t_span must satisfy t_span[1] > t_span[0].")
+
+    if si < dt:
+        dt = si
+        ns = 1
+    else:
+        ns = int(round(si / dt))
+        if abs(ns * dt - si) > 1e-10 * max(1.0, abs(si)):
+            raise ValueError("si must be an integer multiple of dt.")
+
+    nt = int(round((t1 - t0) / si))
+    if abs(nt * si - (t1 - t0)) > 1e-10 * max(1.0, abs(t1 - t0)):
+        raise ValueError("t_span length must be an integer multiple of si.")
+
+    y = np.asarray(y0, dtype=float)
+    history = np.zeros((nt + 1, y.size), dtype=float)
+    times = np.zeros(nt + 1, dtype=float)
+    history[0] = y
+    times[0] = t0
 
     if rng is None:
         rng = np.random.default_rng()
 
     sqrt_dt = np.sqrt(dt)
 
-    for i in range(1, n_steps):
-        t_prev, y_prev = t[i - 1], y[i - 1]
-        dy = np.asarray(f(t_prev, y_prev, *args), dtype=float)
+    for step in range(nt):
+        base_t = t0 + step * si
+        for s in range(ns):
+            t_curr = base_t + s * dt
+            dy = np.asarray(f(t_curr, y, *args), dtype=float)
 
-        if noise_func is None:
-            diffusion = np.zeros_like(y_prev, dtype=float)
-        else:
-            diffusion = np.asarray(noise_func(t_prev, y_prev), dtype=float)
-            if diffusion.shape != y_prev.shape:
-                raise ValueError(
-                    "noise_func must return a diffusion vector with the same shape as the state."
-                )
+            if noise_func is None:
+                diffusion = np.zeros_like(y, dtype=float)
+            else:
+                diffusion = np.asarray(noise_func(t_curr, y), dtype=float)
+                if diffusion.shape != y.shape:
+                    raise ValueError(
+                        "noise_func must return a diffusion vector with the same shape as the state."
+                    )
 
-        dW = rng.normal(0.0, 1.0, size=len(y_prev)) * sqrt_dt
-        y[i] = y_prev + dy * dt + diffusion * dW
-        if post_step is not None:
-            y[i] = np.asarray(post_step(t[i], y[i]), dtype=float)
+            dW = rng.normal(0.0, 1.0, size=y.size) * sqrt_dt
+            y = y + dy * dt + diffusion * dW
+            if post_step is not None:
+                y = np.asarray(post_step(t_curr + dt, y), dtype=float)
+        history[step + 1] = y
+        times[step + 1] = t0 + (step + 1) * si
 
-    return Solution(t, y)
+    return Solution(times, history)
 
 
-def heun_maruyama_method(f, t_span, y0, dt, noise_func=None, rng=None, args=()):
+def heun_maruyama_method(f, t_span, y0, dt, si=None, noise_func=None, rng=None, args=(),
+                         post_step=None):
     """Fixed-step Heun-Maruyama integrator for stochastic differential equations.
 
     A predictor-corrector scheme that achieves strong order 1.0 for SDEs with
@@ -435,7 +468,12 @@ def heun_maruyama_method(f, t_span, y0, dt, noise_func=None, rng=None, args=()):
     y0 : array-like
         Initial state vector.
     dt : float
-        Fixed timestep.
+        Integration timestep.
+    si : float or None
+        Sampling interval — output is saved every ``si`` time units, with
+        Wiener increments accumulated across the intervening sub-steps (no
+        interpolation).  Must be an integer multiple of ``dt``.  Defaults to
+        ``dt`` (every step is saved).
     noise_func : callable or None
         Diffusion function with signature ``noise_func(t, y)``, returning a
         vector of per-state diffusion scales.  If ``None``, the stochastic
@@ -445,6 +483,10 @@ def heun_maruyama_method(f, t_span, y0, dt, noise_func=None, rng=None, args=()):
         created if ``None``.
     args : tuple
         Extra positional arguments forwarded to ``f``.
+    post_step : callable or None
+        Optional hook called after each accepted sub-step with signature
+        ``post_step(t, y) -> y``.  The returned array replaces the current
+        state, allowing post-step corrections (e.g. state nudging).
 
     Returns
     -------
@@ -454,7 +496,9 @@ def heun_maruyama_method(f, t_span, y0, dt, noise_func=None, rng=None, args=()):
     Raises
     ------
     ValueError
-        If ``noise_func`` returns a vector whose shape does not match the
+        If ``t_span`` is invalid, ``si`` is not an integer multiple of
+        ``dt``, ``t_span`` length is not an integer multiple of ``si``, or
+        ``noise_func`` returns a vector whose shape does not match the
         state vector.
 
     Notes
@@ -465,51 +509,78 @@ def heun_maruyama_method(f, t_span, y0, dt, noise_func=None, rng=None, args=()):
     is retained, still outperforming Euler-Maruyama in distribution-level
     statistics.  See Rößler (2010) for a full convergence analysis.
     """
-    n_steps = int((t_span[1] - t_span[0]) / dt) + 1
-    t = np.linspace(t_span[0], t_span[1], n_steps)
-    y = np.zeros((n_steps, len(y0)))
-    y[0] = y0
+    t0, t1 = float(t_span[0]), float(t_span[1])
+    dt = float(dt)
+    si = float(si) if si is not None else dt
+
+    if t1 - t0 <= 0:
+        raise ValueError("t_span must satisfy t_span[1] > t_span[0].")
+
+    if si < dt:
+        dt = si
+        ns = 1
+    else:
+        ns = int(round(si / dt))
+        if abs(ns * dt - si) > 1e-10 * max(1.0, abs(si)):
+            raise ValueError("si must be an integer multiple of dt.")
+
+    nt = int(round((t1 - t0) / si))
+    if abs(nt * si - (t1 - t0)) > 1e-10 * max(1.0, abs(t1 - t0)):
+        raise ValueError("t_span length must be an integer multiple of si.")
+
+    y = np.asarray(y0, dtype=float)
+    history = np.zeros((nt + 1, y.size), dtype=float)
+    times = np.zeros(nt + 1, dtype=float)
+    history[0] = y
+    times[0] = t0
 
     if rng is None:
         rng = np.random.default_rng()
 
     sqrt_dt = np.sqrt(dt)
 
-    for i in range(1, n_steps):
-        t_curr, y_curr = t[i - 1], y[i - 1]
-        t_next = t_curr + dt
+    for step in range(nt):
+        base_t = t0 + step * si
+        for s in range(ns):
+            t_curr = base_t + s * dt
+            t_next = t_curr + dt
 
-        f0 = np.asarray(f(t_curr, y_curr, *args), dtype=float)
+            f0 = np.asarray(f(t_curr, y, *args), dtype=float)
 
-        if noise_func is None:
-            g0 = np.zeros_like(y_curr, dtype=float)
-        else:
-            g0 = np.asarray(noise_func(t_curr, y_curr), dtype=float)
-            if g0.shape != y_curr.shape:
-                raise ValueError(
-                    "noise_func must return a diffusion vector with the same shape as the state."
-                )
+            if noise_func is None:
+                g0 = np.zeros_like(y, dtype=float)
+            else:
+                g0 = np.asarray(noise_func(t_curr, y), dtype=float)
+                if g0.shape != y.shape:
+                    raise ValueError(
+                        "noise_func must return a diffusion vector with the same shape as the state."
+                    )
 
-        dW = rng.normal(0.0, 1.0, size=len(y_curr)) * sqrt_dt
+            dW = rng.normal(0.0, 1.0, size=y.size) * sqrt_dt
 
-        # Euler predictor
-        y_pred = y_curr + f0 * dt + g0 * dW
+            # Euler predictor
+            y_pred = y + f0 * dt + g0 * dW
 
-        # Evaluate drift and diffusion at predicted state
-        f1 = np.asarray(f(t_next, y_pred, *args), dtype=float)
+            # Evaluate drift and diffusion at predicted state
+            f1 = np.asarray(f(t_next, y_pred, *args), dtype=float)
 
-        if noise_func is None:
-            g1 = np.zeros_like(y_curr, dtype=float)
-        else:
-            g1 = np.asarray(noise_func(t_next, y_pred), dtype=float)
+            if noise_func is None:
+                g1 = np.zeros_like(y, dtype=float)
+            else:
+                g1 = np.asarray(noise_func(t_next, y_pred), dtype=float)
 
-        # Heun corrector
-        y[i] = y_curr + 0.5 * (f0 + f1) * dt + 0.5 * (g0 + g1) * dW
+            # Heun corrector
+            y = y + 0.5 * (f0 + f1) * dt + 0.5 * (g0 + g1) * dW
+            if post_step is not None:
+                y = np.asarray(post_step(t_next, y), dtype=float)
+        history[step + 1] = y
+        times[step + 1] = t0 + (step + 1) * si
 
-    return Solution(t, y)
+    return Solution(times, history)
 
 
-def milstein_method(f, t_span, y0, dt, noise_func=None, rng=None, args=()):
+def milstein_method(f, t_span, y0, dt, si=None, noise_func=None, rng=None, args=(),
+                    post_step=None):
     """Fixed-step Milstein integrator for stochastic differential equations.
 
     Achieves strong order 1.0 for both additive *and* multiplicative noise
@@ -539,7 +610,12 @@ def milstein_method(f, t_span, y0, dt, noise_func=None, rng=None, args=()):
     y0 : array-like
         Initial state vector.
     dt : float
-        Fixed timestep.
+        Integration timestep.
+    si : float or None
+        Sampling interval — output is saved every ``si`` time units, with
+        Wiener increments accumulated across the intervening sub-steps (no
+        interpolation).  Must be an integer multiple of ``dt``.  Defaults to
+        ``dt`` (every step is saved).
     noise_func : callable or None
         Diffusion function with signature ``noise_func(t, y)``, returning a
         vector of per-state diffusion scales.  If ``None``, the stochastic
@@ -549,6 +625,10 @@ def milstein_method(f, t_span, y0, dt, noise_func=None, rng=None, args=()):
         created if ``None``.
     args : tuple
         Extra positional arguments forwarded to ``f``.
+    post_step : callable or None
+        Optional hook called after each accepted sub-step with signature
+        ``post_step(t, y) -> y``.  The returned array replaces the current
+        state, allowing post-step corrections (e.g. state nudging).
 
     Returns
     -------
@@ -558,7 +638,9 @@ def milstein_method(f, t_span, y0, dt, noise_func=None, rng=None, args=()):
     Raises
     ------
     ValueError
-        If ``noise_func`` returns a vector whose shape does not match the
+        If ``t_span`` is invalid, ``si`` is not an integer multiple of
+        ``dt``, ``t_span`` length is not an integer multiple of ``si``, or
+        ``noise_func`` returns a vector whose shape does not match the
         state vector.
 
     Notes
@@ -570,10 +652,30 @@ def milstein_method(f, t_span, y0, dt, noise_func=None, rng=None, args=()):
     finite-difference approximation is adequate for all current ClimateCritters
     use cases.
     """
-    n_steps = int((t_span[1] - t_span[0]) / dt) + 1
-    t = np.linspace(t_span[0], t_span[1], n_steps)
-    y = np.zeros((n_steps, len(y0)))
-    y[0] = y0
+    t0, t1 = float(t_span[0]), float(t_span[1])
+    dt = float(dt)
+    si = float(si) if si is not None else dt
+
+    if t1 - t0 <= 0:
+        raise ValueError("t_span must satisfy t_span[1] > t_span[0].")
+
+    if si < dt:
+        dt = si
+        ns = 1
+    else:
+        ns = int(round(si / dt))
+        if abs(ns * dt - si) > 1e-10 * max(1.0, abs(si)):
+            raise ValueError("si must be an integer multiple of dt.")
+
+    nt = int(round((t1 - t0) / si))
+    if abs(nt * si - (t1 - t0)) > 1e-10 * max(1.0, abs(t1 - t0)):
+        raise ValueError("t_span length must be an integer multiple of si.")
+
+    y = np.asarray(y0, dtype=float)
+    history = np.zeros((nt + 1, y.size), dtype=float)
+    times = np.zeros(nt + 1, dtype=float)
+    history[0] = y
+    times[0] = t0
 
     if rng is None:
         rng = np.random.default_rng()
@@ -581,34 +683,40 @@ def milstein_method(f, t_span, y0, dt, noise_func=None, rng=None, args=()):
     sqrt_dt = np.sqrt(dt)
     _fd_eps = np.sqrt(np.finfo(float).eps)   # ~1.5e-8; finite-difference base step
 
-    for i in range(1, n_steps):
-        t_curr, y_curr = t[i - 1], y[i - 1]
+    for step in range(nt):
+        base_t = t0 + step * si
+        for s in range(ns):
+            t_curr = base_t + s * dt
 
-        f0 = np.asarray(f(t_curr, y_curr, *args), dtype=float)
-        dW = rng.normal(0.0, 1.0, size=len(y_curr)) * sqrt_dt
+            f0 = np.asarray(f(t_curr, y, *args), dtype=float)
+            dW = rng.normal(0.0, 1.0, size=y.size) * sqrt_dt
 
-        if noise_func is None:
-            y[i] = y_curr + f0 * dt
-            continue
+            if noise_func is None:
+                y = y + f0 * dt
+            else:
+                g0 = np.asarray(noise_func(t_curr, y), dtype=float)
+                if g0.shape != y.shape:
+                    raise ValueError(
+                        "noise_func must return a diffusion vector with the same shape as the state."
+                    )
 
-        g0 = np.asarray(noise_func(t_curr, y_curr), dtype=float)
-        if g0.shape != y_curr.shape:
-            raise ValueError(
-                "noise_func must return a diffusion vector with the same shape as the state."
-            )
+                # Element-wise finite-difference approximation of ∂g/∂y (diagonal only)
+                h = _fd_eps * np.maximum(1.0, np.abs(y))
+                dgdy = np.zeros_like(y)
+                for j in range(y.size):
+                    y_pert = y.copy()
+                    y_pert[j] += h[j]
+                    g_pert = np.asarray(noise_func(t_curr, y_pert), dtype=float)
+                    dgdy[j] = (g_pert[j] - g0[j]) / h[j]
 
-        # Element-wise finite-difference approximation of ∂g/∂y (diagonal only)
-        h = _fd_eps * np.maximum(1.0, np.abs(y_curr))
-        dgdy = np.zeros_like(y_curr)
-        for j in range(len(y_curr)):
-            y_pert = y_curr.copy()
-            y_pert[j] += h[j]
-            g_pert = np.asarray(noise_func(t_curr, y_pert), dtype=float)
-            dgdy[j] = (g_pert[j] - g0[j]) / h[j]
+                # Milstein correction: ½ g (∂g/∂y)(dW² - dt)
+                milstein_correction = 0.5 * g0 * dgdy * (dW ** 2 - dt)
 
-        # Milstein correction: ½ g (∂g/∂y)(dW² - dt)
-        milstein_correction = 0.5 * g0 * dgdy * (dW ** 2 - dt)
+                y = y + f0 * dt + g0 * dW + milstein_correction
 
-        y[i] = y_curr + f0 * dt + g0 * dW + milstein_correction
+            if post_step is not None:
+                y = np.asarray(post_step(t_curr + dt, y), dtype=float)
+        history[step + 1] = y
+        times[step + 1] = t0 + (step + 1) * si
 
-    return Solution(t, y)
+    return Solution(times, history)
