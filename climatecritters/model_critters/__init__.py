@@ -16,3 +16,4 @@ from .daisyworld import *
 from .stocker2003_bipolar_seesaw import *
 from .damped_spring import *
 from .pendulum import *
+from .bistable_melcher import *
