@@ -5,7 +5,7 @@ sidebar: get-started
 
 The name comes from Wally Broecker, who characterized Earth's climate as an "angry beast" — capable of abrupt, large-amplitude shifts that defy easy extrapolation. ClimateCritters is a collection of minimal models that try to capture pieces of that behavior in a tractable, well-understood form.
 
-The motivation borrows loosely from biology, where progress often runs through model organisms: well-characterized systems whose dynamics are known precisely enough to serve as a reference for new methods and theories. Climate science has fewer of those. The models gathered here — Lorenz's three-equation convection system, thermohaline box models, ice-volume oscillators, energy balance frameworks, and others — are not intended as comprehensive representations of climate. Their value runs in the other direction: they are simple enough to explore fully, yet rich enough to exhibit chaos, multiple equilibria, tipping points, and intermittency.
+The motivation borrows loosely from biology, where progress often runs through model organisms: well-characterized systems whose dynamics are known precisely enough to serve as a reference for new methods and theories. The models gathered here — Lorenz's three-equation convection system, thermohaline box models, ice-volume oscillators, energy balance frameworks, and others — are not intended as comprehensive representations of climate. Their value runs in the other direction: they are simple enough to explore fully, yet rich enough to exhibit chaos, multiple equilibria, tipping points, and intermittency.
 
 A few things these models lend themselves to:
 
