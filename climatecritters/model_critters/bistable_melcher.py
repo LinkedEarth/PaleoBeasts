@@ -116,84 +116,67 @@ class BistableMelcherModel(CCModel):
 
     Examples
     --------
-    **Generate a synthetic DO record and inspect states**
+    Generate a synthetic DO record and inspect states
 
-    .. code-block:: python
+    ```python
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from climatecritters.model_critters.bistable_melcher import (
+        BistableMelcherModel, classify_bistable_states
+    )
 
-        import numpy as np
-        from climatecritters.model_critters.bistable_melcher import (
-            BistableMelcherModel, classify_bistable_states
-        )
+    model = BistableMelcherModel(sigma=0.2, gamma=1.5, alpha=-0.4)
+    output = model.integrate(
+        t_span=(0, 599.88), y0=[1.0, 0.0],
+        method='heun_maruyama', dt=0.012,
+        kwargs={'random_seed': 42, 'si': 0.12},
+    )
 
-        model = BistableMelcherModel(sigma=0.2, gamma=1.5, alpha=-0.4)
-        output = model.integrate(
-            t_span=(0, 599.88), y0=[1.0, 0.0],
-            method='heun_maruyama', dt=0.012,
-            kwargs={'random_seed': 42, 'si': 0.12},
-        )
+    # Δb time series as a pyleoclim Series — ready to plot or analyse
+    ts = output.to_pyleo('db')
+    ts.plot()
+    plt.savefig('docs/reference/figures/BistableMelcher_example.png',
+            dpi=150, bbox_inches='tight')
 
-        # Δb time series as a pyleoclim Series — ready to plot or analyse
-        ts = output.to_pyleo('db')
-        ts.plot()
+    # Stadial/interstadial classification is computed automatically
+    states = output.diagnostic_variables['states']   # 1 = cold, 0 = warm
+    print('stadial threshold:',      model.stadial_threshold)
+    print('interstadial threshold:', model.interstadial_threshold)
 
-        # Stadial/interstadial classification is computed automatically
-        states = output.diagnostic_variables['states']   # 1 = cold, 0 = warm
-        print('stadial threshold:',      model.stadial_threshold)
-        print('interstadial threshold:', model.interstadial_threshold)
+    # Count DO events (interstadial onsets)
+    n_events = int(np.sum(np.diff(states) == -1))
+    print('number of DO events:', n_events)
+    ```
 
-        # Count DO events (interstadial onsets)
-        n_events = int(np.sum(np.diff(states) == -1))
-        print('number of DO events:', n_events)
+    Add a time-varying forcing (e.g. a slow CO2 ramp across a glacial cycle):
 
-    **Inspect all parameters interactively**
+    ```python
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from climatecritters.model_critters.bistable_melcher import BistableMelcherModel
 
-    .. code-block:: python
+    t_arr = np.linspace(0, 599.88, 5000)
+    gamma_ramp = np.linspace(0.8, 3.2, 5000)   # γ increases over time
 
-        model.doc('parameters')   # pretty-prints names, current values, descriptions
-
-    **Time-varying forcing** (e.g. a slow CO2 ramp across a glacial cycle)
-
-    .. code-block:: python
-
-        import numpy as np
-        from climatecritters.model_critters.bistable_melcher import BistableMelcherModel
-
-        t_arr = np.linspace(0, 599.88, 5000)
-        gamma_ramp = np.linspace(0.8, 3.2, 5000)   # γ increases over time
-
-        model = BistableMelcherModel(
-            sigma=0.2,
-            gamma=lambda t: float(np.interp(t, t_arr, gamma_ramp)),
-            alpha=0.0,
-        )
-        output = model.integrate(
-            t_span=(t_arr[0], t_arr[-1]), y0=[1.0, 0.0],
-            method='heun_maruyama', dt=0.012,
-            kwargs={'random_seed': 0, 'si': 0.12},
-        )
-        ts = output.to_pyleo('db')
-
-    **Reclassify after adding proxy noise**
-
-    .. code-block:: python
-
-        import numpy as np
-        from climatecritters.model_critters.bistable_melcher import classify_bistable_states
-
-        noisy_db = ts.value + np.random.default_rng(7).normal(0, 0.1, len(ts.value))
-        states_noisy = classify_bistable_states(noisy_db, alpha=-0.4)
-
-    **Sensitivity to calibration constants**
-
-    .. code-block:: python
-
-        model = BistableMelcherModel(b0=0.6, q0=-8.5, q1=11.0, tau=0.95)
-        model.doc('parameters')   # verify the new values are registered
+    model = BistableMelcherModel(
+        sigma=0.2,
+        gamma=lambda t: float(np.interp(t, t_arr, gamma_ramp)),
+        alpha=0.0,
+    )
+    output = model.integrate(
+        t_span=(t_arr[0], t_arr[-1]), y0=[1.0, 0.0],
+        method='heun_maruyama', dt=0.012,
+        kwargs={'random_seed': 0, 'si': 0.12},
+    )
+    ts = output.to_pyleo('db')
+    ts.plot()
+    plt.savefig('docs/reference/figures/BistableMelcher_ramp_example.png',
+            dpi=150, bbox_inches='tight')
+    ```
 
     References
     ----------
-    Melcher et al. (2025), Clim. Past, 21, 115-132.
-    https://cp.copernicus.org/articles/21/115/2025/
+    Melcher et al. (2025), Clim. Past, 21, 115-132. https://cp.copernicus.org/articles/21/115/2025/
     """
 
     uses_post_history = True
