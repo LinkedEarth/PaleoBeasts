@@ -45,7 +45,7 @@ class Daisyworld(CCModel):
     C : float or callable or cc.Forcing
         Planetary heat capacity (effective, in model units).  Default 10.0.
     sigma : float or callable or cc.Forcing
-        Stefan-Boltzmann constant (W m\ :sup:`-2` K\ :sup:`-4`).
+        Stefan-Boltzmann constant (W m^-2 K^-4).
         Default 5.67051196e-8.
 
     Notes
