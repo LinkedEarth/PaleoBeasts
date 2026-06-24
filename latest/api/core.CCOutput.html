@@ -659,6 +659,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#parameters-1" id="toc-parameters-1" class="nav-link" data-scroll-target="#parameters-1">Parameters</a></li>
   <li><a href="#returns-1" id="toc-returns-1" class="nav-link" data-scroll-target="#returns-1">Returns</a></li>
+  <li><a href="#raises" id="toc-raises" class="nav-link" data-scroll-target="#raises">Raises</a></li>
   </ul></li>
   <li><a href="#climatecritters.core.CCOutput.remove_noise" id="toc-climatecritters.core.CCOutput.remove_noise" class="nav-link" data-scroll-target="#climatecritters.core.CCOutput.remove_noise">remove_noise</a></li>
   <li><a href="#climatecritters.core.CCOutput.to_pyleo" id="toc-climatecritters.core.CCOutput.to_pyleo" class="nav-link" data-scroll-target="#climatecritters.core.CCOutput.to_pyleo">to_pyleo</a>
@@ -813,6 +814,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dt><code><span class="parameter-name"><strong>reframed</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">structured ndarray or ndarray</span></code></dt>
 <dd>
 <p>Resampled state variables on <code>t_eval</code>.</p>
+</dd>
+</dl>
+</section>
+<section id="raises" class="level4 doc-section doc-section-raises">
+<h4 class="doc-section doc-section-raises anchored" data-anchor-id="raises">Raises</h4>
+<dl>
+<dt><code><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/exceptions.html#UserWarning">UserWarning</a></span></code></dt>
+<dd>
+<p>If this output was produced by a stochastic (SDE) solver without dense output, and <code>t_eval</code> is coarser than the integrated time series. Linearly interpolating between two stochastic path points spaced wider than the original grid invents values that were never realised, discarding Wiener increments and distorting distributional properties. Use <code>si=</code> at integration time to control output spacing instead.</p>
 </dd>
 </dl>
 </section>

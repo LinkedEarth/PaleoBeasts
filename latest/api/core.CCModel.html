@@ -679,6 +679,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#parameters-5" id="toc-parameters-5" class="nav-link" data-scroll-target="#parameters-5">Parameters</a></li>
   <li><a href="#raises" id="toc-raises" class="nav-link" data-scroll-target="#raises">Raises</a></li>
   </ul></li>
+  <li><a href="#climatecritters.core.CCModel.sde_noise" id="toc-climatecritters.core.CCModel.sde_noise" class="nav-link" data-scroll-target="#climatecritters.core.CCModel.sde_noise">sde_noise</a></li>
   <li><a href="#climatecritters.core.CCModel.set_function" id="toc-climatecritters.core.CCModel.set_function" class="nav-link" data-scroll-target="#climatecritters.core.CCModel.set_function">set_function</a>
   <ul class="collapse">
   <li><a href="#parameters-6" id="toc-parameters-6" class="nav-link" data-scroll-target="#parameters-6">Parameters</a></li>
@@ -775,14 +776,18 @@ model.register_forcing('x', forcing_obj, 'additive', timing='pre')  # state</cod
 <td>Attach an external forcing to a named parameter or state variable.</td>
 </tr>
 <tr class="even">
+<td><a href="#climatecritters.core.CCModel.sde_noise">sde_noise</a></td>
+<td>Define the diffusion term for stochastic (SDE) integration methods.</td>
+</tr>
+<tr class="odd">
 <td><a href="#climatecritters.core.CCModel.set_function">set_function</a></td>
 <td>Swap out a model calculation function on a single instance.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="#climatecritters.core.CCModel.set_param_value">set_param_value</a></td>
 <td>Add or update a parameter and keep the attribute and <code>param_values</code> in sync.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="#climatecritters.core.CCModel.validate_initial_state">validate_initial_state</a></td>
 <td>Validate and normalize the initial state vector.</td>
 </tr>
@@ -821,7 +826,7 @@ model.register_forcing('x', forcing_obj, 'additive', timing='pre')  # state</cod
 <h3 class="anchored" data-anchor-id="climatecritters.core.CCModel.dydt">dydt</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>core.CCModel.dydt(t, y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Define the system of differential equations.</p>
-<p>Must be overridden by every subclass. The solver calls this at each timestep with the current time <code>t</code> and state vector <code>y</code>, and expects a list of derivatives of the same length as <code>y</code>. Use <code>get_param</code> inside the implementation to access parameters.</p>
+<p>Must be overridden by every subclass. The solver calls this at each timestep with the current time <code>t</code> and state vector <code>y</code>, and expects a list of derivatives of the same length as <code>y</code>. Use <code>get_param_value</code> inside the implementation to access parameters.</p>
 </section>
 <section id="climatecritters.core.CCModel.get_forcings" class="level3">
 <h3 class="anchored" data-anchor-id="climatecritters.core.CCModel.get_forcings">get_forcings</h3>
@@ -847,7 +852,7 @@ model.register_forcing('x', forcing_obj, 'additive', timing='pre')  # state</cod
 <h3 class="anchored" data-anchor-id="climatecritters.core.CCModel.get_param_vector">get_param_vector</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>core.CCModel.get_param_vector(name, t, state, size)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Resolve a parameter and broadcast it to a fixed-length vector.</p>
-<p>Spatial models often allow parameters to be either a single scalar (applied uniformly) or a full grid-length array. This method resolves the parameter via <code>get_param</code> and then either broadcasts a scalar or validates that an array has the expected size, eliminating that boilerplate from every <code>dydt</code> that works on a spatial grid.</p>
+<p>Spatial models often allow parameters to be either a single scalar (applied uniformly) or a full grid-length array. This method resolves the parameter via <code>get_param_value</code> and then either broadcasts a scalar or validates that an array has the expected size, eliminating that boilerplate from every <code>dydt</code> that works on a spatial grid.</p>
 </section>
 <section id="climatecritters.core.CCModel.integrate" class="level3">
 <h3 class="anchored" data-anchor-id="climatecritters.core.CCModel.integrate">integrate</h3>
@@ -878,7 +883,7 @@ model.register_forcing('x', forcing_obj, 'additive', timing='pre')  # state</cod
 </dd>
 <dt><code><span class="parameter-name"><strong>dt</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
 <dd>
-<p>Fixed timestep for <code>euler</code>, <code>euler_maruyama</code>, and <code>rk4</code>. Required for those methods.</p>
+<p>Fixed timestep for <code>euler</code>, <code>euler_maruyama</code>, <code>heun_maruyama</code>, <code>milstein</code>, and <code>rk4</code>. Required for those methods.</p>
 </dd>
 <dt><code><span class="parameter-name"><strong>output_time</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/array.html#module-array">array</a> - <code>like</code></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
 <dd>
@@ -890,7 +895,7 @@ model.register_forcing('x', forcing_obj, 'additive', timing='pre')  # state</cod
 </dd>
 <dt><code><span class="parameter-name"><strong>kwargs</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
 <dd>
-<p>Additional solver options. For <code>solve_ivp</code> methods these are forwarded directly (e.g.&nbsp;<code>rtol</code>, <code>atol</code>, <code>t_eval</code>). For <code>euler_maruyama</code>, <code>random_seed</code> is extracted here. For <code>rk4</code>, <code>si</code> (sampling interval) is extracted here. .. deprecated:: Passing <code>dt</code> inside <code>kwargs</code> is deprecated. Use the explicit <code>dt</code> parameter instead.</p>
+<p>Additional solver options. For <code>solve_ivp</code> methods these are forwarded directly (e.g.&nbsp;<code>rtol</code>, <code>atol</code>, <code>t_eval</code>). For <code>euler_maruyama</code>, <code>heun_maruyama</code>, and <code>milstein</code>, <code>random_seed</code> is extracted here. For <code>rk4</code>, <code>euler_maruyama</code>, <code>heun_maruyama</code>, and <code>milstein</code>, <code>si</code> (sampling interval) is extracted here — integration runs at <code>dt</code> but output (and Wiener increment accumulation, for SDE methods) is saved every <code>si</code> time units with no interpolation. Passing <code>si != dt</code> requires <code>uses_post_history = True</code> on the subclass. .. deprecated:: Passing <code>dt</code> inside <code>kwargs</code> is deprecated. Use the explicit <code>dt</code> parameter instead.</p>
 </dd>
 </dl>
 </section>
@@ -970,9 +975,15 @@ model.register_forcing('x', forcing_obj, 'additive', timing='pre')  # state</cod
 </dl>
 </section>
 </section>
+<section id="climatecritters.core.CCModel.sde_noise" class="level3">
+<h3 class="anchored" data-anchor-id="climatecritters.core.CCModel.sde_noise">sde_noise</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>core.CCModel.sde_noise(t, y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Define the diffusion term for stochastic (SDE) integration methods.</p>
+<p>Override in subclasses that use <code>method='euler_maruyama'</code>, <code>'heun_maruyama'</code>, or <code>'milstein'</code>. Called at each timestep with the current time <code>t</code> and state vector <code>y</code>; must return a vector of per-state diffusion scales the same shape as <code>y</code>. The base implementation returns zeros, recovering deterministic integration for models that don’t define stochastic dynamics.</p>
+</section>
 <section id="climatecritters.core.CCModel.set_function" class="level3">
 <h3 class="anchored" data-anchor-id="climatecritters.core.CCModel.set_function">set_function</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>core.CCModel.set_function(name, function, bind<span class="op">=</span><span class="va">None</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>core.CCModel.set_function(name, function, bind<span class="op">=</span><span class="va">None</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Swap out a model calculation function on a single instance.</p>
 <p>Subclassing is the right approach when a different formulation should apply everywhere, but for one-off experiments (e.g.&nbsp;testing an alternative albedo scheme without writing a new class) it is useful to replace a single method on one instance. The <code>bind</code> parameter handles whether the replacement expects <code>self</code> as its first argument.</p>
 <section id="parameters-6" class="level4 doc-section doc-section-parameters">
@@ -995,13 +1006,13 @@ model.register_forcing('x', forcing_obj, 'additive', timing='pre')  # state</cod
 </section>
 <section id="climatecritters.core.CCModel.set_param_value" class="level3">
 <h3 class="anchored" data-anchor-id="climatecritters.core.CCModel.set_param_value">set_param_value</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>core.CCModel.set_param_value(name, value)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>core.CCModel.set_param_value(name, value)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Add or update a parameter and keep the attribute and <code>param_values</code> in sync.</p>
 <p><code>__setattr__</code> syncs the direction <code>model.alpha = v → param_values</code>, but only for names already in <code>param_values</code>. This method handles the reverse and covers inserting new parameters that weren’t declared at initialization.</p>
 </section>
 <section id="climatecritters.core.CCModel.validate_initial_state" class="level3">
 <h3 class="anchored" data-anchor-id="climatecritters.core.CCModel.validate_initial_state">validate_initial_state</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>core.CCModel.validate_initial_state(y0)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>core.CCModel.validate_initial_state(y0)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Validate and normalize the initial state vector.</p>
 <p>Exists as a method so that subclasses with non-standard initial state requirements (e.g.&nbsp;a spatially discretised model that accepts a scalar and broadcasts it to the grid) can override it. The base implementation delegates to the utility in <code>utils/solver</code>.</p>
 

@@ -24,6 +24,8 @@ climatecritters.core.CCModel.post_integrate py:function 1 api/core.CCModel.html#
 climatecritters.core.ccmodel.CCModel.post_integrate py:function 1 api/core.CCModel.html#climatecritters.core.CCModel.post_integrate climatecritters.core.CCModel.post_integrate
 climatecritters.core.CCModel.register_forcing py:function 1 api/core.CCModel.html#climatecritters.core.CCModel.register_forcing -
 climatecritters.core.ccmodel.CCModel.register_forcing py:function 1 api/core.CCModel.html#climatecritters.core.CCModel.register_forcing climatecritters.core.CCModel.register_forcing
+climatecritters.core.CCModel.sde_noise py:function 1 api/core.CCModel.html#climatecritters.core.CCModel.sde_noise -
+climatecritters.core.ccmodel.CCModel.sde_noise py:function 1 api/core.CCModel.html#climatecritters.core.CCModel.sde_noise climatecritters.core.CCModel.sde_noise
 climatecritters.core.CCModel.set_function py:function 1 api/core.CCModel.html#climatecritters.core.CCModel.set_function -
 climatecritters.core.ccmodel.CCModel.set_function py:function 1 api/core.CCModel.html#climatecritters.core.CCModel.set_function climatecritters.core.CCModel.set_function
 climatecritters.core.CCModel.set_param_value py:function 1 api/core.CCModel.html#climatecritters.core.CCModel.set_param_value -
