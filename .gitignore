@@ -4,6 +4,7 @@ __pycache__
 *.egg-info
 /notes_for_codex/
 /.idea/
+/.vscode/
 /build/
 
 ### JupyterNotebooks template
