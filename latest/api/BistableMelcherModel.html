@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>core.forcing.hold – ClimateCritters</title>
+<title>bistablemelchermodel – ClimateCritters</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -68,8 +68,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../api/core.forcing.Ramp.html" rel="next">
-<link href="../api/core.forcing.ForcingSequence.html" rel="prev">
+<link href="../api/utils.noise.from_series.html" rel="next">
+<link href="../api/Stommel.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -161,7 +161,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Core</li><li class="breadcrumb-item"><a href="../api/core.forcing.ForcingElement.html">Forcing</a></li><li class="breadcrumb-item"><a href="../api/core.forcing.Hold.html">core.forcing.Hold</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Models</li><li class="breadcrumb-item"><a href="../api/ENSORechargeOscillator.html">Individual Models</a></li><li class="breadcrumb-item"><a href="../api/BistableMelcherModel.html">BistableMelcherModel</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -219,13 +219,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
  <span class="menu-text">Forcing</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../api/core.forcing.ForcingElement.html" class="sidebar-item-text sidebar-link">
@@ -246,7 +246,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/core.forcing.Hold.html" class="sidebar-item-text sidebar-link active">
+  <a href="../api/core.forcing.Hold.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">core.forcing.Hold</span></a>
   </div>
 </li>
@@ -399,13 +399,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
  <span class="menu-text">Individual Models</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../api/ENSORechargeOscillator.html" class="sidebar-item-text sidebar-link">
@@ -438,7 +438,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/BistableMelcherModel.html" class="sidebar-item-text sidebar-link">
+  <a href="../api/BistableMelcherModel.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">BistableMelcherModel</span></a>
   </div>
 </li>
@@ -648,62 +648,322 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#climatecritters.core.forcing.Hold" id="toc-climatecritters.core.forcing.Hold" class="nav-link active" data-scroll-target="#climatecritters.core.forcing.Hold">core.forcing.Hold</a>
+  <li><a href="#climatecritters.BistableMelcherModel" id="toc-climatecritters.BistableMelcherModel" class="nav-link active" data-scroll-target="#climatecritters.BistableMelcherModel">BistableMelcherModel</a>
   <ul>
   <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters">Parameters</a></li>
+  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes">Notes</a></li>
+  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also">See also</a></li>
   <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
+  <ul>
+  <li><a href="#climatecritters.BistableMelcherModel.compute_stability_thresholds" id="toc-climatecritters.BistableMelcherModel.compute_stability_thresholds" class="nav-link" data-scroll-target="#climatecritters.BistableMelcherModel.compute_stability_thresholds">compute_stability_thresholds</a>
+  <ul class="collapse">
+  <li><a href="#parameters-1" id="toc-parameters-1" class="nav-link" data-scroll-target="#parameters-1">Parameters</a></li>
+  <li><a href="#returns" id="toc-returns" class="nav-link" data-scroll-target="#returns">Returns</a></li>
+  <li><a href="#notes-1" id="toc-notes-1" class="nav-link" data-scroll-target="#notes-1">Notes</a></li>
+  </ul></li>
+  <li><a href="#climatecritters.BistableMelcherModel.dydt" id="toc-climatecritters.BistableMelcherModel.dydt" class="nav-link" data-scroll-target="#climatecritters.BistableMelcherModel.dydt">dydt</a>
+  <ul class="collapse">
+  <li><a href="#parameters-2" id="toc-parameters-2" class="nav-link" data-scroll-target="#parameters-2">Parameters</a></li>
+  <li><a href="#returns-1" id="toc-returns-1" class="nav-link" data-scroll-target="#returns-1">Returns</a></li>
+  </ul></li>
+  <li><a href="#climatecritters.BistableMelcherModel.populate_diagnostics_from_history" id="toc-climatecritters.BistableMelcherModel.populate_diagnostics_from_history" class="nav-link" data-scroll-target="#climatecritters.BistableMelcherModel.populate_diagnostics_from_history">populate_diagnostics_from_history</a>
+  <ul class="collapse">
+  <li><a href="#parameters-3" id="toc-parameters-3" class="nav-link" data-scroll-target="#parameters-3">Parameters</a></li>
+  </ul></li>
+  <li><a href="#climatecritters.BistableMelcherModel.sde_noise" id="toc-climatecritters.BistableMelcherModel.sde_noise" class="nav-link" data-scroll-target="#climatecritters.BistableMelcherModel.sde_noise">sde_noise</a>
+  <ul class="collapse">
+  <li><a href="#parameters-4" id="toc-parameters-4" class="nav-link" data-scroll-target="#parameters-4">Parameters</a></li>
+  <li><a href="#returns-2" id="toc-returns-2" class="nav-link" data-scroll-target="#returns-2">Returns</a></li>
+  </ul></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Core</li><li class="breadcrumb-item"><a href="../api/core.forcing.ForcingElement.html">Forcing</a></li><li class="breadcrumb-item"><a href="../api/core.forcing.Hold.html">core.forcing.Hold</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Models</li><li class="breadcrumb-item"><a href="../api/ENSORechargeOscillator.html">Individual Models</a></li><li class="breadcrumb-item"><a href="../api/BistableMelcherModel.html">BistableMelcherModel</a></li></ol></nav></header>
 
 
 
 
-<section id="climatecritters.core.forcing.Hold" class="level1">
-<h1>core.forcing.Hold</h1>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>core.forcing.Hold(dt<span class="op">=</span><span class="va">None</span>, value<span class="op">=</span><span class="va">None</span>, duration<span class="op">=</span><span class="va">None</span>, tf<span class="op">=</span><span class="va">None</span>, plot_kwargs<span class="op">=</span><span class="va">None</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Constant-valued segment.</p>
+<section id="climatecritters.BistableMelcherModel" class="level1">
+<h1>BistableMelcherModel</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>BistableMelcherModel(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    var_name<span class="op">=</span><span class="st">'bistable'</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    sigma<span class="op">=</span><span class="fl">0.2</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    gamma<span class="op">=</span><span class="fl">1.5</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    alpha<span class="op">=</span><span class="fl">0.0</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    b0<span class="op">=</span><span class="fl">0.625</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    q0<span class="op">=-</span><span class="fl">9.0</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    q1<span class="op">=</span><span class="fl">12.0</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    tau<span class="op">=</span><span class="fl">0.902</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    state_variables<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    diagnostic_variables<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span>args,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">**</span>kwargs,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Two-equation bistable Itô SDE for stochastic Dansgaard-Oeschger transitions.</p>
+<p>Models the meridional buoyancy gradient Δb and buoyancy flux B as a coupled stochastic system that switches between stadial (weak AMOC) and interstadial (strong AMOC) states:</p>
+<pre><code>d(db)/dt = -B - |q0 + q1*(db - b0)| * (db - b0)  +  sigma * dW
+dB/dt    = (db + alpha*B - gamma) / tau             +  sigma * dW</code></pre>
 <section id="parameters" class="level2 doc-section doc-section-parameters">
 <h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <dl>
-<dt><code><span class="parameter-name"><strong>value</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
+<dt><code><span class="parameter-name"><strong>var_name</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">'bistable'</span></code></dt>
 <dd>
-<p>The constant forcing value throughout the segment.</p>
+<p>Label for model output. Default is ‘bistable’.</p>
 </dd>
-<dt><code><span class="parameter-name"><strong>duration</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
+<dt><code><span class="parameter-name"><strong>sigma</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">0.2</span></code></dt>
 <dd>
-<p>Length of the segment. Alias: <code>dt</code>. Exactly one of <code>duration</code>, <code>dt</code>, or <code>tf</code> must be provided.</p>
+<p>Noise amplitude applied to both state variables. Range [0.15, 0.4]. Default is 0.2.</p>
 </dd>
-<dt><code><span class="parameter-name"><strong>dt</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
+<dt><code><span class="parameter-name"><strong>gamma</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a> or <a href="https://docs.python.org/3/library/functions.html#callable">callable</a> or <code>cc</code>.<code>core</code>.<code>Forcing</code></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">1.5</span></code></dt>
 <dd>
-<p>Alias for <code>duration</code>.</p>
+<p>External forcing proportional to atmospheric CO2. Bistable behaviour occurs near γ ≈ 1.5; range [0.8, 3.2]. If callable, must follow the signature contract in <code>contracts/signal_model_contract.md</code>: <code>(t)</code>, <code>(t, state)</code>, or <code>(t, state, model)</code> with the first argument named <code>t</code> or <a href="https://docs.python.org/3/library/time.html#module-time" title="1"><code>time</code></a>. Default is 1.5.</p>
 </dd>
-<dt><code><span class="parameter-name"><strong>tf</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
+<dt><code><span class="parameter-name"><strong>alpha</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a> or <a href="https://docs.python.org/3/library/functions.html#callable">callable</a> or <code>cc</code>.<code>core</code>.<code>Forcing</code></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">0.0</span></code></dt>
 <dd>
-<p>Absolute end time (used instead of <code>duration</code> when the end time is known but the start time is not yet fixed).</p>
+<p>Southern Ocean AABW coupling; controls the asymmetry between stadial and interstadial durations. Range [-1.0, 0.0]. If callable, must follow the same signature contract as gamma. Default is 0.0.</p>
+</dd>
+<dt><code><span class="parameter-name"><strong>b0</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">0.625</span></code></dt>
+<dd>
+<p>Reference buoyancy gradient that sets the centre of the bistable potential well. Default is 0.625 (calibrated from NGRIP, Melcher et al.&nbsp;2025). Changing this value shifts both fixed points and may destroy bistability if moved far from the calibrated value.</p>
+</dd>
+<dt><code><span class="parameter-name"><strong>q0</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">-9.0</span></code></dt>
+<dd>
+<p>Constant term in the nonlinear restoring force. Default is -9.0 (calibrated from NGRIP). Together with <code>q1</code> it controls the depth and separation of the two potential wells; large departures from the default can eliminate one well and collapse the system to monostable behaviour.</p>
+</dd>
+<dt><code><span class="parameter-name"><strong>q1</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">12.0</span></code></dt>
+<dd>
+<p>Linear coefficient in the nonlinear restoring force. Default is 12.0 (calibrated from NGRIP). Must be positive for the restoring force to be bounded; values far from the default alter the transition rates.</p>
+</dd>
+<dt><code><span class="parameter-name"><strong>tau</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">0.902</span></code></dt>
+<dd>
+<p>Relaxation time-scale of the buoyancy-flux equation (in model time units). Default is 0.902 (calibrated from NGRIP). Very small values make B relax almost instantaneously and can suppress oscillations; very large values slow the recovery from transitions.</p>
 </dd>
 </dl>
 </section>
+<section id="notes" class="level2 doc-section doc-section-notes">
+<h2 class="doc-section doc-section-notes anchored" data-anchor-id="notes">Notes</h2>
+<p>The parameters <code>b0</code>, <code>q0</code>, <code>q1</code>, and <code>tau</code> are calibrated from NGRIP data (Melcher et al.&nbsp;2025). Their defaults are the suggested values that reproduce realistic Dansgaard-Oeschger statistics. You may change them to explore sensitivity or to fit a different dataset, but be aware that combinations far from the defaults can suppress bistability entirely.</p>
+<p>All seven parameters (<code>sigma</code>, <code>gamma</code>, <code>alpha</code>, <code>b0</code>, <code>q0</code>, <code>q1</code>, <code>tau</code>) are registered in <code>param_values</code> and are therefore inspectable via <code>model.doc('parameters')</code> and <code>model.list('parameters')</code>. <code>sigma</code>, <code>gamma</code>, and <code>alpha</code> additionally support time-varying values via callables or <a href="../api/core.Forcing.html#climatecritters.core.Forcing" title="0"><code>Forcing</code></a> objects.</p>
+<p>This model sets <code>uses_post_history = True</code>: state variables are derived from the full solved trajectory. After every <code>integrate()</code> call, the <code>states</code> diagnostic variable is auto-populated with the hysteresis classification, and <code>model.stadial_threshold</code> / <code>model.interstadial_threshold</code> are set to the Jacobian-derived thresholds. Use <code>method='heun_maruyama'</code> for strong order 1.0 accuracy (preferred over <code>'euler_maruyama'</code> for this additive-noise model).</p>
+</section>
+<section id="see-also" class="level2 doc-section doc-section-see-also">
+<h2 class="doc-section doc-section-see-also anchored" data-anchor-id="see-also">See also</h2>
+<p>cc.core.CCModel : Base class. classify_bistable_states : Reclassify a Δb signal post-hoc without re-running the SDE.</p>
+</section>
 <section id="examples" class="level2 doc-section doc-section-examples">
 <h2 class="doc-section doc-section-examples anchored" data-anchor-id="examples">Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> climatecritters <span class="im">as</span> cc</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> cc.forcing.Hold(duration<span class="op">=</span><span class="dv">50</span>, value<span class="op">=</span><span class="fl">280.0</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> h.plot()</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'docs/reference/figures/Hold_example.png'</span>,</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>            dpi<span class="op">=</span><span class="dv">150</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Generate a synthetic DO record and inspect states</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> climatecritters.model_critters.bistable_melcher <span class="im">import</span> (</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    BistableMelcherModel, classify_bistable_states</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> BistableMelcherModel(sigma<span class="op">=</span><span class="fl">0.2</span>, gamma<span class="op">=</span><span class="fl">1.5</span>, alpha<span class="op">=-</span><span class="fl">0.4</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> model.integrate(</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    t_span<span class="op">=</span>(<span class="dv">0</span>, <span class="fl">599.88</span>), y0<span class="op">=</span>[<span class="fl">1.0</span>, <span class="fl">0.0</span>],</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    method<span class="op">=</span><span class="st">'heun_maruyama'</span>, dt<span class="op">=</span><span class="fl">0.012</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    kwargs<span class="op">=</span>{<span class="st">'random_seed'</span>: <span class="dv">42</span>, <span class="st">'si'</span>: <span class="fl">0.12</span>},</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Δb time series as a pyleoclim Series — ready to plot or analyse</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>ts <span class="op">=</span> output.to_pyleo(<span class="st">'db'</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>ts.plot()</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'docs/reference/figures/BistableMelcher_example.png'</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        dpi<span class="op">=</span><span class="dv">150</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Stadial/interstadial classification is computed automatically</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>states <span class="op">=</span> output.diagnostic_variables[<span class="st">'states'</span>]   <span class="co"># 1 = cold, 0 = warm</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'stadial threshold:'</span>,      model.stadial_threshold)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'interstadial threshold:'</span>, model.interstadial_threshold)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Count DO events (interstadial onsets)</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>n_events <span class="op">=</span> <span class="bu">int</span>(np.<span class="bu">sum</span>(np.diff(states) <span class="op">==</span> <span class="op">-</span><span class="dv">1</span>))</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'number of DO events:'</span>, n_events)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../figures/Hold_example.png" class="img-fluid figure-img"></p>
-<figcaption>Hold example output</figcaption>
+<p><img src="../figures/BistableMelcher_example.png" class="img-fluid figure-img"></p>
+<figcaption>BistableMelcher example output</figcaption>
 </figure>
 </div>
+<p>Add a time-varying forcing (e.g.&nbsp;a slow CO2 ramp across a glacial cycle):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> climatecritters.model_critters.bistable_melcher <span class="im">import</span> BistableMelcherModel</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>t_arr <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="fl">599.88</span>, <span class="dv">5000</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>gamma_ramp <span class="op">=</span> np.linspace(<span class="fl">0.8</span>, <span class="fl">3.2</span>, <span class="dv">5000</span>)   <span class="co"># γ increases over time</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> BistableMelcherModel(</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    sigma<span class="op">=</span><span class="fl">0.2</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    gamma<span class="op">=</span><span class="kw">lambda</span> t: <span class="bu">float</span>(np.interp(t, t_arr, gamma_ramp)),</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    alpha<span class="op">=</span><span class="fl">0.0</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> model.integrate(</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    t_span<span class="op">=</span>(t_arr[<span class="dv">0</span>], t_arr[<span class="op">-</span><span class="dv">1</span>]), y0<span class="op">=</span>[<span class="fl">1.0</span>, <span class="fl">0.0</span>],</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    method<span class="op">=</span><span class="st">'heun_maruyama'</span>, dt<span class="op">=</span><span class="fl">0.012</span>,</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    kwargs<span class="op">=</span>{<span class="st">'random_seed'</span>: <span class="dv">0</span>, <span class="st">'si'</span>: <span class="fl">0.12</span>},</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>ts <span class="op">=</span> output.to_pyleo(<span class="st">'db'</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>ts.plot()</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'docs/reference/figures/BistableMelcher_ramp_example.png'</span>,</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>        dpi<span class="op">=</span><span class="dv">150</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/BistableMelcher_ramp_example.png" class="img-fluid figure-img"></p>
+<figcaption>BistableMelcher_ramp example output</figcaption>
+</figure>
+</div>
+</section>
+<section id="references" class="level2 doc-section doc-section-references">
+<h2 class="doc-section doc-section-references anchored" data-anchor-id="references">References</h2>
+<p>Melcher et al.&nbsp;(2025), Clim. Past, 21, 115-132. https://cp.copernicus.org/articles/21/115/2025/</p>
+</section>
+<section id="methods" class="level2">
+<h2 class="anchored" data-anchor-id="methods">Methods</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="#climatecritters.BistableMelcherModel.compute_stability_thresholds">compute_stability_thresholds</a></td>
+<td>Compute stadial and interstadial thresholds via Jacobian stability analysis.</td>
+</tr>
+<tr class="even">
+<td><a href="#climatecritters.BistableMelcherModel.dydt">dydt</a></td>
+<td>Evaluate the deterministic drift of the bistable SDE at time t and state y.</td>
+</tr>
+<tr class="odd">
+<td><a href="#climatecritters.BistableMelcherModel.populate_diagnostics_from_history">populate_diagnostics_from_history</a></td>
+<td>Classify states and compute thresholds from the full solved trajectory.</td>
+</tr>
+<tr class="even">
+<td><a href="#climatecritters.BistableMelcherModel.sde_noise">sde_noise</a></td>
+<td>Return the diffusion coefficient vector at time t and state y.</td>
+</tr>
+</tbody>
+</table>
+<section id="climatecritters.BistableMelcherModel.compute_stability_thresholds" class="level3">
+<h3 class="anchored" data-anchor-id="climatecritters.BistableMelcherModel.compute_stability_thresholds">compute_stability_thresholds</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>BistableMelcherModel.compute_stability_thresholds(alpha)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Compute stadial and interstadial thresholds via Jacobian stability analysis.</p>
+<section id="parameters-1" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-1">Parameters</h4>
+<dl>
+<dt><code><span class="parameter-name"><strong>alpha</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a> or <a href="https://docs.python.org/3/library/array.html#module-array">array</a> - <code>like</code></span></code></dt>
+<dd>
+<p>Southern Ocean AABW coupling parameter. The mean is taken if an array is passed (the stadial threshold shifts by less than 0.05 units across the full alpha range, so the mean is a good approximation).</p>
+</dd>
+</dl>
+</section>
+<section id="returns" class="level4 doc-section doc-section-returns">
+<h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns">Returns</h4>
+<dl>
+<dt><code><span class="parameter-name"><strong>stadial_threshold</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span></code></dt>
+<dd>
+<p>db drops below this → stadial state (1).</p>
+</dd>
+<dt><code><span class="parameter-name"><strong>interstadial_threshold</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span></code></dt>
+<dd>
+<p>db rises above this → interstadial state (0).</p>
+</dd>
+</dl>
+</section>
+<section id="notes-1" class="level4 doc-section doc-section-notes">
+<h4 class="doc-section doc-section-notes anchored" data-anchor-id="notes-1">Notes</h4>
+<p>The lower threshold is the bifurcation point where trace(J) = 0 (Eq. 7, Melcher et al.&nbsp;2025):</p>
+<pre><code>b_low = b0 + (-q0 - alpha/tau) / (2*q1)</code></pre>
+<p>The upper threshold is the non-differentiable point of the drift:</p>
+<pre><code>b_nd = b0 - q0/q1</code></pre>
+<p>which is independent of alpha.</p>
+</section>
+</section>
+<section id="climatecritters.BistableMelcherModel.dydt" class="level3">
+<h3 class="anchored" data-anchor-id="climatecritters.BistableMelcherModel.dydt">dydt</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>BistableMelcherModel.dydt(t, y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Evaluate the deterministic drift of the bistable SDE at time t and state y.</p>
+<p>Called by the solver at each timestep. Because this model sets <code>uses_post_history = True</code>, state is not accumulated here as a side effect.</p>
+<section id="parameters-2" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-2">Parameters</h4>
+<dl>
+<dt><code><span class="parameter-name"><strong>t</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span></code></dt>
+<dd>
+<p>Current time.</p>
+</dd>
+<dt><code><span class="parameter-name"><strong>y</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/array.html#module-array">array</a> - <code>like</code></span></code></dt>
+<dd>
+<p>Current state vector [db, B].</p>
+</dd>
+</dl>
+</section>
+<section id="returns-1" class="level4 doc-section doc-section-returns">
+<h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns-1">Returns</h4>
+<dl>
+<dt><code><span class="parameter-name"><strong>dydt</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">list of float</span></code></dt>
+<dd>
+<p>Time-derivatives [d(db)/dt, dB/dt].</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="climatecritters.BistableMelcherModel.populate_diagnostics_from_history" class="level3">
+<h3 class="anchored" data-anchor-id="climatecritters.BistableMelcherModel.populate_diagnostics_from_history">populate_diagnostics_from_history</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>BistableMelcherModel.populate_diagnostics_from_history(time, history)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Classify states and compute thresholds from the full solved trajectory.</p>
+<p>Called automatically by <a href="../api/core.CCModel.html#climatecritters.core.CCModel.post_integrate" title="0"><code>CCModel.post_integrate</code></a> after every <code>integrate()</code> call. Populates <code>diagnostic_variables['states']</code> with the hysteresis classification and sets <code>self.stadial_threshold</code> / <code>self.interstadial_threshold</code>.</p>
+<section id="parameters-3" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-3">Parameters</h4>
+<dl>
+<dt><code><span class="parameter-name"><strong>time</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/array.html#module-array">array</a> - <code>like</code></span></code></dt>
+<dd>
+<p>Time axis of the solution.</p>
+</dd>
+<dt><code><span class="parameter-name"><strong>history</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">ndarray of shape (n_times, 2)</span></code></dt>
+<dd>
+<p>State trajectory [db, B] at each time step.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="climatecritters.BistableMelcherModel.sde_noise" class="level3">
+<h3 class="anchored" data-anchor-id="climatecritters.BistableMelcherModel.sde_noise">sde_noise</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>BistableMelcherModel.sde_noise(t, y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Return the diffusion coefficient vector at time t and state y.</p>
+<p>Called by SDE solvers (<code>euler_maruyama</code>, <code>heun_maruyama</code>, <code>milstein</code>) to scale the Wiener increments. Noise is additive (state-independent), which means <code>heun_maruyama</code> achieves strong order 1.0 for this model.</p>
+<section id="parameters-4" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-4">Parameters</h4>
+<dl>
+<dt><code><span class="parameter-name"><strong>t</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span></code></dt>
+<dd>
+<p>Current time.</p>
+</dd>
+<dt><code><span class="parameter-name"><strong>y</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/array.html#module-array">array</a> - <code>like</code></span></code></dt>
+<dd>
+<p>Current state vector [db, B].</p>
+</dd>
+</dl>
+</section>
+<section id="returns-2" class="level4 doc-section doc-section-returns">
+<h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns-2">Returns</h4>
+<dl>
+<dt><code><span class="parameter-name"><strong>diffusion</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">ndarray of shape (2,)</span></code></dt>
+<dd>
+<p>Diffusion coefficient for each state variable.</p>
+</dd>
+</dl>
 
 
+</section>
+</section>
 </section>
 </section>
 
@@ -1115,13 +1375,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../api/core.forcing.ForcingSequence.html" class="pagination-link" aria-label="core.forcing.ForcingSequence">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">core.forcing.ForcingSequence</span>
+      <a href="../api/Stommel.html" class="pagination-link" aria-label="Stommel">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Stommel</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../api/core.forcing.Ramp.html" class="pagination-link" aria-label="core.forcing.Ramp">
-        <span class="nav-page-text">core.forcing.Ramp</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../api/utils.noise.from_series.html" class="pagination-link" aria-label="utils.noise.from_series">
+        <span class="nav-page-text">utils.noise.from_series</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
