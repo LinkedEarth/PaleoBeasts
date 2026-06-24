@@ -283,23 +283,20 @@ class BistableMelcherModel(CCModel):
         alpha_raw = self.param_values.get('alpha', 0.0)
 
         if callable(alpha_raw) or hasattr(alpha_raw, 'get_forcing'):
-            alpha_vals = np.array([
+            alpha_for_thresh = np.array([
                 float(self._resolve_param(alpha_raw, t, history[i]))
                 for i, t in enumerate(time)
             ])
-            alpha_for_thresh = float(np.mean(alpha_vals))
-        elif hasattr(alpha_raw, '__len__'):
-            alpha_for_thresh = float(np.mean(alpha_raw))
         else:
-            alpha_for_thresh = float(alpha_raw)
+            alpha_for_thresh = alpha_raw
 
         stadial, interstadial = self.compute_stability_thresholds(alpha_for_thresh)
         self.stadial_threshold      = stadial
         self.interstadial_threshold = interstadial
 
-        self.diagnostic_variables['states'] = list(
-            _classify_states(db_vals, stadial, interstadial)
-        )
+        self.diagnostic_variables = {
+            'states': _classify_states(db_vals, stadial, interstadial)
+        }
 
     def compute_stability_thresholds(self, alpha):
         """Compute stadial and interstadial thresholds via Jacobian stability analysis.
