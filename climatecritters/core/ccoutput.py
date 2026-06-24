@@ -219,7 +219,7 @@ class CCOutput:
         reframed : structured ndarray or ndarray
             Resampled state variables on ``t_eval``.
 
-        Warns
+        Raises
         -----
         UserWarning
             If this output was produced by a stochastic (SDE) solver without
