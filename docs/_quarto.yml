@@ -123,6 +123,8 @@ website:
                   href: notebooks/model_demos/g24.ipynb
                 - text: "Stommel"
                   href: notebooks/model_demos/stommel.ipynb
+                - text: "Melcher 2025, Bistable"
+                  href: notebooks/model_demos/bistable_melcher.ipynb
             - section: Attractors
               contents:
                 - text: "Roessler"
@@ -238,6 +240,7 @@ quartodoc:
         - Stocker2003BipolarSeesaw
         - Stocker2003ExtendedSeaIceSeesaw
         - Stommel
+        - BistableMelcherModel
 
     - title: Utils
 
