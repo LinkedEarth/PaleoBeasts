@@ -1,20 +1,20 @@
 ---
 title: "ClimateCritters"
-subtitle: "Synthetic paleoclimate signal models"
+subtitle: "A Ménagerie of Minimal Climate Models"
 sidebar: ClimateCritters
 ---
 
-ClimateCritters is a Python package for generating synthetic paleoclimate time series
-from dynamical systems models. It provides a unified interface for integrating
+`ClimateCritters` is a Python package for experimenting with minimal climate models
+and well-known dynamical systems. It provides a unified interface for integrating
 climate models, chaotic systems, and custom box models, with built-in support
-for time-varying parameters, stochastic forcing, and export to
+for time-varying parameters, stochastic forcing, taphonimc alterations and export to
 [Pyleoclim](https://pyleoclim-util.readthedocs.io/) for analysis.
 
 ## Features
 
 - **Unified model API** — every model shares the same `integrate()` → `CCOutput` workflow
 - **Flexible forcing** — constants, callables, or composable `Forcing` sequences (Hold, Ramp, Harmonic)
-- **Time-varying parameters** — any parameter can be swapped for a callable or Forcing object at runtime
+- **Time-varying parameters** — any parameter can be swapped for a callable or `Forcing` object at runtime
 - **Multiple solvers** — Euler, RK4, RK45, Euler-Maruyama (SDE), and scipy adaptive methods
 - **Pyleoclim integration** — export directly to `Series` or `MultipleSeries` for spectral analysis and plotting
 
@@ -29,7 +29,6 @@ pip install git+https://github.com/LinkedEarth/ClimateCritters.git
 ```python
 import climatecritters as cc
 from climatecritters.model_critters import Lorenz63
-
 model = Lorenz63()
 output = model.integrate(t_span=(0, 50), y0=[1, 1, 1], method='RK45')
 ts = output.to_pyleo(var_names='x')

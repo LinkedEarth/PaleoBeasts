@@ -50,6 +50,8 @@ website:
     logo: thumbnails/logo_beta_horiz_cropped.png
     logo-alt: "ClimateCritters"
     left:
+      - file: get-started/overview.qmd
+        text: Overview
       - file: get-started/installation.qmd
         text: Get Started
       - file: tutorials/index.qmd
@@ -109,7 +111,7 @@ website:
                   href: notebooks/model_demos/ebm0d.ipynb
                 - text: "1D (latitude)"
                   href: notebooks/model_demos/ebm1d_lat.ipynb
-            - section: Oscillators
+            - section: Pendulums and Springs
               contents:
                 - text: "SimplePendulum & Spring"
                   href: notebooks/model_demos/pendulums_and_spring.ipynb
@@ -117,15 +119,15 @@ website:
                   href: notebooks/model_demos/double_pendulum.ipynb
             - section: Climate 
               contents:
-                - text: "ENSO"
+                - text: "ENSO recharge oscillator (Jin, 1996)"
                   href: notebooks/model_demos/enso_recharge.ipynb
-                - text: "Ganopolski 2024, Model 3"
+                - text: " Pleistocene Ice Volume (Ganopolski, 2024)"
                   href: notebooks/model_demos/g24.ipynb
-                - text: "Stommel"
+                - text: "Thermohaline Circulation (Stommel, 1961)"
                   href: notebooks/model_demos/stommel.ipynb
-                - text: "Melcher 2025, Bistable"
+                - text: "Thermohaline Circulation (Melcher et al 2025)"
                   href: notebooks/model_demos/bistable_melcher.ipynb
-            - section: Attractors
+            - section: Lorenz & Rössler
               contents:
                 - text: "Roessler"
                   href: notebooks/model_demos/roessler.ipynb
