@@ -96,7 +96,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="../get-started/installation.html" aria-current="page"> 
+    <a class="nav-link active" href="../get-started/overview.html" aria-current="page"> 
+<span class="menu-text">Overview</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../get-started/installation.html"> 
 <span class="menu-text">Get Started</span></a>
   </li>  
   <li class="nav-item">
@@ -240,8 +244,16 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#origin-story" id="toc-origin-story" class="nav-link active" data-scroll-target="#origin-story">Origin Story</a></li>
+  <li><a href="#intended-use" id="toc-intended-use" class="nav-link" data-scroll-target="#intended-use">Intended Use</a></li>
+  <li><a href="#contributing" id="toc-contributing" class="nav-link" data-scroll-target="#contributing">Contributing</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -265,17 +277,28 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>The name comes from Wally Broecker, who characterized Earth’s climate as an “angry beast” — capable of abrupt, large-amplitude shifts that defy easy extrapolation. ClimateCritters is a collection of minimal models that try to capture pieces of that behavior in a tractable, well-understood form.</p>
-<p>The motivation borrows loosely from biology, where progress often runs through model organisms: well-characterized systems whose dynamics are known precisely enough to serve as a reference for new methods and theories. The models gathered here — Lorenz’s three-equation convection system, thermohaline box models, ice-volume oscillators, energy balance frameworks, and others — are not intended as comprehensive representations of climate. Their value runs in the other direction: they are simple enough to explore fully, yet rich enough to exhibit chaos, multiple equilibria, tipping points, and intermittency.</p>
-<p>A few things these models lend themselves to:</p>
+<section id="origin-story" class="level2">
+<h2 class="anchored" data-anchor-id="origin-story">Origin Story</h2>
+<p><a href="https://news.climate.columbia.edu/2019/02/19/wallace-broecker-early-prophet-of-climate-change/">Wally Broecker</a> once characterized Earth’s climate as an “angry beast” — capable of abrupt, large-amplitude shifts in response to gradual pressures. <code>ClimateCritters</code> is a collection of minimal models that try to capture pieces of that behavior in a form that lends itself to experimentation.</p>
+<p>The motivation borrows loosely from biology, where progress often runs through <em>model organisms</em>: well-characterized systems whose structure and behavior are known well enough to serve as a reference for new methods and theories. Climate science, <a href="https://doi.org/10.1175/BAMS-86-11-1609">famously</a>, has fewer of those. <code>ClimateCritters</code> aims to gather under a unified structure a few of the field’s most useful simple models (e.g.&nbsp;Ed Lorenz 3-equation depiction of atmospheric convection, which birthed chaos theory; Stommel’s 1961 bistable model of the ocean’s thermohaline circulation; box models allowing to explore the carbon cycle; idealized models of Pleistocene ice ages). These models are not intended as comprehensive representations of climate – for this, we have Earth System models, which are mighty, rich, and impossible to use for most people. The value of <code>ClimateCritters</code> runs in the other direction: the critters are simple enough to explore fully, yet rich enough to exhibit the hallmarks of complex systems behavior like chaos, multiple equilibria, tipping points, and intermittency.</p>
+<p>A unique layer of <code>ClimateCritters</code> is that beyond the models themselves, the package also offers utilities that approximate the processes whereby climate signals are encoded and emplaced in the geologic record. This is particularly useful for paleoclimatology – the study of past climates – as one can now easily simulate how a climate-like signal gets altered by various depositional, post-depositional (<a href="https://en.wikipedia.org/wiki/Taphonomy">“taphonomy”</a>), as well as observational processes (like age determination). A related innovation is that <code>ClimateCritters</code> output can be readily exported to <a href="https://pyleoclim-util.readthedocs.io/">Pyleoclim</a> for downstream analysis via <code>output.to_pyleo()</code>.</p>
+</section>
+<section id="intended-use" class="level2">
+<h2 class="anchored" data-anchor-id="intended-use">Intended Use</h2>
+<p>A few things <code>ClimateCritters</code> was designed for:</p>
 <ul>
-<li><p><strong>Sensitivity and parameter exploration</strong> — because the models are small, parameter sweeps, forcing scenarios, and initial-condition experiments run quickly and the results are interpretable.</p></li>
-<li><p><strong>Evaluating analysis methods</strong> — running a spectral method, a causal inference algorithm, or a tipping-point detector on a synthetic series with known properties can help build intuition about what the method is actually responding to. The structure of the underlying system matters here in the first instance: a method suited to a stationary periodic signal will behave quite differently on a chaotic or intermittent one, independent of noise or sampling effects. Taphonomic complications — noise, irregular sampling, bioturbation — add a further layer of realism once the structural questions are reasonably well understood.</p></li>
-<li><p><strong>Taphonomic simulation</strong> — real paleoclimate archives introduce noise, irregular sampling, and age uncertainty between the climate signal and the record. ClimateCritters includes utilities for adding these effects to model output, so that the gap between clean synthetic series and proxy-like records can be explored gradually.</p></li>
+<li><p><strong>Sensitivity and parameter exploration</strong> — with small models it is easy to conduct sweeps across broad parameter ranges, forcing scenarios, and initial-condition ensembles, with interpretable results.</p></li>
+<li><p><strong>Evaluating analysis methods</strong> — running a spectral method, a causal inference algorithm, or tipping-point detection on a synthetic series with known properties can help build intuition about what the method is actually responding to. The structure of the underlying system matters here in the first instance: a method suited to a stationary periodic signal will behave quite differently on a chaotic or intermittent one, independent of noise or sampling effects. Taphonomic complications — noise, irregular sampling, bioturbation — add a further layer of realism once the structural questions are reasonably well understood.</p></li>
+<li><p><strong>Taphonomic simulation</strong> — real paleoclimate archives introduce noise, irregular sampling, and age uncertainty between the climate signal and the record. <code>ClimateCritters</code> includes utilities for adding these effects to model output, so that the gap between clean synthetic series and proxy-like records can be explored gradually.</p></li>
 </ul>
-<p>Model output can be exported to <a href="https://pyleoclim-util.readthedocs.io/">Pyleoclim</a> for downstream analysis via <code>output.to_pyleo()</code>.</p>
+<p>We would be thrilled to see this package find more applications throughout the climate sciences.</p>
+</section>
+<section id="contributing" class="level2">
+<h2 class="anchored" data-anchor-id="contributing">Contributing</h2>
+<p><code>ClimateCritters</code> was conceived by <a href="https://orcid.org/0000-0001-5920-4751">Julien Emile-Geay</a>, <a href="https://orcid.org/0000-0001-9772-7617">Jordan Landers</a> and <a href="https://orcid.org/0000-0001-8561-3188">Alexander James</a>, with contributions from Maryam Niati, and is maintained by the <a href="https://commonclimate.github.io">Climate Dynamics Laboratory at the University of Southern California</a>. To report bugs or contribute, please open a <a href="https://github.com/LinkedEarth/ClimateCritters/issues">GitHub issue</a>.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <style>

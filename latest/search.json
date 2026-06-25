@@ -122,7 +122,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "ENSO"
+      "ENSO recharge oscillator (Jin, 1996)"
     ]
   },
   {
@@ -135,7 +135,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "ENSO"
+      "ENSO recharge oscillator (Jin, 1996)"
     ]
   },
   {
@@ -148,7 +148,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "ENSO"
+      "ENSO recharge oscillator (Jin, 1996)"
     ]
   },
   {
@@ -161,7 +161,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "ENSO"
+      "ENSO recharge oscillator (Jin, 1996)"
     ]
   },
   {
@@ -174,7 +174,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "ENSO"
+      "ENSO recharge oscillator (Jin, 1996)"
     ]
   },
   {
@@ -187,7 +187,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "ENSO"
+      "ENSO recharge oscillator (Jin, 1996)"
     ]
   },
   {
@@ -200,7 +200,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "ENSO"
+      "ENSO recharge oscillator (Jin, 1996)"
     ]
   },
   {
@@ -212,7 +212,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Oscillators",
+      "Pendulums and Springs",
       "Double Pendulum"
     ]
   },
@@ -225,7 +225,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Oscillators",
+      "Pendulums and Springs",
       "Double Pendulum"
     ]
   },
@@ -238,7 +238,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Oscillators",
+      "Pendulums and Springs",
       "Double Pendulum"
     ]
   },
@@ -251,7 +251,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Oscillators",
+      "Pendulums and Springs",
       "Double Pendulum"
     ]
   },
@@ -264,7 +264,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Oscillators",
+      "Pendulums and Springs",
       "Double Pendulum"
     ]
   },
@@ -277,7 +277,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Oscillators",
+      "Pendulums and Springs",
       "Double Pendulum"
     ]
   },
@@ -342,7 +342,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Oscillators",
+      "Pendulums and Springs",
       "SimplePendulum & Spring"
     ]
   },
@@ -355,7 +355,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Oscillators",
+      "Pendulums and Springs",
       "SimplePendulum & Spring"
     ]
   },
@@ -368,7 +368,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Oscillators",
+      "Pendulums and Springs",
       "SimplePendulum & Spring"
     ]
   },
@@ -381,7 +381,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Oscillators",
+      "Pendulums and Springs",
       "SimplePendulum & Spring"
     ]
   },
@@ -394,7 +394,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Oscillators",
+      "Pendulums and Springs",
       "SimplePendulum & Spring"
     ]
   },
@@ -511,7 +511,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Attractors",
+      "Lorenz & Rössler",
       "Lorenz96"
     ]
   },
@@ -524,7 +524,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Attractors",
+      "Lorenz & Rössler",
       "Lorenz96"
     ]
   },
@@ -537,7 +537,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Attractors",
+      "Lorenz & Rössler",
       "Lorenz96"
     ]
   },
@@ -550,7 +550,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Attractors",
+      "Lorenz & Rössler",
       "Lorenz96"
     ]
   },
@@ -563,7 +563,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Attractors",
+      "Lorenz & Rössler",
       "Lorenz96"
     ]
   },
@@ -622,7 +622,7 @@
     "section": "",
     "text": "The tutorials below are executable Jupyter notebooks demonstrating ClimateCritters models and utilities. Each notebook can be run locally after installing the package.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Tutorials"
     ]
   },
@@ -633,7 +633,7 @@
     "section": "Getting started",
     "text": "Getting started\n\n\n\nNotebook\nWhat it shows\n\n\n\n\nCCModel Basics\nBase class interface: construction, param_values, integration, CCOutput, callable parameters, register_forcing, set_function, copying, to_pyleo\n\n\nForcing Basics\nFour construction patterns (callable, array, Hold/Ramp/Harmonic elements, bundled datasets); attachment modes (replacement, additive); timing (pre, post); noise and SDE integration",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Tutorials"
     ]
   },
@@ -642,9 +642,9 @@
     "href": "tutorials/index.html#model-demos",
     "title": "Tutorials",
     "section": "Model demos",
-    "text": "Model demos\n\nEnergy Balance Models\n\n\n\nNotebook\nWhat it shows\n\n\n\n\n0D\nEquilibration, albedo options (constant, albedo_func, custom callable), OLR, ice-albedo bistability, solar forcing, bundled TSI data, heat capacity effects on timescale\n\n\n1D (latitude)\nLatitudinal grid, meridional heat diffusion, ice-line dynamics, zonal-mean temperature profiles, CO₂ forcing, Budyko OLR, set_function, Mid-Pleistocene Transition scenarios\n\n\n\n\n\nOscillators\n\n\n\nNotebook\nWhat it shows\n\n\n\n\nSimplePendulum & Spring\nDampedSpring damping regimes (underdamped, critical, overdamped), SimplePendulum nonlinear behavior, driven pendulum period-doubling route to chaos, resonance, frequency response\n\n\nDouble Pendulum\nHamiltonian double pendulum, sensitive dependence on initial conditions, energy conservation vs solver tolerance tradeoffs, trajectory divergence, phase space\n\n\n\n\n\nClimate\n\n\n\nNotebook\nWhat it shows\n\n\n\n\nENSO\nRecharge-discharge paradigm, Bjerknes coupling regimes (damped, self-sustained, nonlinear), thermocline depth anomaly, SST anomaly, seasonal forcing entrainment\n\n\nGanopolski 2024, Model 3\nOrbital forcing (precession + eccentricity modulation), discrete regime switching, ~100 kyr glacial cycles, Mid-Pleistocene Transition via vc(t) ramp, threshold-based initiation and termination\n\n\nStommel\nTemperature-salinity density contrast, overturning strength diagnostic, freshwater forcing (two attachment styles), thermally-driven vs salinity-driven bifurcation, time-varying parameters\n\n\nMelcher 2025, Bistable\nSynthetic bistable climate series, Dansgaard-Oeschger events, stadial/interstadial state detection, tipping points, stochastic SDE, AMOC, glacial climate\n\n\n\n\n\nAttractors\n\n\n\nNotebook\nWhat it shows\n\n\n\n\nRoessler\nSingle-scroll strange attractor, parameter c periodic-to-chaotic transition, period-doubling bifurcation cascade, phase portrait, quasi-periodic spirals with irregular z-spikes\n\n\nLorenz63\nButterfly attractor, sensitive dependence on initial conditions, lobe-switching dynamics, bifurcation from stable fixed points to chaos, Rayleigh number, Prandtl number\n\n\nLorenz96\nPeriodic-ring single-scale chaos, quadratic advection, wave packets, two-scale fast-slow coupling (X/Y variables), timescale separation, data assimilation benchmark\n\n\n\n\n\nBox Models\n\n\n\nNotebook\nWhat it shows\n\n\n\n\nCarbon Cycle Demo\nTwoBoxCarbon air-sea exchange, BoxModelSpec declarative network framework, concentration-gradient flux, three-box extension, biological pump, mass conservation",
+    "text": "Model demos\n\nEnergy Balance Models\n\n\n\nNotebook\nWhat it shows\n\n\n\n\n0D\nEquilibration, albedo options (constant, albedo_func, custom callable), OLR, ice-albedo bistability, solar forcing, bundled TSI data, heat capacity effects on timescale\n\n\n1D (latitude)\nLatitudinal grid, meridional heat diffusion, ice-line dynamics, zonal-mean temperature profiles, CO₂ forcing, Budyko OLR, set_function, Mid-Pleistocene Transition scenarios\n\n\n\n\n\nPendulums and Springs\n\n\n\nNotebook\nWhat it shows\n\n\n\n\nSimplePendulum & Spring\nDampedSpring damping regimes (underdamped, critical, overdamped), SimplePendulum nonlinear behavior, driven pendulum period-doubling route to chaos, resonance, frequency response\n\n\nDouble Pendulum\nHamiltonian double pendulum, sensitive dependence on initial conditions, energy conservation vs solver tolerance tradeoffs, trajectory divergence, phase space\n\n\n\n\n\nClimate\n\n\n\nNotebook\nWhat it shows\n\n\n\n\nENSO recharge oscillator (Jin, 1996)\nRecharge-discharge paradigm, Bjerknes coupling regimes (damped, self-sustained, nonlinear), thermocline depth anomaly, SST anomaly, seasonal forcing entrainment\n\n\nPleistocene Ice Volume (Ganopolski, 2024)\nOrbital forcing (precession + eccentricity modulation), discrete regime switching, ~100 kyr glacial cycles, Mid-Pleistocene Transition via vc(t) ramp, threshold-based initiation and termination\n\n\nThermohaline Circulation (Stommel, 1961)\nTemperature-salinity density contrast, overturning strength diagnostic, freshwater forcing (two attachment styles), thermally-driven vs salinity-driven bifurcation, time-varying parameters\n\n\nThermohaline Circulation (Melcher et al 2025)\nSynthetic bistable climate series, Dansgaard-Oeschger events, stadial/interstadial state detection, tipping points, stochastic SDE, AMOC, glacial climate\n\n\n\n\n\nLorenz & Rössler\n\n\n\nNotebook\nWhat it shows\n\n\n\n\nRoessler\nSingle-scroll strange attractor, parameter c periodic-to-chaotic transition, period-doubling bifurcation cascade, phase portrait, quasi-periodic spirals with irregular z-spikes\n\n\nLorenz63\nButterfly attractor, sensitive dependence on initial conditions, lobe-switching dynamics, bifurcation from stable fixed points to chaos, Rayleigh number, Prandtl number\n\n\nLorenz96\nPeriodic-ring single-scale chaos, quadratic advection, wave packets, two-scale fast-slow coupling (X/Y variables), timescale separation, data assimilation benchmark\n\n\n\n\n\nBox Models\n\n\n\nNotebook\nWhat it shows\n\n\n\n\nCarbon Cycle Demo\nTwoBoxCarbon air-sea exchange, BoxModelSpec declarative network framework, concentration-gradient flux, three-box extension, biological pump, mass conservation",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Tutorials"
     ]
   },
@@ -655,7 +655,7 @@
     "section": "Functionality demos",
     "text": "Functionality demos\n\nNoise\n\n\n\nNotebook\nWhat it shows\n\n\n\n\nNoise Generation\nnoise.from_series (AR(1) emulation from target), noise.from_param (power-law, fractional Gaussian, white noise), ensemble generation\n\n\nNoise in Models — Three Injection Modes\nNoisy forcing (input feedback), SDE integration with euler_maruyama/heun_maruyama/milstein (state feedback), post-integration observation noise; comparison on EBM0D\n\n\n\n\n\n\nNotebook\nWhat it shows\n\n\n\n\nDownsampling\nresample.downsample, gap distributions (exponential, Poisson, Pareto, random_choice), sparse sampling from regular trajectories, resolution dashboard\n\n\nSolvers\nRK45 tolerances, fixed-step (rk4, Euler) requirements, discrete-event models (G24), SDE-aware integrators, two-scale Lorenz96 history corruption, model-class-to-solver mapping",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Tutorials"
     ]
   },
@@ -666,7 +666,7 @@
     "section": "",
     "text": "A forcing is any time-varying signal you want to drive a model with — solar irradiance, freshwater flux, CO₂ concentration, or noise. ClimateCritters represents all of these through a pair of layers: a builder layer for constructing piecewise scenarios, and a signal layer that models actually consume.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Utilities",
       "Forcing"
@@ -679,7 +679,7 @@
     "section": "The two layers at a glance",
     "text": "The two layers at a glance\n\n\n\nLayer\nClasses\nRole\n\n\n\n\nBuilder\nForcingElement, Hold, Ramp, Harmonic, ForcingSequence\nCompose a timeline of segments\n\n\nSignal\nForcing\nCallable signal consumed by register_forcing\n\n\n\nThe typical flow: build a sequence with +, call .compile() to get a Forcing, register it with the model.\nimport climatecritters as cc\n\nseq = cc.forcing.Hold(100, value=0.0) + cc.forcing.Ramp(50, y0=0.0, yf=4.0) + cc.forcing.Hold(100, value=4.0)\nf   = seq.compile()\nmodel.register_forcing('S', f, attachment_style='additive', timing='pre')",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Utilities",
       "Forcing"
@@ -692,7 +692,7 @@
     "section": "Forcing — the signal object",
     "text": "Forcing — the signal object\nForcing wraps any time-varying signal and exposes a uniform get_forcing(t) interface. There are four ways to create one.\n\nFrom a callable\nThe simplest case — any Python function or lambda:\n# Perpetual 11-year solar cycle\nsolar = cc.Forcing(lambda t: 1360.0 + 5.0 * np.sin(2 * np.pi * t / 11.0))\nmodel.register_forcing('S0', solar)\n\n\nFrom a data array\nProvide values and an optional time axis; ClimateCritters interpolates:\nco2 = cc.Forcing(data=co2_array, time=age_array, interpolation='cubic')\nOutside the time range the value is held at the first or last point. Use interpolation='linear' for piecewise-linear interpolation.\n\n\nFrom a CSV file\nTwo datasets are bundled:\ntsi   = cc.Forcing.from_csv(dataset='vieira_tsi')   # total solar irradiance\ninsol = cc.Forcing.from_csv(dataset='insolation')   # 65°N summer insolation\nOr load your own:\nco2 = cc.Forcing.from_csv(\n    file_path='data/co2_record.csv',\n    time_name='age_kyr',\n    value_name='co2_ppm',\n)\n\n\nFrom a compiled sequence\nCall .compile() on a ForcingSequence (see below):\nf = seq.compile()   # → Forcing\nOr equivalently pass the sequence directly to Forcing():\nf = cc.Forcing(seq)   # auto-compiles",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Utilities",
       "Forcing"
@@ -705,7 +705,7 @@
     "section": "Builder layer",
     "text": "Builder layer\nUse the builder layer when you need a signal that changes character over time — a spin-up period, a transition, an oscillation, then a hold.\n\nHold — constant segment\ncc.forcing.Hold(duration=100, value=280.0)   # 100 time units at 280\ncc.forcing.Hold(dt=50,        value=1360.0)  # dt is an alias for duration\ncc.forcing.Hold(tf=200,       value=0.0)     # ends at absolute time 200\n\n\nRamp — monotonic transition\n# Linear ramp from 280 to 560 over 100 time units\ncc.forcing.Ramp(duration=100, y0=280.0, yf=560.0, shape='linear')\n\n# Cosine (S-curve) ramp; y0 inherits from the previous segment if omitted\ncc.forcing.Ramp(duration=100, yf=560.0, shape='cosine')\n\n# Specify amplitude instead of endpoint: yf = y0 + A\ncc.forcing.Ramp(duration=100, A=280.0)\n\n\nHarmonic — sinusoidal segment with phase continuity\nHarmonic computes the starting phase so the sine wave passes through y0 smoothly, even mid-oscillation:\ncc.forcing.Harmonic(duration=20, period=1.0, A=0.5, center=0.0)\nIf y0 is omitted it inherits the endpoint of the previous segment, keeping the signal continuous across the join.\n\n\nGeneral callable: ForcingElement\nWrap any function as a bounded segment:\ncc.forcing.ForcingElement(lambda t: np.exp(-0.01 * t), duration=50.0)\n\n\nForcingSequence — composing segments with +\nConcatenate segments with + to build a ForcingSequence:\nscenario = (\n    cc.forcing.Hold(duration=200, value=280.0)\n    + cc.forcing.Ramp(duration=100, y0=280.0, yf=560.0, shape='cosine')\n    + cc.forcing.Hold(duration=200, value=560.0)\n)\nCall .compile() when the sequence is ready:\nf = scenario.compile()   # → Forcing, 500 time-unit duration\nCompilation is not cached — you can extend the sequence and recompile:\nscenario = scenario + cc.forcing.Ramp(duration=100, yf=280.0)\nf2 = scenario.compile()   # f is unaffected\nYou can also pass a list directly to Forcing.from_sequence:\nf = cc.Forcing.from_sequence([\n    cc.forcing.Hold(duration=100, value=0.0),\n    cc.forcing.Ramp(duration=50, y0=0.0, yf=1.0),\n], label='hosing')",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Utilities",
       "Forcing"
@@ -718,7 +718,7 @@
     "section": "Value superposition with +",
     "text": "Value superposition with +\nThe behaviour of + depends on the types of the operands.\n\nTwo Forcing objects → value superposition\nThe result is an indefinite Forcing whose value is the sum of both signals at every t:\norbital = cc.Forcing(lambda t: 5.0 * np.sin(2 * np.pi * t / 100.0))\nseasonal = cc.Forcing(lambda t: 1.0 * np.sin(2 * np.pi * t / 1.0))\ncombined = orbital + seasonal   # → Forcing; value = orbital(t) + seasonal(t)\nmodel.register_forcing('S0', combined)\n\n\nBounded + Forcing → additive overlay\nWhen one operand is a bounded element or sequence and the other is a Forcing, the result is a bounded Forcing for the duration of the bounded operand. Outside that interval the bounded part holds at its boundary value.\nThis is the natural way to add noise to a scenario:\nrng   = np.random.default_rng(42)\nnoise = cc.Forcing(lambda t: rng.normal(0, 5.0))\n\n# Noise on a single element\nnoisy_ramp = cc.forcing.Ramp(duration=100, y0=0.0, yf=4.0) + noise\n\n# Noise on an entire scenario\nnoisy_scenario = scenario + noise   # → Forcing, same 500-unit duration\n\n# Commutative — both orderings give the same result\nassert np.isclose(\n    (noise + scenario).get_forcing(150.0),\n    (scenario + noise).get_forcing(150.0),\n)\n\n\nSummary table\n\n\n\nLeft\nRight\nResult\nSemantic\n\n\n\n\nForcing\nForcing\nForcing (indefinite)\nvalue superposition\n\n\nForcing\ncallable\nForcing (indefinite)\nvalue superposition\n\n\nForcingElement\nForcingElement\nForcingSequence\ntemporal concatenation\n\n\nForcingSequence\nForcingElement / ForcingSequence\nForcingSequence\ntemporal concatenation\n\n\nForcingElement / ForcingSequence\nForcing\nForcing (bounded)\nadditive overlay\n\n\nForcing\nForcingElement / ForcingSequence\nForcing (bounded)\nadditive overlay",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Utilities",
       "Forcing"
@@ -731,7 +731,7 @@
     "section": "Registering forcings with a model",
     "text": "Registering forcings with a model\nOnce you have a Forcing, attach it to a model parameter or state variable with register_forcing:\nmodel.register_forcing(\n    var_name,          # name of the parameter or state variable\n    forcing_object,    # Forcing, callable, or any object with get_forcing(t)\n    attachment_style,  # 'replacement' or 'additive'\n    timing,            # 'pre' or 'post' (inferred for parameters)\n)\n\nParameters\n\n\n\n\n\n\n\nattachment_style\nEffect\n\n\n\n\n'replacement'\nParameter is patched to forcing(t) at each dydt call\n\n\n'additive'\nforcing(t) is added to the nominal parameter value: k = k₀ + forcing(t)\n\n\n\ntiming is always 'pre' for parameters and is set automatically.\n# Replace solar constant with a time-varying signal\nmodel.register_forcing('S0', cc.Forcing(lambda t: 1360.0 + 5.0 * np.sin(t)))\n\n# Add centred noise to a diffusion coefficient\nrng = np.random.default_rng(0)\nmodel.register_forcing('D', cc.Forcing(lambda t: rng.normal(0, 0.01)),\n                       attachment_style='additive')\n\n\nState variables\nFor state variables, attachment_style and timing both matter:\n\n\n\n\n\n\n\n\nattachment_style\ntiming\nEffect\n\n\n\n\n'replacement'\n'post' (default)\nx[i] is set to forcing(t) after each step\n\n\n'additive'\n'pre'\nforcing(t) is added to dx/dt[i] — a continuous source/sink rate\n\n\n'additive'\n'post'\nforcing(t) is added to x[i] after each step\n\n\n\n# Freshwater flux directly into salinity tendency\nmodel.register_forcing('S', cc.Forcing(lambda t: 0.1),\n                       attachment_style='additive', timing='pre')\n\n\nFactory functions\nThe climatecritters.utils.forcing module provides convenience factories. All accept an optional duration argument: omit it for an indefinite Forcing, provide it for a bounded ForcingElement:\nfrom climatecritters.utils.forcing import (\n    create_forcing,\n    create_constant_forcing,\n    create_sinusoid_forcing,\n    create_periodic_forcing,\n    make_forcing_element,\n)\n\n# Indefinite signals\nf_const = create_constant_forcing(1360.0)\nf_sin   = create_sinusoid_forcing(A=5.0, period=11.0)\nf_orb   = create_periodic_forcing([(100, 0.6), (41, 0.4)], desired_amplitude=25.0)\n\n# Bounded elements (composable into a ForcingSequence)\nelem = create_sinusoid_forcing(A=5.0, period=1.0, duration=50.0)\nseq  = cc.forcing.Hold(10, value=0.0) + elem + cc.forcing.Hold(10, value=0.0)\nf    = seq.compile()\n\n# Convert an existing Forcing into a ForcingElement\nobs  = cc.Forcing.from_csv(dataset='insolation')\nelem = make_forcing_element(obs)          # duration inferred from time axis\nseq  = cc.forcing.Hold(50, value=0.0) + elem",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Utilities",
       "Forcing"
@@ -744,7 +744,7 @@
     "section": "Visualising forcings",
     "text": "Visualising forcings\nEvery forcing object has a .plot() method that returns (fig, ax).\n\nForcingElement.plot() and ForcingSequence.plot()\nForcingSequence.plot() draws each segment in a distinct colour (Hold → blue, Ramp → orange, Harmonic → green, callable → red) and marks transitions with dotted vertical lines. Per-segment styling is controlled by plot_kwargs:\nimport matplotlib.pyplot as plt\nimport climatecritters as cc\n\nscenario = (\n    cc.forcing.Hold(200, value=280.0,\n            plot_kwargs={'color': 'steelblue',  'label': 'pre-industrial'})\n    + cc.forcing.Ramp(100, y0=280.0, yf=560.0, shape='cosine',\n              plot_kwargs={'color': 'firebrick', 'label': 'CO₂ ramp'})\n    + cc.forcing.Hold(200, value=560.0,\n              plot_kwargs={'color': 'darkorange', 'label': '2×CO₂'})\n)\n\nfig, ax = scenario.plot()\nax.set_xlabel('time (kyr)')\nax.set_ylabel('CO₂ (ppm)')\nax.legend()\nPass an existing ax to overlay multiple sequences on the same panel:\nfig, ax = plt.subplots()\nscenario_a.plot(ax=ax)\nscenario_b.plot(ax=ax, linestyle='--')\n\n\nForcing.plot()\nFor sequence-backed Forcing objects the time range is inferred automatically. For callable-backed objects you must supply t_span:\n# Sequence-backed — inferred\nfig, ax = scenario.compile().plot()\n\n# Callable-backed — t_span required\nsolar = cc.Forcing(lambda t: 1360.0 + 5.0 * np.sin(t))\nfig, ax = solar.plot(t_span=(0, 50), color='gold', label='solar')\n\n# Array-backed — inferred from time axis\ninsol = cc.Forcing.from_csv(dataset='insolation')\nfig, ax = insol.plot()\nAll .plot() calls accept the same signature:\nfig, ax = forcing.plot(\n    t_span=(t0, tf),   # optional for sequence/array types\n    n=300,             # evaluation points\n    ax=existing_ax,    # optional; creates a new figure if None\n    color='steelblue', # any matplotlib kwargs\n    label='my forcing',\n)",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Utilities",
       "Forcing"
@@ -757,7 +757,7 @@
     "section": "For a deeper walkthrough",
     "text": "For a deeper walkthrough\nSee the Forcing notebook for interactive examples covering all signal types, superposition, and model integration.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Utilities",
       "Forcing"
@@ -770,7 +770,7 @@
     "section": "",
     "text": "This page explains the three building blocks that every ClimateCritters workflow uses: CCModel, Forcing, and CCOutput.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Core Components",
       "Core Concepts"
@@ -783,7 +783,7 @@
     "section": "CCModel",
     "text": "CCModel\nCCModel is the abstract base class for all signal models. You never instantiate it directly — instead you use one of the concrete subclasses (e.g. Lorenz63, EBM, Stommel).\nEvery subclass shares the same integration interface:\noutput = model.integrate(\n    t_span=(t0, tf),   # integration window\n    y0=[...],          # initial conditions (one value per state variable)\n    method='RK45',     # solver: 'RK45', 'euler', 'rk4', 'euler_maruyama'\n    dt=None,           # required for 'euler', 'rk4', 'euler_maruyama'\n)\nInternally, each model implements dydt(t, state) — the right-hand side of the ODE — and optionally populate_diagnostics_from_history() for quantities computed after the full trajectory is available.\n\nParameter handling\nModel parameters (e.g. sigma, C, D) can be:\n\n\n\n\n\n\n\n\nType\nExample\nResolved as\n\n\n\n\nConstant\nsigma=10.0\nFixed value at every timestep\n\n\nCallable (t)\nsigma=lambda t: 10.0 + 0.1*t\nCalled with current time\n\n\nCallable (t, state)\nsigma=lambda t, x: ...\nCalled with time and state vector\n\n\nCallable (t, state, model)\nsigma=lambda t, x, m: ...\nAlso receives the model instance\n\n\ncc.Forcing\nsigma=cc.Forcing(...)\nEvaluated via get_forcing(t)\n\n\n\nThe first argument of any callable must be named t or time. See contracts/signal_model_contract.md for the full specification.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Core Components",
       "Core Concepts"
@@ -796,7 +796,7 @@
     "section": "Forcing",
     "text": "Forcing\nForcing wraps any time-dependent input signal and provides a uniform get_forcing(t) interface to the model. It accepts a callable, a data array, a CSV file, or a compiled ForcingSequence:\n# Callable\nf = cc.Forcing(lambda t: 1360.0 + 5.0 * np.sin(2 * np.pi * t / 11.0))\n\n# Data array\nf = cc.Forcing(data=my_array, time=my_time, interpolation='cubic')\n\n# Bundled CSV dataset\nf = cc.Forcing.from_csv(dataset='vieira_tsi')\n\nComposable scenarios\nFor signals that change character over time, build a ForcingSequence from Hold, Ramp, and Harmonic segments using +, then call .compile():\nscenario = (\n    cc.forcing.Hold(duration=100, value=1360.0)\n    + cc.forcing.Ramp(duration=50, y0=1360.0, yf=1380.0, shape='linear')\n    + cc.forcing.Hold(duration=100, value=1380.0)\n)\nf = scenario.compile()   # → Forcing, ready to register\nTwo signals can be superposed with +:\ncombined = cc.Forcing(orbital_func) + cc.Forcing(noise_func)\nSee the Forcing page for the full API.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Core Components",
       "Core Concepts"
@@ -809,7 +809,7 @@
     "section": "CCOutput",
     "text": "CCOutput\nintegrate() always returns a CCOutput object. It holds:\n\n\n\n\n\n\n\nAttribute\nContents\n\n\n\n\noutput.time\nSolver time axis (1-D array)\n\n\noutput.state_variables\nStructured NumPy array, one field per state variable\n\n\noutput.diagnostic_variables\nDict of derived quantities (e.g. 'energy', 'ice_line_lat')\n\n\noutput.solution\nRaw solver solution (scipy or custom)\n\n\n\n\nAccessing variables\nx = output.state_variables['x']            # state variable by name\nenergy = output.diagnostic_variables['energy']  # diagnostic by name\n\n\nReframing the time axis\nTo slice off a spin-up period or resample to a regular grid:\nt_out = np.linspace(100, 500, 401)\noutput.reframe_time_axis(t_out)\n# output.time and output.state_variables are now on t_out\n\n\nExporting to Pyleoclim\nts = output.to_pyleo(var_names='x')          # returns a pyleo.Series\nmts = output.to_pyleo(var_names=['x', 'y'])  # returns a pyleo.MultipleSeries\nOnce in Pyleoclim, the full analysis toolkit is available: ts.spectral(), ts.wavelet(), ts.dashboard(), ts.interp(), etc.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Core Components",
       "Core Concepts"
@@ -822,7 +822,7 @@
     "section": "Putting it together",
     "text": "Putting it together\nimport numpy as np\nimport climatecritters as cc\nfrom climatecritters.model_critters import EBM\n\n# composable forcing: spin-up then a solar ramp\nforcing = cc.Forcing.from_sequence([\n    cc.forcing.Hold(duration=500, value=1360.0),\n    cc.forcing.Ramp(duration=200, y0=1360.0, yf=1390.0, shape='linear'),\n])\n\n# time-varying albedo\nmodel = EBM(forcing=forcing, albedo=lambda t, x: 0.3 + 0.01 * np.sin(t))\n\noutput = model.integrate(t_span=(0, 700), y0=[288.0], method='RK45')\n\n# discard spin-up, export to pyleo\nt_analysis = np.linspace(500, 700, 201)\noutput.reframe_time_axis(t_analysis)\noutput.to_pyleo(var_names='T').plot()",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Core Components",
       "Core Concepts"
@@ -835,7 +835,7 @@
     "section": "",
     "text": "This page walks through a complete end-to-end example in about 15 lines of code. We’ll build a Lorenz 63 system, integrate it, and export the result to Pyleoclim for a quick spectral analysis.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Basic Use",
       "Quick Start"
     ]
@@ -847,7 +847,7 @@
     "section": "1. Create a model",
     "text": "1. Create a model\nEvery ClimateCritters model takes a forcing argument. For the Lorenz 63 system the forcing adds an optional perturbation to the x-equation; here we set it to zero.\nimport climatecritters as cc\nfrom climatecritters.model_critters import Lorenz63\n\nforcing = cc.Forcing(lambda t: 0.0)\nmodel = Lorenz63(forcing=forcing, sigma=10.0, rho=28.0, beta=8/3)",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Basic Use",
       "Quick Start"
     ]
@@ -859,7 +859,7 @@
     "section": "2. Integrate",
     "text": "2. Integrate\nCall integrate() with an integration window, initial conditions, and a solver method. It returns a CCOutput object containing the full trajectory.\noutput = model.integrate(\n    t_span=(0, 50),\n    y0=[1.0, 1.0, 1.0],\n    method='RK45',\n)",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Basic Use",
       "Quick Start"
     ]
@@ -871,7 +871,7 @@
     "section": "3. Inspect the output",
     "text": "3. Inspect the output\nprint(output.state_variables.dtype.names)   # ('x', 'y', 'z')\nprint(output.time[:5])                       # first five time points",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Basic Use",
       "Quick Start"
     ]
@@ -883,7 +883,7 @@
     "section": "4. Export to Pyleoclim",
     "text": "4. Export to Pyleoclim\nto_pyleo() converts any state variable into a Pyleoclim Series (or MultipleSeries for a list of names), enabling the full suite of Pyleoclim analysis and plotting tools.\nts_x = output.to_pyleo(var_names='x')\nts_x.plot()\nFor a dashboard with spectral analysis:\nts_x.dashboard()",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Basic Use",
       "Quick Start"
     ]
@@ -895,7 +895,7 @@
     "section": "5. Try a time-varying parameter",
     "text": "5. Try a time-varying parameter\nAny parameter can be replaced with a callable at construction time. The callable must have signature (t), (t, state), or (t, state, model).\n# rho increases linearly from 20 to 40 over the integration window\nmodel_tv = Lorenz63(\n    forcing=forcing,\n    sigma=10.0,\n    rho=lambda t: 20.0 + (20.0 / 50.0) * t,\n    beta=8/3,\n)\noutput_tv = model_tv.integrate(t_span=(0, 50), y0=[1, 1, 1], method='RK45')",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Basic Use",
       "Quick Start"
     ]
@@ -907,7 +907,7 @@
     "section": "Next steps",
     "text": "Next steps\n\nCore concepts — understand CCModel, Forcing, and CCOutput in depth\nTutorials — worked examples for climate and dynamical systems models\nReference — full API documentation",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Basic Use",
       "Quick Start"
     ]
@@ -919,7 +919,7 @@
     "section": "",
     "text": "Noise in paleoclimate records comes from at least two distinct sources, and keeping them separate tends to be useful: variability that was part of the dynamics themselves (process noise), and noise introduced after a signal has been recorded — measurement error, archive-level degradation, bioturbation (observation noise). ClimateCritters supports both.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Utilities",
       "Noise"
@@ -932,7 +932,7 @@
     "section": "Observation noise",
     "text": "Observation noise\nObservation noise sits outside the model — it is added to output after integration. The climatecritters.utils.noise module provides two functions for generating surrogate series to use this way.\nfrom_param() generates surrogates from a parametric noise model:\nfrom climatecritters.utils.noise import from_param\n\n# Ten AR(1) surrogates with decorrelation time tau=5, amplitude sigma=0.5\nsurr = from_param(method='ar1sim', noise_param=[5, 0.5], length=200, number=10, seed=0)\nfrom_series() fits a surrogate to an existing Pyleoclim series, preserving its autocorrelation or spectral structure:\nfrom climatecritters.utils.noise import from_series\n\n# Phase-randomised surrogates preserving the power spectrum of a target series\nsurr = from_series(target_series=ts, method='phaseran', number=20)\nTo add observation noise to model output, generate a surrogate of the appropriate length and add it to a state variable array. The underlying attractor is unchanged — the surrogate just represents the noisy window through which an archive records the signal.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Utilities",
       "Noise"
@@ -945,7 +945,7 @@
     "section": "Process noise",
     "text": "Process noise\nProcess noise enters during integration — it is part of the dynamics, not added afterwards. This is the appropriate representation for stochastic atmospheric forcing, internal ocean variability, or any mechanism where randomness drives the system rather than merely obscuring it.\nClimateCritters supports this through stochastic solvers that implement SDE schemes of the form:\n\\[\\mathrm{d}y = f(t, y)\\,\\mathrm{d}t + g(t, y)\\,\\mathrm{d}W\\]\nwhere \\(\\mathrm{d}W\\) is a Wiener increment and \\(g(t, y)\\) (the diffusion term) sets the noise scale per state variable.\n\nImplementing sde_noise\nTo use any stochastic solver, attach an sde_noise method to your model. It receives the current time and state and returns a diffusion vector with the same shape as the integrated state:\nimport numpy as np\nfrom climatecritters.core.ccmodel import CCModel\n\nclass MyModel(CCModel):\n    def sde_noise(self, t, y):\n        return np.array([0.05, 0.01])   # per-variable diffusion scale\nFor an existing model instance you can also monkey-patch it:\nmodel.sde_noise = lambda t, y: np.array([0.05, 0.01])\nIf sde_noise is absent or not callable, the diffusion term is zero and the stochastic integrators reduce to their deterministic equivalents.\n\n\nDeterministic vs stochastic\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom climatecritters.model_critters.stommel import Stommel\n\ndef noise_func(t, y):\n    return np.array([0.05, 0.01])   # diffusion scale on T and S\n\n# Deterministic baseline\ndet = Stommel()\nout_det = det.integrate(t_span=(0, 500), y0=[1.0, 0.5], method='RK45')\n\n# Stochastic run — attach the diffusion term, then integrate\nsto = Stommel()\nsto.sde_noise = noise_func\nout_sto = sto.integrate(\n    t_span=(0, 500),\n    y0=[1.0, 0.5],\n    method='euler_maruyama',\n    dt=0.1,\n    kwargs={'random_seed': 42},\n)\n\nfig, axes = plt.subplots(2, 1, figsize=(10, 5), sharex=True)\nfor ax, var in zip(axes, ['T', 'S']):\n    ax.plot(out_det.time, out_det.state_variables[var],\n            color='steelblue', lw=1.5, label='deterministic')\n    ax.plot(out_sto.time, out_sto.state_variables[var],\n            color='firebrick', lw=0.8, alpha=0.8, label='stochastic')\n    ax.set_ylabel(var)\naxes[0].legend(fontsize=9)\naxes[-1].set_xlabel('time')\nfig.suptitle('Stommel model: deterministic vs stochastic (Euler–Maruyama)')\nplt.tight_layout()\nplt.show()\nBecause noise enters at every timestep, the trajectory itself is altered. Near a bifurcation or tipping point, stochastic kicks can trigger transitions that the deterministic system would not reach on its own — something post-hoc noise cannot reproduce.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Utilities",
       "Noise"
@@ -958,7 +958,7 @@
     "section": "Combining both",
     "text": "Combining both\nThe two approaches can be layered: integrate with euler_maruyama to produce a stochastic trajectory, then add observation noise on top to simulate what an archive would actually record. Whether that is the right decomposition depends on the system and the question being asked.\nFor a more extended walkthrough, see the noise demo notebook and the model noise demo.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Utilities",
       "Noise"
@@ -3875,7 +3875,7 @@
     "section": "",
     "text": "Paleoclimate archives are almost never evenly sampled. Sediment accumulation rates vary, ice cores compress with depth, and dating uncertainties compound over long records. Model output, by contrast, comes out on a regular grid. climatecritters.utils.resample.downsample() bridges that gap by drawing random index increments from a probability distribution and selecting the corresponding time points from a series.\nIrregular sampling is worth taking seriously when evaluating time-series methods: interpolation schemes, spectral estimators, and wavelet transforms all have assumptions about sampling regularity that can affect results in ways that are not always obvious from the method’s documentation. Generating downsampled versions of a known synthetic signal is one way to probe those sensitivities.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Utilities",
       "Downsampling"
@@ -3888,7 +3888,7 @@
     "section": "Basic usage",
     "text": "Basic usage\nfrom climatecritters.utils.resample import downsample\n\n# ts is a Pyleoclim Series derived from model output\nts_sparse = downsample(ts, method='exponential', param=[3.0], seed=42)\nts_sparse.plot()\nThe method argument controls the distribution of gaps between selected points:\n\n\n\n\n\n\n\n\nMethod\nparam\nCharacter\n\n\n\n\n'exponential'\n[scale]\nMemoryless gaps; average spacing equal to scale\n\n\n'poisson'\n[rate]\nDiscrete gap counts drawn from a Poisson distribution\n\n\n'pareto'\n[shape, scale]\nHeavy-tailed; produces occasional large hiatuses\n\n\n'random_choice'\n[values, probs]\nCustom discrete gap distribution\n\n\n\nExponential is a reasonable starting point for many sediment records. Pareto can approximate records with punctuated depositional gaps.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Utilities",
       "Downsampling"
@@ -3901,7 +3901,7 @@
     "section": "Reproducibility",
     "text": "Reproducibility\nA seed argument makes results reproducible:\nts_a = downsample(ts, method='exponential', param=[2.0], seed=0)\nts_b = downsample(ts, method='exponential', param=[2.0], seed=0)\n# ts_a and ts_b are identical\nTo inspect which indices were selected rather than returning a new series, use return_index=True:\nidx = downsample(ts, method='exponential', param=[2.0], seed=0, return_index=True)\nprint(idx)   # list of integer indices into ts.time\nFor a more extended walkthrough, see the downsampling demo notebook.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Utilities",
       "Downsampling"
@@ -3912,9 +3912,42 @@
     "href": "get-started/overview.html",
     "title": "About ClimateCritters",
     "section": "",
-    "text": "The name comes from Wally Broecker, who characterized Earth’s climate as an “angry beast” — capable of abrupt, large-amplitude shifts that defy easy extrapolation. ClimateCritters is a collection of minimal models that try to capture pieces of that behavior in a tractable, well-understood form.\nThe motivation borrows loosely from biology, where progress often runs through model organisms: well-characterized systems whose dynamics are known precisely enough to serve as a reference for new methods and theories. The models gathered here — Lorenz’s three-equation convection system, thermohaline box models, ice-volume oscillators, energy balance frameworks, and others — are not intended as comprehensive representations of climate. Their value runs in the other direction: they are simple enough to explore fully, yet rich enough to exhibit chaos, multiple equilibria, tipping points, and intermittency.\nA few things these models lend themselves to:\n\nSensitivity and parameter exploration — because the models are small, parameter sweeps, forcing scenarios, and initial-condition experiments run quickly and the results are interpretable.\nEvaluating analysis methods — running a spectral method, a causal inference algorithm, or a tipping-point detector on a synthetic series with known properties can help build intuition about what the method is actually responding to. The structure of the underlying system matters here in the first instance: a method suited to a stationary periodic signal will behave quite differently on a chaotic or intermittent one, independent of noise or sampling effects. Taphonomic complications — noise, irregular sampling, bioturbation — add a further layer of realism once the structural questions are reasonably well understood.\nTaphonomic simulation — real paleoclimate archives introduce noise, irregular sampling, and age uncertainty between the climate signal and the record. ClimateCritters includes utilities for adding these effects to model output, so that the gap between clean synthetic series and proxy-like records can be explored gradually.\n\nModel output can be exported to Pyleoclim for downstream analysis via output.to_pyleo().",
+    "text": "Wally Broecker once characterized Earth’s climate as an “angry beast” — capable of abrupt, large-amplitude shifts in response to gradual pressures. ClimateCritters is a collection of minimal models that try to capture pieces of that behavior in a form that lends itself to experimentation.\nThe motivation borrows loosely from biology, where progress often runs through model organisms: well-characterized systems whose structure and behavior are known well enough to serve as a reference for new methods and theories. Climate science, famously, has fewer of those. ClimateCritters aims to gather under a unified structure a few of the field’s most useful simple models (e.g. Ed Lorenz 3-equation depiction of atmospheric convection, which birthed chaos theory; Stommel’s 1961 bistable model of the ocean’s thermohaline circulation; box models allowing to explore the carbon cycle; idealized models of Pleistocene ice ages). These models are not intended as comprehensive representations of climate – for this, we have Earth System models, which are mighty, rich, and impossible to use for most people. The value of ClimateCritters runs in the other direction: the critters are simple enough to explore fully, yet rich enough to exhibit the hallmarks of complex systems behavior like chaos, multiple equilibria, tipping points, and intermittency.\nA unique layer of ClimateCritters is that beyond the models themselves, the package also offers utilities that approximate the processes whereby climate signals are encoded and emplaced in the geologic record. This is particularly useful for paleoclimatology – the study of past climates – as one can now easily simulate how a climate-like signal gets altered by various depositional, post-depositional (“taphonomy”), as well as observational processes (like age determination). A related innovation is that ClimateCritters output can be readily exported to Pyleoclim for downstream analysis via output.to_pyleo().",
     "crumbs": [
-      "Get Started",
+      "Overview",
+      "About ClimateCritters"
+    ]
+  },
+  {
+    "objectID": "get-started/overview.html#origin-story",
+    "href": "get-started/overview.html#origin-story",
+    "title": "About ClimateCritters",
+    "section": "",
+    "text": "Wally Broecker once characterized Earth’s climate as an “angry beast” — capable of abrupt, large-amplitude shifts in response to gradual pressures. ClimateCritters is a collection of minimal models that try to capture pieces of that behavior in a form that lends itself to experimentation.\nThe motivation borrows loosely from biology, where progress often runs through model organisms: well-characterized systems whose structure and behavior are known well enough to serve as a reference for new methods and theories. Climate science, famously, has fewer of those. ClimateCritters aims to gather under a unified structure a few of the field’s most useful simple models (e.g. Ed Lorenz 3-equation depiction of atmospheric convection, which birthed chaos theory; Stommel’s 1961 bistable model of the ocean’s thermohaline circulation; box models allowing to explore the carbon cycle; idealized models of Pleistocene ice ages). These models are not intended as comprehensive representations of climate – for this, we have Earth System models, which are mighty, rich, and impossible to use for most people. The value of ClimateCritters runs in the other direction: the critters are simple enough to explore fully, yet rich enough to exhibit the hallmarks of complex systems behavior like chaos, multiple equilibria, tipping points, and intermittency.\nA unique layer of ClimateCritters is that beyond the models themselves, the package also offers utilities that approximate the processes whereby climate signals are encoded and emplaced in the geologic record. This is particularly useful for paleoclimatology – the study of past climates – as one can now easily simulate how a climate-like signal gets altered by various depositional, post-depositional (“taphonomy”), as well as observational processes (like age determination). A related innovation is that ClimateCritters output can be readily exported to Pyleoclim for downstream analysis via output.to_pyleo().",
+    "crumbs": [
+      "Overview",
+      "About ClimateCritters"
+    ]
+  },
+  {
+    "objectID": "get-started/overview.html#intended-use",
+    "href": "get-started/overview.html#intended-use",
+    "title": "About ClimateCritters",
+    "section": "Intended Use",
+    "text": "Intended Use\nA few things ClimateCritters was designed for:\n\nSensitivity and parameter exploration — with small models it is easy to conduct sweeps across broad parameter ranges, forcing scenarios, and initial-condition ensembles, with interpretable results.\nEvaluating analysis methods — running a spectral method, a causal inference algorithm, or tipping-point detection on a synthetic series with known properties can help build intuition about what the method is actually responding to. The structure of the underlying system matters here in the first instance: a method suited to a stationary periodic signal will behave quite differently on a chaotic or intermittent one, independent of noise or sampling effects. Taphonomic complications — noise, irregular sampling, bioturbation — add a further layer of realism once the structural questions are reasonably well understood.\nTaphonomic simulation — real paleoclimate archives introduce noise, irregular sampling, and age uncertainty between the climate signal and the record. ClimateCritters includes utilities for adding these effects to model output, so that the gap between clean synthetic series and proxy-like records can be explored gradually.\n\nWe would be thrilled to see this package find more applications throughout the climate sciences.",
+    "crumbs": [
+      "Overview",
+      "About ClimateCritters"
+    ]
+  },
+  {
+    "objectID": "get-started/overview.html#contributing",
+    "href": "get-started/overview.html#contributing",
+    "title": "About ClimateCritters",
+    "section": "Contributing",
+    "text": "Contributing\nClimateCritters was conceived by Julien Emile-Geay, Jordan Landers and Alexander James, with contributions from Maryam Niati, and is maintained by the Climate Dynamics Laboratory at the University of Southern California. To report bugs or contribute, please open a GitHub issue.",
+    "crumbs": [
+      "Overview",
       "About ClimateCritters"
     ]
   },
@@ -3925,7 +3958,7 @@
     "section": "",
     "text": "CCModel.integrate() supports several solvers, selectable via the method argument. The choice affects step-size control, numerical accuracy, and whether stochastic forcing is possible.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Utilities",
       "Solvers"
@@ -3938,7 +3971,7 @@
     "section": "Adaptive solvers (SciPy)",
     "text": "Adaptive solvers (SciPy)\nPassing any SciPy solver name — 'RK45', 'DOP853', 'Radau', 'LSODA' — delegates to scipy.integrate.solve_ivp. The solver adapts its step size internally to meet an error tolerance, so dt is not required. This is a reasonable default for most smooth, well-behaved systems.\noutput = model.integrate(t_span=(0, 100), y0=[1.0, 0.5], method='RK45')\nGood choices for smooth ODEs like Stommel, EBM0D, or ENSORechargeOscillator. When a forcing has fine temporal structure that an adaptive solver might step over, max_step can be passed via kwargs to cap the step size:\noutput = model.integrate(\n    t_span=(0, 100), y0=[1.0, 0.5], method='RK45',\n    kwargs={'max_step': 0.5}\n)",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Utilities",
       "Solvers"
@@ -3951,7 +3984,7 @@
     "section": "Fixed-step RK4",
     "text": "Fixed-step RK4\nmethod='rk4' uses a custom fourth-order Runge-Kutta integrator with a fixed timestep dt. A separate sampling interval si can be specified via kwargs to save output less frequently than the integration step — useful when a fine dt is needed for accuracy but coarser output is sufficient:\noutput = model.integrate(\n    t_span=(0, 1000), y0=[1.0, 0.5], method='rk4',\n    dt=0.005, kwargs={'si': 0.05}   # integrate at dt=0.005, save every 0.05\n)\nrk4 is the recommended method for Lorenz96, particularly for the two-scale system (J &gt; 0) where the fast Y-layer dynamics require a small, controlled step size — adaptive solvers evaluate dydt at unpredictable sub-steps that can corrupt accumulated diagnostics. It is also appropriate for Lorenz63 when fine trajectory accuracy matters.\n\n\n\n\n\n\nNote\n\n\n\nrk4 requires uses_post_history = True on the subclass. Models that accumulate state step-by-step inside dydt (the default) should use euler or an adaptive solver instead.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Utilities",
       "Solvers"
@@ -3964,7 +3997,7 @@
     "section": "Forward Euler",
     "text": "Forward Euler\nmethod='euler' is a first-order forward Euler scheme. It is the simplest fixed-step integrator: fast and transparent, but it accumulates error more quickly than higher-order methods and can become unstable for stiff systems or large step sizes.\noutput = model.integrate(t_span=(0, 100), y0=[1.0], method='euler', dt=0.1)\nA reasonable choice for quick exploratory runs on simple, non-stiff models like DampedSpring or Stommel, or as a baseline to compare against higher-order integrators.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Utilities",
       "Solvers"
@@ -3977,7 +4010,7 @@
     "section": "Stochastic solvers",
     "text": "Stochastic solvers\nFor models that define a diffusion term via a sde_noise(t, y) method, three SDE integrators are available. Each solves equations of the form:\n\\[\\mathrm{d}y = f(t, y)\\,\\mathrm{d}t + g(t, y)\\,\\mathrm{d}W\\]\nwhere \\(\\mathrm{d}W\\) is a Wiener increment and \\(g\\) is provided by sde_noise. All three accept an optional random_seed via kwargs for reproducibility.\n\nEuler–Maruyama\nmethod='euler_maruyama' is the stochastic analogue of forward Euler (strong order 0.5). It is the simplest SDE integrator and a useful baseline.\noutput = model.integrate(\n    t_span=(0, 500), y0=[1.0, 0.5],\n    method='euler_maruyama', dt=0.1,\n    kwargs={'random_seed': 42},\n)\n\n\nHeun–Maruyama\nmethod='heun_maruyama' achieves strong order 1.0 for additive noise (diffusion independent of state). It is the preferred stochastic solver for models where \\(g(t, y) = g(t)\\), such as Stocker2003ExtendedSeaIceSeesaw, where constant noise terms are added to each state variable.\noutput = model.integrate(\n    t_span=(0, 500), y0=[1.0, 0.5],\n    method='heun_maruyama', dt=0.1,\n    kwargs={'random_seed': 42},\n)\n\n\nMilstein\nmethod='milstein' achieves strong order 1.0 for multiplicative noise (diffusion depends on state). It uses a finite-difference approximation of \\(\\partial g / \\partial y\\), so no analytical Jacobian is required.\noutput = model.integrate(\n    t_span=(0, 500), y0=[1.0, 0.5],\n    method='milstein', dt=0.1,\n    kwargs={'random_seed': 42},\n)\nSee Noise for how to define sde_noise and for guidance on when process noise is the right modelling choice.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Utilities",
       "Solvers"
@@ -3990,7 +4023,7 @@
     "section": "Choosing a solver",
     "text": "Choosing a solver\n\n\n\n\n\n\n\n\n\nMethod\nStep size\nOrder\nUse when\n\n\n\n\nRK45 / DOP853\nadaptive\n4–5\nsmooth ODEs, default choice\n\n\nRadau / LSODA\nadaptive\nvaries\nstiff systems\n\n\nrk4\nfixed\n4\nchaotic/multiscale systems, uses_post_history models\n\n\neuler\nfixed\n1\nsimple models, debugging, baselines\n\n\neuler_maruyama\nfixed\n0.5 (strong)\nSDEs, baseline stochastic\n\n\nheun_maruyama\nfixed\n1.0 (additive noise)\nSDEs with state-independent diffusion\n\n\nmilstein\nfixed\n1.0 (multiplicative noise)\nSDEs with state-dependent diffusion",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Utilities",
       "Solvers"
@@ -4003,7 +4036,7 @@
     "section": "",
     "text": "ClimateCritters currently includes models from several families, organized here by the type of dynamics they exhibit. The Reference section has full API documentation for each; this page is meant as a starting point for choosing a model.\nFor method-evaluation purposes, the most relevant initial question is usually structural — does the model produce periodic output, chaotic output, intermittent transitions, or something else? Noise and sampling complications come later. The notes below try to flag those structural characteristics concisely.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Core Components",
       "Model Catalogue"
@@ -4016,7 +4049,7 @@
     "section": "Energy Balance Models",
     "text": "Energy Balance Models\nEquilibrium between absorbed shortwave and outgoing longwave radiation, with ice-albedo feedback.\nEBM0D — Zero-dimensional global-mean surface temperature model. A single ODE tracking T from the balance C dT/dt = (1 - α) S₀/4 - OLR. With a temperature-dependent albedo function active, the model is bistable: a warm ice-free state and a fully glaciated (Snowball) state can both be stable for the same solar constant.\nEBM1DLat — Budyko-Sellers type latitudinal EBM on a latitude grid. Diffusive meridional heat transport connects grid cells; OLR follows the Budyko linear form. The ice-line latitude emerges as a diagnostic. Useful for studying how meridional structure and polar amplification respond to changes in diffusivity or solar forcing.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Core Components",
       "Model Catalogue"
@@ -4029,7 +4062,7 @@
     "section": "Box Models",
     "text": "Box Models\nComposable multi-reservoir framework.\nBoxModelSpec / GenericBoxModel — A framework rather than a specific model. Users define reservoirs and the fluxes connecting them; the integration machinery is handled automatically. Suitable for custom multi-box ocean, carbon, or tracer cycling experiments.\nTwoBoxCarbon — Two-reservoir carbon cycle model tracking atmospheric CO₂ and surface ocean dissolved carbon. Exchange is proportional to the concentration gradient; a biological pump and weathering sink can be included.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Core Components",
       "Model Catalogue"
@@ -4042,7 +4075,7 @@
     "section": "Lorenz & Roessler",
     "text": "Lorenz & Roessler\nLow-dimensional chaotic systems.\nLorenz63 — Lorenz’s 1963 three-equation convection model. The canonical example of a strange attractor and sensitive dependence on initial conditions. Useful for testing anything that purports to detect chaos, nonlinearity, or memory in a time series.\nLorenz96 — Lorenz’s 1996 atmospheric ring model with N slow variables and, optionally, J fast variables per slow variable. Widely used as a testbed for data assimilation and ensemble forecasting. Complexity and number of active degrees of freedom scale with N and the forcing parameter F.\nRoessler — Three-dimensional chaotic system with a simpler attractor geometry than Lorenz63. Often used as a comparison case when the structure of the attractor matters — the Rössler attractor has a cleaner folding topology than the butterfly.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Core Components",
       "Model Catalogue"
@@ -4055,7 +4088,7 @@
     "section": "Pendulums & Oscillators",
     "text": "Pendulums & Oscillators\nMechanical oscillators ranging from simple to chaotic.\nSimplePendulum — Nonlinear pendulum with optional linear damping. Periodic at small amplitudes and anharmonic at larger ones. The natural frequency depends on amplitude, which can affect period-finding methods in non-obvious ways.\nDrivenPendulum — Periodically forced damped pendulum. As the drive amplitude increases the system transitions from periodic to period-doubled to chaotic, making it a textbook example of the period-doubling route to chaos.\nDoublePendulum — Conservative four-dimensional system. Chaotic for most initial conditions away from the trivial fixed point; sensitive dependence on initial conditions is especially pronounced.\nDampedSpring — Damped spring-mass oscillator with optional periodic driving. The simplest oscillatory system in the library; exhibits resonance when driven near the natural frequency ω₀ = √(k/m). Useful as a baseline for testing methods that assume an underlying harmonic structure.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Core Components",
       "Model Catalogue"
@@ -4068,7 +4101,7 @@
     "section": "Individual Models",
     "text": "Individual Models\nStandalone models drawn from the paleoclimate literature.\nDaisyworld — Watson & Lovelock (1983). Two daisy species with different albedos colonize a planet and modulate its temperature. The system self-regulates temperature across a fairly wide range of solar luminosities, illustrating how biological feedbacks can stabilize climate. Multiple equilibria exist at the edges of the habitable range.\nENSORechargeOscillator — Jin (1997) recharge oscillator for ENSO. Two variables — sea surface temperature and thermocline heat content — produce quasi-periodic El Niño / La Niña cycles. Seasonal forcing can push the system into a more irregular or chaotic regime.\nModel3 — Ganopolski (2024) glacial cycle model. Tracks ice volume and a discrete glacial/deglaciation regime under orbital forcing. A regime-switch structure with hysteresis produces the asymmetric sawtooth of glacial cycles; a time-varying critical ice volume (vc_func) can reproduce the Mid-Pleistocene Transition from 41 kyr to 100 kyr dominant periodicity.\nStocker2003BipolarSeesaw — Stocker & Johnsen (2003). Antarctic temperature evolves as a damped, lagged response to an imposed North Atlantic forcing record. A minimal representation of interhemispheric thermal coupling via ocean heat transport.\nStocker2003ExtendedSeaIceSeesaw — Four-equation extension of the seesaw model incorporating sea ice, NADW strength, and Antarctic temperature as prognostic variables. Richer internal dynamics than the basic seesaw while remaining analytically tractable.\nStommel — Stommel (1961) two-box thermohaline circulation model. Arguably the most influential minimal climate model: a warm-salty and a cold-fresh circulation mode can be simultaneously stable for the same boundary conditions. A classic demonstration of multiple equilibria in the ocean.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Package Design",
       "Core Components",
       "Model Catalogue"
@@ -4081,7 +4114,7 @@
     "section": "",
     "text": "ClimateCritters requires Python ≥ 3.12.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Basic Use",
       "Installation"
     ]
@@ -4093,7 +4126,7 @@
     "section": "",
     "text": "ClimateCritters requires Python ≥ 3.12.",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Basic Use",
       "Installation"
     ]
@@ -4105,7 +4138,7 @@
     "section": "Install from PyPI",
     "text": "Install from PyPI\npip install climatecritters",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Basic Use",
       "Installation"
     ]
@@ -4117,7 +4150,7 @@
     "section": "Install from source",
     "text": "Install from source\ngit clone https://github.com/LinkedEarth/ClimateCritters.git\ncd ClimateCritters\npip install -e .",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Basic Use",
       "Installation"
     ]
@@ -4129,7 +4162,7 @@
     "section": "Conda environment (recommended)",
     "text": "Conda environment (recommended)\nA pre-configured environment file is provided that includes ClimateCritters and its full scientific stack including Pyleoclim:\nconda env create -f env.yml\nconda activate cc_env",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Basic Use",
       "Installation"
     ]
@@ -4141,7 +4174,7 @@
     "section": "Verify the installation",
     "text": "Verify the installation\nimport climatecritters as cc\nprint(cc.__version__)",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Basic Use",
       "Installation"
     ]
@@ -4153,7 +4186,7 @@
     "section": "Dependencies",
     "text": "Dependencies\nCore dependencies installed automatically with pip:\n\n\n\nPackage\nPurpose\n\n\n\n\nnumpy, scipy\nNumerical integration and linear algebra\n\n\npandas\nTime-series data handling\n\n\nmatplotlib, seaborn\nPlotting\n\n\npyleoclim\nPaleoclimate time-series analysis and export\n\n\nxarray\nMulti-dimensional arrays\n\n\nstatsmodels\nStatistical utilities",
     "crumbs": [
-      "Get Started",
+      "Overview",
       "Basic Use",
       "Installation"
     ]
@@ -4204,7 +4237,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "Stommel"
+      "Thermohaline Circulation (Stommel, 1961)"
     ]
   },
   {
@@ -4217,7 +4250,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "Stommel"
+      "Thermohaline Circulation (Stommel, 1961)"
     ]
   },
   {
@@ -4230,7 +4263,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "Stommel"
+      "Thermohaline Circulation (Stommel, 1961)"
     ]
   },
   {
@@ -4243,7 +4276,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "Stommel"
+      "Thermohaline Circulation (Stommel, 1961)"
     ]
   },
   {
@@ -4256,7 +4289,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "Stommel"
+      "Thermohaline Circulation (Stommel, 1961)"
     ]
   },
   {
@@ -4269,7 +4302,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "Stommel"
+      "Thermohaline Circulation (Stommel, 1961)"
     ]
   },
   {
@@ -4282,7 +4315,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "Stommel"
+      "Thermohaline Circulation (Stommel, 1961)"
     ]
   },
   {
@@ -4295,7 +4328,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "Melcher 2025, Bistable"
+      "Thermohaline Circulation (Melcher et al 2025)"
     ]
   },
   {
@@ -4308,7 +4341,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "Melcher 2025, Bistable"
+      "Thermohaline Circulation (Melcher et al 2025)"
     ]
   },
   {
@@ -4321,7 +4354,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "Melcher 2025, Bistable"
+      "Thermohaline Circulation (Melcher et al 2025)"
     ]
   },
   {
@@ -4334,7 +4367,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "Melcher 2025, Bistable"
+      "Thermohaline Circulation (Melcher et al 2025)"
     ]
   },
   {
@@ -4347,7 +4380,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "Melcher 2025, Bistable"
+      "Thermohaline Circulation (Melcher et al 2025)"
     ]
   },
   {
@@ -4360,7 +4393,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "Melcher 2025, Bistable"
+      "Thermohaline Circulation (Melcher et al 2025)"
     ]
   },
   {
@@ -4373,7 +4406,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "Melcher 2025, Bistable"
+      "Thermohaline Circulation (Melcher et al 2025)"
     ]
   },
   {
@@ -4386,7 +4419,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "Ganopolski 2024, Model 3"
+      " Pleistocene Ice Volume (Ganopolski, 2024)"
     ]
   },
   {
@@ -4399,7 +4432,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "Ganopolski 2024, Model 3"
+      " Pleistocene Ice Volume (Ganopolski, 2024)"
     ]
   },
   {
@@ -4412,7 +4445,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "Ganopolski 2024, Model 3"
+      " Pleistocene Ice Volume (Ganopolski, 2024)"
     ]
   },
   {
@@ -4425,7 +4458,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "Ganopolski 2024, Model 3"
+      " Pleistocene Ice Volume (Ganopolski, 2024)"
     ]
   },
   {
@@ -4438,7 +4471,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "Ganopolski 2024, Model 3"
+      " Pleistocene Ice Volume (Ganopolski, 2024)"
     ]
   },
   {
@@ -4451,7 +4484,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "Ganopolski 2024, Model 3"
+      " Pleistocene Ice Volume (Ganopolski, 2024)"
     ]
   },
   {
@@ -4464,7 +4497,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "Ganopolski 2024, Model 3"
+      " Pleistocene Ice Volume (Ganopolski, 2024)"
     ]
   },
   {
@@ -4477,7 +4510,7 @@
       "Tutorials",
       "Model demos",
       "Climate",
-      "Ganopolski 2024, Model 3"
+      " Pleistocene Ice Volume (Ganopolski, 2024)"
     ]
   },
   {
@@ -4489,7 +4522,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Attractors",
+      "Lorenz & Rössler",
       "Roessler"
     ]
   },
@@ -4502,7 +4535,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Attractors",
+      "Lorenz & Rössler",
       "Roessler"
     ]
   },
@@ -4515,7 +4548,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Attractors",
+      "Lorenz & Rössler",
       "Roessler"
     ]
   },
@@ -4528,7 +4561,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Attractors",
+      "Lorenz & Rössler",
       "Roessler"
     ]
   },
@@ -4541,7 +4574,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Attractors",
+      "Lorenz & Rössler",
       "Roessler"
     ]
   },
@@ -4554,7 +4587,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Attractors",
+      "Lorenz & Rössler",
       "Lorenz63"
     ]
   },
@@ -4567,7 +4600,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Attractors",
+      "Lorenz & Rössler",
       "Lorenz63"
     ]
   },
@@ -4580,7 +4613,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Attractors",
+      "Lorenz & Rössler",
       "Lorenz63"
     ]
   },
@@ -4593,7 +4626,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Attractors",
+      "Lorenz & Rössler",
       "Lorenz63"
     ]
   },
@@ -4606,7 +4639,7 @@
     "crumbs": [
       "Tutorials",
       "Model demos",
-      "Attractors",
+      "Lorenz & Rössler",
       "Lorenz63"
     ]
   },
@@ -4856,7 +4889,7 @@
     "href": "index.html",
     "title": "ClimateCritters",
     "section": "",
-    "text": "ClimateCritters is a Python package for generating synthetic paleoclimate time series from dynamical systems models. It provides a unified interface for integrating climate models, chaotic systems, and custom box models, with built-in support for time-varying parameters, stochastic forcing, and export to Pyleoclim for analysis."
+    "text": "ClimateCritters is a Python package for experimenting with minimal climate models and well-known dynamical systems. It provides a unified interface for integrating climate models, chaotic systems, and custom box models, with built-in support for time-varying parameters, stochastic forcing, taphonimc alterations and export to Pyleoclim for analysis."
   },
   {
     "objectID": "index.html#features",
@@ -4877,7 +4910,7 @@
     "href": "index.html#quick-example",
     "title": "ClimateCritters",
     "section": "Quick example",
-    "text": "Quick example\nimport climatecritters as cc\nfrom climatecritters.model_critters import Lorenz63\n\nmodel = Lorenz63()\noutput = model.integrate(t_span=(0, 50), y0=[1, 1, 1], method='RK45')\nts = output.to_pyleo(var_names='x')\nts.plot()"
+    "text": "Quick example\nimport climatecritters as cc\nfrom climatecritters.model_critters import Lorenz63\nmodel = Lorenz63()\noutput = model.integrate(t_span=(0, 50), y0=[1, 1, 1], method='RK45')\nts = output.to_pyleo(var_names='x')\nts.plot()"
   },
   {
     "objectID": "index.html#where-to-go-next",

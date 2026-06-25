@@ -130,6 +130,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
+    <a class="nav-link" href="./get-started/overview.html"> 
+<span class="menu-text">Overview</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="./get-started/installation.html"> 
 <span class="menu-text">Get Started</span></a>
   </li>  
@@ -177,7 +181,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">ClimateCritters</h1>
-<p class="subtitle lead">Synthetic paleoclimate signal models</p>
+<p class="subtitle lead">A Ménagerie of Minimal Climate Models</p>
 </div>
 
 
@@ -194,13 +198,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>ClimateCritters is a Python package for generating synthetic paleoclimate time series from dynamical systems models. It provides a unified interface for integrating climate models, chaotic systems, and custom box models, with built-in support for time-varying parameters, stochastic forcing, and export to <a href="https://pyleoclim-util.readthedocs.io/">Pyleoclim</a> for analysis.</p>
+<p><code>ClimateCritters</code> is a Python package for experimenting with minimal climate models and well-known dynamical systems. It provides a unified interface for integrating climate models, chaotic systems, and custom box models, with built-in support for time-varying parameters, stochastic forcing, taphonimc alterations and export to <a href="https://pyleoclim-util.readthedocs.io/">Pyleoclim</a> for analysis.</p>
 <section id="features" class="level2">
 <h2 class="anchored" data-anchor-id="features">Features</h2>
 <ul>
 <li><strong>Unified model API</strong> — every model shares the same <code>integrate()</code> → <a href="./api/core.CCOutput.html#climatecritters.core.CCOutput" title="0"><code>CCOutput</code></a> workflow</li>
 <li><strong>Flexible forcing</strong> — constants, callables, or composable <a href="./api/core.Forcing.html#climatecritters.core.Forcing" title="0"><code>Forcing</code></a> sequences (Hold, Ramp, Harmonic)</li>
-<li><strong>Time-varying parameters</strong> — any parameter can be swapped for a callable or Forcing object at runtime</li>
+<li><strong>Time-varying parameters</strong> — any parameter can be swapped for a callable or <a href="./api/core.Forcing.html#climatecritters.core.Forcing" title="0"><code>Forcing</code></a> object at runtime</li>
 <li><strong>Multiple solvers</strong> — Euler, RK4, RK45, Euler-Maruyama (SDE), and scipy adaptive methods</li>
 <li><strong>Pyleoclim integration</strong> — export directly to <code>Series</code> or <code>MultipleSeries</code> for spectral analysis and plotting</li>
 </ul>
@@ -213,11 +217,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="quick-example">Quick example</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> climatecritters <span class="im">as</span> cc</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> climatecritters.model_critters <span class="im">import</span> Lorenz63</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Lorenz63()</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> model.integrate(t_span<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">50</span>), y0<span class="op">=</span>[<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>], method<span class="op">=</span><span class="st">'RK45'</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>ts <span class="op">=</span> output.to_pyleo(var_names<span class="op">=</span><span class="st">'x'</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>ts.plot()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Lorenz63()</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> model.integrate(t_span<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">50</span>), y0<span class="op">=</span>[<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>], method<span class="op">=</span><span class="st">'RK45'</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>ts <span class="op">=</span> output.to_pyleo(var_names<span class="op">=</span><span class="st">'x'</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>ts.plot()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="where-to-go-next" class="level2">
 <h2 class="anchored" data-anchor-id="where-to-go-next">Where to go next</h2>
