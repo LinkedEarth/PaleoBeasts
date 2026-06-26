@@ -176,7 +176,7 @@ class Melcher25(CCModel):
 
     References
     ----------
-    Melcher et al. (2025), Clim. Past, 21, 115-132. https://cp.copernicus.org/articles/21/115/2025/
+    Melcher et al. (2025), *Clim. Past*, 21, 115-132. https://cp.copernicus.org/articles/21/115/2025/
     """
 
     uses_post_history = True

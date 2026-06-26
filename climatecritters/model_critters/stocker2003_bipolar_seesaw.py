@@ -43,8 +43,9 @@ class Stocker2003BipolarSeesaw(CCModel):
 
     References
     ----------
-    Stocker, T. F., & Johnsen, S. J. (2003). A minimum thermodynamic model
-    for the bipolar seesaw. Paleoceanography, 18(4), 1087.
+    Stocker, T. F., and S. J. Johnsen, 2003: A minimum thermodynamic model for
+    the bipolar seesaw. *Paleoceanography*, 18(4), 1087,
+    [doi:10.1029/2003PA000920](https://doi.org/10.1029/2003PA000920).
 
     Examples
     --------
