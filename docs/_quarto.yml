@@ -126,7 +126,7 @@ website:
                 - text: "Thermohaline Circulation (Stommel, 1961)"
                   href: notebooks/model_demos/stommel.ipynb
                 - text: "Thermohaline Circulation (Melcher et al 2025)"
-                  href: notebooks/model_demos/bistable_melcher.ipynb
+                  href: notebooks/model_demos/melcher25.ipynb
             - section: Lorenz & Rössler
               contents:
                 - text: "Roessler"
@@ -242,7 +242,7 @@ quartodoc:
         - Stocker2003BipolarSeesaw
         - Stocker2003ExtendedSeaIceSeesaw
         - Stommel
-        - BistableMelcherModel
+        - Melcher25
 
     - title: Utils
 
