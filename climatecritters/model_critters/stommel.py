@@ -48,7 +48,7 @@ class Stommel(CCModel):
     References
     ----------
     Stommel, H. (1961). Thermohaline convection with two stable regimes of
-    flow. Tellus, 13(2), 224–230.
+    flow. *Tellus*, 13(2), 224–230.
 
     Notes
     -----

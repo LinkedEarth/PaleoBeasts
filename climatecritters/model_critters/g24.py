@@ -57,8 +57,8 @@ class Model3(CCModel):
 
     References
     ----------
-    Ganopolski, A. (2024). Glacial cycles. *Nature Reviews Earth &
-    Environment*, 5, 89–106.
+    Ganopolski, A., 2024: Toward generalized Milankovitch theory, *Clim. Past*, 20(1):151–185, [doi: 10.5194/cp-20-151-2024](https://cp.copernicus.org/articles/20/151/2024/.)
+
 
     Examples
     --------

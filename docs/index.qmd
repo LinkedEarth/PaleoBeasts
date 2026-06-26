@@ -35,6 +35,8 @@ ts = output.to_pyleo(var_names='x')
 ts.plot()
 ```
 
+![Lorenz63 x-component time series](figures/Lorenz63_timeseries.png)
+
 ## Where to go next
 
 | | |
