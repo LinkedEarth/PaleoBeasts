@@ -33,7 +33,8 @@ class Roessler(CCModel):
 
     References
     ----------
-    Rössler, O. E. (1976). Phys. Lett. A, 57(5), 397–398.
+    Rössler, O. E., 1976: An equation for continuous chaos. *Phys. Lett. A*,
+    57(5), 397–398, [doi:10.1016/0375-9601(76)90101-8](https://doi.org/10.1016/0375-9601(76)90101-8).
 
     Examples
     --------

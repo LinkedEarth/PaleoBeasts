@@ -222,6 +222,19 @@ class EBM0D(EBMBase):
     OLR_func : Default OLR callable factory.
     albedo_func : Ice-albedo callable for use as the ``albedo`` parameter.
 
+    References
+    ----------
+    Budyko, M. I., 1969: The effect of solar radiation variations on the climate
+    of the Earth. *Tellus*, 21(5), 611–619,
+    [doi:10.3402/tellusa.v21i5.10109](https://doi.org/10.3402/tellusa.v21i5.10109).
+
+    Sellers, W. D., 1969: A global climatic model based on the energy balance of
+    the Earth-atmosphere system. *J. Appl. Meteorol.*, 8(3), 392–400,
+    [doi:10.1175/1520-0450(1969)008<0392:AGCMBO>2.0.CO;2](https://doi.org/10.1175/1520-0450(1969)008<0392:AGCMBO>2.0.CO;2).
+    
+    R.T. Pierrehumbert, 2010: Principles of Planetary Climate. *Cambridge University Press*, 
+    ISBN 9781139495066. (Chapter 3)
+    
     Examples
     --------
 
@@ -372,6 +385,16 @@ class EBM1DLat(EBMBase):
     EBM0D : Zero-dimensional variant.
     EBMBase : Shared base class.
     albedo_func1D : Latitudinally-resolved albedo callable.
+
+    References
+    ----------
+    Budyko, M. I., 1969: The effect of solar radiation variations on the climate
+    of the Earth. *Tellus*, 21(5), 611–619,
+    [doi:10.3402/tellusa.v21i5.10109](https://doi.org/10.3402/tellusa.v21i5.10109).
+
+    Sellers, W. D., 1969: A global climatic model based on the energy balance of
+    the Earth-atmosphere system. *J. Appl. Meteorol.*, 8(3), 392–400,
+    [doi:10.1175/1520-0450(1969)008<0392:AGCMBO>2.0.CO;2](https://doi.org/10.1175/1520-0450(1969)008<0392:AGCMBO>2.0.CO;2).
 
     Examples
     --------

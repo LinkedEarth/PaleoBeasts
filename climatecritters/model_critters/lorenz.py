@@ -55,8 +55,12 @@ class Lorenz96(CCModel):
 
     References
     ----------
-    Lorenz, E. N. (1996). Predictability: A problem partly solved.
-    Lorenz, E. N., & Emanuel, K. A. (1998). J. Atmos. Sci., 55, 399–414.
+    Lorenz, E. N., 1996: Predictability: A problem partly solved. *Proc. Seminar
+    on Predictability*, Reading, UK, ECMWF, 1–18.
+
+    Lorenz, E. N., and K. A. Emanuel, 1998: Optimal Sites for Supplementary
+    Weather Observations: Simulation with a Small Model. *J. Atmos. Sci.*, 55,
+    399–414, [doi:10.1175/1520-0469(1998)055<0399:OSFSWO>2.0.CO;2](https://doi.org/10.1175/1520-0469(1998)055<0399:OSFSWO>2.0.CO;2).
 
     Examples
     --------
@@ -208,7 +212,8 @@ class Lorenz63(CCModel):
 
     References
     ----------
-    Lorenz, E. N. (1963). J. Atmos. Sci., 20, 130–141.
+    Lorenz, E. N., 1963: Deterministic Nonperiodic Flow. *J. Atmos. Sci.*, 20,
+    130–141, [doi:10.1175/1520-0469(1963)020<0130:DNF>2.0.CO;2](https://doi.org/10.1175/1520-0469(1963)020<0130:DNF>2.0.CO;2).
 
     Examples
     --------

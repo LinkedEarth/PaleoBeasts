@@ -102,8 +102,8 @@ class ENSORechargeOscillator(CCModel):
 
     References
     ----------
-    Jin, F.-F. (1997). An equatorial ocean recharge paradigm for ENSO.
-    J. Atmos. Sci., 54, 811–829.
+    Jin, F.-F., 1997: An Equatorial Ocean Recharge Paradigm for ENSO. *J. Atmos.
+    Sci.*, 54, 811–829, [doi:10.1175/1520-0469(1997)054<0811:AEORPF>2.0.CO;2](https://doi.org/10.1175/1520-0469(1997)054<0811:AEORPF>2.0.CO;2).
 
     Examples
     --------
