@@ -6,7 +6,7 @@ import numpy as np
 
 from ..core.ccmodel import CCModel
 
-__all__ = ['BistableMelcherModel', 'classify_bistable_states']
+__all__ = ['Melcher25', 'classify_bistable_states']
 
 
 def _classify_states(db, stadial_threshold, interstadial_threshold):
@@ -38,7 +38,7 @@ def _classify_states(db, stadial_threshold, interstadial_threshold):
     return states
 
 
-class BistableMelcherModel(CCModel):
+class Melcher25(CCModel):
     """Two-equation bistable Itô SDE for stochastic Dansgaard-Oeschger transitions.
 
     Models the meridional buoyancy gradient Δb and buoyancy flux B as a coupled
@@ -121,11 +121,11 @@ class BistableMelcherModel(CCModel):
     ```python
     import numpy as np
     import matplotlib.pyplot as plt
-    from climatecritters.model_critters.bistable_melcher import (
-        BistableMelcherModel, classify_bistable_states
+    from climatecritters.model_critters.melcher25 import (
+        Melcher25, classify_bistable_states
     )
 
-    model = BistableMelcherModel(sigma=0.2, gamma=1.5, alpha=-0.4)
+    model = Melcher25(sigma=0.2, gamma=1.5, alpha=-0.4)
     output = model.integrate(
         t_span=(0, 599.88), y0=[1.0, 0.0],
         method='heun_maruyama', dt=0.012,
@@ -135,7 +135,7 @@ class BistableMelcherModel(CCModel):
     # Δb time series as a pyleoclim Series — ready to plot or analyse
     ts = output.to_pyleo('db')
     ts.plot()
-    plt.savefig('docs/reference/figures/BistableMelcher_example.png',
+    plt.savefig('docs/reference/figures/Melcher25_example.png',
             dpi=150, bbox_inches='tight')
 
     # Stadial/interstadial classification is computed automatically
@@ -153,12 +153,12 @@ class BistableMelcherModel(CCModel):
     ```python
     import numpy as np
     import matplotlib.pyplot as plt
-    from climatecritters.model_critters.bistable_melcher import BistableMelcherModel
+    from climatecritters.model_critters.melcher25 import Melcher25
 
     t_arr = np.linspace(0, 599.88, 5000)
     gamma_ramp = np.linspace(0.8, 3.2, 5000)   # γ increases over time
 
-    model = BistableMelcherModel(
+    model = Melcher25(
         sigma=0.2,
         gamma=lambda t: float(np.interp(t, t_arr, gamma_ramp)),
         alpha=0.0,
@@ -170,7 +170,7 @@ class BistableMelcherModel(CCModel):
     )
     ts = output.to_pyleo('db')
     ts.plot()
-    plt.savefig('docs/reference/figures/BistableMelcher_ramp_example.png',
+    plt.savefig('docs/reference/figures/Melcher25_ramp_example.png',
             dpi=150, bbox_inches='tight')
     ```
 
@@ -340,7 +340,7 @@ class BistableMelcherModel(CCModel):
 def classify_bistable_states(signal, alpha, b0=0.625, q0=-9.0, q1=12.0, tau=0.902):
     """Classify a Δb signal into stadial (1) / interstadial (0) states.
 
-    Applies the same hysteresis threshold logic that ``BistableMelcherModel``
+    Applies the same hysteresis threshold logic that ``Melcher25``
     uses internally after integration. Useful for reclassifying a Δb signal
     post-hoc — for example after adding proxy noise — without re-running the SDE.
 
@@ -362,10 +362,10 @@ def classify_bistable_states(signal, alpha, b0=0.625, q0=-9.0, q1=12.0, tau=0.90
 
     See also
     --------
-    BistableMelcherModel.compute_stability_thresholds : Threshold computation.
-    BistableMelcherModel.populate_diagnostics_from_history : Auto-classification
+    Melcher25.compute_stability_thresholds : Threshold computation.
+    Melcher25.populate_diagnostics_from_history : Auto-classification
         after ``integrate()``.
     """
-    model = BistableMelcherModel(b0=b0, q0=q0, q1=q1, tau=tau)
+    model = Melcher25(b0=b0, q0=q0, q1=q1, tau=tau)
     stadial_thresh, interstadial_thresh = model.compute_stability_thresholds(alpha)
     return _classify_states(np.asarray(signal, dtype=float), stadial_thresh, interstadial_thresh)
