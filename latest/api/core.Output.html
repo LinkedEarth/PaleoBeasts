@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>model3 – ClimateCritters</title>
+<title>core.output – ClimateCritters</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -68,8 +68,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../api/Stocker2003BipolarSeesaw.html" rel="next">
-<link href="../api/ENSORechargeOscillator.html" rel="prev">
+<link href="../api/core.Forcing.html" rel="next">
+<link href="../api/core.Model.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -165,7 +165,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Models</li><li class="breadcrumb-item"><a href="../api/ENSORechargeOscillator.html">Individual Models</a></li><li class="breadcrumb-item"><a href="../api/Model3.html">Model3</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Core</li><li class="breadcrumb-item"><a href="../api/core.Model.html">Base Classes</a></li><li class="breadcrumb-item"><a href="../api/core.Output.html">core.Output</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -194,13 +194,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Base Classes</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../api/core.Model.html" class="sidebar-item-text sidebar-link">
@@ -209,7 +209,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/core.Output.html" class="sidebar-item-text sidebar-link">
+  <a href="../api/core.Output.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">core.Output</span></a>
   </div>
 </li>
@@ -403,13 +403,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
  <span class="menu-text">Individual Models</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth2 show">  
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../api/ENSORechargeOscillator.html" class="sidebar-item-text sidebar-link">
@@ -418,7 +418,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/Model3.html" class="sidebar-item-text sidebar-link active">
+  <a href="../api/Model3.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Model3</span></a>
   </div>
 </li>
@@ -652,34 +652,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#climatecritters.Model3" id="toc-climatecritters.Model3" class="nav-link active" data-scroll-target="#climatecritters.Model3">Model3</a>
+  <li><a href="#climatecritters.core.Output" id="toc-climatecritters.core.Output" class="nav-link active" data-scroll-target="#climatecritters.core.Output">core.Output</a>
   <ul>
-  <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters">Parameters</a></li>
-  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes">Notes</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
-  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
+  <li><a href="#attributes" id="toc-attributes" class="nav-link" data-scroll-target="#attributes">Attributes</a></li>
   <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
   <ul>
-  <li><a href="#climatecritters.Model3.calc_dfdt" id="toc-climatecritters.Model3.calc_dfdt" class="nav-link" data-scroll-target="#climatecritters.Model3.calc_dfdt">calc_dfdt</a></li>
-  <li><a href="#climatecritters.Model3.calc_vc" id="toc-climatecritters.Model3.calc_vc" class="nav-link" data-scroll-target="#climatecritters.Model3.calc_vc">calc_vc</a></li>
-  <li><a href="#climatecritters.Model3.calc_ve" id="toc-climatecritters.Model3.calc_ve" class="nav-link" data-scroll-target="#climatecritters.Model3.calc_ve">calc_ve</a>
+  <li><a href="#climatecritters.core.Output.add_noise" id="toc-climatecritters.core.Output.add_noise" class="nav-link" data-scroll-target="#climatecritters.core.Output.add_noise">add_noise</a>
   <ul class="collapse">
-  <li><a href="#parameters-1" id="toc-parameters-1" class="nav-link" data-scroll-target="#parameters-1">Parameters</a></li>
+  <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters">Parameters</a></li>
+  </ul></li>
+  <li><a href="#climatecritters.core.Output.get_series_by_name" id="toc-climatecritters.core.Output.get_series_by_name" class="nav-link" data-scroll-target="#climatecritters.core.Output.get_series_by_name">get_series_by_name</a>
+  <ul class="collapse">
   <li><a href="#returns" id="toc-returns" class="nav-link" data-scroll-target="#returns">Returns</a></li>
   </ul></li>
-  <li><a href="#climatecritters.Model3.calc_vg" id="toc-climatecritters.Model3.calc_vg" class="nav-link" data-scroll-target="#climatecritters.Model3.calc_vg">calc_vg</a>
+  <li><a href="#climatecritters.core.Output.reframe_time_axis" id="toc-climatecritters.core.Output.reframe_time_axis" class="nav-link" data-scroll-target="#climatecritters.core.Output.reframe_time_axis">reframe_time_axis</a>
+  <ul class="collapse">
+  <li><a href="#parameters-1" id="toc-parameters-1" class="nav-link" data-scroll-target="#parameters-1">Parameters</a></li>
+  <li><a href="#returns-1" id="toc-returns-1" class="nav-link" data-scroll-target="#returns-1">Returns</a></li>
+  <li><a href="#raises" id="toc-raises" class="nav-link" data-scroll-target="#raises">Raises</a></li>
+  </ul></li>
+  <li><a href="#climatecritters.core.Output.remove_noise" id="toc-climatecritters.core.Output.remove_noise" class="nav-link" data-scroll-target="#climatecritters.core.Output.remove_noise">remove_noise</a></li>
+  <li><a href="#climatecritters.core.Output.to_pyleo" id="toc-climatecritters.core.Output.to_pyleo" class="nav-link" data-scroll-target="#climatecritters.core.Output.to_pyleo">to_pyleo</a>
   <ul class="collapse">
   <li><a href="#parameters-2" id="toc-parameters-2" class="nav-link" data-scroll-target="#parameters-2">Parameters</a></li>
-  <li><a href="#returns-1" id="toc-returns-1" class="nav-link" data-scroll-target="#returns-1">Returns</a></li>
-  </ul></li>
-  <li><a href="#climatecritters.Model3.calc_vu" id="toc-climatecritters.Model3.calc_vu" class="nav-link" data-scroll-target="#climatecritters.Model3.calc_vu">calc_vu</a>
-  <ul class="collapse">
-  <li><a href="#parameters-3" id="toc-parameters-3" class="nav-link" data-scroll-target="#parameters-3">Parameters</a></li>
   <li><a href="#returns-2" id="toc-returns-2" class="nav-link" data-scroll-target="#returns-2">Returns</a></li>
-  </ul></li>
-  <li><a href="#climatecritters.Model3.dydt" id="toc-climatecritters.Model3.dydt" class="nav-link" data-scroll-target="#climatecritters.Model3.dydt">dydt</a>
-  <ul class="collapse">
-  <li><a href="#returns-3" id="toc-returns-3" class="nav-link" data-scroll-target="#returns-3">Returns</a></li>
   </ul></li>
   </ul></li>
   </ul></li>
@@ -687,100 +683,55 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Models</li><li class="breadcrumb-item"><a href="../api/ENSORechargeOscillator.html">Individual Models</a></li><li class="breadcrumb-item"><a href="../api/Model3.html">Model3</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Core</li><li class="breadcrumb-item"><a href="../api/core.Model.html">Base Classes</a></li><li class="breadcrumb-item"><a href="../api/core.Output.html">core.Output</a></li></ol></nav></header>
 
 
 
 
-<section id="climatecritters.Model3" class="level1">
-<h1>Model3</h1>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Model3(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    var_name<span class="op">=</span><span class="st">'ice volume'</span>,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    f1<span class="op">=-</span><span class="dv">16</span>,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    f2<span class="op">=</span><span class="dv">16</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    t1<span class="op">=</span><span class="dv">30</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    t2<span class="op">=</span><span class="dv">10</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    vc<span class="op">=</span><span class="fl">1.4</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    insolation<span class="op">=</span><span class="fl">0.0</span>,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    state_variables<span class="op">=</span>[<span class="st">'v'</span>, <span class="st">'k'</span>],</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    non_integrated_state_vars<span class="op">=</span>[<span class="st">'k'</span>],</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    diagnostic_variables<span class="op">=</span>[<span class="st">'insolation'</span>],</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span>args,</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">**</span>kwargs,</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Model 3 from Ganopolski (2024) describing glacial cycle evolution under orbital forcing.</p>
-<p>The model tracks ice volume <code>v</code> and glacial regime <code>k</code> (1 = glaciation, 2 = deglaciation). The ice volume relaxes toward a forcing-dependent equilibrium:</p>
-<pre><code>dv/dt = (ve(f) - v) / t1    when k=1  (glaciation)
-dv/dt = -vc / t2             when k=2  (deglaciation)</code></pre>
-<p>Regime switches follow:</p>
-<ul>
-<li>k=1 → k=2 if v &gt; vc, df/dt &gt; 0, and f &gt; 0</li>
-<li>k=2 → k=1 if f &lt; f1</li>
-</ul>
-<section id="parameters" class="level2 doc-section doc-section-parameters">
-<h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
+<section id="climatecritters.core.Output" class="level1">
+<h1>core.Output</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>core.Output(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    time,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    state_variables,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    state_variable_names,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    diagnostic_variables,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    solution,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    run_name,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Container for the results of one call to <code>CCModel.integrate()</code>.</p>
+<p><code>CCOutput</code> carries the full trajectory produced by the solver and exposes output-focused operations (noise addition, pyleoclim export, time resampling). Keeping these on the output rather than on the model means a single model instance can produce multiple independent outputs without them overwriting each other.</p>
+<section id="attributes" class="level2 doc-section doc-section-attributes">
+<h2 class="doc-section doc-section-attributes anchored" data-anchor-id="attributes">Attributes</h2>
 <dl>
-<dt><code><span class="parameter-name"><strong>var_name</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">'ice volume'</span></code></dt>
+<dt><code><span class="parameter-name"><strong>model_time</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">ndarray of float</span></code></dt>
 <dd>
-<p>Label for the model output. Default <code>'ice volume'</code>.</p>
+<p>Raw time axis as returned by the solver. Never modified after construction; inspect this to understand the solver’s actual grid.</p>
 </dd>
-<dt><code><span class="parameter-name"><strong>f1</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a> or <a href="https://docs.python.org/3/library/functions.html#callable">callable</a> or <code>cc</code>.<code>Forcing</code></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">-16</span></code></dt>
+<dt><code><span class="parameter-name"><strong>time</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">ndarray of float</span></code></dt>
 <dd>
-<p>Insolation threshold for glacial inception (W/m^2; typically -20 to -15). Default -16.</p>
+<p>User-facing time axis. Starts equal to <code>model_time</code>; replaced by <code>reframe_time_axis</code> when a different grid is requested. <code>state_variables</code> is always aligned to <a href="https://docs.python.org/3/library/time.html#module-time" title="1"><code>time</code></a>.</p>
 </dd>
-<dt><code><span class="parameter-name"><strong>f2</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a> or <a href="https://docs.python.org/3/library/functions.html#callable">callable</a> or <code>cc</code>.<code>Forcing</code></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">16</span></code></dt>
+<dt><code><span class="parameter-name"><strong>state_variables</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">structured ndarray</span></code></dt>
 <dd>
-<p>Insolation threshold for deglaciation inception (W/m^2; typically positive). Default 16.</p>
+<p>Named state variable arrays, indexed by variable name.</p>
 </dd>
-<dt><code><span class="parameter-name"><strong>t1</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a> or <a href="https://docs.python.org/3/library/functions.html#callable">callable</a> or <code>cc</code>.<code>Forcing</code></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">30</span></code></dt>
+<dt><code><span class="parameter-name"><strong>state_variable_names</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">list of str</span></code></dt>
 <dd>
-<p>Relaxation timescale for glacial inception (kyr). Default 30.</p>
+<p>Ordered list of state variable names.</p>
 </dd>
-<dt><code><span class="parameter-name"><strong>t2</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a> or <a href="https://docs.python.org/3/library/functions.html#callable">callable</a> or <code>cc</code>.<code>Forcing</code></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">10</span></code></dt>
+<dt><code><span class="parameter-name"><strong>diagnostic_variables</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">dict of str → ndarray</span></code></dt>
 <dd>
-<p>Relaxation timescale for deglaciation (kyr). Default 10.</p>
+<p>Named diagnostic arrays.</p>
 </dd>
-<dt><code><span class="parameter-name"><strong>vc</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a> or <a href="https://docs.python.org/3/library/functions.html#callable">callable</a> or <code>cc</code>.<code>Forcing</code></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">1.4</span></code></dt>
+<dt><code><span class="parameter-name"><strong>solution</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#object">object</a></span></code></dt>
 <dd>
-<p>Critical ice volume controlling dominant periodicity and asymmetry. Default 1.4.</p>
+<p>Raw solver output (retained for dense-output resampling via <code>reframe_time_axis</code>).</p>
+</dd>
+<dt><code><span class="parameter-name"><strong>run_name</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span></code></dt>
+<dd>
+<p>Label for this integration run.</p>
 </dd>
 </dl>
-</section>
-<section id="notes" class="level2 doc-section doc-section-notes">
-<h2 class="doc-section doc-section-notes anchored" data-anchor-id="notes">Notes</h2>
-<p>State variables are <code>v</code> (ice volume, normalised) and <code>k</code> (regime index, non-integrated). The diagnostic variable <code>insolation</code> records <code>f(t)</code> at each output step.</p>
-<p>The <code>insolation</code> parameter (default 0.0) provides the orbital forcing value used by the model. Register a time-varying orbital signal via::</p>
-<pre><code>model.register_forcing('insolation', cc.Forcing(calc_f))</code></pre>
-<p>The internal derivative of forcing <code>dfdt</code> is computed via :func:<code>calc_df</code> by default; supply a custom callable or <code>cc.Forcing</code> to override.</p>
-<p>Parameter defaults are taken from Ganopolski (2024). Time-varying parameters follow the standard callable contract <code>(t)</code>, <code>(t, state)</code>, or <code>(t, state, model)</code>.</p>
-</section>
-<section id="references" class="level2 doc-section doc-section-references">
-<h2 class="doc-section doc-section-references anchored" data-anchor-id="references">References</h2>
-<p>Ganopolski, A., 2024: Toward generalized Milankovitch theory, <em>Clim. Past</em>, 20(1):151–185, <a href="https://cp.copernicus.org/articles/20/151/2024/.">doi: 10.5194/cp-20-151-2024</a></p>
-</section>
-<section id="examples" class="level2 doc-section doc-section-examples">
-<h2 class="doc-section doc-section-examples anchored" data-anchor-id="examples">Examples</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> climatecritters <span class="im">as</span> cc</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> climatecritters.model_critters.g24 <span class="im">import</span> Model3, calc_f</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Model3()</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>model.register_forcing(<span class="st">'insolation'</span>, cc.Forcing(calc_f))</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> model.integrate(</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    t_span<span class="op">=</span>(<span class="op">-</span><span class="dv">2000</span>, <span class="dv">0</span>), y0<span class="op">=</span>[<span class="fl">0.0</span>, <span class="dv">1</span>], method<span class="op">=</span><span class="st">'RK45'</span>,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    kwargs<span class="op">=</span>{<span class="st">'max_step'</span>: <span class="fl">0.5</span>}</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>ts <span class="op">=</span> output.to_pyleo(var_names<span class="op">=</span>[<span class="st">'v'</span>])</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>ts.plot()</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'docs/reference/figures/Model3_example.png'</span>,</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>            dpi<span class="op">=</span><span class="dv">150</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../figures/Model3_example.png" class="img-fluid figure-img"></p>
-<figcaption>Model3 example output</figcaption>
-</figure>
-</div>
 </section>
 <section id="methods" class="level2">
 <h2 class="anchored" data-anchor-id="methods">Methods</h2>
@@ -793,153 +744,124 @@ dv/dt = -vc / t2             when k=2  (deglaciation)</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="#climatecritters.Model3.calc_dfdt">calc_dfdt</a></td>
-<td>Evaluate df/dt — the time derivative of the orbital forcing at time <code>t</code>.</td>
+<td><a href="#climatecritters.core.Output.add_noise">add_noise</a></td>
+<td>Add externally provided noise to an output variable.</td>
 </tr>
 <tr class="even">
-<td><a href="#climatecritters.Model3.calc_vc">calc_vc</a></td>
-<td>Evaluate the critical ice volume <code>vc</code> (constant or time/state-varying).</td>
+<td><a href="#climatecritters.core.Output.get_series_by_name">get_series_by_name</a></td>
+<td>Return a variable’s array and its storage location.</td>
 </tr>
 <tr class="odd">
-<td><a href="#climatecritters.Model3.calc_ve">calc_ve</a></td>
-<td>Equilibrium ice volume toward which the system is attracted.</td>
+<td><a href="#climatecritters.core.Output.reframe_time_axis">reframe_time_axis</a></td>
+<td>Resample state variables onto a new time axis.</td>
 </tr>
 <tr class="even">
-<td><a href="#climatecritters.Model3.calc_vg">calc_vg</a></td>
-<td>Glacial equilibrium ice volume.</td>
+<td><a href="#climatecritters.core.Output.remove_noise">remove_noise</a></td>
+<td>Restore a variable to its pre-noise values.</td>
 </tr>
 <tr class="odd">
-<td><a href="#climatecritters.Model3.calc_vu">calc_vu</a></td>
-<td>Unstable equilibrium ice volume separating glacial and interglacial basins.</td>
-</tr>
-<tr class="even">
-<td><a href="#climatecritters.Model3.dydt">dydt</a></td>
-<td>Evaluate ice-volume tendency at time <code>t</code> and state <code>x</code>.</td>
+<td><a href="#climatecritters.core.Output.to_pyleo">to_pyleo</a></td>
+<td>Export one or more variables as pyleoclim Series objects.</td>
 </tr>
 </tbody>
 </table>
-<section id="climatecritters.Model3.calc_dfdt" class="level3">
-<h3 class="anchored" data-anchor-id="climatecritters.Model3.calc_dfdt">calc_dfdt</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Model3.calc_dfdt(t, x<span class="op">=</span><span class="va">None</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Evaluate df/dt — the time derivative of the orbital forcing at time <code>t</code>.</p>
-</section>
-<section id="climatecritters.Model3.calc_vc" class="level3">
-<h3 class="anchored" data-anchor-id="climatecritters.Model3.calc_vc">calc_vc</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Model3.calc_vc(t, x<span class="op">=</span><span class="va">None</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Evaluate the critical ice volume <code>vc</code> (constant or time/state-varying).</p>
-</section>
-<section id="climatecritters.Model3.calc_ve" class="level3">
-<h3 class="anchored" data-anchor-id="climatecritters.Model3.calc_ve">calc_ve</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>Model3.calc_ve(v, f, f1, f2, vi<span class="op">=</span><span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Equilibrium ice volume toward which the system is attracted.</p>
-<p>In the bi-stable regime (<code>f1 &lt; f &lt; f2</code>) the target depends on the current ice volume <code>v</code> relative to the unstable equilibrium <code>vu</code>.</p>
-<section id="parameters-1" class="level4 doc-section doc-section-parameters">
-<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-1">Parameters</h4>
+<section id="climatecritters.core.Output.add_noise" class="level3">
+<h3 class="anchored" data-anchor-id="climatecritters.core.Output.add_noise">add_noise</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>core.Output.add_noise(var_name, noise_ts)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Add externally provided noise to an output variable.</p>
+<p>The unmodified values are saved on the first call so that <code>remove_noise</code> can restore the clean series.</p>
+<section id="parameters" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h4>
 <dl>
-<dt><code><span class="parameter-name"><strong>v</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span></code></dt>
+<dt><code><span class="parameter-name"><strong>var_name</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span></code></dt>
 <dd>
-<p>Current ice volume (normalised).</p>
+<p>Name of a state or diagnostic variable.</p>
 </dd>
-<dt><code><span class="parameter-name"><strong>f</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span></code></dt>
+<dt><code><span class="parameter-name"><strong>noise_ts</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/array.html#module-array">array</a> - <code>like</code></span></code></dt>
 <dd>
-<p>Orbital forcing value (W/m^2).</p>
-</dd>
-<dt><code><span class="parameter-name"><strong>f1</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span></code></dt>
-<dd>
-<p>Lower insolation threshold (glaciation onset).</p>
-</dd>
-<dt><code><span class="parameter-name"><strong>f2</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span></code></dt>
-<dd>
-<p>Upper insolation threshold (deglaciation onset).</p>
-</dd>
-<dt><code><span class="parameter-name"><strong>vi</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">0</span></code></dt>
-<dd>
-<p>Interglacial equilibrium ice volume. Default 0.</p>
+<p>Noise series with the same shape as the target variable.</p>
 </dd>
 </dl>
 </section>
+</section>
+<section id="climatecritters.core.Output.get_series_by_name" class="level3">
+<h3 class="anchored" data-anchor-id="climatecritters.core.Output.get_series_by_name">get_series_by_name</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>core.Output.get_series_by_name(var_name)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Return a variable’s array and its storage location.</p>
+<p>State variables live in a structured numpy array; diagnostic variables live in a dict. Returning the location string lets callers that write back (e.g.&nbsp;<code>add_noise</code>) know which container to update.</p>
 <section id="returns" class="level4 doc-section doc-section-returns">
 <h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns">Returns</h4>
 <dl>
-<dt><code><span class="parameter-name"><strong>ve</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span></code></dt>
+<dt><code><span class="parameter-name"><strong>values</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">ndarray of float</span></code></dt>
 <dd>
-<p>Target equilibrium ice volume.</p>
+
+</dd>
+<dt><code><span class="parameter-name"><strong>location</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">{'state', 'diagnostic'}</span></code></dt>
+<dd>
+
 </dd>
 </dl>
 </section>
 </section>
-<section id="climatecritters.Model3.calc_vg" class="level3">
-<h3 class="anchored" data-anchor-id="climatecritters.Model3.calc_vg">calc_vg</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>Model3.calc_vg(f, f1, f2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Glacial equilibrium ice volume.</p>
-<section id="parameters-2" class="level4 doc-section doc-section-parameters">
-<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-2">Parameters</h4>
+<section id="climatecritters.core.Output.reframe_time_axis" class="level3">
+<h3 class="anchored" data-anchor-id="climatecritters.core.Output.reframe_time_axis">reframe_time_axis</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>core.Output.reframe_time_axis(t_eval)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Resample state variables onto a new time axis.</p>
+<p>Uses the dense output from <code>solve_ivp</code> when available (accurate polynomial interpolation); falls back to linear interpolation for fixed-step solvers.</p>
+<p>After this call, <a href="https://docs.python.org/3/library/time.html#module-time" title="1"><code>time</code></a> is replaced by <code>t_eval</code> and <code>state_variables</code> is replaced by the interpolated values. <code>model_time</code> is never modified and always reflects the solver’s original grid.</p>
+<section id="parameters-1" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-1">Parameters</h4>
 <dl>
-<dt><code><span class="parameter-name"><strong>f</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span></code></dt>
+<dt><code><span class="parameter-name"><strong>t_eval</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/array.html#module-array">array</a> - <code>like</code></span></code></dt>
 <dd>
-<p>Orbital forcing value (W/m^2).</p>
-</dd>
-<dt><code><span class="parameter-name"><strong>f1</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span></code></dt>
-<dd>
-<p>Lower insolation threshold.</p>
-</dd>
-<dt><code><span class="parameter-name"><strong>f2</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span></code></dt>
-<dd>
-<p>Upper insolation threshold.</p>
+<p>Target time axis.</p>
 </dd>
 </dl>
 </section>
 <section id="returns-1" class="level4 doc-section doc-section-returns">
 <h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns-1">Returns</h4>
 <dl>
-<dt><code><span class="parameter-name"><strong>vg</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span></code></dt>
+<dt><code><span class="parameter-name"><strong>reframed</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">structured ndarray or ndarray</span></code></dt>
 <dd>
-<p>Glacial equilibrium ice volume.</p>
+<p>Resampled state variables on <code>t_eval</code>.</p>
+</dd>
+</dl>
+</section>
+<section id="raises" class="level4 doc-section doc-section-raises">
+<h4 class="doc-section doc-section-raises anchored" data-anchor-id="raises">Raises</h4>
+<dl>
+<dt><code><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/exceptions.html#UserWarning">UserWarning</a></span></code></dt>
+<dd>
+<p>If this output was produced by a stochastic (SDE) solver without dense output, and <code>t_eval</code> is coarser than the integrated time series. Linearly interpolating between two stochastic path points spaced wider than the original grid invents values that were never realised, discarding Wiener increments and distorting distributional properties. Use <code>si=</code> at integration time to control output spacing instead.</p>
 </dd>
 </dl>
 </section>
 </section>
-<section id="climatecritters.Model3.calc_vu" class="level3">
-<h3 class="anchored" data-anchor-id="climatecritters.Model3.calc_vu">calc_vu</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Model3.calc_vu(f, f1, f2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Unstable equilibrium ice volume separating glacial and interglacial basins.</p>
-<section id="parameters-3" class="level4 doc-section doc-section-parameters">
-<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-3">Parameters</h4>
+<section id="climatecritters.core.Output.remove_noise" class="level3">
+<h3 class="anchored" data-anchor-id="climatecritters.core.Output.remove_noise">remove_noise</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>core.Output.remove_noise(var_name)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Restore a variable to its pre-noise values.</p>
+<p>Reverses <code>add_noise</code> by replacing the noisy array with the clean copy saved on the first <code>add_noise</code> call.</p>
+</section>
+<section id="climatecritters.core.Output.to_pyleo" class="level3">
+<h3 class="anchored" data-anchor-id="climatecritters.core.Output.to_pyleo">to_pyleo</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>core.Output.to_pyleo(var_names<span class="op">=</span><span class="va">None</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Export one or more variables as pyleoclim Series objects.</p>
+<section id="parameters-2" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-2">Parameters</h4>
 <dl>
-<dt><code><span class="parameter-name"><strong>f</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span></code></dt>
+<dt><code><span class="parameter-name"><strong>var_names</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">str or list of str</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
 <dd>
-<p>Orbital forcing value (W/m^2).</p>
-</dd>
-<dt><code><span class="parameter-name"><strong>f1</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span></code></dt>
-<dd>
-<p>Lower insolation threshold.</p>
-</dd>
-<dt><code><span class="parameter-name"><strong>f2</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span></code></dt>
-<dd>
-<p>Upper insolation threshold.</p>
+<p>Name(s) of state or diagnostic variable(s) to export.</p>
 </dd>
 </dl>
 </section>
 <section id="returns-2" class="level4 doc-section doc-section-returns">
 <h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns-2">Returns</h4>
 <dl>
-<dt><code><span class="parameter-name"><strong>vu</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#float">float</a></span></code></dt>
+<dt><code><span class="parameter-name"></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><code>pyleoclim</code>.<code>Series</code> or <code>pyleoclim</code>.<code>MultipleSeries</code></span></code></dt>
 <dd>
-<p>Unstable equilibrium ice volume.</p>
-</dd>
-</dl>
-</section>
-</section>
-<section id="climatecritters.Model3.dydt" class="level3">
-<h3 class="anchored" data-anchor-id="climatecritters.Model3.dydt">dydt</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Model3.dydt(t, x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Evaluate ice-volume tendency at time <code>t</code> and state <code>x</code>.</p>
-<section id="returns-3" class="level4 doc-section doc-section-returns">
-<h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns-3">Returns</h4>
-<dl>
-<dt><code><span class="parameter-name"></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">list of float</span></code></dt>
-<dd>
-<p><code>[dvdt]</code> — the ice-volume tendency. The regime index <code>k</code> is a non-integrated state variable updated in-place.</p>
+
 </dd>
 </dl>
 
@@ -1357,13 +1279,13 @@ dv/dt = -vc / t2             when k=2  (deglaciation)</code></pre>
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../api/ENSORechargeOscillator.html" class="pagination-link" aria-label="ENSORechargeOscillator">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">ENSORechargeOscillator</span>
+      <a href="../api/core.Model.html" class="pagination-link" aria-label="core.Model">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">core.Model</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../api/Stocker2003BipolarSeesaw.html" class="pagination-link" aria-label="Stocker2003BipolarSeesaw">
-        <span class="nav-page-text">Stocker2003BipolarSeesaw</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../api/core.Forcing.html" class="pagination-link" aria-label="core.Forcing">
+        <span class="nav-page-text">core.Forcing</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

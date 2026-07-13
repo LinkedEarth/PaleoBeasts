@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jordan Landers">
-<meta name="dcterms.date" content="2026-06-26">
+<meta name="dcterms.date" content="2026-07-13">
 <meta name="keywords" content="TwoBoxCarbon, BoxModelSpec, carbon cycle, box model, air-sea exchange, concentration gradient, mass conservation, biological pump, network topology, declarative">
 
 <title>TwoBoxCarbon and BoxModelSpec — Carbon Cycle Box Models – ClimateCritters</title>
@@ -227,7 +227,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../notebooks/base_classes/ccmodel_basics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">CCModel Basics</span></a>
+ <span class="menu-text">Model Basics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -468,7 +468,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">June 26, 2026</p>
+      <p class="date">July 13, 2026</p>
     </div>
   </div>
   
@@ -593,7 +593,7 @@ Max drift:     1.71e-13  (numerical precision)</code></pre>
 <h2 class="anchored" data-anchor-id="boxmodelspec">BoxModelSpec</h2>
 <section id="declarative-rebuild-of-twoboxcarbon" class="level3">
 <h3 class="anchored" data-anchor-id="declarative-rebuild-of-twoboxcarbon">Declarative rebuild of TwoBoxCarbon</h3>
-<p><code>BoxModelSpec</code> lets you define the same equations without subclassing <a href="../../api/core.CCModel.html#climatecritters.core.CCModel" title="0"><code>CCModel</code></a>. Register state variables, parameters, tendency relations, and diagnostics; call <code>make_boxmodel()</code> to get an integrable model.</p>
+<p><code>BoxModelSpec</code> lets you define the same equations without subclassing <code>CCModel</code>. Register state variables, parameters, tendency relations, and diagnostics; call <code>make_boxmodel()</code> to get an integrable model.</p>
 <p>The spec below reproduces <code>TwoBoxCarbon</code> exactly — outputs match to floating-point precision.</p>
 <div id="cell-10" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>spec <span class="op">=</span> BoxModelSpec(<span class="st">'two_box_carbon_generic'</span>)</span>

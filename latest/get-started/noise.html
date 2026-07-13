@@ -372,9 +372,9 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="implementing-sde_noise">Implementing <code>sde_noise</code></h3>
 <p>To use any stochastic solver, attach an <code>sde_noise</code> method to your model. It receives the current time and state and returns a diffusion vector with the same shape as the integrated state:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> climatecritters.core.ccmodel <span class="im">import</span> CCModel</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> climatecritters.core.ccmodel <span class="im">import</span> Model</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyModel(CCModel):</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyModel(Model):</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> sde_noise(<span class="va">self</span>, t, y):</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.array([<span class="fl">0.05</span>, <span class="fl">0.01</span>])   <span class="co"># per-variable diffusion scale</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>For an existing model instance you can also monkey-patch it:</p>

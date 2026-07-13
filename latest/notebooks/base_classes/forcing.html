@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jordan Landers">
-<meta name="dcterms.date" content="2026-06-26">
+<meta name="dcterms.date" content="2026-07-13">
 <meta name="keywords" content="Forcing, Hold, Ramp, Harmonic, register_forcing, attachment_style, timing, callable, interpolation, SDE">
 
 <title>Forcing — Time-Varying Inputs – ClimateCritters</title>
@@ -198,7 +198,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../notebooks/base_classes/ccmodel_basics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">CCModel Basics</span></a>
+ <span class="menu-text">Model Basics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -453,7 +453,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">June 26, 2026</p>
+      <p class="date">July 13, 2026</p>
     </div>
   </div>
   
@@ -702,7 +702,7 @@ insolation:  t = -5000 – 0 kyr, range = -61.6 – 70.8</code></pre>
 <p><strong><code>"pre"</code></strong> — applied <em>inside the right-hand side</em> at each solver function evaluation. For a parameter replacement, <code>param_values</code> is temporarily patched so <code>get_param_value</code> sees the forced value throughout <code>dydt</code>. For an additive state variable, the forcing value is added to <code>dxdt[idx]</code> — it enters as a rate (same units as <code>dx/dt</code>).</p>
 <p><strong><code>"post"</code></strong> — applied <em>after each accepted integration step</em>. For state replacement, <code>x[idx]</code> is set to <code>forcing(t)</code> — prescribing the state directly (useful for nudging or data assimilation). For additive state, <code>forcing(t)</code> is added to <code>x[idx]</code> as a finite jump per step.</p>
 <blockquote class="blockquote">
-<p><strong>Adaptive solvers and post-step:</strong> <code>"post"</code> timing requires a fixed-step solver (<code>"euler"</code>, <code>"rk4"</code>, <code>"euler_maruyama"</code>). Adaptive solvers (<code>"RK45"</code> and other <code>scipy.integrate.solve_ivp</code> methods) do not expose a per-step callback, so post-step forcings are silently skipped — <a href="../../api/core.CCModel.html#climatecritters.core.CCModel.integrate" title="0"><code>CCModel.integrate()</code></a> will emit a warning.</p>
+<p><strong>Adaptive solvers and post-step:</strong> <code>"post"</code> timing requires a fixed-step solver (<code>"euler"</code>, <code>"rk4"</code>, <code>"euler_maruyama"</code>). Adaptive solvers (<code>"RK45"</code> and other <code>scipy.integrate.solve_ivp</code> methods) do not expose a per-step callback, so post-step forcings are silently skipped — <code>CCModel.integrate()</code> will emit a warning.</p>
 </blockquote>
 </section>
 <section id="valid-combinations-by-target" class="level3">
@@ -1202,8 +1202,8 @@ insolation:  t = -5000 – 0 kyr, range = -61.6 – 70.8</code></pre>
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../notebooks/base_classes/ccmodel_basics.html" class="pagination-link" aria-label="CCModel Basics">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">CCModel Basics</span>
+      <a href="../../notebooks/base_classes/ccmodel_basics.html" class="pagination-link" aria-label="Model Basics">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Model Basics</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

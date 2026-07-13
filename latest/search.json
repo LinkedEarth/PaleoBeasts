@@ -18,7 +18,7 @@
     "href": "setup.html#build",
     "title": "ClimateCritters",
     "section": "Build",
-    "text": "Build\nPages and figures are handled separately. Figures do not get regenerated on build, nor do notebooks get rerun.\nTo rebuild the pages:\ncd docs\npython scripts/sync_notebooks.py\npython scripts/generate_tutorials_index.py\nquartodoc build\nquarto render\nThis will produce a _site folder and you can inspect the built documentation by opening index.html in a browser.\nTo regenerate the figures:\npython scripts/make_doc_figures.py\nNotebooks will be added as-is."
+    "text": "Build\nPages and figures are handled separately. Figures do not get regenerated on build, nor do notebooks get rerun.\nTo rebuild the pages:\ncd docs\npython scripts/sync_notebooks.py\npython scripts/generate_tutorials_index.py\nquartodoc build\nquarto render\nThis will produce a _site folder, and you can inspect the built documentation by opening index.html in a browser.\nTo regenerate the figures:\npython scripts/make_doc_figures.py\nNotebooks will be added as-is."
   },
   {
     "objectID": "setup.html#deploy",
@@ -576,7 +576,7 @@
     "crumbs": [
       "Tutorials",
       "Getting started",
-      "CCModel Basics"
+      "Model Basics"
     ]
   },
   {
@@ -588,7 +588,7 @@
     "crumbs": [
       "Tutorials",
       "Getting started",
-      "CCModel Basics"
+      "Model Basics"
     ]
   },
   {
@@ -600,7 +600,7 @@
     "crumbs": [
       "Tutorials",
       "Getting started",
-      "CCModel Basics"
+      "Model Basics"
     ]
   },
   {
@@ -612,7 +612,7 @@
     "crumbs": [
       "Tutorials",
       "Getting started",
-      "CCModel Basics"
+      "Model Basics"
     ]
   },
   {
@@ -631,7 +631,7 @@
     "href": "tutorials/index.html#getting-started",
     "title": "Tutorials",
     "section": "Getting started",
-    "text": "Getting started\n\n\n\nNotebook\nWhat it shows\n\n\n\n\nCCModel Basics\nBase class interface: construction, param_values, integration, CCOutput, callable parameters, register_forcing, set_function, copying, to_pyleo\n\n\nForcing Basics\nFour construction patterns (callable, array, Hold/Ramp/Harmonic elements, bundled datasets); attachment modes (replacement, additive); timing (pre, post); noise and SDE integration",
+    "text": "Getting started\n\n\n\nNotebook\nWhat it shows\n\n\n\n\nModel Basics\nBase class interface: construction, param_values, integration, CCOutput, callable parameters, register_forcing, set_function, copying, to_pyleo\n\n\nForcing Basics\nFour construction patterns (callable, array, Hold/Ramp/Harmonic elements, bundled datasets); attachment modes (replacement, additive); timing (pre, post); noise and SDE integration",
     "crumbs": [
       "Overview",
       "Tutorials"
@@ -686,11 +686,11 @@
     ]
   },
   {
-    "objectID": "get-started/forcing.html#forcing-the-signal-object",
-    "href": "get-started/forcing.html#forcing-the-signal-object",
+    "objectID": "get-started/forcing.html#cc.forcing-the-signal-object",
+    "href": "get-started/forcing.html#cc.forcing-the-signal-object",
     "title": "Forcing",
-    "section": "Forcing — the signal object",
-    "text": "Forcing — the signal object\nForcing wraps any time-varying signal and exposes a uniform get_forcing(t) interface. There are four ways to create one.\n\nFrom a callable\nThe simplest case — any Python function or lambda:\n# Perpetual 11-year solar cycle\nsolar = cc.Forcing(lambda t: 1360.0 + 5.0 * np.sin(2 * np.pi * t / 11.0))\nmodel.register_forcing('S0', solar)\n\n\nFrom a data array\nProvide values and an optional time axis; ClimateCritters interpolates:\nco2 = cc.Forcing(data=co2_array, time=age_array, interpolation='cubic')\nOutside the time range the value is held at the first or last point. Use interpolation='linear' for piecewise-linear interpolation.\n\n\nFrom a CSV file\nTwo datasets are bundled:\ntsi   = cc.Forcing.from_csv(dataset='vieira_tsi')   # total solar irradiance\ninsol = cc.Forcing.from_csv(dataset='insolation')   # 65°N summer insolation\nOr load your own:\nco2 = cc.Forcing.from_csv(\n    file_path='data/co2_record.csv',\n    time_name='age_kyr',\n    value_name='co2_ppm',\n)\n\n\nFrom a compiled sequence\nCall .compile() on a ForcingSequence (see below):\nf = seq.compile()   # → Forcing\nOr equivalently pass the sequence directly to Forcing():\nf = cc.Forcing(seq)   # auto-compiles",
+    "section": "cc.Forcing — the signal object",
+    "text": "cc.Forcing — the signal object\nForcing wraps any time-varying signal and exposes a uniform get_forcing(t) interface. There are four ways to create one.\n\nFrom a callable\nThe simplest case — any Python function or lambda:\n# Perpetual 11-year solar cycle\nsolar = cc.Forcing(lambda t: 1360.0 + 5.0 * np.sin(2 * np.pi * t / 11.0))\nmodel.register_forcing('S0', solar)\n\n\nFrom a data array\nProvide values and an optional time axis; ClimateCritters interpolates:\nco2 = cc.Forcing(data=co2_array, time=age_array, interpolation='cubic')\nOutside the time range the value is held at the first or last point. Use interpolation='linear' for piecewise-linear interpolation.\n\n\nFrom a CSV file\nTwo datasets are bundled:\ntsi   = cc.Forcing.from_csv(dataset='vieira_tsi')   # total solar irradiance\ninsol = cc.Forcing.from_csv(dataset='insolation')   # 65°N summer insolation\nOr load your own:\nco2 = cc.Forcing.from_csv(\n    file_path='data/co2_record.csv',\n    time_name='age_kyr',\n    value_name='co2_ppm',\n)\n\n\nFrom a compiled sequence\nCall .compile() on a ForcingSequence (see below):\nf = seq.compile()   # → Forcing\nOr equivalently pass the sequence directly to Forcing():\nf = cc.Forcing(seq)   # auto-compiles",
     "crumbs": [
       "Overview",
       "Package Design",
@@ -768,7 +768,7 @@
     "href": "get-started/concepts.html",
     "title": "Core Concepts",
     "section": "",
-    "text": "This page explains the three building blocks that every ClimateCritters workflow uses: CCModel, Forcing, and CCOutput.",
+    "text": "This page explains the three building blocks that every ClimateCritters workflow uses: Model, Forcing, and Output.",
     "crumbs": [
       "Overview",
       "Package Design",
@@ -777,11 +777,11 @@
     ]
   },
   {
-    "objectID": "get-started/concepts.html#ccmodel",
-    "href": "get-started/concepts.html#ccmodel",
+    "objectID": "get-started/concepts.html#cc.model",
+    "href": "get-started/concepts.html#cc.model",
     "title": "Core Concepts",
-    "section": "CCModel",
-    "text": "CCModel\nCCModel is the abstract base class for all signal models. You never instantiate it directly — instead you use one of the concrete subclasses (e.g. Lorenz63, EBM, Stommel).\nEvery subclass shares the same integration interface:\noutput = model.integrate(\n    t_span=(t0, tf),   # integration window\n    y0=[...],          # initial conditions (one value per state variable)\n    method='RK45',     # solver: 'RK45', 'euler', 'rk4', 'euler_maruyama'\n    dt=None,           # required for 'euler', 'rk4', 'euler_maruyama'\n)\nInternally, each model implements dydt(t, state) — the right-hand side of the ODE — and optionally populate_diagnostics_from_history() for quantities computed after the full trajectory is available.\n\nParameter handling\nModel parameters (e.g. sigma, C, D) can be:\n\n\n\n\n\n\n\n\nType\nExample\nResolved as\n\n\n\n\nConstant\nsigma=10.0\nFixed value at every timestep\n\n\nCallable (t)\nsigma=lambda t: 10.0 + 0.1*t\nCalled with current time\n\n\nCallable (t, state)\nsigma=lambda t, x: ...\nCalled with time and state vector\n\n\nCallable (t, state, model)\nsigma=lambda t, x, m: ...\nAlso receives the model instance\n\n\ncc.Forcing\nsigma=cc.Forcing(...)\nEvaluated via get_forcing(t)\n\n\n\nThe first argument of any callable must be named t or time. See contracts/signal_model_contract.md for the full specification.",
+    "section": "cc.Model",
+    "text": "cc.Model\nModel is the abstract base class for all signal models. You never instantiate it directly — instead you use one of the concrete subclasses (e.g. Lorenz63, EBM, Stommel).\nEvery subclass shares the same integration interface:\noutput = model.integrate(\n    t_span=(t0, tf),   # integration window\n    y0=[...],          # initial conditions (one value per state variable)\n    method='RK45',     # solver: 'RK45', 'euler', 'rk4', 'euler_maruyama'\n    dt=None,           # required for 'euler', 'rk4', 'euler_maruyama'\n)\nInternally, each model implements dydt(t, state) — the right-hand side of the ODE — and optionally populate_diagnostics_from_history() for quantities computed after the full trajectory is available.\n\nParameter handling\nModel parameters (e.g. sigma, C, D) can be:\n\n\n\n\n\n\n\n\nType\nExample\nResolved as\n\n\n\n\nConstant\nsigma=10.0\nFixed value at every timestep\n\n\nCallable (t)\nsigma=lambda t: 10.0 + 0.1*t\nCalled with current time\n\n\nCallable (t, state)\nsigma=lambda t, x: ...\nCalled with time and state vector\n\n\nCallable (t, state, model)\nsigma=lambda t, x, m: ...\nAlso receives the model instance\n\n\ncc.Forcing\nsigma=cc.Forcing(...)\nEvaluated via get_forcing(t)\n\n\n\nThe first argument of any callable must be named t or time. See contracts/signal_model_contract.md for the full specification.",
     "crumbs": [
       "Overview",
       "Package Design",
@@ -803,11 +803,11 @@
     ]
   },
   {
-    "objectID": "get-started/concepts.html#ccoutput",
-    "href": "get-started/concepts.html#ccoutput",
+    "objectID": "get-started/concepts.html#cc.output",
+    "href": "get-started/concepts.html#cc.output",
     "title": "Core Concepts",
-    "section": "CCOutput",
-    "text": "CCOutput\nintegrate() always returns a CCOutput object. It holds:\n\n\n\n\n\n\n\nAttribute\nContents\n\n\n\n\noutput.time\nSolver time axis (1-D array)\n\n\noutput.state_variables\nStructured NumPy array, one field per state variable\n\n\noutput.diagnostic_variables\nDict of derived quantities (e.g. 'energy', 'ice_line_lat')\n\n\noutput.solution\nRaw solver solution (scipy or custom)\n\n\n\n\nAccessing variables\nx = output.state_variables['x']            # state variable by name\nenergy = output.diagnostic_variables['energy']  # diagnostic by name\n\n\nReframing the time axis\nTo slice off a spin-up period or resample to a regular grid:\nt_out = np.linspace(100, 500, 401)\noutput.reframe_time_axis(t_out)\n# output.time and output.state_variables are now on t_out\n\n\nExporting to Pyleoclim\nts = output.to_pyleo(var_names='x')          # returns a pyleo.Series\nmts = output.to_pyleo(var_names=['x', 'y'])  # returns a pyleo.MultipleSeries\nOnce in Pyleoclim, the full analysis toolkit is available: ts.spectral(), ts.wavelet(), ts.dashboard(), ts.interp(), etc.",
+    "section": "cc.Output",
+    "text": "cc.Output\nintegrate() always returns a Output object. It holds:\n\n\n\n\n\n\n\nAttribute\nContents\n\n\n\n\noutput.time\nSolver time axis (1-D array)\n\n\noutput.state_variables\nStructured NumPy array, one field per state variable\n\n\noutput.diagnostic_variables\nDict of derived quantities (e.g. 'energy', 'ice_line_lat')\n\n\noutput.solution\nRaw solver solution (scipy or custom)\n\n\n\n\nAccessing variables\nx = output.state_variables['x']            # state variable by name\nenergy = output.diagnostic_variables['energy']  # diagnostic by name\n\n\nReframing the time axis\nTo slice off a spin-up period or resample to a regular grid:\nt_out = np.linspace(100, 500, 401)\noutput.reframe_time_axis(t_out)\n# output.time and output.state_variables are now on t_out\n\n\nExporting to Pyleoclim\nts = output.to_pyleo(var_names='x')          # returns a pyleo.Series\nmts = output.to_pyleo(var_names=['x', 'y'])  # returns a pyleo.MultipleSeries\nOnce in Pyleoclim, the full analysis toolkit is available: ts.spectral(), ts.wavelet(), ts.dashboard(), ts.interp(), etc.",
     "crumbs": [
       "Overview",
       "Package Design",
@@ -857,7 +857,7 @@
     "href": "get-started/quickstart.html#integrate",
     "title": "Quick Start",
     "section": "2. Integrate",
-    "text": "2. Integrate\nCall integrate() with an integration window, initial conditions, and a solver method. It returns a CCOutput object containing the full trajectory.\noutput = model.integrate(\n    t_span=(0, 50),\n    y0=[1.0, 1.0, 1.0],\n    method='RK45',\n)",
+    "text": "2. Integrate\nCall integrate() with an integration window, initial conditions, and a solver method. It returns an Output object containing the full trajectory.\noutput = model.integrate(\n    t_span=(0, 50),\n    y0=[1.0, 1.0, 1.0],\n    method='RK45',\n)",
     "crumbs": [
       "Overview",
       "Basic Use",
@@ -905,7 +905,7 @@
     "href": "get-started/quickstart.html#next-steps",
     "title": "Quick Start",
     "section": "Next steps",
-    "text": "Next steps\n\nCore concepts — understand CCModel, Forcing, and CCOutput in depth\nTutorials — worked examples for climate and dynamical systems models\nReference — full API documentation",
+    "text": "Next steps\n\nCore concepts — understand Model, Forcing, and Output in depth\nTutorials — worked examples for climate and dynamical systems models\nReference — full API documentation",
     "crumbs": [
       "Overview",
       "Basic Use",
@@ -943,7 +943,7 @@
     "href": "get-started/noise.html#process-noise",
     "title": "Noise",
     "section": "Process noise",
-    "text": "Process noise\nProcess noise enters during integration — it is part of the dynamics, not added afterwards. This is the appropriate representation for stochastic atmospheric forcing, internal ocean variability, or any mechanism where randomness drives the system rather than merely obscuring it.\nClimateCritters supports this through stochastic solvers that implement SDE schemes of the form:\n\\[\\mathrm{d}y = f(t, y)\\,\\mathrm{d}t + g(t, y)\\,\\mathrm{d}W\\]\nwhere \\(\\mathrm{d}W\\) is a Wiener increment and \\(g(t, y)\\) (the diffusion term) sets the noise scale per state variable.\n\nImplementing sde_noise\nTo use any stochastic solver, attach an sde_noise method to your model. It receives the current time and state and returns a diffusion vector with the same shape as the integrated state:\nimport numpy as np\nfrom climatecritters.core.ccmodel import CCModel\n\nclass MyModel(CCModel):\n    def sde_noise(self, t, y):\n        return np.array([0.05, 0.01])   # per-variable diffusion scale\nFor an existing model instance you can also monkey-patch it:\nmodel.sde_noise = lambda t, y: np.array([0.05, 0.01])\nIf sde_noise is absent or not callable, the diffusion term is zero and the stochastic integrators reduce to their deterministic equivalents.\n\n\nDeterministic vs stochastic\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom climatecritters.model_critters.stommel import Stommel\n\ndef noise_func(t, y):\n    return np.array([0.05, 0.01])   # diffusion scale on T and S\n\n# Deterministic baseline\ndet = Stommel()\nout_det = det.integrate(t_span=(0, 500), y0=[1.0, 0.5], method='RK45')\n\n# Stochastic run — attach the diffusion term, then integrate\nsto = Stommel()\nsto.sde_noise = noise_func\nout_sto = sto.integrate(\n    t_span=(0, 500),\n    y0=[1.0, 0.5],\n    method='euler_maruyama',\n    dt=0.1,\n    kwargs={'random_seed': 42},\n)\n\nfig, axes = plt.subplots(2, 1, figsize=(10, 5), sharex=True)\nfor ax, var in zip(axes, ['T', 'S']):\n    ax.plot(out_det.time, out_det.state_variables[var],\n            color='steelblue', lw=1.5, label='deterministic')\n    ax.plot(out_sto.time, out_sto.state_variables[var],\n            color='firebrick', lw=0.8, alpha=0.8, label='stochastic')\n    ax.set_ylabel(var)\naxes[0].legend(fontsize=9)\naxes[-1].set_xlabel('time')\nfig.suptitle('Stommel model: deterministic vs stochastic (Euler–Maruyama)')\nplt.tight_layout()\nplt.show()\nBecause noise enters at every timestep, the trajectory itself is altered. Near a bifurcation or tipping point, stochastic kicks can trigger transitions that the deterministic system would not reach on its own — something post-hoc noise cannot reproduce.",
+    "text": "Process noise\nProcess noise enters during integration — it is part of the dynamics, not added afterwards. This is the appropriate representation for stochastic atmospheric forcing, internal ocean variability, or any mechanism where randomness drives the system rather than merely obscuring it.\nClimateCritters supports this through stochastic solvers that implement SDE schemes of the form:\n\\[\\mathrm{d}y = f(t, y)\\,\\mathrm{d}t + g(t, y)\\,\\mathrm{d}W\\]\nwhere \\(\\mathrm{d}W\\) is a Wiener increment and \\(g(t, y)\\) (the diffusion term) sets the noise scale per state variable.\n\nImplementing sde_noise\nTo use any stochastic solver, attach an sde_noise method to your model. It receives the current time and state and returns a diffusion vector with the same shape as the integrated state:\nimport numpy as np\nfrom climatecritters.core.ccmodel import Model\n\nclass MyModel(Model):\n    def sde_noise(self, t, y):\n        return np.array([0.05, 0.01])   # per-variable diffusion scale\nFor an existing model instance you can also monkey-patch it:\nmodel.sde_noise = lambda t, y: np.array([0.05, 0.01])\nIf sde_noise is absent or not callable, the diffusion term is zero and the stochastic integrators reduce to their deterministic equivalents.\n\n\nDeterministic vs stochastic\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom climatecritters.model_critters.stommel import Stommel\n\ndef noise_func(t, y):\n    return np.array([0.05, 0.01])   # diffusion scale on T and S\n\n# Deterministic baseline\ndet = Stommel()\nout_det = det.integrate(t_span=(0, 500), y0=[1.0, 0.5], method='RK45')\n\n# Stochastic run — attach the diffusion term, then integrate\nsto = Stommel()\nsto.sde_noise = noise_func\nout_sto = sto.integrate(\n    t_span=(0, 500),\n    y0=[1.0, 0.5],\n    method='euler_maruyama',\n    dt=0.1,\n    kwargs={'random_seed': 42},\n)\n\nfig, axes = plt.subplots(2, 1, figsize=(10, 5), sharex=True)\nfor ax, var in zip(axes, ['T', 'S']):\n    ax.plot(out_det.time, out_det.state_variables[var],\n            color='steelblue', lw=1.5, label='deterministic')\n    ax.plot(out_sto.time, out_sto.state_variables[var],\n            color='firebrick', lw=0.8, alpha=0.8, label='stochastic')\n    ax.set_ylabel(var)\naxes[0].legend(fontsize=9)\naxes[-1].set_xlabel('time')\nfig.suptitle('Stommel model: deterministic vs stochastic (Euler–Maruyama)')\nplt.tight_layout()\nplt.show()\nBecause noise enters at every timestep, the trajectory itself is altered. Near a bifurcation or tipping point, stochastic kicks can trigger transitions that the deterministic system would not reach on its own — something post-hoc noise cannot reproduce.",
     "crumbs": [
       "Overview",
       "Package Design",
@@ -1069,58 +1069,6 @@
     ]
   },
   {
-    "objectID": "api/core.CCModel.html",
-    "href": "api/core.CCModel.html",
-    "title": "core.CCModel",
-    "section": "",
-    "text": "core.CCModel(\n    variable_name,\n    state_variables=None,\n    non_integrated_state_vars=None,\n    diagnostic_variables=None,\n)\nThe overarching model structure for ClimateCritters.\nCCModel serves as the archetype/parent class for models within the model_critters directory. It is not meant to be instantiated directly.\n\n\nModels may define a param_values dict that maps parameter names to constants, callables, or Forcing objects. Use get_param_value(name, t, state) inside dydt to resolve any of these uniformly.\nTo make a parameter state- or time-dependent after construction, assign a callable via set_param_value::\nmodel.set_param_value('rho', lambda t, state: 28.0 + 0.1 * state[0])\nTo replace a computation method (e.g. calc_albedo) on a single instance without subclassing, use set_function.\n\n\n\nUse register_forcing to attach a time-varying external driver to any named parameter or state variable after construction::\nmodel.register_forcing('S0', forcing_obj)                         # parameter\nmodel.register_forcing('x', forcing_obj, 'additive', timing='pre')  # state\nSee register_forcing for the full contract and default timing rules.\n\n\n\n\n\n\nName\nDescription\n\n\n\n\nclear_forcings\nRemove registered forcings.\n\n\ndoc\nPretty-print documentation for the requested category.\n\n\ndydt\nDefine the system of differential equations.\n\n\nget_forcings\nReturn registered forcings, optionally filtered by variable name.\n\n\nget_param_value\nResolve a named parameter to its value at the current time and state.\n\n\nget_param_vector\nResolve a parameter and broadcast it to a fixed-length vector.\n\n\nintegrate\nIntegrate the model over a time span and return a :class:CCOutput.\n\n\nlist\nReturn a list of names for the requested category.\n\n\npopulate_diagnostics_from_history\nCompute diagnostic variables from the full solved trajectory.\n\n\npost_integrate\nOrchestrate post-solve output construction for uses_post_history models.\n\n\nregister_forcing\nAttach an external forcing to a named parameter or state variable.\n\n\nsde_noise\nDefine the diffusion term for stochastic (SDE) integration methods.\n\n\nset_function\nSwap out a model calculation function on a single instance.\n\n\nset_param_value\nAdd or update a parameter and keep the attribute and param_values in sync.\n\n\nvalidate_initial_state\nValidate and normalize the initial state vector.\n\n\n\n\n\ncore.CCModel.clear_forcings(var_name=None)\nRemove registered forcings.\n\n\n\nvar_name : str = None\n\nIf given, clear only the forcings for that variable. If omitted, clear all forcings on the model.\n\n\n\n\n\n\ncore.CCModel.doc(print_target)\nPretty-print documentation for the requested category.\nDescriptions are parsed from the NumPy-style docstrings of the class and its base classes. For parameters the current value is also shown.\n\n\n\nprint_target : (state_variables, parameters, diagnostic_variables) = 'state_variables'\n\nThe category to document.\n\n\n\n\n\n\ncore.CCModel.dydt(t, y)\nDefine the system of differential equations.\nMust be overridden by every subclass. The solver calls this at each timestep with the current time t and state vector y, and expects a list of derivatives of the same length as y. Use get_param_value inside the implementation to access parameters.\n\n\n\ncore.CCModel.get_forcings(var_name=None)\nReturn registered forcings, optionally filtered by variable name.\n\n\n\nvar_name : str = None\n\nIf given, return the list of ForcingSpec objects for that variable. If omitted, return the full _forcings dict.\n\n\n\n\n\n\ncore.CCModel.get_param_value(name, t, state)\nResolve a named parameter to its value at the current time and state.\nThis is the standard way to access parameters inside dydt. It looks up the value from param_values by name and delegates resolution to _resolve_param, so callers in dydt don’t need to know whether a parameter is stored as a constant, a callable, or a Forcing object.\n\n\n\ncore.CCModel.get_param_vector(name, t, state, size)\nResolve a parameter and broadcast it to a fixed-length vector.\nSpatial models often allow parameters to be either a single scalar (applied uniformly) or a full grid-length array. This method resolves the parameter via get_param_value and then either broadcasts a scalar or validates that an array has the expected size, eliminating that boilerplate from every dydt that works on a spatial grid.\n\n\n\ncore.CCModel.integrate(\n    t_span=None,\n    y0=None,\n    method='RK45',\n    dt=None,\n    output_time=None,\n    run_name=None,\n    kwargs=None,\n)\nIntegrate the model over a time span and return a :class:CCOutput.\n\n\n\nt_span : tuple of float = None\n\n(t0, tf) integration bounds for the solver.\n\ny0 : array - like = None\n\nInitial conditions. Length must match the number of integrated state variables.\n\nmethod : str = 'RK45'\n\nSolver to use: 'RK45' (default), 'euler', 'euler_maruyama', 'heun_maruyama', 'milstein', 'rk4', or any method accepted by scipy.integrate.solve_ivp. SDE solver guidance: * 'euler_maruyama' — strong order 0.5; baseline stochastic. * 'heun_maruyama' — strong order 1.0 for additive noise (diffusion independent of state); preferred for models like Melcher et al. (2025). * 'milstein' — strong order 1.0 for multiplicative noise (diffusion depends on state); uses a finite-difference approximation of ∂g/∂y, so no analytical Jacobian is required.\n\ndt : float = None\n\nFixed timestep for euler, euler_maruyama, heun_maruyama, milstein, and rk4. Required for those methods.\n\noutput_time : array - like = None\n\nIf provided, the returned CCOutput is immediately reframed onto this time axis (e.g. to exclude a spin-up period). output.model_time always retains the raw solver grid.\n\nrun_name : str = None\n\nLabel stored on the output. Defaults to '&lt;method&gt;, dt=&lt;dt&gt;'.\n\nkwargs : dict = None\n\nAdditional solver options. For solve_ivp methods these are forwarded directly (e.g. rtol, atol, t_eval). For euler_maruyama, heun_maruyama, and milstein, random_seed is extracted here. For rk4, euler_maruyama, heun_maruyama, and milstein, si (sampling interval) is extracted here — integration runs at dt but output (and Wiener increment accumulation, for SDE methods) is saved every si time units with no interpolation. Passing si != dt requires uses_post_history = True on the subclass. .. deprecated:: Passing dt inside kwargs is deprecated. Use the explicit dt parameter instead.\n\n\n\n\n\n\ncore.CCModel.list(list_target)\nReturn a list of names for the requested category.\n\n\n\nlist_target : (state_variables, parameters, diagnostic_variables) = 'state_variables'\n\nThe category to enumerate.\n\n\n\n\n\n\nnames : list of str\n\n\n\n\n\n\n\n\ncore.CCModel.populate_diagnostics_from_history(time, history)\nCompute diagnostic variables from the full solved trajectory.\nCalled by post_integrate for models where uses_post_history = True. The base implementation does nothing because diagnostics are model-specific; subclasses override this to derive any quantities that can only be computed once the complete trajectory is available (e.g. derived fields, fluxes).\n\n\n\ncore.CCModel.post_integrate(time, history)\nOrchestrate post-solve output construction for uses_post_history models.\nSome models (e.g. spatial PDEs) cannot accumulate state during the solve without side effects; instead they store the full trajectory and derive all outputs here. This method sequences the required steps in the correct order: build the structured state array, set the time axis, populate diagnostics, and convert diagnostic lists to arrays. It is called automatically by integrate when uses_post_history = True.\n\n\n\ncore.CCModel.register_forcing(\n    var_name,\n    forcing_object,\n    attachment_style=None,\n    timing=None,\n)\nAttach an external forcing to a named parameter or state variable.\n\n\n\nvar_name : str\n\nName of the target. Must exist in param_values (parameter namespace) or state_variables_names (state namespace). If the name appears in both, a ValueError is raised — this is a model design issue worth resolving explicitly.\n\nforcing_object : \n\nA Forcing instance, a callable f(t) → scalar/array, or any object with a get_forcing(t) method.\n\nattachment_style : (replacement, additive) = \"replacement\"\n\nHow the forcing value is applied. * Parameters default to \"replacement\". \"additive\" is also supported and adds the forcing value to the nominal parameter at each step (e.g. k = k_0 + ε(t)). * State variables have no default — attachment_style is required. This is intentional: injecting into a live state variable is a significant physical choice that should be explicit.\n\ntiming : (pre, post) = \"pre\"\n\nWhen the forcing is applied relative to the integration step. Derived automatically in most cases: * parameter + any style → \"pre\" (always; no override) * state + replacement → \"post\" (always; warns if \"pre\" passed) * state + additive → required; raise if not provided\n\n\n\n\n\n\n: ValueError\n\nIf var_name is not found, if attachment_style is missing for a state variable, if timing is missing for state + additive, or if a second \"replacement\" is registered on the same variable.\n\n\n\n\n\n\ncore.CCModel.sde_noise(t, y)\nDefine the diffusion term for stochastic (SDE) integration methods.\nOverride in subclasses that use method='euler_maruyama', 'heun_maruyama', or 'milstein'. Called at each timestep with the current time t and state vector y; must return a vector of per-state diffusion scales the same shape as y. The base implementation returns zeros, recovering deterministic integration for models that don’t define stochastic dynamics.\n\n\n\ncore.CCModel.set_function(name, function, bind=None)\nSwap out a model calculation function on a single instance.\nSubclassing is the right approach when a different formulation should apply everywhere, but for one-off experiments (e.g. testing an alternative albedo scheme without writing a new class) it is useful to replace a single method on one instance. The bind parameter handles whether the replacement expects self as its first argument.\n\n\n\nname : str\n\nName of an existing callable attribute (e.g., calc_k).\n\nfunction : callable\n\nReplacement callable.\n\nbind : bool or None = None\n\nTrue: bind as instance method (expects self as first arg). False: assign as a plain callable. None: infer from whether the first argument is named self or model.\n\n\n\n\n\n\ncore.CCModel.set_param_value(name, value)\nAdd or update a parameter and keep the attribute and param_values in sync.\n__setattr__ syncs the direction model.alpha = v → param_values, but only for names already in param_values. This method handles the reverse and covers inserting new parameters that weren’t declared at initialization.\n\n\n\ncore.CCModel.validate_initial_state(y0)\nValidate and normalize the initial state vector.\nExists as a method so that subclasses with non-standard initial state requirements (e.g. a spatially discretised model that accepts a scalar and broadcasts it to the grid) can override it. The base implementation delegates to the utility in utils/solver.",
-    "crumbs": [
-      "Reference",
-      "Core",
-      "Base Classes",
-      "core.CCModel"
-    ]
-  },
-  {
-    "objectID": "api/core.CCModel.html#parameter-handling",
-    "href": "api/core.CCModel.html#parameter-handling",
-    "title": "core.CCModel",
-    "section": "",
-    "text": "Models may define a param_values dict that maps parameter names to constants, callables, or Forcing objects. Use get_param_value(name, t, state) inside dydt to resolve any of these uniformly.\nTo make a parameter state- or time-dependent after construction, assign a callable via set_param_value::\nmodel.set_param_value('rho', lambda t, state: 28.0 + 0.1 * state[0])\nTo replace a computation method (e.g. calc_albedo) on a single instance without subclassing, use set_function.",
-    "crumbs": [
-      "Reference",
-      "Core",
-      "Base Classes",
-      "core.CCModel"
-    ]
-  },
-  {
-    "objectID": "api/core.CCModel.html#external-forcings",
-    "href": "api/core.CCModel.html#external-forcings",
-    "title": "core.CCModel",
-    "section": "",
-    "text": "Use register_forcing to attach a time-varying external driver to any named parameter or state variable after construction::\nmodel.register_forcing('S0', forcing_obj)                         # parameter\nmodel.register_forcing('x', forcing_obj, 'additive', timing='pre')  # state\nSee register_forcing for the full contract and default timing rules.",
-    "crumbs": [
-      "Reference",
-      "Core",
-      "Base Classes",
-      "core.CCModel"
-    ]
-  },
-  {
-    "objectID": "api/core.CCModel.html#methods",
-    "href": "api/core.CCModel.html#methods",
-    "title": "core.CCModel",
-    "section": "",
-    "text": "Name\nDescription\n\n\n\n\nclear_forcings\nRemove registered forcings.\n\n\ndoc\nPretty-print documentation for the requested category.\n\n\ndydt\nDefine the system of differential equations.\n\n\nget_forcings\nReturn registered forcings, optionally filtered by variable name.\n\n\nget_param_value\nResolve a named parameter to its value at the current time and state.\n\n\nget_param_vector\nResolve a parameter and broadcast it to a fixed-length vector.\n\n\nintegrate\nIntegrate the model over a time span and return a :class:CCOutput.\n\n\nlist\nReturn a list of names for the requested category.\n\n\npopulate_diagnostics_from_history\nCompute diagnostic variables from the full solved trajectory.\n\n\npost_integrate\nOrchestrate post-solve output construction for uses_post_history models.\n\n\nregister_forcing\nAttach an external forcing to a named parameter or state variable.\n\n\nsde_noise\nDefine the diffusion term for stochastic (SDE) integration methods.\n\n\nset_function\nSwap out a model calculation function on a single instance.\n\n\nset_param_value\nAdd or update a parameter and keep the attribute and param_values in sync.\n\n\nvalidate_initial_state\nValidate and normalize the initial state vector.\n\n\n\n\n\ncore.CCModel.clear_forcings(var_name=None)\nRemove registered forcings.\n\n\n\nvar_name : str = None\n\nIf given, clear only the forcings for that variable. If omitted, clear all forcings on the model.\n\n\n\n\n\n\ncore.CCModel.doc(print_target)\nPretty-print documentation for the requested category.\nDescriptions are parsed from the NumPy-style docstrings of the class and its base classes. For parameters the current value is also shown.\n\n\n\nprint_target : (state_variables, parameters, diagnostic_variables) = 'state_variables'\n\nThe category to document.\n\n\n\n\n\n\ncore.CCModel.dydt(t, y)\nDefine the system of differential equations.\nMust be overridden by every subclass. The solver calls this at each timestep with the current time t and state vector y, and expects a list of derivatives of the same length as y. Use get_param_value inside the implementation to access parameters.\n\n\n\ncore.CCModel.get_forcings(var_name=None)\nReturn registered forcings, optionally filtered by variable name.\n\n\n\nvar_name : str = None\n\nIf given, return the list of ForcingSpec objects for that variable. If omitted, return the full _forcings dict.\n\n\n\n\n\n\ncore.CCModel.get_param_value(name, t, state)\nResolve a named parameter to its value at the current time and state.\nThis is the standard way to access parameters inside dydt. It looks up the value from param_values by name and delegates resolution to _resolve_param, so callers in dydt don’t need to know whether a parameter is stored as a constant, a callable, or a Forcing object.\n\n\n\ncore.CCModel.get_param_vector(name, t, state, size)\nResolve a parameter and broadcast it to a fixed-length vector.\nSpatial models often allow parameters to be either a single scalar (applied uniformly) or a full grid-length array. This method resolves the parameter via get_param_value and then either broadcasts a scalar or validates that an array has the expected size, eliminating that boilerplate from every dydt that works on a spatial grid.\n\n\n\ncore.CCModel.integrate(\n    t_span=None,\n    y0=None,\n    method='RK45',\n    dt=None,\n    output_time=None,\n    run_name=None,\n    kwargs=None,\n)\nIntegrate the model over a time span and return a :class:CCOutput.\n\n\n\nt_span : tuple of float = None\n\n(t0, tf) integration bounds for the solver.\n\ny0 : array - like = None\n\nInitial conditions. Length must match the number of integrated state variables.\n\nmethod : str = 'RK45'\n\nSolver to use: 'RK45' (default), 'euler', 'euler_maruyama', 'heun_maruyama', 'milstein', 'rk4', or any method accepted by scipy.integrate.solve_ivp. SDE solver guidance: * 'euler_maruyama' — strong order 0.5; baseline stochastic. * 'heun_maruyama' — strong order 1.0 for additive noise (diffusion independent of state); preferred for models like Melcher et al. (2025). * 'milstein' — strong order 1.0 for multiplicative noise (diffusion depends on state); uses a finite-difference approximation of ∂g/∂y, so no analytical Jacobian is required.\n\ndt : float = None\n\nFixed timestep for euler, euler_maruyama, heun_maruyama, milstein, and rk4. Required for those methods.\n\noutput_time : array - like = None\n\nIf provided, the returned CCOutput is immediately reframed onto this time axis (e.g. to exclude a spin-up period). output.model_time always retains the raw solver grid.\n\nrun_name : str = None\n\nLabel stored on the output. Defaults to '&lt;method&gt;, dt=&lt;dt&gt;'.\n\nkwargs : dict = None\n\nAdditional solver options. For solve_ivp methods these are forwarded directly (e.g. rtol, atol, t_eval). For euler_maruyama, heun_maruyama, and milstein, random_seed is extracted here. For rk4, euler_maruyama, heun_maruyama, and milstein, si (sampling interval) is extracted here — integration runs at dt but output (and Wiener increment accumulation, for SDE methods) is saved every si time units with no interpolation. Passing si != dt requires uses_post_history = True on the subclass. .. deprecated:: Passing dt inside kwargs is deprecated. Use the explicit dt parameter instead.\n\n\n\n\n\n\ncore.CCModel.list(list_target)\nReturn a list of names for the requested category.\n\n\n\nlist_target : (state_variables, parameters, diagnostic_variables) = 'state_variables'\n\nThe category to enumerate.\n\n\n\n\n\n\nnames : list of str\n\n\n\n\n\n\n\n\ncore.CCModel.populate_diagnostics_from_history(time, history)\nCompute diagnostic variables from the full solved trajectory.\nCalled by post_integrate for models where uses_post_history = True. The base implementation does nothing because diagnostics are model-specific; subclasses override this to derive any quantities that can only be computed once the complete trajectory is available (e.g. derived fields, fluxes).\n\n\n\ncore.CCModel.post_integrate(time, history)\nOrchestrate post-solve output construction for uses_post_history models.\nSome models (e.g. spatial PDEs) cannot accumulate state during the solve without side effects; instead they store the full trajectory and derive all outputs here. This method sequences the required steps in the correct order: build the structured state array, set the time axis, populate diagnostics, and convert diagnostic lists to arrays. It is called automatically by integrate when uses_post_history = True.\n\n\n\ncore.CCModel.register_forcing(\n    var_name,\n    forcing_object,\n    attachment_style=None,\n    timing=None,\n)\nAttach an external forcing to a named parameter or state variable.\n\n\n\nvar_name : str\n\nName of the target. Must exist in param_values (parameter namespace) or state_variables_names (state namespace). If the name appears in both, a ValueError is raised — this is a model design issue worth resolving explicitly.\n\nforcing_object : \n\nA Forcing instance, a callable f(t) → scalar/array, or any object with a get_forcing(t) method.\n\nattachment_style : (replacement, additive) = \"replacement\"\n\nHow the forcing value is applied. * Parameters default to \"replacement\". \"additive\" is also supported and adds the forcing value to the nominal parameter at each step (e.g. k = k_0 + ε(t)). * State variables have no default — attachment_style is required. This is intentional: injecting into a live state variable is a significant physical choice that should be explicit.\n\ntiming : (pre, post) = \"pre\"\n\nWhen the forcing is applied relative to the integration step. Derived automatically in most cases: * parameter + any style → \"pre\" (always; no override) * state + replacement → \"post\" (always; warns if \"pre\" passed) * state + additive → required; raise if not provided\n\n\n\n\n\n\n: ValueError\n\nIf var_name is not found, if attachment_style is missing for a state variable, if timing is missing for state + additive, or if a second \"replacement\" is registered on the same variable.\n\n\n\n\n\n\ncore.CCModel.sde_noise(t, y)\nDefine the diffusion term for stochastic (SDE) integration methods.\nOverride in subclasses that use method='euler_maruyama', 'heun_maruyama', or 'milstein'. Called at each timestep with the current time t and state vector y; must return a vector of per-state diffusion scales the same shape as y. The base implementation returns zeros, recovering deterministic integration for models that don’t define stochastic dynamics.\n\n\n\ncore.CCModel.set_function(name, function, bind=None)\nSwap out a model calculation function on a single instance.\nSubclassing is the right approach when a different formulation should apply everywhere, but for one-off experiments (e.g. testing an alternative albedo scheme without writing a new class) it is useful to replace a single method on one instance. The bind parameter handles whether the replacement expects self as its first argument.\n\n\n\nname : str\n\nName of an existing callable attribute (e.g., calc_k).\n\nfunction : callable\n\nReplacement callable.\n\nbind : bool or None = None\n\nTrue: bind as instance method (expects self as first arg). False: assign as a plain callable. None: infer from whether the first argument is named self or model.\n\n\n\n\n\n\ncore.CCModel.set_param_value(name, value)\nAdd or update a parameter and keep the attribute and param_values in sync.\n__setattr__ syncs the direction model.alpha = v → param_values, but only for names already in param_values. This method handles the reverse and covers inserting new parameters that weren’t declared at initialization.\n\n\n\ncore.CCModel.validate_initial_state(y0)\nValidate and normalize the initial state vector.\nExists as a method so that subclasses with non-standard initial state requirements (e.g. a spatially discretised model that accepts a scalar and broadcasts it to the grid) can override it. The base implementation delegates to the utility in utils/solver.",
-    "crumbs": [
-      "Reference",
-      "Core",
-      "Base Classes",
-      "core.CCModel"
-    ]
-  },
-  {
     "objectID": "api/MultiPendulumBeta.html",
     "href": "api/MultiPendulumBeta.html",
     "title": "MultiPendulumBeta",
@@ -1190,7 +1138,7 @@
     "href": "api/index.html",
     "title": "Function reference",
     "section": "",
-    "text": "Base classes underlying all models.\n\n\n\ncore.CCModel\nThe overarching model structure for ClimateCritters.\n\n\ncore.CCOutput\nContainer for the results of one call to CCModel.integrate().\n\n\ncore.Forcing\nUnified time-varying signal consumed by models.\n\n\n\n\n\n\nForcing elements.\n\n\n\ncore.forcing.ForcingElement\nA bounded forcing segment backed by an arbitrary callable.\n\n\ncore.forcing.ResolvedSegment\nImmutable record describing one compiled segment of a ForcingSequence.\n\n\ncore.forcing.ForcingSequence\nComposable sequence of ForcingElement parts.\n\n\ncore.forcing.Hold\nConstant-valued segment.\n\n\ncore.forcing.Ramp\nMonotonic transition between two values with linear or cosine easing.\n\n\ncore.forcing.Harmonic\nSinusoidal segment with automatic phase continuity.\n\n\n\n\n\n\n\n\n\nEnergy balance models.\n\n\n\nEBMBase\nShared energy balance physics for all EBM variants.\n\n\nEBM0D\nZero-dimensional energy balance model for global-mean surface temperature.\n\n\nEBM1DLat\nDiffusive annual-mean latitudinal energy balance model (Budyko-Sellers type).\n\n\n\n\n\n\nComposable framework for building custom multi-reservoir models.\n\n\n\nBoxModelSpec\nDeclarative specification for simple ODE box models.\n\n\nTwoBoxCarbon\nTwo-box carbon exchange model with explicit box volumes.\n\n\n\n\n\n\nSingle-scale & two-scale Lorenz atmospheric models + Roessler system.\n\n\n\nLorenz63\nLorenz (1963) system.\n\n\nLorenz96\nLorenz (1996) single-scale and two-scale atmospheric model.\n\n\nRoessler\nRoessler chaotic oscillator.\n\n\n\n\n\n\nMechanical oscillators ranging from simple SHM to chaotic driven pendulums.\n\n\n\nSimplePendulum\nNonlinear pendulum with optional linear damping.\n\n\nDoublePendulum\nDouble pendulum — a conservative chaotic system.\n\n\nMultiPendulumBeta\nExperimental N-rod chain pendulum solved via a Lagrangian mass matrix.\n\n\nPendulumRodBeta\nProperties of one rod in a :class:MultiPendulumBeta chain.\n\n\nDampedSpring\nDamped (and optionally driven) spring-mass oscillator.\n\n\n\n\n\n\nStandalone paleoclimate and dynamical systems models.\n\n\n\nENSORechargeOscillator\nJin-style ENSO recharge oscillator.\n\n\nModel3\nModel 3 from Ganopolski (2024) describing glacial cycle evolution under orbital forcing.\n\n\nStocker2003BipolarSeesaw\nMinimum thermodynamic model for the thermal bipolar seesaw.\n\n\nStocker2003ExtendedSeaIceSeesaw\nExtended Stocker-style model with reservoir, Southern Ocean, sea-ice, and Antarctic states.\n\n\nStommel\nMinimal two-box Stommel thermohaline circulation model.\n\n\nMelcher25\nTwo-equation bistable Itô SDE for stochastic Dansgaard-Oeschger transitions.\n\n\n\n\n\n\n\n\n\nPost-hoc observation noise and stochastic process noise generation.\n\n\n\nutils.noise.from_series\nGenerate surrogate series matched to a target Pyleoclim series.\n\n\nutils.noise.from_param\nGenerate surrogate series from a parametric noise model.\n\n\n\n\n\n\nIrregular downsampling utilities for paleoclimate time series.\n\n\n\nutils.resample.downsample\nDownsample a Pyleoclim series by drawing random time increments.\n\n\n\n\n\n\nFactory functions for common Forcing patterns.\n\n\n\nutils.forcing.create_periodic_forcing\nBuild a composite periodic forcing from normalised sine components.\n\n\nutils.forcing.create_constant_forcing\nBuild a constant forcing.\n\n\nutils.forcing.create_sinusoid_forcing\nBuild a sinusoidal forcing: f(t) = y0 + A * sin(2π t / period).\n\n\nutils.forcing.create_piecewise_forcing\nBuild a piecewise forcing from a sequence of :class:~climatecritters.core.ForcingElement parts.\n\n\n\n\n\n\nNumerical integration backends and solver helpers.\n\n\n\nutils.solver.Solution\nMinimal container for the output of a fixed-step integrator.\n\n\nutils.solver.rk4_method\nFixed-step 4th-order Runge-Kutta integrator.\n\n\nutils.solver.euler_method\nFixed-step forward Euler integrator.\n\n\nutils.solver.euler_maruyama_method\nFixed-step Euler-Maruyama integrator for stochastic differential equations.\n\n\nutils.solver.heun_maruyama_method\nFixed-step Heun-Maruyama integrator for stochastic differential equations.\n\n\nutils.solver.milstein_method\nFixed-step Milstein integrator for stochastic differential equations.\n\n\nutils.solver.define_t_eval\nBuild a t_eval array for use with :func:scipy.integrate.solve_ivp.\n\n\nutils.solver.validate_monotonic_grid\nValidate a strictly increasing 1-D coordinate array.\n\n\nutils.solver.validate_layer_thicknesses\nValidate positive layer thicknesses.\n\n\nutils.solver.flux_divergence\nCompute finite-volume tendency from face fluxes and layer thicknesses.\n\n\nutils.solver.validate_initial_state\nValidate and normalize the initial state vector.\n\n\nutils.solver.build_state_from_history\nBuild a structured state array from a solved trajectory.\n\n\n\n\n\n\nSignal processing and interpolation utilities.\n\n\n\nutils.func.make_derivative_func\nReturn a callable that evaluates the derivative of a forcing at arbitrary times.\n\n\nutils.func.smooth_and_interpolate\nApply a centered moving-average and interpolate onto a target time axis.",
+    "text": "Base classes underlying all models.\n\n\n\ncore.Model\nThe overarching model structure for ClimateCritters.\n\n\ncore.Output\nContainer for the results of one call to CCModel.integrate().\n\n\ncore.Forcing\nUnified time-varying signal consumed by models.\n\n\n\n\n\n\nForcing elements.\n\n\n\ncore.forcing.ForcingElement\nA bounded forcing segment backed by an arbitrary callable.\n\n\ncore.forcing.ResolvedSegment\nImmutable record describing one compiled segment of a ForcingSequence.\n\n\ncore.forcing.ForcingSequence\nComposable sequence of ForcingElement parts.\n\n\ncore.forcing.Hold\nConstant-valued segment.\n\n\ncore.forcing.Ramp\nMonotonic transition between two values with linear or cosine easing.\n\n\ncore.forcing.Harmonic\nSinusoidal segment with automatic phase continuity.\n\n\n\n\n\n\n\n\n\nEnergy balance models.\n\n\n\nEBMBase\nShared energy balance physics for all EBM variants.\n\n\nEBM0D\nZero-dimensional energy balance model for global-mean surface temperature.\n\n\nEBM1DLat\nDiffusive annual-mean latitudinal energy balance model (Budyko-Sellers type).\n\n\n\n\n\n\nComposable framework for building custom multi-reservoir models.\n\n\n\nBoxModelSpec\nDeclarative specification for simple ODE box models.\n\n\nTwoBoxCarbon\nTwo-box carbon exchange model with explicit box volumes.\n\n\n\n\n\n\nSingle-scale & two-scale Lorenz atmospheric models + Roessler system.\n\n\n\nLorenz63\nLorenz (1963) system.\n\n\nLorenz96\nLorenz (1996) single-scale and two-scale atmospheric model.\n\n\nRoessler\nRoessler chaotic oscillator.\n\n\n\n\n\n\nMechanical oscillators ranging from simple SHM to chaotic driven pendulums.\n\n\n\nSimplePendulum\nNonlinear pendulum with optional linear damping.\n\n\nDoublePendulum\nDouble pendulum — a conservative chaotic system.\n\n\nMultiPendulumBeta\nExperimental N-rod chain pendulum solved via a Lagrangian mass matrix.\n\n\nPendulumRodBeta\nProperties of one rod in a :class:MultiPendulumBeta chain.\n\n\nDampedSpring\nDamped (and optionally driven) spring-mass oscillator.\n\n\n\n\n\n\nStandalone paleoclimate and dynamical systems models.\n\n\n\nENSORechargeOscillator\nJin-style ENSO recharge oscillator.\n\n\nModel3\nModel 3 from Ganopolski (2024) describing glacial cycle evolution under orbital forcing.\n\n\nStocker2003BipolarSeesaw\nMinimum thermodynamic model for the thermal bipolar seesaw.\n\n\nStocker2003ExtendedSeaIceSeesaw\nExtended Stocker-style model with reservoir, Southern Ocean, sea-ice, and Antarctic states.\n\n\nStommel\nMinimal two-box Stommel thermohaline circulation model.\n\n\nMelcher25\nTwo-equation bistable Itô SDE for stochastic Dansgaard-Oeschger transitions.\n\n\n\n\n\n\n\n\n\nPost-hoc observation noise and stochastic process noise generation.\n\n\n\nutils.noise.from_series\nGenerate surrogate series matched to a target Pyleoclim series.\n\n\nutils.noise.from_param\nGenerate surrogate series from a parametric noise model.\n\n\n\n\n\n\nIrregular downsampling utilities for paleoclimate time series.\n\n\n\nutils.resample.downsample\nDownsample a Pyleoclim series by drawing random time increments.\n\n\n\n\n\n\nFactory functions for common Forcing patterns.\n\n\n\nutils.forcing.create_periodic_forcing\nBuild a composite periodic forcing from normalised sine components.\n\n\nutils.forcing.create_constant_forcing\nBuild a constant forcing.\n\n\nutils.forcing.create_sinusoid_forcing\nBuild a sinusoidal forcing: f(t) = y0 + A * sin(2π t / period).\n\n\nutils.forcing.create_piecewise_forcing\nBuild a piecewise forcing from a sequence of :class:~climatecritters.core.ForcingElement parts.\n\n\n\n\n\n\nNumerical integration backends and solver helpers.\n\n\n\nutils.solver.Solution\nMinimal container for the output of a fixed-step integrator.\n\n\nutils.solver.rk4_method\nFixed-step 4th-order Runge-Kutta integrator.\n\n\nutils.solver.euler_method\nFixed-step forward Euler integrator.\n\n\nutils.solver.euler_maruyama_method\nFixed-step Euler-Maruyama integrator for stochastic differential equations.\n\n\nutils.solver.heun_maruyama_method\nFixed-step Heun-Maruyama integrator for stochastic differential equations.\n\n\nutils.solver.milstein_method\nFixed-step Milstein integrator for stochastic differential equations.\n\n\nutils.solver.define_t_eval\nBuild a t_eval array for use with :func:scipy.integrate.solve_ivp.\n\n\nutils.solver.validate_monotonic_grid\nValidate a strictly increasing 1-D coordinate array.\n\n\nutils.solver.validate_layer_thicknesses\nValidate positive layer thicknesses.\n\n\nutils.solver.flux_divergence\nCompute finite-volume tendency from face fluxes and layer thicknesses.\n\n\nutils.solver.validate_initial_state\nValidate and normalize the initial state vector.\n\n\nutils.solver.build_state_from_history\nBuild a structured state array from a solved trajectory.\n\n\n\n\n\n\nSignal processing and interpolation utilities.\n\n\n\nutils.func.make_derivative_func\nReturn a callable that evaluates the derivative of a forcing at arbitrary times.\n\n\nutils.func.smooth_and_interpolate\nApply a centered moving-average and interpolate onto a target time axis.",
     "crumbs": [
       "Reference",
       "Function reference"
@@ -1201,7 +1149,7 @@
     "href": "api/index.html#core",
     "title": "Function reference",
     "section": "",
-    "text": "Base classes underlying all models.\n\n\n\ncore.CCModel\nThe overarching model structure for ClimateCritters.\n\n\ncore.CCOutput\nContainer for the results of one call to CCModel.integrate().\n\n\ncore.Forcing\nUnified time-varying signal consumed by models.\n\n\n\n\n\n\nForcing elements.\n\n\n\ncore.forcing.ForcingElement\nA bounded forcing segment backed by an arbitrary callable.\n\n\ncore.forcing.ResolvedSegment\nImmutable record describing one compiled segment of a ForcingSequence.\n\n\ncore.forcing.ForcingSequence\nComposable sequence of ForcingElement parts.\n\n\ncore.forcing.Hold\nConstant-valued segment.\n\n\ncore.forcing.Ramp\nMonotonic transition between two values with linear or cosine easing.\n\n\ncore.forcing.Harmonic\nSinusoidal segment with automatic phase continuity.",
+    "text": "Base classes underlying all models.\n\n\n\ncore.Model\nThe overarching model structure for ClimateCritters.\n\n\ncore.Output\nContainer for the results of one call to CCModel.integrate().\n\n\ncore.Forcing\nUnified time-varying signal consumed by models.\n\n\n\n\n\n\nForcing elements.\n\n\n\ncore.forcing.ForcingElement\nA bounded forcing segment backed by an arbitrary callable.\n\n\ncore.forcing.ResolvedSegment\nImmutable record describing one compiled segment of a ForcingSequence.\n\n\ncore.forcing.ForcingSequence\nComposable sequence of ForcingElement parts.\n\n\ncore.forcing.Hold\nConstant-valued segment.\n\n\ncore.forcing.Ramp\nMonotonic transition between two values with linear or cosine easing.\n\n\ncore.forcing.Harmonic\nSinusoidal segment with automatic phase continuity.",
     "crumbs": [
       "Reference",
       "Function reference"
@@ -1399,172 +1347,224 @@
     ]
   },
   {
-    "objectID": "api/Stocker2003ExtendedSeaIceSeesaw.html",
-    "href": "api/Stocker2003ExtendedSeaIceSeesaw.html",
-    "title": "Stocker2003ExtendedSeaIceSeesaw",
+    "objectID": "api/core.forcing.Hold.html",
+    "href": "api/core.forcing.Hold.html",
+    "title": "core.forcing.Hold",
     "section": "",
-    "text": "Stocker2003ExtendedSeaIceSeesaw(\n    var_name='stocker2003_extended_seaice_seesaw',\n    tau_R=300.0,\n    tau_S=1200.0,\n    tau_A=100.0,\n    tau_ANT=20.0,\n    kappa=1.0,\n    lambda_S=0.2,\n    alpha=0.3,\n    beta=0.2,\n    gamma=4.0,\n    delta=1.0,\n    eta=0.2,\n    T_S0=0.0,\n    T_c=0.0,\n    T_N=0.0,\n    epsilon_R=0.0,\n    epsilon_S=0.0,\n    epsilon_A=0.0,\n    epsilon_ANT=0.0,\n    state_variables=None,\n    diagnostic_variables=None,\n    *args,\n    **kwargs,\n)\nExtended Stocker-style model with reservoir, Southern Ocean, sea-ice, and Antarctic states.\nThe model integrates four coupled ODEs with prescribed northern forcing T_N(t):\ntau_R * dT_R/dt     = -(T_R - T_N) + eps_R\ntau_S * dT_S/dt     = kappa*(T_R - T_S) - lambda_S*(T_S - T_S0)\n                      + alpha*(1 - A) + eps_S\ntau_A * dA/dt       = -beta*(T_S - T_S0)\n                      - gamma*A*(1-A)*(T_S - T_c) + eps_A\ntau_ANT * dT_ANT/dt = delta*(T_S - T_ANT) + eta*(1 - A) + eps_ANT\nSea-ice area fraction A is constrained to [0, 1] by suppressing the outward derivative at the physical boundaries inside dydt.\n\n\n\nvar_name : str = 'stocker2003_extended_seaice_seesaw'\n\nLabel for the model output. Default 'stocker2003_extended_seaice_seesaw'.\n\ntau_R : float = 300.0\n\nOceanic reservoir relaxation timescale (years). Default 300.\n\ntau_S : float = 1200.0\n\nSouthern Ocean relaxation timescale (years). Default 1200.\n\ntau_A : float = 100.0\n\nSea-ice adjustment timescale (years). Default 100.\n\ntau_ANT : float = 20.0\n\nAntarctic temperature adjustment timescale (years). Default 20.\n\nkappa : float = 1.0\n\nAdvective heat exchange between reservoir and Southern Ocean. Default 1.0.\n\nlambda_S : float = 0.2\n\nLinear restoring rate for Southern Ocean temperature. Default 0.2.\n\nalpha : float = 0.3\n\nSea-ice insulation effect on Southern Ocean heat flux. Default 0.3.\n\nbeta : float = 0.2\n\nTemperature-driven sea-ice melt rate. Default 0.2.\n\ngamma : float = 4.0\n\nNonlinear sea-ice feedback strength. Default 4.0.\n\ndelta : float = 1.0\n\nSouthern Ocean to Antarctic heat coupling. Default 1.0.\n\neta : float = 0.2\n\nSea-ice insulation effect on Antarctic temperature. Default 0.2.\n\nT_S0 : float = 0.0\n\nReference Southern Ocean temperature. Default 0.0.\n\nT_c : float = 0.0\n\nCritical temperature for the sea-ice feedback. Default 0.0.\n\nT_N : float = 0.0\n\nNorthern temperature anomaly. Default 0.0. Register a time-varying signal via model.register_forcing('T_N', forcing_obj).\n\nepsilon_R : float = 0.0\n\nConstant additive noise / bias terms. All default to 0.0.\n\nepsilon_S : float = 0.0\n\nConstant additive noise / bias terms. All default to 0.0.\n\nepsilon_A : float = 0.0\n\nConstant additive noise / bias terms. All default to 0.0.\n\nepsilon_ANT : float = 0.0\n\nConstant additive noise / bias terms. All default to 0.0.\n\n\n\n\n\nState variables are T_R, T_S, A, T_ANT in that order. The diagnostic variable T_N is populated by populate_diagnostics_from_history. All timescales must be &gt; 0.\n\n\n\nimport climatecritters as cc\nfrom climatecritters.model_critters.stocker2003_bipolar_seesaw import (\n    Stocker2003ExtendedSeaIceSeesaw,\n)\nimport matplotlib.pyplot as plt\n\n\nmodel = Stocker2003ExtendedSeaIceSeesaw()\nmodel.register_forcing('T_N', cc.Forcing(lambda t: 1.0 if (t % 2000) &lt; 1000 else 0.0))\noutput = model.integrate(\n    t_span=(0, 10000), y0=[0.0, 0.0, 0.3, 0.0], method='RK45'\n)\nts = output.to_pyleo(var_names=['T_ANT'])\nts.plot()\nplt.savefig('docs/reference/figures/Stocker2003ExtendedSeaIceSeesaw_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\nStocker2003ExtendedSeaIceSeesaw example output",
+    "text": "core.forcing.Hold(dt=None, value=None, duration=None, tf=None, plot_kwargs=None)\nConstant-valued segment.\n\n\n\nvalue : float = None\n\nThe constant forcing value throughout the segment.\n\nduration : float = None\n\nLength of the segment. Alias: dt. Exactly one of duration, dt, or tf must be provided.\n\ndt : float = None\n\nAlias for duration.\n\ntf : float = None\n\nAbsolute end time (used instead of duration when the end time is known but the start time is not yet fixed).\n\n\n\n\n\nimport matplotlib.pyplot as plt\nimport climatecritters as cc\n\nh = cc.forcing.Hold(duration=50, value=280.0)\nfig, ax = h.plot()\nplt.savefig('docs/reference/figures/Hold_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\nHold example output",
+    "crumbs": [
+      "Reference",
+      "Core",
+      "Forcing",
+      "core.forcing.Hold"
+    ]
+  },
+  {
+    "objectID": "api/core.forcing.Hold.html#parameters",
+    "href": "api/core.forcing.Hold.html#parameters",
+    "title": "core.forcing.Hold",
+    "section": "",
+    "text": "value : float = None\n\nThe constant forcing value throughout the segment.\n\nduration : float = None\n\nLength of the segment. Alias: dt. Exactly one of duration, dt, or tf must be provided.\n\ndt : float = None\n\nAlias for duration.\n\ntf : float = None\n\nAbsolute end time (used instead of duration when the end time is known but the start time is not yet fixed).",
+    "crumbs": [
+      "Reference",
+      "Core",
+      "Forcing",
+      "core.forcing.Hold"
+    ]
+  },
+  {
+    "objectID": "api/core.forcing.Hold.html#examples",
+    "href": "api/core.forcing.Hold.html#examples",
+    "title": "core.forcing.Hold",
+    "section": "",
+    "text": "import matplotlib.pyplot as plt\nimport climatecritters as cc\n\nh = cc.forcing.Hold(duration=50, value=280.0)\nfig, ax = h.plot()\nplt.savefig('docs/reference/figures/Hold_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\nHold example output",
+    "crumbs": [
+      "Reference",
+      "Core",
+      "Forcing",
+      "core.forcing.Hold"
+    ]
+  },
+  {
+    "objectID": "api/utils.func.smooth_and_interpolate.html",
+    "href": "api/utils.func.smooth_and_interpolate.html",
+    "title": "utils.func.smooth_and_interpolate",
+    "section": "",
+    "text": "utils.func.smooth_and_interpolate(years, values, target_years=None, window=50)\nApply a centered moving-average and interpolate onto a target time axis.\n\n\n\nyears : array - like\n\nInput time axis.\n\nvalues : array - like\n\nValues to smooth and interpolate.\n\ntarget_years : array - like or None = None\n\nTarget time axis for interpolation. Defaults to integer annual spacing spanning the input range.\n\nwindow : int = 50\n\nMoving-average window length. Values ≤ 1 disable smoothing. Default 50.\n\n\n\n\n\n\nsmoothed_interp : ndarray\n\nValues smoothed and interpolated onto target_years.\n\n\n\n\n\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom climatecritters.utils.func import smooth_and_interpolate\n\nyears = np.linspace(-800, 0, 1600)\nvalues = np.sin(2 * np.pi * years / 100) + 0.3 * np.random.default_rng(0).standard_normal(1600)\nsmoothed = smooth_and_interpolate(years, values, window=30)\ntarget = np.arange(-800, 1, 1.0)\nfig, ax = plt.subplots(figsize=(9, 3))\nax.plot(years, values, lw=0.5, alpha=0.5, label='raw')\nax.plot(target, smoothed, lw=1.5, label='smoothed (window=30)')\nax.set_xlabel('years'); ax.legend(fontsize=9)\nax.set_title('smooth_and_interpolate')\nplt.savefig('docs/reference/figures/smooth_and_interpolate_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\nsmooth_and_interpolate example output",
+    "crumbs": [
+      "Reference",
+      "Utils",
+      "Functions",
+      "utils.func.smooth_and_interpolate"
+    ]
+  },
+  {
+    "objectID": "api/utils.func.smooth_and_interpolate.html#parameters",
+    "href": "api/utils.func.smooth_and_interpolate.html#parameters",
+    "title": "utils.func.smooth_and_interpolate",
+    "section": "",
+    "text": "years : array - like\n\nInput time axis.\n\nvalues : array - like\n\nValues to smooth and interpolate.\n\ntarget_years : array - like or None = None\n\nTarget time axis for interpolation. Defaults to integer annual spacing spanning the input range.\n\nwindow : int = 50\n\nMoving-average window length. Values ≤ 1 disable smoothing. Default 50.",
+    "crumbs": [
+      "Reference",
+      "Utils",
+      "Functions",
+      "utils.func.smooth_and_interpolate"
+    ]
+  },
+  {
+    "objectID": "api/utils.func.smooth_and_interpolate.html#returns",
+    "href": "api/utils.func.smooth_and_interpolate.html#returns",
+    "title": "utils.func.smooth_and_interpolate",
+    "section": "",
+    "text": "smoothed_interp : ndarray\n\nValues smoothed and interpolated onto target_years.",
+    "crumbs": [
+      "Reference",
+      "Utils",
+      "Functions",
+      "utils.func.smooth_and_interpolate"
+    ]
+  },
+  {
+    "objectID": "api/utils.func.smooth_and_interpolate.html#examples",
+    "href": "api/utils.func.smooth_and_interpolate.html#examples",
+    "title": "utils.func.smooth_and_interpolate",
+    "section": "",
+    "text": "import numpy as np\nimport matplotlib.pyplot as plt\nfrom climatecritters.utils.func import smooth_and_interpolate\n\nyears = np.linspace(-800, 0, 1600)\nvalues = np.sin(2 * np.pi * years / 100) + 0.3 * np.random.default_rng(0).standard_normal(1600)\nsmoothed = smooth_and_interpolate(years, values, window=30)\ntarget = np.arange(-800, 1, 1.0)\nfig, ax = plt.subplots(figsize=(9, 3))\nax.plot(years, values, lw=0.5, alpha=0.5, label='raw')\nax.plot(target, smoothed, lw=1.5, label='smoothed (window=30)')\nax.set_xlabel('years'); ax.legend(fontsize=9)\nax.set_title('smooth_and_interpolate')\nplt.savefig('docs/reference/figures/smooth_and_interpolate_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\nsmooth_and_interpolate example output",
+    "crumbs": [
+      "Reference",
+      "Utils",
+      "Functions",
+      "utils.func.smooth_and_interpolate"
+    ]
+  },
+  {
+    "objectID": "api/Stocker2003BipolarSeesaw.html",
+    "href": "api/Stocker2003BipolarSeesaw.html",
+    "title": "Stocker2003BipolarSeesaw",
+    "section": "",
+    "text": "Stocker2003BipolarSeesaw(\n    var_name='stocker2003_bipolar_seesaw',\n    tau=1000.0,\n    beta=-1.0,\n    Tn=0.0,\n    state_variables=None,\n    diagnostic_variables=None,\n    *args,\n    **kwargs,\n)\nMinimum thermodynamic model for the thermal bipolar seesaw.\nA single prognostic southern temperature anomaly Ts relaxes toward a northern temperature signal Tn(t) scaled by beta:\ndTs/dt = (beta*Tn(t) - Ts) / tau\n\n\n\nvar_name : str = 'stocker2003_bipolar_seesaw'\n\nLabel for the model output. Default 'stocker2003_bipolar_seesaw'.\n\ntau : float or callable or cc.Forcing = 1000.0\n\nThermal equilibration timescale (years). Must be &gt; 0. Default 1000.\n\nbeta : float or callable or cc.Forcing = -1.0\n\nAmplitude ratio relating southern to northern anomaly. Default -1.0 (antiphase seesaw).\n\nTn : float or callable or cc.Forcing = 0.0\n\nNorthern temperature anomaly. Default 0.0. Register a time-varying signal via model.register_forcing('Tn', forcing_obj).\n\n\n\n\n\nThe diagnostic variable Tn (northern temperature) is written by populate_diagnostics_from_history after integration. State variable is Ts.\n\n\n\nStocker, T. F., and S. J. Johnsen, 2003: A minimum thermodynamic model for the bipolar seesaw. Paleoceanography, 18(4), 1087, doi:10.1029/2003PA000920.\n\n\n\nimport numpy as np\nimport climatecritters as cc\nfrom climatecritters.model_critters.stocker2003_bipolar_seesaw import (\n    Stocker2003BipolarSeesaw,\n)\n\nimport matplotlib.pyplot as plt\n\nmodel = Stocker2003BipolarSeesaw(tau=500.0, beta=-1.0)\nmodel.register_forcing('Tn', cc.Forcing(lambda t: 1.0 if (t % 2000) &lt; 1000 else -1.0))\noutput = model.integrate(\n    t_span=(0, 8000), y0=[0.0], method='RK45'\n)\nts = output.to_pyleo(var_names=['Ts'])\nts.plot()\nplt.savefig('docs/reference/figures/Stocker2003BipolarSeesaw_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\nStocker2003BipolarSeesaw example output",
     "crumbs": [
       "Reference",
       "Models",
       "Individual Models",
-      "Stocker2003ExtendedSeaIceSeesaw"
+      "Stocker2003BipolarSeesaw"
     ]
   },
   {
-    "objectID": "api/Stocker2003ExtendedSeaIceSeesaw.html#parameters",
-    "href": "api/Stocker2003ExtendedSeaIceSeesaw.html#parameters",
-    "title": "Stocker2003ExtendedSeaIceSeesaw",
+    "objectID": "api/Stocker2003BipolarSeesaw.html#parameters",
+    "href": "api/Stocker2003BipolarSeesaw.html#parameters",
+    "title": "Stocker2003BipolarSeesaw",
     "section": "",
-    "text": "var_name : str = 'stocker2003_extended_seaice_seesaw'\n\nLabel for the model output. Default 'stocker2003_extended_seaice_seesaw'.\n\ntau_R : float = 300.0\n\nOceanic reservoir relaxation timescale (years). Default 300.\n\ntau_S : float = 1200.0\n\nSouthern Ocean relaxation timescale (years). Default 1200.\n\ntau_A : float = 100.0\n\nSea-ice adjustment timescale (years). Default 100.\n\ntau_ANT : float = 20.0\n\nAntarctic temperature adjustment timescale (years). Default 20.\n\nkappa : float = 1.0\n\nAdvective heat exchange between reservoir and Southern Ocean. Default 1.0.\n\nlambda_S : float = 0.2\n\nLinear restoring rate for Southern Ocean temperature. Default 0.2.\n\nalpha : float = 0.3\n\nSea-ice insulation effect on Southern Ocean heat flux. Default 0.3.\n\nbeta : float = 0.2\n\nTemperature-driven sea-ice melt rate. Default 0.2.\n\ngamma : float = 4.0\n\nNonlinear sea-ice feedback strength. Default 4.0.\n\ndelta : float = 1.0\n\nSouthern Ocean to Antarctic heat coupling. Default 1.0.\n\neta : float = 0.2\n\nSea-ice insulation effect on Antarctic temperature. Default 0.2.\n\nT_S0 : float = 0.0\n\nReference Southern Ocean temperature. Default 0.0.\n\nT_c : float = 0.0\n\nCritical temperature for the sea-ice feedback. Default 0.0.\n\nT_N : float = 0.0\n\nNorthern temperature anomaly. Default 0.0. Register a time-varying signal via model.register_forcing('T_N', forcing_obj).\n\nepsilon_R : float = 0.0\n\nConstant additive noise / bias terms. All default to 0.0.\n\nepsilon_S : float = 0.0\n\nConstant additive noise / bias terms. All default to 0.0.\n\nepsilon_A : float = 0.0\n\nConstant additive noise / bias terms. All default to 0.0.\n\nepsilon_ANT : float = 0.0\n\nConstant additive noise / bias terms. All default to 0.0.",
+    "text": "var_name : str = 'stocker2003_bipolar_seesaw'\n\nLabel for the model output. Default 'stocker2003_bipolar_seesaw'.\n\ntau : float or callable or cc.Forcing = 1000.0\n\nThermal equilibration timescale (years). Must be &gt; 0. Default 1000.\n\nbeta : float or callable or cc.Forcing = -1.0\n\nAmplitude ratio relating southern to northern anomaly. Default -1.0 (antiphase seesaw).\n\nTn : float or callable or cc.Forcing = 0.0\n\nNorthern temperature anomaly. Default 0.0. Register a time-varying signal via model.register_forcing('Tn', forcing_obj).",
     "crumbs": [
       "Reference",
       "Models",
       "Individual Models",
-      "Stocker2003ExtendedSeaIceSeesaw"
+      "Stocker2003BipolarSeesaw"
     ]
   },
   {
-    "objectID": "api/Stocker2003ExtendedSeaIceSeesaw.html#notes",
-    "href": "api/Stocker2003ExtendedSeaIceSeesaw.html#notes",
-    "title": "Stocker2003ExtendedSeaIceSeesaw",
+    "objectID": "api/Stocker2003BipolarSeesaw.html#notes",
+    "href": "api/Stocker2003BipolarSeesaw.html#notes",
+    "title": "Stocker2003BipolarSeesaw",
     "section": "",
-    "text": "State variables are T_R, T_S, A, T_ANT in that order. The diagnostic variable T_N is populated by populate_diagnostics_from_history. All timescales must be &gt; 0.",
+    "text": "The diagnostic variable Tn (northern temperature) is written by populate_diagnostics_from_history after integration. State variable is Ts.",
     "crumbs": [
       "Reference",
       "Models",
       "Individual Models",
-      "Stocker2003ExtendedSeaIceSeesaw"
+      "Stocker2003BipolarSeesaw"
     ]
   },
   {
-    "objectID": "api/Stocker2003ExtendedSeaIceSeesaw.html#examples",
-    "href": "api/Stocker2003ExtendedSeaIceSeesaw.html#examples",
-    "title": "Stocker2003ExtendedSeaIceSeesaw",
+    "objectID": "api/Stocker2003BipolarSeesaw.html#references",
+    "href": "api/Stocker2003BipolarSeesaw.html#references",
+    "title": "Stocker2003BipolarSeesaw",
     "section": "",
-    "text": "import climatecritters as cc\nfrom climatecritters.model_critters.stocker2003_bipolar_seesaw import (\n    Stocker2003ExtendedSeaIceSeesaw,\n)\nimport matplotlib.pyplot as plt\n\n\nmodel = Stocker2003ExtendedSeaIceSeesaw()\nmodel.register_forcing('T_N', cc.Forcing(lambda t: 1.0 if (t % 2000) &lt; 1000 else 0.0))\noutput = model.integrate(\n    t_span=(0, 10000), y0=[0.0, 0.0, 0.3, 0.0], method='RK45'\n)\nts = output.to_pyleo(var_names=['T_ANT'])\nts.plot()\nplt.savefig('docs/reference/figures/Stocker2003ExtendedSeaIceSeesaw_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\nStocker2003ExtendedSeaIceSeesaw example output",
+    "text": "Stocker, T. F., and S. J. Johnsen, 2003: A minimum thermodynamic model for the bipolar seesaw. Paleoceanography, 18(4), 1087, doi:10.1029/2003PA000920.",
     "crumbs": [
       "Reference",
       "Models",
       "Individual Models",
-      "Stocker2003ExtendedSeaIceSeesaw"
+      "Stocker2003BipolarSeesaw"
     ]
   },
   {
-    "objectID": "api/utils.resample.downsample.html",
-    "href": "api/utils.resample.downsample.html",
-    "title": "utils.resample.downsample",
+    "objectID": "api/Stocker2003BipolarSeesaw.html#examples",
+    "href": "api/Stocker2003BipolarSeesaw.html#examples",
+    "title": "Stocker2003BipolarSeesaw",
     "section": "",
-    "text": "utils.resample.downsample(\n    series,\n    method='exponential',\n    param=None,\n    return_index=False,\n    seed=None,\n)\nDownsample a Pyleoclim series by drawing random time increments.\nSimulates irregular sampling by generating random index increments from a chosen probability distribution and selecting the corresponding time points from the original series.\n\n\n\nseries : pyleoclim.Series\n\nThe time series to downsample.\n\nmethod : str = 'exponential'\n\nProbability distribution used to draw index increments. One of: - 'exponential' — exponential distribution; param is a 1-element list [scale] (i.e. mean gap size). - 'poisson' — Poisson distribution; param is [rate]. - 'pareto' — Pareto distribution; param is [shape, scale]. - 'random_choice' — discrete distribution; param is [values, probabilities] where both arrays have the same length. Default 'exponential'.\n\nparam : list or None = None\n\nParameter(s) for the chosen distribution. Default [1] (exponential with scale 1).\n\nreturn_index : bool = False\n\nIf True, return the integer index array instead of a new series. Default False.\n\nseed : int or None = None\n\nSeed for the random number generator. Pass an integer for reproducible results. Default None.\n\n\n\n\n\n\ndownsampled : pyleoclim.Series or list of int\n\nDownsampled series (return_index=False) or list of selected indices (return_index=True).\n\n\n\n\n\n\n: ValueError\n\nIf method is not recognised, or param has the wrong shape for the chosen distribution.\n\n\n\n\n\nimport matplotlib.pyplot as plt\nimport pyleoclim as pyleo\nfrom climatecritters.utils.resample import downsample\n\nsoi = pyleo.utils.load_dataset('SOI')\nsoi_sparse = downsample(soi, method='exponential', param=[3.0], seed=42)\nsoi_sparse.plot()\nplt.savefig('docs/reference/figures/downsample_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\ndownsample example output",
+    "text": "import numpy as np\nimport climatecritters as cc\nfrom climatecritters.model_critters.stocker2003_bipolar_seesaw import (\n    Stocker2003BipolarSeesaw,\n)\n\nimport matplotlib.pyplot as plt\n\nmodel = Stocker2003BipolarSeesaw(tau=500.0, beta=-1.0)\nmodel.register_forcing('Tn', cc.Forcing(lambda t: 1.0 if (t % 2000) &lt; 1000 else -1.0))\noutput = model.integrate(\n    t_span=(0, 8000), y0=[0.0], method='RK45'\n)\nts = output.to_pyleo(var_names=['Ts'])\nts.plot()\nplt.savefig('docs/reference/figures/Stocker2003BipolarSeesaw_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\nStocker2003BipolarSeesaw example output",
     "crumbs": [
       "Reference",
-      "Utils",
-      "Resampling",
-      "utils.resample.downsample"
+      "Models",
+      "Individual Models",
+      "Stocker2003BipolarSeesaw"
     ]
   },
   {
-    "objectID": "api/utils.resample.downsample.html#parameters",
-    "href": "api/utils.resample.downsample.html#parameters",
-    "title": "utils.resample.downsample",
+    "objectID": "api/utils.noise.from_param.html",
+    "href": "api/utils.noise.from_param.html",
+    "title": "utils.noise.from_param",
     "section": "",
-    "text": "series : pyleoclim.Series\n\nThe time series to downsample.\n\nmethod : str = 'exponential'\n\nProbability distribution used to draw index increments. One of: - 'exponential' — exponential distribution; param is a 1-element list [scale] (i.e. mean gap size). - 'poisson' — Poisson distribution; param is [rate]. - 'pareto' — Pareto distribution; param is [shape, scale]. - 'random_choice' — discrete distribution; param is [values, probabilities] where both arrays have the same length. Default 'exponential'.\n\nparam : list or None = None\n\nParameter(s) for the chosen distribution. Default [1] (exponential with scale 1).\n\nreturn_index : bool = False\n\nIf True, return the integer index array instead of a new series. Default False.\n\nseed : int or None = None\n\nSeed for the random number generator. Pass an integer for reproducible results. Default None.",
+    "text": "utils.noise.from_param(\n    method='uar1',\n    noise_param=None,\n    length=50,\n    number=1,\n    time_pattern='even',\n    settings=None,\n    seed=None,\n    label=None,\n)\nGenerate surrogate series from a parametric noise model.\n\n\n\nmethod : str = 'uar1'\n\nNoise model. Supported values: 'ar1sim', 'uar1', 'CN' (colored noise). Default 'uar1'.\n\nnoise_param : list or None = None\n\nModel parameters: - 'ar1sim' / 'uar1': [tau, sigma0] - 'CN': [beta] Default [1, 1].\n\nlength : int = 50\n\nLength of each surrogate series. Default 50.\n\nnumber : int = 1\n\nNumber of surrogate realizations to generate. Default 1.\n\ntime_pattern : str = 'even'\n\nTime-axis generation pattern. One of: - 'even' — evenly spaced with spacing delta_t from settings (default 1.0) - 'random' — random spacing via delta_t_dist and param in settings - 'specified' — explicit time array passed in settings\n\nsettings : dict or None = None\n\nAdditional options forwarded to the surrogate generator. Default None.\n\nseed : int or None = None\n\nRandom seed for reproducibility. Default None.\n\nlabel : str or None = None\n\nLabel attached to the returned SurrogateSeries. Default None.\n\n\n\n\n\n\nsurr : pyleoclim.SurrogateSeries\n\nSurrogate series object; surr.series_list contains number series.\n\n\n\n\n\npyleoclim.SurrogateSeries : Underlying surrogate generator.\n\n\n\nimport matplotlib.pyplot as plt\nfrom climatecritters.utils.noise import from_param\n\n# Ten AR(1) realizations with tau=5, sigma=0.5\nsurr = from_param(method='ar1sim', noise_param=[5, 0.5],\n                  length=200, number=10, seed=0)\nfig, ax = plt.subplots(figsize=(8, 3))\nfor s in surr.series_list:\n    ax.plot(s.time, s.value, lw=0.7, alpha=0.5)\nax.set_xlabel('time'); ax.set_ylabel('value')\nax.set_title('AR(1) surrogate realizations (τ=5, σ=0.5)')\nplt.savefig('docs/reference/figures/from_param_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\nfrom_param example output",
     "crumbs": [
       "Reference",
       "Utils",
-      "Resampling",
-      "utils.resample.downsample"
+      "Noise",
+      "utils.noise.from_param"
     ]
   },
   {
-    "objectID": "api/utils.resample.downsample.html#returns",
-    "href": "api/utils.resample.downsample.html#returns",
-    "title": "utils.resample.downsample",
+    "objectID": "api/utils.noise.from_param.html#parameters",
+    "href": "api/utils.noise.from_param.html#parameters",
+    "title": "utils.noise.from_param",
     "section": "",
-    "text": "downsampled : pyleoclim.Series or list of int\n\nDownsampled series (return_index=False) or list of selected indices (return_index=True).",
+    "text": "method : str = 'uar1'\n\nNoise model. Supported values: 'ar1sim', 'uar1', 'CN' (colored noise). Default 'uar1'.\n\nnoise_param : list or None = None\n\nModel parameters: - 'ar1sim' / 'uar1': [tau, sigma0] - 'CN': [beta] Default [1, 1].\n\nlength : int = 50\n\nLength of each surrogate series. Default 50.\n\nnumber : int = 1\n\nNumber of surrogate realizations to generate. Default 1.\n\ntime_pattern : str = 'even'\n\nTime-axis generation pattern. One of: - 'even' — evenly spaced with spacing delta_t from settings (default 1.0) - 'random' — random spacing via delta_t_dist and param in settings - 'specified' — explicit time array passed in settings\n\nsettings : dict or None = None\n\nAdditional options forwarded to the surrogate generator. Default None.\n\nseed : int or None = None\n\nRandom seed for reproducibility. Default None.\n\nlabel : str or None = None\n\nLabel attached to the returned SurrogateSeries. Default None.",
     "crumbs": [
       "Reference",
       "Utils",
-      "Resampling",
-      "utils.resample.downsample"
+      "Noise",
+      "utils.noise.from_param"
     ]
   },
   {
-    "objectID": "api/utils.resample.downsample.html#raises",
-    "href": "api/utils.resample.downsample.html#raises",
-    "title": "utils.resample.downsample",
+    "objectID": "api/utils.noise.from_param.html#returns",
+    "href": "api/utils.noise.from_param.html#returns",
+    "title": "utils.noise.from_param",
     "section": "",
-    "text": ": ValueError\n\nIf method is not recognised, or param has the wrong shape for the chosen distribution.",
+    "text": "surr : pyleoclim.SurrogateSeries\n\nSurrogate series object; surr.series_list contains number series.",
     "crumbs": [
       "Reference",
       "Utils",
-      "Resampling",
-      "utils.resample.downsample"
+      "Noise",
+      "utils.noise.from_param"
     ]
   },
   {
-    "objectID": "api/utils.resample.downsample.html#examples",
-    "href": "api/utils.resample.downsample.html#examples",
-    "title": "utils.resample.downsample",
+    "objectID": "api/utils.noise.from_param.html#see-also",
+    "href": "api/utils.noise.from_param.html#see-also",
+    "title": "utils.noise.from_param",
     "section": "",
-    "text": "import matplotlib.pyplot as plt\nimport pyleoclim as pyleo\nfrom climatecritters.utils.resample import downsample\n\nsoi = pyleo.utils.load_dataset('SOI')\nsoi_sparse = downsample(soi, method='exponential', param=[3.0], seed=42)\nsoi_sparse.plot()\nplt.savefig('docs/reference/figures/downsample_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\ndownsample example output",
+    "text": "pyleoclim.SurrogateSeries : Underlying surrogate generator.",
     "crumbs": [
       "Reference",
       "Utils",
-      "Resampling",
-      "utils.resample.downsample"
+      "Noise",
+      "utils.noise.from_param"
     ]
   },
   {
-    "objectID": "api/utils.solver.flux_divergence.html",
-    "href": "api/utils.solver.flux_divergence.html",
-    "title": "utils.solver.flux_divergence",
+    "objectID": "api/utils.noise.from_param.html#examples",
+    "href": "api/utils.noise.from_param.html#examples",
+    "title": "utils.noise.from_param",
     "section": "",
-    "text": "utils.solver.flux_divergence(face_fluxes, dz)\nCompute finite-volume tendency from face fluxes and layer thicknesses.\n\n\n\nface_fluxes : (array - like, shape(n_layers + 1))\n\nFluxes at cell faces.\n\ndz : (array - like, shape(n_layers))\n\nLayer thicknesses.\n\n\n\n\n\n\ntendency : (ndarray, shape(n_layers))\n\nPer-layer tendency -(flux_out - flux_in) / dz.\n\n\n\n\n\n\n: ValueError\n\nIf face_fluxes does not have length n_layers + 1.",
+    "text": "import matplotlib.pyplot as plt\nfrom climatecritters.utils.noise import from_param\n\n# Ten AR(1) realizations with tau=5, sigma=0.5\nsurr = from_param(method='ar1sim', noise_param=[5, 0.5],\n                  length=200, number=10, seed=0)\nfig, ax = plt.subplots(figsize=(8, 3))\nfor s in surr.series_list:\n    ax.plot(s.time, s.value, lw=0.7, alpha=0.5)\nax.set_xlabel('time'); ax.set_ylabel('value')\nax.set_title('AR(1) surrogate realizations (τ=5, σ=0.5)')\nplt.savefig('docs/reference/figures/from_param_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\nfrom_param example output",
     "crumbs": [
       "Reference",
       "Utils",
-      "Solvers",
-      "utils.solver.flux_divergence"
-    ]
-  },
-  {
-    "objectID": "api/utils.solver.flux_divergence.html#parameters",
-    "href": "api/utils.solver.flux_divergence.html#parameters",
-    "title": "utils.solver.flux_divergence",
-    "section": "",
-    "text": "face_fluxes : (array - like, shape(n_layers + 1))\n\nFluxes at cell faces.\n\ndz : (array - like, shape(n_layers))\n\nLayer thicknesses.",
-    "crumbs": [
-      "Reference",
-      "Utils",
-      "Solvers",
-      "utils.solver.flux_divergence"
-    ]
-  },
-  {
-    "objectID": "api/utils.solver.flux_divergence.html#returns",
-    "href": "api/utils.solver.flux_divergence.html#returns",
-    "title": "utils.solver.flux_divergence",
-    "section": "",
-    "text": "tendency : (ndarray, shape(n_layers))\n\nPer-layer tendency -(flux_out - flux_in) / dz.",
-    "crumbs": [
-      "Reference",
-      "Utils",
-      "Solvers",
-      "utils.solver.flux_divergence"
-    ]
-  },
-  {
-    "objectID": "api/utils.solver.flux_divergence.html#raises",
-    "href": "api/utils.solver.flux_divergence.html#raises",
-    "title": "utils.solver.flux_divergence",
-    "section": "",
-    "text": ": ValueError\n\nIf face_fluxes does not have length n_layers + 1.",
-    "crumbs": [
-      "Reference",
-      "Utils",
-      "Solvers",
-      "utils.solver.flux_divergence"
+      "Noise",
+      "utils.noise.from_param"
     ]
   },
   {
@@ -3349,224 +3349,263 @@
     ]
   },
   {
-    "objectID": "api/utils.noise.from_param.html",
-    "href": "api/utils.noise.from_param.html",
-    "title": "utils.noise.from_param",
+    "objectID": "api/core.Output.html",
+    "href": "api/core.Output.html",
+    "title": "core.Output",
     "section": "",
-    "text": "utils.noise.from_param(\n    method='uar1',\n    noise_param=None,\n    length=50,\n    number=1,\n    time_pattern='even',\n    settings=None,\n    seed=None,\n    label=None,\n)\nGenerate surrogate series from a parametric noise model.\n\n\n\nmethod : str = 'uar1'\n\nNoise model. Supported values: 'ar1sim', 'uar1', 'CN' (colored noise). Default 'uar1'.\n\nnoise_param : list or None = None\n\nModel parameters: - 'ar1sim' / 'uar1': [tau, sigma0] - 'CN': [beta] Default [1, 1].\n\nlength : int = 50\n\nLength of each surrogate series. Default 50.\n\nnumber : int = 1\n\nNumber of surrogate realizations to generate. Default 1.\n\ntime_pattern : str = 'even'\n\nTime-axis generation pattern. One of: - 'even' — evenly spaced with spacing delta_t from settings (default 1.0) - 'random' — random spacing via delta_t_dist and param in settings - 'specified' — explicit time array passed in settings\n\nsettings : dict or None = None\n\nAdditional options forwarded to the surrogate generator. Default None.\n\nseed : int or None = None\n\nRandom seed for reproducibility. Default None.\n\nlabel : str or None = None\n\nLabel attached to the returned SurrogateSeries. Default None.\n\n\n\n\n\n\nsurr : pyleoclim.SurrogateSeries\n\nSurrogate series object; surr.series_list contains number series.\n\n\n\n\n\npyleoclim.SurrogateSeries : Underlying surrogate generator.\n\n\n\nimport matplotlib.pyplot as plt\nfrom climatecritters.utils.noise import from_param\n\n# Ten AR(1) realizations with tau=5, sigma=0.5\nsurr = from_param(method='ar1sim', noise_param=[5, 0.5],\n                  length=200, number=10, seed=0)\nfig, ax = plt.subplots(figsize=(8, 3))\nfor s in surr.series_list:\n    ax.plot(s.time, s.value, lw=0.7, alpha=0.5)\nax.set_xlabel('time'); ax.set_ylabel('value')\nax.set_title('AR(1) surrogate realizations (τ=5, σ=0.5)')\nplt.savefig('docs/reference/figures/from_param_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\nfrom_param example output",
-    "crumbs": [
-      "Reference",
-      "Utils",
-      "Noise",
-      "utils.noise.from_param"
-    ]
-  },
-  {
-    "objectID": "api/utils.noise.from_param.html#parameters",
-    "href": "api/utils.noise.from_param.html#parameters",
-    "title": "utils.noise.from_param",
-    "section": "",
-    "text": "method : str = 'uar1'\n\nNoise model. Supported values: 'ar1sim', 'uar1', 'CN' (colored noise). Default 'uar1'.\n\nnoise_param : list or None = None\n\nModel parameters: - 'ar1sim' / 'uar1': [tau, sigma0] - 'CN': [beta] Default [1, 1].\n\nlength : int = 50\n\nLength of each surrogate series. Default 50.\n\nnumber : int = 1\n\nNumber of surrogate realizations to generate. Default 1.\n\ntime_pattern : str = 'even'\n\nTime-axis generation pattern. One of: - 'even' — evenly spaced with spacing delta_t from settings (default 1.0) - 'random' — random spacing via delta_t_dist and param in settings - 'specified' — explicit time array passed in settings\n\nsettings : dict or None = None\n\nAdditional options forwarded to the surrogate generator. Default None.\n\nseed : int or None = None\n\nRandom seed for reproducibility. Default None.\n\nlabel : str or None = None\n\nLabel attached to the returned SurrogateSeries. Default None.",
-    "crumbs": [
-      "Reference",
-      "Utils",
-      "Noise",
-      "utils.noise.from_param"
-    ]
-  },
-  {
-    "objectID": "api/utils.noise.from_param.html#returns",
-    "href": "api/utils.noise.from_param.html#returns",
-    "title": "utils.noise.from_param",
-    "section": "",
-    "text": "surr : pyleoclim.SurrogateSeries\n\nSurrogate series object; surr.series_list contains number series.",
-    "crumbs": [
-      "Reference",
-      "Utils",
-      "Noise",
-      "utils.noise.from_param"
-    ]
-  },
-  {
-    "objectID": "api/utils.noise.from_param.html#see-also",
-    "href": "api/utils.noise.from_param.html#see-also",
-    "title": "utils.noise.from_param",
-    "section": "",
-    "text": "pyleoclim.SurrogateSeries : Underlying surrogate generator.",
-    "crumbs": [
-      "Reference",
-      "Utils",
-      "Noise",
-      "utils.noise.from_param"
-    ]
-  },
-  {
-    "objectID": "api/utils.noise.from_param.html#examples",
-    "href": "api/utils.noise.from_param.html#examples",
-    "title": "utils.noise.from_param",
-    "section": "",
-    "text": "import matplotlib.pyplot as plt\nfrom climatecritters.utils.noise import from_param\n\n# Ten AR(1) realizations with tau=5, sigma=0.5\nsurr = from_param(method='ar1sim', noise_param=[5, 0.5],\n                  length=200, number=10, seed=0)\nfig, ax = plt.subplots(figsize=(8, 3))\nfor s in surr.series_list:\n    ax.plot(s.time, s.value, lw=0.7, alpha=0.5)\nax.set_xlabel('time'); ax.set_ylabel('value')\nax.set_title('AR(1) surrogate realizations (τ=5, σ=0.5)')\nplt.savefig('docs/reference/figures/from_param_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\nfrom_param example output",
-    "crumbs": [
-      "Reference",
-      "Utils",
-      "Noise",
-      "utils.noise.from_param"
-    ]
-  },
-  {
-    "objectID": "api/Stocker2003BipolarSeesaw.html",
-    "href": "api/Stocker2003BipolarSeesaw.html",
-    "title": "Stocker2003BipolarSeesaw",
-    "section": "",
-    "text": "Stocker2003BipolarSeesaw(\n    var_name='stocker2003_bipolar_seesaw',\n    tau=1000.0,\n    beta=-1.0,\n    Tn=0.0,\n    state_variables=None,\n    diagnostic_variables=None,\n    *args,\n    **kwargs,\n)\nMinimum thermodynamic model for the thermal bipolar seesaw.\nA single prognostic southern temperature anomaly Ts relaxes toward a northern temperature signal Tn(t) scaled by beta:\ndTs/dt = (beta*Tn(t) - Ts) / tau\n\n\n\nvar_name : str = 'stocker2003_bipolar_seesaw'\n\nLabel for the model output. Default 'stocker2003_bipolar_seesaw'.\n\ntau : float or callable or cc.Forcing = 1000.0\n\nThermal equilibration timescale (years). Must be &gt; 0. Default 1000.\n\nbeta : float or callable or cc.Forcing = -1.0\n\nAmplitude ratio relating southern to northern anomaly. Default -1.0 (antiphase seesaw).\n\nTn : float or callable or cc.Forcing = 0.0\n\nNorthern temperature anomaly. Default 0.0. Register a time-varying signal via model.register_forcing('Tn', forcing_obj).\n\n\n\n\n\nThe diagnostic variable Tn (northern temperature) is written by populate_diagnostics_from_history after integration. State variable is Ts.\n\n\n\nStocker, T. F., and S. J. Johnsen, 2003: A minimum thermodynamic model for the bipolar seesaw. Paleoceanography, 18(4), 1087, doi:10.1029/2003PA000920.\n\n\n\nimport numpy as np\nimport climatecritters as cc\nfrom climatecritters.model_critters.stocker2003_bipolar_seesaw import (\n    Stocker2003BipolarSeesaw,\n)\n\nimport matplotlib.pyplot as plt\n\nmodel = Stocker2003BipolarSeesaw(tau=500.0, beta=-1.0)\nmodel.register_forcing('Tn', cc.Forcing(lambda t: 1.0 if (t % 2000) &lt; 1000 else -1.0))\noutput = model.integrate(\n    t_span=(0, 8000), y0=[0.0], method='RK45'\n)\nts = output.to_pyleo(var_names=['Ts'])\nts.plot()\nplt.savefig('docs/reference/figures/Stocker2003BipolarSeesaw_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\nStocker2003BipolarSeesaw example output",
-    "crumbs": [
-      "Reference",
-      "Models",
-      "Individual Models",
-      "Stocker2003BipolarSeesaw"
-    ]
-  },
-  {
-    "objectID": "api/Stocker2003BipolarSeesaw.html#parameters",
-    "href": "api/Stocker2003BipolarSeesaw.html#parameters",
-    "title": "Stocker2003BipolarSeesaw",
-    "section": "",
-    "text": "var_name : str = 'stocker2003_bipolar_seesaw'\n\nLabel for the model output. Default 'stocker2003_bipolar_seesaw'.\n\ntau : float or callable or cc.Forcing = 1000.0\n\nThermal equilibration timescale (years). Must be &gt; 0. Default 1000.\n\nbeta : float or callable or cc.Forcing = -1.0\n\nAmplitude ratio relating southern to northern anomaly. Default -1.0 (antiphase seesaw).\n\nTn : float or callable or cc.Forcing = 0.0\n\nNorthern temperature anomaly. Default 0.0. Register a time-varying signal via model.register_forcing('Tn', forcing_obj).",
-    "crumbs": [
-      "Reference",
-      "Models",
-      "Individual Models",
-      "Stocker2003BipolarSeesaw"
-    ]
-  },
-  {
-    "objectID": "api/Stocker2003BipolarSeesaw.html#notes",
-    "href": "api/Stocker2003BipolarSeesaw.html#notes",
-    "title": "Stocker2003BipolarSeesaw",
-    "section": "",
-    "text": "The diagnostic variable Tn (northern temperature) is written by populate_diagnostics_from_history after integration. State variable is Ts.",
-    "crumbs": [
-      "Reference",
-      "Models",
-      "Individual Models",
-      "Stocker2003BipolarSeesaw"
-    ]
-  },
-  {
-    "objectID": "api/Stocker2003BipolarSeesaw.html#references",
-    "href": "api/Stocker2003BipolarSeesaw.html#references",
-    "title": "Stocker2003BipolarSeesaw",
-    "section": "",
-    "text": "Stocker, T. F., and S. J. Johnsen, 2003: A minimum thermodynamic model for the bipolar seesaw. Paleoceanography, 18(4), 1087, doi:10.1029/2003PA000920.",
-    "crumbs": [
-      "Reference",
-      "Models",
-      "Individual Models",
-      "Stocker2003BipolarSeesaw"
-    ]
-  },
-  {
-    "objectID": "api/Stocker2003BipolarSeesaw.html#examples",
-    "href": "api/Stocker2003BipolarSeesaw.html#examples",
-    "title": "Stocker2003BipolarSeesaw",
-    "section": "",
-    "text": "import numpy as np\nimport climatecritters as cc\nfrom climatecritters.model_critters.stocker2003_bipolar_seesaw import (\n    Stocker2003BipolarSeesaw,\n)\n\nimport matplotlib.pyplot as plt\n\nmodel = Stocker2003BipolarSeesaw(tau=500.0, beta=-1.0)\nmodel.register_forcing('Tn', cc.Forcing(lambda t: 1.0 if (t % 2000) &lt; 1000 else -1.0))\noutput = model.integrate(\n    t_span=(0, 8000), y0=[0.0], method='RK45'\n)\nts = output.to_pyleo(var_names=['Ts'])\nts.plot()\nplt.savefig('docs/reference/figures/Stocker2003BipolarSeesaw_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\nStocker2003BipolarSeesaw example output",
-    "crumbs": [
-      "Reference",
-      "Models",
-      "Individual Models",
-      "Stocker2003BipolarSeesaw"
-    ]
-  },
-  {
-    "objectID": "api/utils.func.smooth_and_interpolate.html",
-    "href": "api/utils.func.smooth_and_interpolate.html",
-    "title": "utils.func.smooth_and_interpolate",
-    "section": "",
-    "text": "utils.func.smooth_and_interpolate(years, values, target_years=None, window=50)\nApply a centered moving-average and interpolate onto a target time axis.\n\n\n\nyears : array - like\n\nInput time axis.\n\nvalues : array - like\n\nValues to smooth and interpolate.\n\ntarget_years : array - like or None = None\n\nTarget time axis for interpolation. Defaults to integer annual spacing spanning the input range.\n\nwindow : int = 50\n\nMoving-average window length. Values ≤ 1 disable smoothing. Default 50.\n\n\n\n\n\n\nsmoothed_interp : ndarray\n\nValues smoothed and interpolated onto target_years.\n\n\n\n\n\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom climatecritters.utils.func import smooth_and_interpolate\n\nyears = np.linspace(-800, 0, 1600)\nvalues = np.sin(2 * np.pi * years / 100) + 0.3 * np.random.default_rng(0).standard_normal(1600)\nsmoothed = smooth_and_interpolate(years, values, window=30)\ntarget = np.arange(-800, 1, 1.0)\nfig, ax = plt.subplots(figsize=(9, 3))\nax.plot(years, values, lw=0.5, alpha=0.5, label='raw')\nax.plot(target, smoothed, lw=1.5, label='smoothed (window=30)')\nax.set_xlabel('years'); ax.legend(fontsize=9)\nax.set_title('smooth_and_interpolate')\nplt.savefig('docs/reference/figures/smooth_and_interpolate_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\nsmooth_and_interpolate example output",
-    "crumbs": [
-      "Reference",
-      "Utils",
-      "Functions",
-      "utils.func.smooth_and_interpolate"
-    ]
-  },
-  {
-    "objectID": "api/utils.func.smooth_and_interpolate.html#parameters",
-    "href": "api/utils.func.smooth_and_interpolate.html#parameters",
-    "title": "utils.func.smooth_and_interpolate",
-    "section": "",
-    "text": "years : array - like\n\nInput time axis.\n\nvalues : array - like\n\nValues to smooth and interpolate.\n\ntarget_years : array - like or None = None\n\nTarget time axis for interpolation. Defaults to integer annual spacing spanning the input range.\n\nwindow : int = 50\n\nMoving-average window length. Values ≤ 1 disable smoothing. Default 50.",
-    "crumbs": [
-      "Reference",
-      "Utils",
-      "Functions",
-      "utils.func.smooth_and_interpolate"
-    ]
-  },
-  {
-    "objectID": "api/utils.func.smooth_and_interpolate.html#returns",
-    "href": "api/utils.func.smooth_and_interpolate.html#returns",
-    "title": "utils.func.smooth_and_interpolate",
-    "section": "",
-    "text": "smoothed_interp : ndarray\n\nValues smoothed and interpolated onto target_years.",
-    "crumbs": [
-      "Reference",
-      "Utils",
-      "Functions",
-      "utils.func.smooth_and_interpolate"
-    ]
-  },
-  {
-    "objectID": "api/utils.func.smooth_and_interpolate.html#examples",
-    "href": "api/utils.func.smooth_and_interpolate.html#examples",
-    "title": "utils.func.smooth_and_interpolate",
-    "section": "",
-    "text": "import numpy as np\nimport matplotlib.pyplot as plt\nfrom climatecritters.utils.func import smooth_and_interpolate\n\nyears = np.linspace(-800, 0, 1600)\nvalues = np.sin(2 * np.pi * years / 100) + 0.3 * np.random.default_rng(0).standard_normal(1600)\nsmoothed = smooth_and_interpolate(years, values, window=30)\ntarget = np.arange(-800, 1, 1.0)\nfig, ax = plt.subplots(figsize=(9, 3))\nax.plot(years, values, lw=0.5, alpha=0.5, label='raw')\nax.plot(target, smoothed, lw=1.5, label='smoothed (window=30)')\nax.set_xlabel('years'); ax.legend(fontsize=9)\nax.set_title('smooth_and_interpolate')\nplt.savefig('docs/reference/figures/smooth_and_interpolate_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\nsmooth_and_interpolate example output",
-    "crumbs": [
-      "Reference",
-      "Utils",
-      "Functions",
-      "utils.func.smooth_and_interpolate"
-    ]
-  },
-  {
-    "objectID": "api/core.forcing.Hold.html",
-    "href": "api/core.forcing.Hold.html",
-    "title": "core.forcing.Hold",
-    "section": "",
-    "text": "core.forcing.Hold(dt=None, value=None, duration=None, tf=None, plot_kwargs=None)\nConstant-valued segment.\n\n\n\nvalue : float = None\n\nThe constant forcing value throughout the segment.\n\nduration : float = None\n\nLength of the segment. Alias: dt. Exactly one of duration, dt, or tf must be provided.\n\ndt : float = None\n\nAlias for duration.\n\ntf : float = None\n\nAbsolute end time (used instead of duration when the end time is known but the start time is not yet fixed).\n\n\n\n\n\nimport matplotlib.pyplot as plt\nimport climatecritters as cc\n\nh = cc.forcing.Hold(duration=50, value=280.0)\nfig, ax = h.plot()\nplt.savefig('docs/reference/figures/Hold_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\nHold example output",
+    "text": "core.Output(\n    time,\n    state_variables,\n    state_variable_names,\n    diagnostic_variables,\n    solution,\n    run_name,\n)\nContainer for the results of one call to CCModel.integrate().\nCCOutput carries the full trajectory produced by the solver and exposes output-focused operations (noise addition, pyleoclim export, time resampling). Keeping these on the output rather than on the model means a single model instance can produce multiple independent outputs without them overwriting each other.\n\n\n\nmodel_time : ndarray of float\n\nRaw time axis as returned by the solver. Never modified after construction; inspect this to understand the solver’s actual grid.\n\ntime : ndarray of float\n\nUser-facing time axis. Starts equal to model_time; replaced by reframe_time_axis when a different grid is requested. state_variables is always aligned to time.\n\nstate_variables : structured ndarray\n\nNamed state variable arrays, indexed by variable name.\n\nstate_variable_names : list of str\n\nOrdered list of state variable names.\n\ndiagnostic_variables : dict of str → ndarray\n\nNamed diagnostic arrays.\n\nsolution : object\n\nRaw solver output (retained for dense-output resampling via reframe_time_axis).\n\nrun_name : str\n\nLabel for this integration run.\n\n\n\n\n\n\n\n\nName\nDescription\n\n\n\n\nadd_noise\nAdd externally provided noise to an output variable.\n\n\nget_series_by_name\nReturn a variable’s array and its storage location.\n\n\nreframe_time_axis\nResample state variables onto a new time axis.\n\n\nremove_noise\nRestore a variable to its pre-noise values.\n\n\nto_pyleo\nExport one or more variables as pyleoclim Series objects.\n\n\n\n\n\ncore.Output.add_noise(var_name, noise_ts)\nAdd externally provided noise to an output variable.\nThe unmodified values are saved on the first call so that remove_noise can restore the clean series.\n\n\n\nvar_name : str\n\nName of a state or diagnostic variable.\n\nnoise_ts : array - like\n\nNoise series with the same shape as the target variable.\n\n\n\n\n\n\ncore.Output.get_series_by_name(var_name)\nReturn a variable’s array and its storage location.\nState variables live in a structured numpy array; diagnostic variables live in a dict. Returning the location string lets callers that write back (e.g. add_noise) know which container to update.\n\n\n\nvalues : ndarray of float\n\n\n\nlocation : {'state', 'diagnostic'}\n\n\n\n\n\n\n\n\ncore.Output.reframe_time_axis(t_eval)\nResample state variables onto a new time axis.\nUses the dense output from solve_ivp when available (accurate polynomial interpolation); falls back to linear interpolation for fixed-step solvers.\nAfter this call, time is replaced by t_eval and state_variables is replaced by the interpolated values. model_time is never modified and always reflects the solver’s original grid.\n\n\n\nt_eval : array - like\n\nTarget time axis.\n\n\n\n\n\n\nreframed : structured ndarray or ndarray\n\nResampled state variables on t_eval.\n\n\n\n\n\n\n: UserWarning\n\nIf this output was produced by a stochastic (SDE) solver without dense output, and t_eval is coarser than the integrated time series. Linearly interpolating between two stochastic path points spaced wider than the original grid invents values that were never realised, discarding Wiener increments and distorting distributional properties. Use si= at integration time to control output spacing instead.\n\n\n\n\n\n\ncore.Output.remove_noise(var_name)\nRestore a variable to its pre-noise values.\nReverses add_noise by replacing the noisy array with the clean copy saved on the first add_noise call.\n\n\n\ncore.Output.to_pyleo(var_names=None)\nExport one or more variables as pyleoclim Series objects.\n\n\n\nvar_names : str or list of str = None\n\nName(s) of state or diagnostic variable(s) to export.\n\n\n\n\n\n\n : pyleoclim.Series or pyleoclim.MultipleSeries",
     "crumbs": [
       "Reference",
       "Core",
-      "Forcing",
-      "core.forcing.Hold"
+      "Base Classes",
+      "core.Output"
     ]
   },
   {
-    "objectID": "api/core.forcing.Hold.html#parameters",
-    "href": "api/core.forcing.Hold.html#parameters",
-    "title": "core.forcing.Hold",
+    "objectID": "api/core.Output.html#attributes",
+    "href": "api/core.Output.html#attributes",
+    "title": "core.Output",
     "section": "",
-    "text": "value : float = None\n\nThe constant forcing value throughout the segment.\n\nduration : float = None\n\nLength of the segment. Alias: dt. Exactly one of duration, dt, or tf must be provided.\n\ndt : float = None\n\nAlias for duration.\n\ntf : float = None\n\nAbsolute end time (used instead of duration when the end time is known but the start time is not yet fixed).",
+    "text": "model_time : ndarray of float\n\nRaw time axis as returned by the solver. Never modified after construction; inspect this to understand the solver’s actual grid.\n\ntime : ndarray of float\n\nUser-facing time axis. Starts equal to model_time; replaced by reframe_time_axis when a different grid is requested. state_variables is always aligned to time.\n\nstate_variables : structured ndarray\n\nNamed state variable arrays, indexed by variable name.\n\nstate_variable_names : list of str\n\nOrdered list of state variable names.\n\ndiagnostic_variables : dict of str → ndarray\n\nNamed diagnostic arrays.\n\nsolution : object\n\nRaw solver output (retained for dense-output resampling via reframe_time_axis).\n\nrun_name : str\n\nLabel for this integration run.",
     "crumbs": [
       "Reference",
       "Core",
-      "Forcing",
-      "core.forcing.Hold"
+      "Base Classes",
+      "core.Output"
     ]
   },
   {
-    "objectID": "api/core.forcing.Hold.html#examples",
-    "href": "api/core.forcing.Hold.html#examples",
-    "title": "core.forcing.Hold",
+    "objectID": "api/core.Output.html#methods",
+    "href": "api/core.Output.html#methods",
+    "title": "core.Output",
     "section": "",
-    "text": "import matplotlib.pyplot as plt\nimport climatecritters as cc\n\nh = cc.forcing.Hold(duration=50, value=280.0)\nfig, ax = h.plot()\nplt.savefig('docs/reference/figures/Hold_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\nHold example output",
+    "text": "Name\nDescription\n\n\n\n\nadd_noise\nAdd externally provided noise to an output variable.\n\n\nget_series_by_name\nReturn a variable’s array and its storage location.\n\n\nreframe_time_axis\nResample state variables onto a new time axis.\n\n\nremove_noise\nRestore a variable to its pre-noise values.\n\n\nto_pyleo\nExport one or more variables as pyleoclim Series objects.\n\n\n\n\n\ncore.Output.add_noise(var_name, noise_ts)\nAdd externally provided noise to an output variable.\nThe unmodified values are saved on the first call so that remove_noise can restore the clean series.\n\n\n\nvar_name : str\n\nName of a state or diagnostic variable.\n\nnoise_ts : array - like\n\nNoise series with the same shape as the target variable.\n\n\n\n\n\n\ncore.Output.get_series_by_name(var_name)\nReturn a variable’s array and its storage location.\nState variables live in a structured numpy array; diagnostic variables live in a dict. Returning the location string lets callers that write back (e.g. add_noise) know which container to update.\n\n\n\nvalues : ndarray of float\n\n\n\nlocation : {'state', 'diagnostic'}\n\n\n\n\n\n\n\n\ncore.Output.reframe_time_axis(t_eval)\nResample state variables onto a new time axis.\nUses the dense output from solve_ivp when available (accurate polynomial interpolation); falls back to linear interpolation for fixed-step solvers.\nAfter this call, time is replaced by t_eval and state_variables is replaced by the interpolated values. model_time is never modified and always reflects the solver’s original grid.\n\n\n\nt_eval : array - like\n\nTarget time axis.\n\n\n\n\n\n\nreframed : structured ndarray or ndarray\n\nResampled state variables on t_eval.\n\n\n\n\n\n\n: UserWarning\n\nIf this output was produced by a stochastic (SDE) solver without dense output, and t_eval is coarser than the integrated time series. Linearly interpolating between two stochastic path points spaced wider than the original grid invents values that were never realised, discarding Wiener increments and distorting distributional properties. Use si= at integration time to control output spacing instead.\n\n\n\n\n\n\ncore.Output.remove_noise(var_name)\nRestore a variable to its pre-noise values.\nReverses add_noise by replacing the noisy array with the clean copy saved on the first add_noise call.\n\n\n\ncore.Output.to_pyleo(var_names=None)\nExport one or more variables as pyleoclim Series objects.\n\n\n\nvar_names : str or list of str = None\n\nName(s) of state or diagnostic variable(s) to export.\n\n\n\n\n\n\n : pyleoclim.Series or pyleoclim.MultipleSeries",
     "crumbs": [
       "Reference",
       "Core",
-      "Forcing",
-      "core.forcing.Hold"
+      "Base Classes",
+      "core.Output"
+    ]
+  },
+  {
+    "objectID": "api/utils.solver.flux_divergence.html",
+    "href": "api/utils.solver.flux_divergence.html",
+    "title": "utils.solver.flux_divergence",
+    "section": "",
+    "text": "utils.solver.flux_divergence(face_fluxes, dz)\nCompute finite-volume tendency from face fluxes and layer thicknesses.\n\n\n\nface_fluxes : (array - like, shape(n_layers + 1))\n\nFluxes at cell faces.\n\ndz : (array - like, shape(n_layers))\n\nLayer thicknesses.\n\n\n\n\n\n\ntendency : (ndarray, shape(n_layers))\n\nPer-layer tendency -(flux_out - flux_in) / dz.\n\n\n\n\n\n\n: ValueError\n\nIf face_fluxes does not have length n_layers + 1.",
+    "crumbs": [
+      "Reference",
+      "Utils",
+      "Solvers",
+      "utils.solver.flux_divergence"
+    ]
+  },
+  {
+    "objectID": "api/utils.solver.flux_divergence.html#parameters",
+    "href": "api/utils.solver.flux_divergence.html#parameters",
+    "title": "utils.solver.flux_divergence",
+    "section": "",
+    "text": "face_fluxes : (array - like, shape(n_layers + 1))\n\nFluxes at cell faces.\n\ndz : (array - like, shape(n_layers))\n\nLayer thicknesses.",
+    "crumbs": [
+      "Reference",
+      "Utils",
+      "Solvers",
+      "utils.solver.flux_divergence"
+    ]
+  },
+  {
+    "objectID": "api/utils.solver.flux_divergence.html#returns",
+    "href": "api/utils.solver.flux_divergence.html#returns",
+    "title": "utils.solver.flux_divergence",
+    "section": "",
+    "text": "tendency : (ndarray, shape(n_layers))\n\nPer-layer tendency -(flux_out - flux_in) / dz.",
+    "crumbs": [
+      "Reference",
+      "Utils",
+      "Solvers",
+      "utils.solver.flux_divergence"
+    ]
+  },
+  {
+    "objectID": "api/utils.solver.flux_divergence.html#raises",
+    "href": "api/utils.solver.flux_divergence.html#raises",
+    "title": "utils.solver.flux_divergence",
+    "section": "",
+    "text": ": ValueError\n\nIf face_fluxes does not have length n_layers + 1.",
+    "crumbs": [
+      "Reference",
+      "Utils",
+      "Solvers",
+      "utils.solver.flux_divergence"
+    ]
+  },
+  {
+    "objectID": "api/utils.resample.downsample.html",
+    "href": "api/utils.resample.downsample.html",
+    "title": "utils.resample.downsample",
+    "section": "",
+    "text": "utils.resample.downsample(\n    series,\n    method='exponential',\n    param=None,\n    return_index=False,\n    seed=None,\n)\nDownsample a Pyleoclim series by drawing random time increments.\nSimulates irregular sampling by generating random index increments from a chosen probability distribution and selecting the corresponding time points from the original series.\n\n\n\nseries : pyleoclim.Series\n\nThe time series to downsample.\n\nmethod : str = 'exponential'\n\nProbability distribution used to draw index increments. One of: - 'exponential' — exponential distribution; param is a 1-element list [scale] (i.e. mean gap size). - 'poisson' — Poisson distribution; param is [rate]. - 'pareto' — Pareto distribution; param is [shape, scale]. - 'random_choice' — discrete distribution; param is [values, probabilities] where both arrays have the same length. Default 'exponential'.\n\nparam : list or None = None\n\nParameter(s) for the chosen distribution. Default [1] (exponential with scale 1).\n\nreturn_index : bool = False\n\nIf True, return the integer index array instead of a new series. Default False.\n\nseed : int or None = None\n\nSeed for the random number generator. Pass an integer for reproducible results. Default None.\n\n\n\n\n\n\ndownsampled : pyleoclim.Series or list of int\n\nDownsampled series (return_index=False) or list of selected indices (return_index=True).\n\n\n\n\n\n\n: ValueError\n\nIf method is not recognised, or param has the wrong shape for the chosen distribution.\n\n\n\n\n\nimport matplotlib.pyplot as plt\nimport pyleoclim as pyleo\nfrom climatecritters.utils.resample import downsample\n\nsoi = pyleo.utils.load_dataset('SOI')\nsoi_sparse = downsample(soi, method='exponential', param=[3.0], seed=42)\nsoi_sparse.plot()\nplt.savefig('docs/reference/figures/downsample_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\ndownsample example output",
+    "crumbs": [
+      "Reference",
+      "Utils",
+      "Resampling",
+      "utils.resample.downsample"
+    ]
+  },
+  {
+    "objectID": "api/utils.resample.downsample.html#parameters",
+    "href": "api/utils.resample.downsample.html#parameters",
+    "title": "utils.resample.downsample",
+    "section": "",
+    "text": "series : pyleoclim.Series\n\nThe time series to downsample.\n\nmethod : str = 'exponential'\n\nProbability distribution used to draw index increments. One of: - 'exponential' — exponential distribution; param is a 1-element list [scale] (i.e. mean gap size). - 'poisson' — Poisson distribution; param is [rate]. - 'pareto' — Pareto distribution; param is [shape, scale]. - 'random_choice' — discrete distribution; param is [values, probabilities] where both arrays have the same length. Default 'exponential'.\n\nparam : list or None = None\n\nParameter(s) for the chosen distribution. Default [1] (exponential with scale 1).\n\nreturn_index : bool = False\n\nIf True, return the integer index array instead of a new series. Default False.\n\nseed : int or None = None\n\nSeed for the random number generator. Pass an integer for reproducible results. Default None.",
+    "crumbs": [
+      "Reference",
+      "Utils",
+      "Resampling",
+      "utils.resample.downsample"
+    ]
+  },
+  {
+    "objectID": "api/utils.resample.downsample.html#returns",
+    "href": "api/utils.resample.downsample.html#returns",
+    "title": "utils.resample.downsample",
+    "section": "",
+    "text": "downsampled : pyleoclim.Series or list of int\n\nDownsampled series (return_index=False) or list of selected indices (return_index=True).",
+    "crumbs": [
+      "Reference",
+      "Utils",
+      "Resampling",
+      "utils.resample.downsample"
+    ]
+  },
+  {
+    "objectID": "api/utils.resample.downsample.html#raises",
+    "href": "api/utils.resample.downsample.html#raises",
+    "title": "utils.resample.downsample",
+    "section": "",
+    "text": ": ValueError\n\nIf method is not recognised, or param has the wrong shape for the chosen distribution.",
+    "crumbs": [
+      "Reference",
+      "Utils",
+      "Resampling",
+      "utils.resample.downsample"
+    ]
+  },
+  {
+    "objectID": "api/utils.resample.downsample.html#examples",
+    "href": "api/utils.resample.downsample.html#examples",
+    "title": "utils.resample.downsample",
+    "section": "",
+    "text": "import matplotlib.pyplot as plt\nimport pyleoclim as pyleo\nfrom climatecritters.utils.resample import downsample\n\nsoi = pyleo.utils.load_dataset('SOI')\nsoi_sparse = downsample(soi, method='exponential', param=[3.0], seed=42)\nsoi_sparse.plot()\nplt.savefig('docs/reference/figures/downsample_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\ndownsample example output",
+    "crumbs": [
+      "Reference",
+      "Utils",
+      "Resampling",
+      "utils.resample.downsample"
+    ]
+  },
+  {
+    "objectID": "api/Stocker2003ExtendedSeaIceSeesaw.html",
+    "href": "api/Stocker2003ExtendedSeaIceSeesaw.html",
+    "title": "Stocker2003ExtendedSeaIceSeesaw",
+    "section": "",
+    "text": "Stocker2003ExtendedSeaIceSeesaw(\n    var_name='stocker2003_extended_seaice_seesaw',\n    tau_R=300.0,\n    tau_S=1200.0,\n    tau_A=100.0,\n    tau_ANT=20.0,\n    kappa=1.0,\n    lambda_S=0.2,\n    alpha=0.3,\n    beta=0.2,\n    gamma=4.0,\n    delta=1.0,\n    eta=0.2,\n    T_S0=0.0,\n    T_c=0.0,\n    T_N=0.0,\n    epsilon_R=0.0,\n    epsilon_S=0.0,\n    epsilon_A=0.0,\n    epsilon_ANT=0.0,\n    state_variables=None,\n    diagnostic_variables=None,\n    *args,\n    **kwargs,\n)\nExtended Stocker-style model with reservoir, Southern Ocean, sea-ice, and Antarctic states.\nThe model integrates four coupled ODEs with prescribed northern forcing T_N(t):\ntau_R * dT_R/dt     = -(T_R - T_N) + eps_R\ntau_S * dT_S/dt     = kappa*(T_R - T_S) - lambda_S*(T_S - T_S0)\n                      + alpha*(1 - A) + eps_S\ntau_A * dA/dt       = -beta*(T_S - T_S0)\n                      - gamma*A*(1-A)*(T_S - T_c) + eps_A\ntau_ANT * dT_ANT/dt = delta*(T_S - T_ANT) + eta*(1 - A) + eps_ANT\nSea-ice area fraction A is constrained to [0, 1] by suppressing the outward derivative at the physical boundaries inside dydt.\n\n\n\nvar_name : str = 'stocker2003_extended_seaice_seesaw'\n\nLabel for the model output. Default 'stocker2003_extended_seaice_seesaw'.\n\ntau_R : float = 300.0\n\nOceanic reservoir relaxation timescale (years). Default 300.\n\ntau_S : float = 1200.0\n\nSouthern Ocean relaxation timescale (years). Default 1200.\n\ntau_A : float = 100.0\n\nSea-ice adjustment timescale (years). Default 100.\n\ntau_ANT : float = 20.0\n\nAntarctic temperature adjustment timescale (years). Default 20.\n\nkappa : float = 1.0\n\nAdvective heat exchange between reservoir and Southern Ocean. Default 1.0.\n\nlambda_S : float = 0.2\n\nLinear restoring rate for Southern Ocean temperature. Default 0.2.\n\nalpha : float = 0.3\n\nSea-ice insulation effect on Southern Ocean heat flux. Default 0.3.\n\nbeta : float = 0.2\n\nTemperature-driven sea-ice melt rate. Default 0.2.\n\ngamma : float = 4.0\n\nNonlinear sea-ice feedback strength. Default 4.0.\n\ndelta : float = 1.0\n\nSouthern Ocean to Antarctic heat coupling. Default 1.0.\n\neta : float = 0.2\n\nSea-ice insulation effect on Antarctic temperature. Default 0.2.\n\nT_S0 : float = 0.0\n\nReference Southern Ocean temperature. Default 0.0.\n\nT_c : float = 0.0\n\nCritical temperature for the sea-ice feedback. Default 0.0.\n\nT_N : float = 0.0\n\nNorthern temperature anomaly. Default 0.0. Register a time-varying signal via model.register_forcing('T_N', forcing_obj).\n\nepsilon_R : float = 0.0\n\nConstant additive noise / bias terms. All default to 0.0.\n\nepsilon_S : float = 0.0\n\nConstant additive noise / bias terms. All default to 0.0.\n\nepsilon_A : float = 0.0\n\nConstant additive noise / bias terms. All default to 0.0.\n\nepsilon_ANT : float = 0.0\n\nConstant additive noise / bias terms. All default to 0.0.\n\n\n\n\n\nState variables are T_R, T_S, A, T_ANT in that order. The diagnostic variable T_N is populated by populate_diagnostics_from_history. All timescales must be &gt; 0.\n\n\n\nimport climatecritters as cc\nfrom climatecritters.model_critters.stocker2003_bipolar_seesaw import (\n    Stocker2003ExtendedSeaIceSeesaw,\n)\nimport matplotlib.pyplot as plt\n\n\nmodel = Stocker2003ExtendedSeaIceSeesaw()\nmodel.register_forcing('T_N', cc.Forcing(lambda t: 1.0 if (t % 2000) &lt; 1000 else 0.0))\noutput = model.integrate(\n    t_span=(0, 10000), y0=[0.0, 0.0, 0.3, 0.0], method='RK45'\n)\nts = output.to_pyleo(var_names=['T_ANT'])\nts.plot()\nplt.savefig('docs/reference/figures/Stocker2003ExtendedSeaIceSeesaw_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\nStocker2003ExtendedSeaIceSeesaw example output",
+    "crumbs": [
+      "Reference",
+      "Models",
+      "Individual Models",
+      "Stocker2003ExtendedSeaIceSeesaw"
+    ]
+  },
+  {
+    "objectID": "api/Stocker2003ExtendedSeaIceSeesaw.html#parameters",
+    "href": "api/Stocker2003ExtendedSeaIceSeesaw.html#parameters",
+    "title": "Stocker2003ExtendedSeaIceSeesaw",
+    "section": "",
+    "text": "var_name : str = 'stocker2003_extended_seaice_seesaw'\n\nLabel for the model output. Default 'stocker2003_extended_seaice_seesaw'.\n\ntau_R : float = 300.0\n\nOceanic reservoir relaxation timescale (years). Default 300.\n\ntau_S : float = 1200.0\n\nSouthern Ocean relaxation timescale (years). Default 1200.\n\ntau_A : float = 100.0\n\nSea-ice adjustment timescale (years). Default 100.\n\ntau_ANT : float = 20.0\n\nAntarctic temperature adjustment timescale (years). Default 20.\n\nkappa : float = 1.0\n\nAdvective heat exchange between reservoir and Southern Ocean. Default 1.0.\n\nlambda_S : float = 0.2\n\nLinear restoring rate for Southern Ocean temperature. Default 0.2.\n\nalpha : float = 0.3\n\nSea-ice insulation effect on Southern Ocean heat flux. Default 0.3.\n\nbeta : float = 0.2\n\nTemperature-driven sea-ice melt rate. Default 0.2.\n\ngamma : float = 4.0\n\nNonlinear sea-ice feedback strength. Default 4.0.\n\ndelta : float = 1.0\n\nSouthern Ocean to Antarctic heat coupling. Default 1.0.\n\neta : float = 0.2\n\nSea-ice insulation effect on Antarctic temperature. Default 0.2.\n\nT_S0 : float = 0.0\n\nReference Southern Ocean temperature. Default 0.0.\n\nT_c : float = 0.0\n\nCritical temperature for the sea-ice feedback. Default 0.0.\n\nT_N : float = 0.0\n\nNorthern temperature anomaly. Default 0.0. Register a time-varying signal via model.register_forcing('T_N', forcing_obj).\n\nepsilon_R : float = 0.0\n\nConstant additive noise / bias terms. All default to 0.0.\n\nepsilon_S : float = 0.0\n\nConstant additive noise / bias terms. All default to 0.0.\n\nepsilon_A : float = 0.0\n\nConstant additive noise / bias terms. All default to 0.0.\n\nepsilon_ANT : float = 0.0\n\nConstant additive noise / bias terms. All default to 0.0.",
+    "crumbs": [
+      "Reference",
+      "Models",
+      "Individual Models",
+      "Stocker2003ExtendedSeaIceSeesaw"
+    ]
+  },
+  {
+    "objectID": "api/Stocker2003ExtendedSeaIceSeesaw.html#notes",
+    "href": "api/Stocker2003ExtendedSeaIceSeesaw.html#notes",
+    "title": "Stocker2003ExtendedSeaIceSeesaw",
+    "section": "",
+    "text": "State variables are T_R, T_S, A, T_ANT in that order. The diagnostic variable T_N is populated by populate_diagnostics_from_history. All timescales must be &gt; 0.",
+    "crumbs": [
+      "Reference",
+      "Models",
+      "Individual Models",
+      "Stocker2003ExtendedSeaIceSeesaw"
+    ]
+  },
+  {
+    "objectID": "api/Stocker2003ExtendedSeaIceSeesaw.html#examples",
+    "href": "api/Stocker2003ExtendedSeaIceSeesaw.html#examples",
+    "title": "Stocker2003ExtendedSeaIceSeesaw",
+    "section": "",
+    "text": "import climatecritters as cc\nfrom climatecritters.model_critters.stocker2003_bipolar_seesaw import (\n    Stocker2003ExtendedSeaIceSeesaw,\n)\nimport matplotlib.pyplot as plt\n\n\nmodel = Stocker2003ExtendedSeaIceSeesaw()\nmodel.register_forcing('T_N', cc.Forcing(lambda t: 1.0 if (t % 2000) &lt; 1000 else 0.0))\noutput = model.integrate(\n    t_span=(0, 10000), y0=[0.0, 0.0, 0.3, 0.0], method='RK45'\n)\nts = output.to_pyleo(var_names=['T_ANT'])\nts.plot()\nplt.savefig('docs/reference/figures/Stocker2003ExtendedSeaIceSeesaw_example.png',\n            dpi=150, bbox_inches='tight')\n\n\n\nStocker2003ExtendedSeaIceSeesaw example output",
+    "crumbs": [
+      "Reference",
+      "Models",
+      "Individual Models",
+      "Stocker2003ExtendedSeaIceSeesaw"
+    ]
+  },
+  {
+    "objectID": "api/core.Model.html",
+    "href": "api/core.Model.html",
+    "title": "core.Model",
+    "section": "",
+    "text": "core.Model(\n    variable_name,\n    state_variables=None,\n    non_integrated_state_vars=None,\n    diagnostic_variables=None,\n)\nThe overarching model structure for ClimateCritters.\nCCModel serves as the archetype/parent class for models within the model_critters directory. It is not meant to be instantiated directly.\n\n\nModels may define a param_values dict that maps parameter names to constants, callables, or Forcing objects. Use get_param_value(name, t, state) inside dydt to resolve any of these uniformly.\nTo make a parameter state- or time-dependent after construction, assign a callable via set_param_value::\nmodel.set_param_value('rho', lambda t, state: 28.0 + 0.1 * state[0])\nTo replace a computation method (e.g. calc_albedo) on a single instance without subclassing, use set_function.\n\n\n\nUse register_forcing to attach a time-varying external driver to any named parameter or state variable after construction::\nmodel.register_forcing('S0', forcing_obj)                         # parameter\nmodel.register_forcing('x', forcing_obj, 'additive', timing='pre')  # state\nSee register_forcing for the full contract and default timing rules.\n\n\n\n\n\n\nName\nDescription\n\n\n\n\nclear_forcings\nRemove registered forcings.\n\n\ndoc\nPretty-print documentation for the requested category.\n\n\ndydt\nDefine the system of differential equations.\n\n\nget_forcings\nReturn registered forcings, optionally filtered by variable name.\n\n\nget_param_value\nResolve a named parameter to its value at the current time and state.\n\n\nget_param_vector\nResolve a parameter and broadcast it to a fixed-length vector.\n\n\nintegrate\nIntegrate the model over a time span and return a :class:CCOutput.\n\n\nlist\nReturn a list of names for the requested category.\n\n\npopulate_diagnostics_from_history\nCompute diagnostic variables from the full solved trajectory.\n\n\npost_integrate\nOrchestrate post-solve output construction for uses_post_history models.\n\n\nregister_forcing\nAttach an external forcing to a named parameter or state variable.\n\n\nsde_noise\nDefine the diffusion term for stochastic (SDE) integration methods.\n\n\nset_function\nSwap out a model calculation function on a single instance.\n\n\nset_param_value\nAdd or update a parameter and keep the attribute and param_values in sync.\n\n\nvalidate_initial_state\nValidate and normalize the initial state vector.\n\n\n\n\n\ncore.Model.clear_forcings(var_name=None)\nRemove registered forcings.\n\n\n\nvar_name : str = None\n\nIf given, clear only the forcings for that variable. If omitted, clear all forcings on the model.\n\n\n\n\n\n\ncore.Model.doc(print_target)\nPretty-print documentation for the requested category.\nDescriptions are parsed from the NumPy-style docstrings of the class and its base classes. For parameters the current value is also shown.\n\n\n\nprint_target : (state_variables, parameters, diagnostic_variables) = 'state_variables'\n\nThe category to document.\n\n\n\n\n\n\ncore.Model.dydt(t, y)\nDefine the system of differential equations.\nMust be overridden by every subclass. The solver calls this at each timestep with the current time t and state vector y, and expects a list of derivatives of the same length as y. Use get_param_value inside the implementation to access parameters.\n\n\n\ncore.Model.get_forcings(var_name=None)\nReturn registered forcings, optionally filtered by variable name.\n\n\n\nvar_name : str = None\n\nIf given, return the list of ForcingSpec objects for that variable. If omitted, return the full _forcings dict.\n\n\n\n\n\n\ncore.Model.get_param_value(name, t, state)\nResolve a named parameter to its value at the current time and state.\nThis is the standard way to access parameters inside dydt. It looks up the value from param_values by name and delegates resolution to _resolve_param, so callers in dydt don’t need to know whether a parameter is stored as a constant, a callable, or a Forcing object.\n\n\n\ncore.Model.get_param_vector(name, t, state, size)\nResolve a parameter and broadcast it to a fixed-length vector.\nSpatial models often allow parameters to be either a single scalar (applied uniformly) or a full grid-length array. This method resolves the parameter via get_param_value and then either broadcasts a scalar or validates that an array has the expected size, eliminating that boilerplate from every dydt that works on a spatial grid.\n\n\n\ncore.Model.integrate(\n    t_span=None,\n    y0=None,\n    method='RK45',\n    dt=None,\n    output_time=None,\n    run_name=None,\n    kwargs=None,\n)\nIntegrate the model over a time span and return a :class:CCOutput.\n\n\n\nt_span : tuple of float = None\n\n(t0, tf) integration bounds for the solver.\n\ny0 : array - like = None\n\nInitial conditions. Length must match the number of integrated state variables.\n\nmethod : str = 'RK45'\n\nSolver to use: 'RK45' (default), 'euler', 'euler_maruyama', 'heun_maruyama', 'milstein', 'rk4', or any method accepted by scipy.integrate.solve_ivp. SDE solver guidance: * 'euler_maruyama' — strong order 0.5; baseline stochastic. * 'heun_maruyama' — strong order 1.0 for additive noise (diffusion independent of state); preferred for models like Melcher et al. (2025). * 'milstein' — strong order 1.0 for multiplicative noise (diffusion depends on state); uses a finite-difference approximation of ∂g/∂y, so no analytical Jacobian is required.\n\ndt : float = None\n\nFixed timestep for euler, euler_maruyama, heun_maruyama, milstein, and rk4. Required for those methods.\n\noutput_time : array - like = None\n\nIf provided, the returned CCOutput is immediately reframed onto this time axis (e.g. to exclude a spin-up period). output.model_time always retains the raw solver grid.\n\nrun_name : str = None\n\nLabel stored on the output. Defaults to '&lt;method&gt;, dt=&lt;dt&gt;'.\n\nkwargs : dict = None\n\nAdditional solver options. For solve_ivp methods these are forwarded directly (e.g. rtol, atol, t_eval). For euler_maruyama, heun_maruyama, and milstein, random_seed is extracted here. For rk4, euler_maruyama, heun_maruyama, and milstein, si (sampling interval) is extracted here — integration runs at dt but output (and Wiener increment accumulation, for SDE methods) is saved every si time units with no interpolation. Passing si != dt requires uses_post_history = True on the subclass. .. deprecated:: Passing dt inside kwargs is deprecated. Use the explicit dt parameter instead.\n\n\n\n\n\n\ncore.Model.list(list_target)\nReturn a list of names for the requested category.\n\n\n\nlist_target : (state_variables, parameters, diagnostic_variables) = 'state_variables'\n\nThe category to enumerate.\n\n\n\n\n\n\nnames : list of str\n\n\n\n\n\n\n\n\ncore.Model.populate_diagnostics_from_history(time, history)\nCompute diagnostic variables from the full solved trajectory.\nCalled by post_integrate for models where uses_post_history = True. The base implementation does nothing because diagnostics are model-specific; subclasses override this to derive any quantities that can only be computed once the complete trajectory is available (e.g. derived fields, fluxes).\n\n\n\ncore.Model.post_integrate(time, history)\nOrchestrate post-solve output construction for uses_post_history models.\nSome models (e.g. spatial PDEs) cannot accumulate state during the solve without side effects; instead they store the full trajectory and derive all outputs here. This method sequences the required steps in the correct order: build the structured state array, set the time axis, populate diagnostics, and convert diagnostic lists to arrays. It is called automatically by integrate when uses_post_history = True.\n\n\n\ncore.Model.register_forcing(\n    var_name,\n    forcing_object,\n    attachment_style=None,\n    timing=None,\n)\nAttach an external forcing to a named parameter or state variable.\n\n\n\nvar_name : str\n\nName of the target. Must exist in param_values (parameter namespace) or state_variables_names (state namespace). If the name appears in both, a ValueError is raised — this is a model design issue worth resolving explicitly.\n\nforcing_object : \n\nA Forcing instance, a callable f(t) → scalar/array, or any object with a get_forcing(t) method.\n\nattachment_style : (replacement, additive) = \"replacement\"\n\nHow the forcing value is applied. * Parameters default to \"replacement\". \"additive\" is also supported and adds the forcing value to the nominal parameter at each step (e.g. k = k_0 + ε(t)). * State variables have no default — attachment_style is required. This is intentional: injecting into a live state variable is a significant physical choice that should be explicit.\n\ntiming : (pre, post) = \"pre\"\n\nWhen the forcing is applied relative to the integration step. Derived automatically in most cases: * parameter + any style → \"pre\" (always; no override) * state + replacement → \"post\" (always; warns if \"pre\" passed) * state + additive → required; raise if not provided\n\n\n\n\n\n\n: ValueError\n\nIf var_name is not found, if attachment_style is missing for a state variable, if timing is missing for state + additive, or if a second \"replacement\" is registered on the same variable.\n\n\n\n\n\n\ncore.Model.sde_noise(t, y)\nDefine the diffusion term for stochastic (SDE) integration methods.\nOverride in subclasses that use method='euler_maruyama', 'heun_maruyama', or 'milstein'. Called at each timestep with the current time t and state vector y; must return a vector of per-state diffusion scales the same shape as y. The base implementation returns zeros, recovering deterministic integration for models that don’t define stochastic dynamics.\n\n\n\ncore.Model.set_function(name, function, bind=None)\nSwap out a model calculation function on a single instance.\nSubclassing is the right approach when a different formulation should apply everywhere, but for one-off experiments (e.g. testing an alternative albedo scheme without writing a new class) it is useful to replace a single method on one instance. The bind parameter handles whether the replacement expects self as its first argument.\n\n\n\nname : str\n\nName of an existing callable attribute (e.g., calc_k).\n\nfunction : callable\n\nReplacement callable.\n\nbind : bool or None = None\n\nTrue: bind as instance method (expects self as first arg). False: assign as a plain callable. None: infer from whether the first argument is named self or model.\n\n\n\n\n\n\ncore.Model.set_param_value(name, value)\nAdd or update a parameter and keep the attribute and param_values in sync.\n__setattr__ syncs the direction model.alpha = v → param_values, but only for names already in param_values. This method handles the reverse and covers inserting new parameters that weren’t declared at initialization.\n\n\n\ncore.Model.validate_initial_state(y0)\nValidate and normalize the initial state vector.\nExists as a method so that subclasses with non-standard initial state requirements (e.g. a spatially discretised model that accepts a scalar and broadcasts it to the grid) can override it. The base implementation delegates to the utility in utils/solver.",
+    "crumbs": [
+      "Reference",
+      "Core",
+      "Base Classes",
+      "core.Model"
+    ]
+  },
+  {
+    "objectID": "api/core.Model.html#parameter-handling",
+    "href": "api/core.Model.html#parameter-handling",
+    "title": "core.Model",
+    "section": "",
+    "text": "Models may define a param_values dict that maps parameter names to constants, callables, or Forcing objects. Use get_param_value(name, t, state) inside dydt to resolve any of these uniformly.\nTo make a parameter state- or time-dependent after construction, assign a callable via set_param_value::\nmodel.set_param_value('rho', lambda t, state: 28.0 + 0.1 * state[0])\nTo replace a computation method (e.g. calc_albedo) on a single instance without subclassing, use set_function.",
+    "crumbs": [
+      "Reference",
+      "Core",
+      "Base Classes",
+      "core.Model"
+    ]
+  },
+  {
+    "objectID": "api/core.Model.html#external-forcings",
+    "href": "api/core.Model.html#external-forcings",
+    "title": "core.Model",
+    "section": "",
+    "text": "Use register_forcing to attach a time-varying external driver to any named parameter or state variable after construction::\nmodel.register_forcing('S0', forcing_obj)                         # parameter\nmodel.register_forcing('x', forcing_obj, 'additive', timing='pre')  # state\nSee register_forcing for the full contract and default timing rules.",
+    "crumbs": [
+      "Reference",
+      "Core",
+      "Base Classes",
+      "core.Model"
+    ]
+  },
+  {
+    "objectID": "api/core.Model.html#methods",
+    "href": "api/core.Model.html#methods",
+    "title": "core.Model",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nclear_forcings\nRemove registered forcings.\n\n\ndoc\nPretty-print documentation for the requested category.\n\n\ndydt\nDefine the system of differential equations.\n\n\nget_forcings\nReturn registered forcings, optionally filtered by variable name.\n\n\nget_param_value\nResolve a named parameter to its value at the current time and state.\n\n\nget_param_vector\nResolve a parameter and broadcast it to a fixed-length vector.\n\n\nintegrate\nIntegrate the model over a time span and return a :class:CCOutput.\n\n\nlist\nReturn a list of names for the requested category.\n\n\npopulate_diagnostics_from_history\nCompute diagnostic variables from the full solved trajectory.\n\n\npost_integrate\nOrchestrate post-solve output construction for uses_post_history models.\n\n\nregister_forcing\nAttach an external forcing to a named parameter or state variable.\n\n\nsde_noise\nDefine the diffusion term for stochastic (SDE) integration methods.\n\n\nset_function\nSwap out a model calculation function on a single instance.\n\n\nset_param_value\nAdd or update a parameter and keep the attribute and param_values in sync.\n\n\nvalidate_initial_state\nValidate and normalize the initial state vector.\n\n\n\n\n\ncore.Model.clear_forcings(var_name=None)\nRemove registered forcings.\n\n\n\nvar_name : str = None\n\nIf given, clear only the forcings for that variable. If omitted, clear all forcings on the model.\n\n\n\n\n\n\ncore.Model.doc(print_target)\nPretty-print documentation for the requested category.\nDescriptions are parsed from the NumPy-style docstrings of the class and its base classes. For parameters the current value is also shown.\n\n\n\nprint_target : (state_variables, parameters, diagnostic_variables) = 'state_variables'\n\nThe category to document.\n\n\n\n\n\n\ncore.Model.dydt(t, y)\nDefine the system of differential equations.\nMust be overridden by every subclass. The solver calls this at each timestep with the current time t and state vector y, and expects a list of derivatives of the same length as y. Use get_param_value inside the implementation to access parameters.\n\n\n\ncore.Model.get_forcings(var_name=None)\nReturn registered forcings, optionally filtered by variable name.\n\n\n\nvar_name : str = None\n\nIf given, return the list of ForcingSpec objects for that variable. If omitted, return the full _forcings dict.\n\n\n\n\n\n\ncore.Model.get_param_value(name, t, state)\nResolve a named parameter to its value at the current time and state.\nThis is the standard way to access parameters inside dydt. It looks up the value from param_values by name and delegates resolution to _resolve_param, so callers in dydt don’t need to know whether a parameter is stored as a constant, a callable, or a Forcing object.\n\n\n\ncore.Model.get_param_vector(name, t, state, size)\nResolve a parameter and broadcast it to a fixed-length vector.\nSpatial models often allow parameters to be either a single scalar (applied uniformly) or a full grid-length array. This method resolves the parameter via get_param_value and then either broadcasts a scalar or validates that an array has the expected size, eliminating that boilerplate from every dydt that works on a spatial grid.\n\n\n\ncore.Model.integrate(\n    t_span=None,\n    y0=None,\n    method='RK45',\n    dt=None,\n    output_time=None,\n    run_name=None,\n    kwargs=None,\n)\nIntegrate the model over a time span and return a :class:CCOutput.\n\n\n\nt_span : tuple of float = None\n\n(t0, tf) integration bounds for the solver.\n\ny0 : array - like = None\n\nInitial conditions. Length must match the number of integrated state variables.\n\nmethod : str = 'RK45'\n\nSolver to use: 'RK45' (default), 'euler', 'euler_maruyama', 'heun_maruyama', 'milstein', 'rk4', or any method accepted by scipy.integrate.solve_ivp. SDE solver guidance: * 'euler_maruyama' — strong order 0.5; baseline stochastic. * 'heun_maruyama' — strong order 1.0 for additive noise (diffusion independent of state); preferred for models like Melcher et al. (2025). * 'milstein' — strong order 1.0 for multiplicative noise (diffusion depends on state); uses a finite-difference approximation of ∂g/∂y, so no analytical Jacobian is required.\n\ndt : float = None\n\nFixed timestep for euler, euler_maruyama, heun_maruyama, milstein, and rk4. Required for those methods.\n\noutput_time : array - like = None\n\nIf provided, the returned CCOutput is immediately reframed onto this time axis (e.g. to exclude a spin-up period). output.model_time always retains the raw solver grid.\n\nrun_name : str = None\n\nLabel stored on the output. Defaults to '&lt;method&gt;, dt=&lt;dt&gt;'.\n\nkwargs : dict = None\n\nAdditional solver options. For solve_ivp methods these are forwarded directly (e.g. rtol, atol, t_eval). For euler_maruyama, heun_maruyama, and milstein, random_seed is extracted here. For rk4, euler_maruyama, heun_maruyama, and milstein, si (sampling interval) is extracted here — integration runs at dt but output (and Wiener increment accumulation, for SDE methods) is saved every si time units with no interpolation. Passing si != dt requires uses_post_history = True on the subclass. .. deprecated:: Passing dt inside kwargs is deprecated. Use the explicit dt parameter instead.\n\n\n\n\n\n\ncore.Model.list(list_target)\nReturn a list of names for the requested category.\n\n\n\nlist_target : (state_variables, parameters, diagnostic_variables) = 'state_variables'\n\nThe category to enumerate.\n\n\n\n\n\n\nnames : list of str\n\n\n\n\n\n\n\n\ncore.Model.populate_diagnostics_from_history(time, history)\nCompute diagnostic variables from the full solved trajectory.\nCalled by post_integrate for models where uses_post_history = True. The base implementation does nothing because diagnostics are model-specific; subclasses override this to derive any quantities that can only be computed once the complete trajectory is available (e.g. derived fields, fluxes).\n\n\n\ncore.Model.post_integrate(time, history)\nOrchestrate post-solve output construction for uses_post_history models.\nSome models (e.g. spatial PDEs) cannot accumulate state during the solve without side effects; instead they store the full trajectory and derive all outputs here. This method sequences the required steps in the correct order: build the structured state array, set the time axis, populate diagnostics, and convert diagnostic lists to arrays. It is called automatically by integrate when uses_post_history = True.\n\n\n\ncore.Model.register_forcing(\n    var_name,\n    forcing_object,\n    attachment_style=None,\n    timing=None,\n)\nAttach an external forcing to a named parameter or state variable.\n\n\n\nvar_name : str\n\nName of the target. Must exist in param_values (parameter namespace) or state_variables_names (state namespace). If the name appears in both, a ValueError is raised — this is a model design issue worth resolving explicitly.\n\nforcing_object : \n\nA Forcing instance, a callable f(t) → scalar/array, or any object with a get_forcing(t) method.\n\nattachment_style : (replacement, additive) = \"replacement\"\n\nHow the forcing value is applied. * Parameters default to \"replacement\". \"additive\" is also supported and adds the forcing value to the nominal parameter at each step (e.g. k = k_0 + ε(t)). * State variables have no default — attachment_style is required. This is intentional: injecting into a live state variable is a significant physical choice that should be explicit.\n\ntiming : (pre, post) = \"pre\"\n\nWhen the forcing is applied relative to the integration step. Derived automatically in most cases: * parameter + any style → \"pre\" (always; no override) * state + replacement → \"post\" (always; warns if \"pre\" passed) * state + additive → required; raise if not provided\n\n\n\n\n\n\n: ValueError\n\nIf var_name is not found, if attachment_style is missing for a state variable, if timing is missing for state + additive, or if a second \"replacement\" is registered on the same variable.\n\n\n\n\n\n\ncore.Model.sde_noise(t, y)\nDefine the diffusion term for stochastic (SDE) integration methods.\nOverride in subclasses that use method='euler_maruyama', 'heun_maruyama', or 'milstein'. Called at each timestep with the current time t and state vector y; must return a vector of per-state diffusion scales the same shape as y. The base implementation returns zeros, recovering deterministic integration for models that don’t define stochastic dynamics.\n\n\n\ncore.Model.set_function(name, function, bind=None)\nSwap out a model calculation function on a single instance.\nSubclassing is the right approach when a different formulation should apply everywhere, but for one-off experiments (e.g. testing an alternative albedo scheme without writing a new class) it is useful to replace a single method on one instance. The bind parameter handles whether the replacement expects self as its first argument.\n\n\n\nname : str\n\nName of an existing callable attribute (e.g., calc_k).\n\nfunction : callable\n\nReplacement callable.\n\nbind : bool or None = None\n\nTrue: bind as instance method (expects self as first arg). False: assign as a plain callable. None: infer from whether the first argument is named self or model.\n\n\n\n\n\n\ncore.Model.set_param_value(name, value)\nAdd or update a parameter and keep the attribute and param_values in sync.\n__setattr__ syncs the direction model.alpha = v → param_values, but only for names already in param_values. This method handles the reverse and covers inserting new parameters that weren’t declared at initialization.\n\n\n\ncore.Model.validate_initial_state(y0)\nValidate and normalize the initial state vector.\nExists as a method so that subclasses with non-standard initial state requirements (e.g. a spatially discretised model that accepts a scalar and broadcasts it to the grid) can override it. The base implementation delegates to the utility in utils/solver.",
+    "crumbs": [
+      "Reference",
+      "Core",
+      "Base Classes",
+      "core.Model"
     ]
   },
   {
@@ -3817,45 +3856,6 @@
     ]
   },
   {
-    "objectID": "api/core.CCOutput.html",
-    "href": "api/core.CCOutput.html",
-    "title": "core.CCOutput",
-    "section": "",
-    "text": "core.CCOutput(\n    time,\n    state_variables,\n    state_variable_names,\n    diagnostic_variables,\n    solution,\n    run_name,\n)\nContainer for the results of one call to CCModel.integrate().\nCCOutput carries the full trajectory produced by the solver and exposes output-focused operations (noise addition, pyleoclim export, time resampling). Keeping these on the output rather than on the model means a single model instance can produce multiple independent outputs without them overwriting each other.\n\n\n\nmodel_time : ndarray of float\n\nRaw time axis as returned by the solver. Never modified after construction; inspect this to understand the solver’s actual grid.\n\ntime : ndarray of float\n\nUser-facing time axis. Starts equal to model_time; replaced by reframe_time_axis when a different grid is requested. state_variables is always aligned to time.\n\nstate_variables : structured ndarray\n\nNamed state variable arrays, indexed by variable name.\n\nstate_variable_names : list of str\n\nOrdered list of state variable names.\n\ndiagnostic_variables : dict of str → ndarray\n\nNamed diagnostic arrays.\n\nsolution : object\n\nRaw solver output (retained for dense-output resampling via reframe_time_axis).\n\nrun_name : str\n\nLabel for this integration run.\n\n\n\n\n\n\n\n\nName\nDescription\n\n\n\n\nadd_noise\nAdd externally provided noise to an output variable.\n\n\nget_series_by_name\nReturn a variable’s array and its storage location.\n\n\nreframe_time_axis\nResample state variables onto a new time axis.\n\n\nremove_noise\nRestore a variable to its pre-noise values.\n\n\nto_pyleo\nExport one or more variables as pyleoclim Series objects.\n\n\n\n\n\ncore.CCOutput.add_noise(var_name, noise_ts)\nAdd externally provided noise to an output variable.\nThe unmodified values are saved on the first call so that remove_noise can restore the clean series.\n\n\n\nvar_name : str\n\nName of a state or diagnostic variable.\n\nnoise_ts : array - like\n\nNoise series with the same shape as the target variable.\n\n\n\n\n\n\ncore.CCOutput.get_series_by_name(var_name)\nReturn a variable’s array and its storage location.\nState variables live in a structured numpy array; diagnostic variables live in a dict. Returning the location string lets callers that write back (e.g. add_noise) know which container to update.\n\n\n\nvalues : ndarray of float\n\n\n\nlocation : {'state', 'diagnostic'}\n\n\n\n\n\n\n\n\ncore.CCOutput.reframe_time_axis(t_eval)\nResample state variables onto a new time axis.\nUses the dense output from solve_ivp when available (accurate polynomial interpolation); falls back to linear interpolation for fixed-step solvers.\nAfter this call, time is replaced by t_eval and state_variables is replaced by the interpolated values. model_time is never modified and always reflects the solver’s original grid.\n\n\n\nt_eval : array - like\n\nTarget time axis.\n\n\n\n\n\n\nreframed : structured ndarray or ndarray\n\nResampled state variables on t_eval.\n\n\n\n\n\n\n: UserWarning\n\nIf this output was produced by a stochastic (SDE) solver without dense output, and t_eval is coarser than the integrated time series. Linearly interpolating between two stochastic path points spaced wider than the original grid invents values that were never realised, discarding Wiener increments and distorting distributional properties. Use si= at integration time to control output spacing instead.\n\n\n\n\n\n\ncore.CCOutput.remove_noise(var_name)\nRestore a variable to its pre-noise values.\nReverses add_noise by replacing the noisy array with the clean copy saved on the first add_noise call.\n\n\n\ncore.CCOutput.to_pyleo(var_names=None)\nExport one or more variables as pyleoclim Series objects.\n\n\n\nvar_names : str or list of str = None\n\nName(s) of state or diagnostic variable(s) to export.\n\n\n\n\n\n\n : pyleoclim.Series or pyleoclim.MultipleSeries",
-    "crumbs": [
-      "Reference",
-      "Core",
-      "Base Classes",
-      "core.CCOutput"
-    ]
-  },
-  {
-    "objectID": "api/core.CCOutput.html#attributes",
-    "href": "api/core.CCOutput.html#attributes",
-    "title": "core.CCOutput",
-    "section": "",
-    "text": "model_time : ndarray of float\n\nRaw time axis as returned by the solver. Never modified after construction; inspect this to understand the solver’s actual grid.\n\ntime : ndarray of float\n\nUser-facing time axis. Starts equal to model_time; replaced by reframe_time_axis when a different grid is requested. state_variables is always aligned to time.\n\nstate_variables : structured ndarray\n\nNamed state variable arrays, indexed by variable name.\n\nstate_variable_names : list of str\n\nOrdered list of state variable names.\n\ndiagnostic_variables : dict of str → ndarray\n\nNamed diagnostic arrays.\n\nsolution : object\n\nRaw solver output (retained for dense-output resampling via reframe_time_axis).\n\nrun_name : str\n\nLabel for this integration run.",
-    "crumbs": [
-      "Reference",
-      "Core",
-      "Base Classes",
-      "core.CCOutput"
-    ]
-  },
-  {
-    "objectID": "api/core.CCOutput.html#methods",
-    "href": "api/core.CCOutput.html#methods",
-    "title": "core.CCOutput",
-    "section": "",
-    "text": "Name\nDescription\n\n\n\n\nadd_noise\nAdd externally provided noise to an output variable.\n\n\nget_series_by_name\nReturn a variable’s array and its storage location.\n\n\nreframe_time_axis\nResample state variables onto a new time axis.\n\n\nremove_noise\nRestore a variable to its pre-noise values.\n\n\nto_pyleo\nExport one or more variables as pyleoclim Series objects.\n\n\n\n\n\ncore.CCOutput.add_noise(var_name, noise_ts)\nAdd externally provided noise to an output variable.\nThe unmodified values are saved on the first call so that remove_noise can restore the clean series.\n\n\n\nvar_name : str\n\nName of a state or diagnostic variable.\n\nnoise_ts : array - like\n\nNoise series with the same shape as the target variable.\n\n\n\n\n\n\ncore.CCOutput.get_series_by_name(var_name)\nReturn a variable’s array and its storage location.\nState variables live in a structured numpy array; diagnostic variables live in a dict. Returning the location string lets callers that write back (e.g. add_noise) know which container to update.\n\n\n\nvalues : ndarray of float\n\n\n\nlocation : {'state', 'diagnostic'}\n\n\n\n\n\n\n\n\ncore.CCOutput.reframe_time_axis(t_eval)\nResample state variables onto a new time axis.\nUses the dense output from solve_ivp when available (accurate polynomial interpolation); falls back to linear interpolation for fixed-step solvers.\nAfter this call, time is replaced by t_eval and state_variables is replaced by the interpolated values. model_time is never modified and always reflects the solver’s original grid.\n\n\n\nt_eval : array - like\n\nTarget time axis.\n\n\n\n\n\n\nreframed : structured ndarray or ndarray\n\nResampled state variables on t_eval.\n\n\n\n\n\n\n: UserWarning\n\nIf this output was produced by a stochastic (SDE) solver without dense output, and t_eval is coarser than the integrated time series. Linearly interpolating between two stochastic path points spaced wider than the original grid invents values that were never realised, discarding Wiener increments and distorting distributional properties. Use si= at integration time to control output spacing instead.\n\n\n\n\n\n\ncore.CCOutput.remove_noise(var_name)\nRestore a variable to its pre-noise values.\nReverses add_noise by replacing the noisy array with the clean copy saved on the first add_noise call.\n\n\n\ncore.CCOutput.to_pyleo(var_names=None)\nExport one or more variables as pyleoclim Series objects.\n\n\n\nvar_names : str or list of str = None\n\nName(s) of state or diagnostic variable(s) to export.\n\n\n\n\n\n\n : pyleoclim.Series or pyleoclim.MultipleSeries",
-    "crumbs": [
-      "Reference",
-      "Core",
-      "Base Classes",
-      "core.CCOutput"
-    ]
-  },
-  {
     "objectID": "api/PendulumRodBeta.html",
     "href": "api/PendulumRodBeta.html",
     "title": "PendulumRodBeta",
@@ -3982,7 +3982,7 @@
     "href": "get-started/solvers.html",
     "title": "Solvers",
     "section": "",
-    "text": "CCModel.integrate() supports several solvers, selectable via the method argument. The choice affects step-size control, numerical accuracy, and whether stochastic forcing is possible.",
+    "text": "cc.Model.integrate() supports several solvers, selectable via the method argument. The choice affects step-size control, numerical accuracy, and whether stochastic forcing is possible.",
     "crumbs": [
       "Overview",
       "Package Design",
@@ -4915,14 +4915,14 @@
     "href": "index.html",
     "title": "ClimateCritters",
     "section": "",
-    "text": "ClimateCritters is a Python package for experimenting with minimal climate models and well-known dynamical systems. It provides a unified interface for integrating climate models, chaotic systems, and custom box models, with built-in support for time-varying parameters, stochastic forcing, taphonimc alterations and export to Pyleoclim for analysis."
+    "text": "ClimateCritters is a Python package for experimenting with minimal climate models and well-known dynamical systems. It provides a unified interface for integrating climate models, chaotic systems, and custom box models, with built-in support for time-varying parameters, stochastic forcing, taphonomic alterations and export to Pyleoclim for analysis."
   },
   {
     "objectID": "index.html#features",
     "href": "index.html#features",
     "title": "ClimateCritters",
     "section": "Features",
-    "text": "Features\n\nUnified model API — every model shares the same integrate() → CCOutput workflow\nFlexible forcing — constants, callables, or composable Forcing sequences (Hold, Ramp, Harmonic)\nTime-varying parameters — any parameter can be swapped for a callable or Forcing object at runtime\nMultiple solvers — Euler, RK4, RK45, Euler-Maruyama (SDE), and scipy adaptive methods\nPyleoclim integration — export directly to Series or MultipleSeries for spectral analysis and plotting"
+    "text": "Features\n\nUnified model API — every model shares the same integrate() → Output workflow\nFlexible forcing — constants, callables, or composable Forcing sequences (Hold, Ramp, Harmonic)\nTime-varying parameters — any parameter can be swapped for a callable or Forcing object at runtime\nMultiple solvers — Euler, RK4, RK45, Euler-Maruyama (SDE), and scipy adaptive methods\nPyleoclim integration — export directly to Series or MultipleSeries for spectral analysis and plotting"
   },
   {
     "objectID": "index.html#quick-install",

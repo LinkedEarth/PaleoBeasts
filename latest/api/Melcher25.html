@@ -203,14 +203,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/core.CCModel.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">core.CCModel</span></a>
+  <a href="../api/core.Model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">core.Model</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../api/core.CCOutput.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">core.CCOutput</span></a>
+  <a href="../api/core.Output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">core.Output</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -923,7 +923,7 @@ dB/dt    = (db + alpha*B - gamma) / tau             +  sigma * dW</code></pre>
 <h3 class="anchored" data-anchor-id="climatecritters.Melcher25.populate_diagnostics_from_history">populate_diagnostics_from_history</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Melcher25.populate_diagnostics_from_history(time, history)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Classify states and compute thresholds from the full solved trajectory.</p>
-<p>Called automatically by <a href="../api/core.CCModel.html#climatecritters.core.CCModel.post_integrate" title="0"><code>CCModel.post_integrate</code></a> after every <code>integrate()</code> call. Populates <code>diagnostic_variables['states']</code> with the hysteresis classification and sets <code>self.stadial_threshold</code> / <code>self.interstadial_threshold</code>.</p>
+<p>Called automatically by <code>CCModel.post_integrate</code> after every <code>integrate()</code> call. Populates <code>diagnostic_variables['states']</code> with the hysteresis classification and sets <code>self.stadial_threshold</code> / <code>self.interstadial_threshold</code>.</p>
 <section id="parameters-3" class="level4 doc-section doc-section-parameters">
 <h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-3">Parameters</h4>
 <dl>
