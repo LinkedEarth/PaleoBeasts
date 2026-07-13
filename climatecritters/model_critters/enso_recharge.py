@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from climatecritters.core.ccmodel import CCModel
+from climatecritters.core.model import Model
 
 
 def seasonal_forcing(A=0.5, period=6.0):
@@ -52,7 +52,7 @@ def seasonal_forcing(A=0.5, period=6.0):
     return _func
 
 
-class ENSORechargeOscillator(CCModel):
+class ENSORechargeOscillator(Model):
     """Jin-style ENSO recharge oscillator.
 
     Couples the eastern Pacific SST anomaly ``T`` to the thermocline depth

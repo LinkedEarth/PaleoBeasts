@@ -21,7 +21,7 @@ quartodoc build
 quarto render
 ```
 
-This will produce a _site folder and you can inspect the built documentation by opening `index.html` in a browser.
+This will produce a _site folder, and you can inspect the built documentation by opening `index.html` in a browser.
 
 
 To regenerate the figures:

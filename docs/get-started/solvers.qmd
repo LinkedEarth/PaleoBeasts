@@ -3,7 +3,7 @@ title: Solvers
 sidebar: get-started
 ---
 
-`CCModel.integrate()` supports several solvers, selectable via the `method` argument. The choice affects step-size control, numerical accuracy, and whether stochastic forcing is possible.
+`cc.Model.integrate()` supports several solvers, selectable via the `method` argument. The choice affects step-size control, numerical accuracy, and whether stochastic forcing is possible.
 
 ## Adaptive solvers (SciPy)
 

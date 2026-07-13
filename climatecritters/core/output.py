@@ -12,7 +12,7 @@ import warnings
 import numpy as np
 
 
-class CCOutput:
+class Output:
     """Container for the results of one call to ``CCModel.integrate()``.
 
     ``CCOutput`` carries the full trajectory produced by the solver and

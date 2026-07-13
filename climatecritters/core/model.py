@@ -10,7 +10,7 @@ from ..utils.solver import (euler_method, euler_maruyama_method, heun_maruyama_m
                             milstein_method, rk4_method, Solution,
                             validate_initial_state as _validate_initial_state,
                             build_state_from_history as _build_state_from_history)
-from .ccoutput import CCOutput
+from .output import Output
 from .forcing import ForcingSpec
 
 
@@ -73,7 +73,7 @@ def _format_value(v):
     return repr(v)
 
 
-class CCModel:
+class Model:
     """The overarching model structure for ClimateCritters.
 
     CCModel serves as the archetype/parent class for models within the
@@ -810,7 +810,7 @@ class CCModel:
                         k: v[keep] for k, v in self.diagnostic_variables.items()
                     }
 
-        output = CCOutput(
+        output = Output(
             time=self.time,
             state_variables=self.state_variables,
             state_variable_names=list(self.state_variables_names),

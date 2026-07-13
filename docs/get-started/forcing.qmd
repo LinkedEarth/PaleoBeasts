@@ -29,7 +29,7 @@ model.register_forcing('S', f, attachment_style='additive', timing='pre')
 
 ---
 
-## `Forcing` — the signal object
+## `cc.Forcing` — the signal object
 
 `Forcing` wraps any time-varying signal and exposes a uniform
 `get_forcing(t)` interface.  There are four ways to create one.

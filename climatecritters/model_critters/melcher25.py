@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from ..core.ccmodel import CCModel
+from ..core.model import Model
 
 __all__ = ['Melcher25', 'classify_bistable_states']
 
@@ -38,7 +38,7 @@ def _classify_states(db, stadial_threshold, interstadial_threshold):
     return states
 
 
-class Melcher25(CCModel):
+class Melcher25(Model):
     """Two-equation bistable Itô SDE for stochastic Dansgaard-Oeschger transitions.
 
     Models the meridional buoyancy gradient Δb and buoyancy flux B as a coupled

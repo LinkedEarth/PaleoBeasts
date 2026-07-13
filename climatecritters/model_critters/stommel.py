@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import numpy as np
 
-from ..core.ccmodel import CCModel
+from ..core.model import Model
 
 
-class Stommel(CCModel):
+class Stommel(Model):
     """Minimal two-box Stommel thermohaline circulation model.
 
     State variables are the pole-to-equator temperature contrast ``T`` and

@@ -1,9 +1,9 @@
 import numpy as np
 
-from climatecritters.core.ccmodel import CCModel
+from climatecritters.core.model import Model
 
 
-class Roessler(CCModel):
+class Roessler(Model):
     """Roessler chaotic oscillator.
 
     A three-variable continuous-time system with a single scroll attractor:

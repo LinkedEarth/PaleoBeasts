@@ -37,14 +37,14 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from ..core.ccmodel import CCModel
+from ..core.model import Model
 
 
 # ---------------------------------------------------------------------------
 # SimplePendulum
 # ---------------------------------------------------------------------------
 
-class SimplePendulum(CCModel):
+class SimplePendulum(Model):
     """Nonlinear pendulum with optional linear damping.
 
     Parameters
@@ -173,7 +173,7 @@ class SimplePendulum(CCModel):
 # DrivenPendulum
 # ---------------------------------------------------------------------------
 
-class DrivenPendulum(CCModel):
+class DrivenPendulum(Model):
     """Driven damped pendulum in dimensionless form.
 
     The standard dimensionless equation (g = L = m = 1):
@@ -295,7 +295,7 @@ class DrivenPendulum(CCModel):
 # DoublePendulum
 # ---------------------------------------------------------------------------
 
-class DoublePendulum(CCModel):
+class DoublePendulum(Model):
     """Double pendulum — a conservative chaotic system.
 
     Two point masses connected by rigid, massless rods swing freely from a
@@ -528,7 +528,7 @@ class PendulumRodBeta:
 # MultiPendulumBeta
 # ---------------------------------------------------------------------------
 
-class MultiPendulumBeta(CCModel):
+class MultiPendulumBeta(Model):
     """Experimental N-rod chain pendulum solved via a Lagrangian mass matrix.
 
     This beta model generalizes the double pendulum to an arbitrary chain of
