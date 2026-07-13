@@ -17,9 +17,9 @@ def make_derivative_func(method='numpy', derivative=None, data=None, time=None):
     1. **Pass-through** — if ``derivative`` is already a callable, return it
        unchanged.
     2. **Numpy mode** — compute a finite-difference derivative via
-       ``np.gradient``, then fit a :class:`scipy.interpolate.CubicSpline` to
+       ``np.gradient``, then fit a ``scipy.interpolate.CubicSpline`` to
        the result.  Suitable for non-uniformly spaced data.
-    3. **Scipy mode** — fit a :class:`scipy.interpolate.CubicSpline` directly
+    3. **Scipy mode** — fit a ``scipy.interpolate.CubicSpline`` directly
        to ``data``, then return its analytical first derivative.  Slightly
        smoother than numpy mode for well-resolved data.
 
@@ -43,7 +43,7 @@ def make_derivative_func(method='numpy', derivative=None, data=None, time=None):
     deriv_func : callable
         Callable with signature ``f(t) -> float`` that returns the derivative
         of the forcing at time ``t``.  In numpy and scipy modes this is a
-        :class:`~scipy.interpolate.CubicSpline` (or its derivative object).
+        ``scipy.interpolate.CubicSpline`` (or its derivative object).
 
     Raises
     ------

@@ -76,7 +76,7 @@ def _format_value(v):
 class Model:
     """The overarching model structure for ClimateCritters.
 
-    CCModel serves as the archetype/parent class for models within the
+    Model serves as the archetype/parent class for models within the
     ``model_critters`` directory.  It is not meant to be instantiated directly.
 
     Parameter handling
@@ -580,7 +580,7 @@ class Model:
 
     def integrate(self, t_span=None, y0=None, method='RK45', dt=None,
                   output_time=None, run_name=None, kwargs=None):
-        """Integrate the model over a time span and return a :class:`CCOutput`.
+        """Integrate the model over a time span and return an `Output`.
 
         Parameters
         ----------
@@ -608,7 +608,7 @@ class Model:
             Fixed timestep for ``euler``, ``euler_maruyama``, ``heun_maruyama``,
             ``milstein``, and ``rk4``.  Required for those methods.
         output_time : array-like, optional
-            If provided, the returned ``CCOutput`` is immediately reframed onto
+            If provided, the returned ``Output`` is immediately reframed onto
             this time axis (e.g. to exclude a spin-up period).
             ``output.model_time`` always retains the raw solver grid.
         run_name : str, optional

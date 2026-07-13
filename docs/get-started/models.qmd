@@ -59,8 +59,6 @@ For method-evaluation purposes, the most relevant initial question is usually st
 
 *Standalone models drawn from the paleoclimate literature.*
 
-**[Daisyworld](../api/Daisyworld.qmd)** — Watson & Lovelock (1983). Two daisy species with different albedos colonize a planet and modulate its temperature. The system self-regulates temperature across a fairly wide range of solar luminosities, illustrating how biological feedbacks can stabilize climate. Multiple equilibria exist at the edges of the habitable range.
-
 **[ENSORechargeOscillator](../api/ENSORechargeOscillator.qmd)** — Jin (1997) recharge oscillator for ENSO. Two variables — sea surface temperature and thermocline heat content — produce quasi-periodic El Niño / La Niña cycles. Seasonal forcing can push the system into a more irregular or chaotic regime.
 
 **[Model3](../api/Model3.qmd)** — Ganopolski (2024) glacial cycle model. Tracks ice volume and a discrete glacial/deglaciation regime under orbital forcing. A regime-switch structure with hysteresis produces the asymmetric sawtooth of glacial cycles; a time-varying critical ice volume (`vc_func`) can reproduce the Mid-Pleistocene Transition from 41 kyr to 100 kyr dominant periodicity.

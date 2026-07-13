@@ -25,11 +25,11 @@ The typical workflow::
     f   = seq.compile()              # → Forcing
 
     # Register with a model
-    model.register_forcing('S', f, attachment_style='additive', timing='pre')
+    cc.Model.register_forcing('S', f, attachment_style='additive', timing='pre')
 
     # Superpose two indefinite signals
     combined = cc.Forcing(orbital_func) + cc.Forcing(noise_func)
-    model.register_forcing('S0', combined)
+    cc.Model.register_forcing('S0', combined)
 """
 
 from __future__ import annotations

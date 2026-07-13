@@ -1,6 +1,6 @@
 """Noise generation and surrogate time series utilities.
 
-Thin wrappers around :class:`pyleoclim.SurrogateSeries` that expose surrogate
+Thin wrappers around ``pyleoclim.SurrogateSeries`` that expose surrogate
 and parametric noise generation through a consistent ClimateCritters interface.
 """
 

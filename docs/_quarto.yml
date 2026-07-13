@@ -33,8 +33,12 @@ interlinks:
       inv: objects.txt
   aliases:
     climatecritters.core.forcing: null
-    climatecritters.core.ccmodel: null
-    climatecritters.core.ccoutput: null
+    climatecritters.core.model: null
+    climatecritters.core.output: null
+    climatecritters.utils.forcing: null
+    climatecritters.utils.solver: null
+    climatecritters.utils.func: null
+    climatecritters.utils.noise: null
     pandas: pd
 
 execute:

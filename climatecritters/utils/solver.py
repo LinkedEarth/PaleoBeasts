@@ -1,8 +1,8 @@
 """Numerical integrators and solver support utilities.
 
 Provides fixed-step (RK4, Euler, Euler-Maruyama, Heun-Maruyama, Milstein)
-integrators that return a :class:`Solution` object, plus internal helpers
-used by :class:`~climatecritters.core.CCModel` for state validation and history
+integrators that return a `Solution` object, plus internal helpers
+used by `Model` for state validation and history
 reconstruction.
 """
 
@@ -112,7 +112,7 @@ def flux_divergence(face_fluxes, dz):
 
 
 def define_t_eval(t_span, delta_t=None, num_points=None):
-    """Build a ``t_eval`` array for use with :func:`scipy.integrate.solve_ivp`.
+    """Build a ``t_eval`` array for use with ``scipy.integrate.solve_ivp``.
 
     Parameters
     ----------
@@ -313,7 +313,7 @@ def euler_method(f, t_span, y0, dt, args=(), post_step=None):
     Notes
     -----
     Forward Euler is first-order accurate and can be unstable for stiff
-    systems or large ``dt``.  Prefer :func:`rk4_method` for most applications.
+    systems or large ``dt``.  Prefer `rk4_method` for most applications.
     """
     n_steps = int((t_span[1] - t_span[0]) / dt) + 1
     t = np.linspace(t_span[0], t_span[1], n_steps)
@@ -442,7 +442,7 @@ def heun_maruyama_method(f, t_span, y0, dt, si=None, noise_func=None, rng=None, 
 
     A predictor-corrector scheme that achieves strong order 1.0 for SDEs with
     additive noise (diffusion independent of state) and weak order 2.0.  This
-    is a meaningful improvement over :func:`euler_maruyama_method` (strong
+    is a meaningful improvement over `euler_maruyama_method` (strong
     order 0.5) when transition timing is the quantity of interest, as in
     bistable climate models.
 
@@ -586,7 +586,7 @@ def milstein_method(f, t_span, y0, dt, si=None, noise_func=None, rng=None, args=
     Achieves strong order 1.0 for both additive *and* multiplicative noise
     (diagonal diffusion), making it the right choice when ``sde_noise``
     depends on the state.  For additive noise it reduces to Euler-Maruyama
-    plus a zero correction; prefer :func:`heun_maruyama_method` in that case
+    plus a zero correction; prefer `heun_maruyama_method` in that case
     as it also improves the drift approximation.
 
     Solves:

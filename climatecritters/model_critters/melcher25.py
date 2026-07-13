@@ -110,7 +110,7 @@ class Melcher25(Model):
 
     See also
     --------
-    cc.core.CCModel : Base class.
+    cc.core.Model : Base class.
     classify_bistable_states : Reclassify a Δb signal post-hoc without
         re-running the SDE.
 
@@ -267,7 +267,7 @@ class Melcher25(Model):
     def populate_diagnostics_from_history(self, time, history):
         """Classify states and compute thresholds from the full solved trajectory.
 
-        Called automatically by ``CCModel.post_integrate`` after every
+        Called automatically by ``Model.post_integrate`` after every
         ``integrate()`` call. Populates ``diagnostic_variables['states']``
         with the hysteresis classification and sets
         ``self.stadial_threshold`` / ``self.interstadial_threshold``.
