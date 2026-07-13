@@ -1,3 +1,3 @@
 from .forcing import Forcing
-from .ccmodel import CCModel
-from .ccoutput import CCOutput
+from .model import Model
+from .output import Output

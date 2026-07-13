@@ -1,9 +1,9 @@
 import numpy as np
-from ..core.ccmodel import CCModel
+from ..core.model import Model
 from scipy.interpolate import CubicSpline
 
 
-class Model3(CCModel):
+class Model3(Model):
     """Model 3 from Ganopolski (2024) describing glacial cycle evolution under orbital forcing.
 
     The model tracks ice volume ``v`` and glacial regime ``k`` (1 = glaciation,

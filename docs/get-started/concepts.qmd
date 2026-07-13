@@ -3,11 +3,11 @@ title: Core Concepts
 sidebar: get-started
 ---
 
-This page explains the three building blocks that every ClimateCritters workflow uses: `CCModel`, `Forcing`, and `CCOutput`.
+This page explains the three building blocks that every ClimateCritters workflow uses: `Model`, `Forcing`, and `Output`.
 
-## CCModel
+## cc.Model
 
-`CCModel` is the abstract base class for all signal models. You never instantiate it directly — instead you use one of the concrete subclasses (e.g. `Lorenz63`, `EBM`, `Stommel`).
+`Model` is the abstract base class for all signal models. You never instantiate it directly — instead you use one of the concrete subclasses (e.g. `Lorenz63`, `EBM`, `Stommel`).
 
 Every subclass shares the same integration interface:
 
@@ -77,9 +77,9 @@ See the [Forcing](forcing.qmd) page for the full API.
 
 ---
 
-## CCOutput
+## cc.Output
 
-`integrate()` always returns a `CCOutput` object. It holds:
+`integrate()` always returns a `Output` object. It holds:
 
 | Attribute | Contents |
 |---|---|

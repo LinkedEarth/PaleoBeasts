@@ -46,7 +46,7 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from climatecritters.core.ccmodel import CCModel
+from climatecritters.core.model import Model
 
 
 @dataclass(frozen=True)
@@ -388,7 +388,7 @@ class BoxModelSpec:
         return self.make_model(var_name=var_name, **parameter_overrides)
 
 
-class GenericBoxModel(CCModel):
+class GenericBoxModel(Model):
     """``CCModel`` subclass produced by :class:`BoxModelSpec`.
 
     Users construct this via :meth:`BoxModelSpec.make_boxmodel` rather than

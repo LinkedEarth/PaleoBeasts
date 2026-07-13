@@ -11,7 +11,7 @@ import numpy as np
 import pytest
 import climatecritters as cc
 
-from climatecritters.core.ccmodel import CCModel
+from climatecritters.core.model import Model
 from climatecritters.model_critters import lorenz
 
 
@@ -37,7 +37,7 @@ class TestCoreCCModelReframeTimeAxis:
         assert np.allclose(output.time, t_eval)
 
 
-class _PostHistoryModel(CCModel):
+class _PostHistoryModel(Model):
     def __init__(self):
         super().__init__(variable_name='post_history', state_variables=['x'],
                          diagnostic_variables=['x_squared'])
@@ -61,7 +61,7 @@ class TestCoreCCModelPostHistoryHooks:
         assert np.isclose(model.state_variables['x'][0], 1.0)
 
 
-class _SDEPostHistoryModel(CCModel):
+class _SDEPostHistoryModel(Model):
     """uses_post_history=True model with additive noise, for si/forcing tests."""
 
     uses_post_history = True
@@ -79,7 +79,7 @@ class _SDEPostHistoryModel(CCModel):
         return np.array([0.1])
 
 
-class _SDENoPostHistoryModel(CCModel):
+class _SDENoPostHistoryModel(Model):
     """uses_post_history=False model, to exercise the si guard."""
 
     uses_post_history = False
@@ -96,7 +96,7 @@ class _SDENoPostHistoryModel(CCModel):
         return np.array([0.1])
 
 
-class _SDENoNoiseOverrideModel(CCModel):
+class _SDENoNoiseOverrideModel(Model):
     """uses_post_history=True model that does NOT override sde_noise, to
     confirm the base-class stub recovers deterministic integration."""
 
@@ -221,7 +221,7 @@ class TestCoreCCModelSDESamplingInterval:
         )
 
 
-class _ParamContractModel(CCModel):
+class _ParamContractModel(Model):
     def __init__(self, coeff=1.0):
         super().__init__(
             variable_name='param_contract',
@@ -257,7 +257,7 @@ class TestCoreCCModelParameterContract:
         assert model.param_values['coeff'](0.0) == 3.0
 
 
-class _FunctionSwapModel(CCModel):
+class _FunctionSwapModel(Model):
     def __init__(self):
         super().__init__(variable_name='function_swap', state_variables=['x'])
 

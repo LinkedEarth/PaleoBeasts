@@ -11,10 +11,10 @@ from __future__ import annotations
 
 import numpy as np
 
-from ..core.ccmodel import CCModel
+from ..core.model import Model
 
 
-class Stocker2003BipolarSeesaw(CCModel):
+class Stocker2003BipolarSeesaw(Model):
     """Minimum thermodynamic model for the thermal bipolar seesaw.
 
     A single prognostic southern temperature anomaly ``Ts`` relaxes toward
@@ -126,7 +126,7 @@ class Stocker2003BipolarSeesaw(CCModel):
         self.diagnostic_variables = {"Tn": Tn_vals}
 
 
-class Stocker2003ExtendedSeaIceSeesaw(CCModel):
+class Stocker2003ExtendedSeaIceSeesaw(Model):
     """Extended Stocker-style model with reservoir, Southern Ocean, sea-ice, and Antarctic states.
 
     The model integrates four coupled ODEs with prescribed northern forcing

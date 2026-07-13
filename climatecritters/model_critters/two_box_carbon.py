@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import numpy as np
 
-from climatecritters.core.ccmodel import CCModel
+from climatecritters.core.model import Model
 
 
-class TwoBoxCarbon(CCModel):
+class TwoBoxCarbon(Model):
     """Two-box carbon exchange model with explicit box volumes.
 
     State variables ``A`` and ``S`` are carbon inventories (mass units) in the

@@ -19,7 +19,7 @@ model = Lorenz63(forcing=forcing, sigma=10.0, rho=28.0, beta=8/3)
 
 ## 2. Integrate
 
-Call `integrate()` with an integration window, initial conditions, and a solver method. It returns a `CCOutput` object containing the full trajectory.
+Call `integrate()` with an integration window, initial conditions, and a solver method. It returns an `Output` object containing the full trajectory.
 
 ```python
 output = model.integrate(
@@ -68,6 +68,6 @@ output_tv = model_tv.integrate(t_span=(0, 50), y0=[1, 1, 1], method='RK45')
 
 ## Next steps
 
-- [Core concepts](concepts.qmd) — understand `CCModel`, `Forcing`, and `CCOutput` in depth
+- [Core concepts](concepts.qmd) — understand `Model`, `Forcing`, and `Output` in depth
 - [Tutorials](../tutorials/index.qmd) — worked examples for climate and dynamical systems models
 - [Reference](../api/index.qmd) — full API documentation

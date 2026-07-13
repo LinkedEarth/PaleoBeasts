@@ -16,7 +16,7 @@ climatecritters/
 
 ## Core Framework (`core/`)
 
-### `CCModel` ([climatecritters/core/ccmodel.py](climatecritters/core/ccmodel.py))
+### `CCModel` ([climatecritters/core/ccmodel.py](climatecritters/core/model.py))
 
 The abstract base class for all signal models. Subclasses must implement `dydt(t, x)`. Key capabilities:
 

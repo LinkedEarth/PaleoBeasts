@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import numpy as np
 
-from ..core.ccmodel import CCModel
+from ..core.model import Model
 
 
-class DampedSpring(CCModel):
+class DampedSpring(Model):
     """Damped (and optionally driven) spring-mass oscillator.
 
     Parameters

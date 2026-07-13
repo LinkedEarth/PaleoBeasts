@@ -1,7 +1,7 @@
 import numpy as np
 
 from ..utils import constants as phys
-from ..core.ccmodel import CCModel
+from ..core.model import Model
 
 __all__ = [
     'EBMBase', 'EBM0D', 'EBM1DLat',
@@ -133,7 +133,7 @@ def albedo_func1D(t, state, model, *, a2=0.25, alpha_ice=0.6, alpha_0=0.1, T1=26
 # Base class
 # ---------------------------------------------------------------------------
 
-class EBMBase(CCModel):
+class EBMBase(Model):
     """Shared energy balance physics for all EBM variants.
 
     Provides default implementations of ``calc_OLR``, ``calc_albedo``, and

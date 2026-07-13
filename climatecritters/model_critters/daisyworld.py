@@ -1,9 +1,9 @@
 import numpy as np
 
-from ..core.ccmodel import CCModel
+from ..core.model import Model
 
 
-class Daisyworld(CCModel):
+class Daisyworld(Model):
     """Minimal 0D Daisyworld model with black/white daisy coverage and temperature.
 
     The model couples daisy population dynamics to a zero-dimensional energy

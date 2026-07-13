@@ -1,9 +1,9 @@
 import numpy as np
 
-from ..core.ccmodel import CCModel
+from ..core.model import Model
 
 
-class Lorenz96(CCModel):
+class Lorenz96(Model):
     """Lorenz (1996) single-scale and two-scale atmospheric model.
 
     A periodic ring of *n* slow-scale variables with quadratic advection and
@@ -180,7 +180,7 @@ class Lorenz96(CCModel):
         return np.concatenate([dX, dY]).tolist()
 
 
-class Lorenz63(CCModel):
+class Lorenz63(Model):
     """Lorenz (1963) system.
 
     A minimal three-variable convection model exhibiting sensitive dependence
