@@ -389,7 +389,7 @@ class BoxModelSpec:
 
 
 class GenericBoxModel(Model):
-    """``CCModel`` subclass produced by :class:`BoxModelSpec`.
+    """``Model`` subclass produced by :class:`BoxModelSpec`.
 
     Users construct this via :meth:`BoxModelSpec.make_boxmodel` rather than
     instantiating it directly.  The resulting model integrates with
