@@ -53,18 +53,27 @@ class Melcher25(Model):
     var_name : str
         Label for model output. Default is 'bistable'.
     sigma : float
-        Noise amplitude applied to both state variables. Range [0.15, 0.4].
-        Default is 0.2.
+        Noise amplitude applied to both state variables. Default is 0.2, the
+        fitted value used in Melcher et al. (2025). The paper gives no formal
+        upper bound: [0.15, 0.4] is the range explored in the original
+        calibration grid (not a stability limit), and the paper only notes
+        qualitatively that "if σ is too high, the model behaves like a random
+        walk, leading to abrupt and unrealistic transitions" (Sec. 2.3.5).
     gamma : float or callable or cc.core.Forcing
         External forcing proportional to atmospheric CO2. Bistable behaviour
-        occurs near γ ≈ 1.5; range [0.8, 3.2]. If callable, must follow the
-        signature contract in ``contracts/signal_model_contract.md``:
-        ``(t)``, ``(t, state)``, or ``(t, state, model)`` with the first
-        argument named ``t`` or ``time``. Default is 1.5.
+        occurs near γ ≈ 1.5; constrained to [0.6, 3.0] in Melcher et al.
+        (2025, Sec. 2.3.5) to keep the nullcline inside the relevant area of
+        the system. If callable, must follow the signature contract in
+        ``contracts/signal_model_contract.md``: ``(t)``, ``(t, state)``, or
+        ``(t, state, model)`` with the first argument named ``t`` or
+        ``time``. Default is 1.5.
     alpha : float or callable or cc.core.Forcing
         Southern Ocean AABW coupling; controls the asymmetry between stadial
-        and interstadial durations. Range [-1.0, 0.0]. If callable, must follow
-        the same signature contract as gamma. Default is 0.0.
+        and interstadial durations. Constrained to [-1.0, 0.0] in Melcher
+        et al. (2025, Sec. 2.3.5): α > 0 makes the system diverge instead of
+        converging, and α < -1 would require unreasonably high noise to
+        match observations. If callable, must follow the same signature
+        contract as gamma. Default is 0.0.
     b0 : float
         Reference buoyancy gradient that sets the centre of the bistable
         potential well. Default is 0.625 (calibrated from NGRIP,
