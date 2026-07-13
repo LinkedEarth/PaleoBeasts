@@ -11,7 +11,7 @@ __all__ = [
 
 # ---------------------------------------------------------------------------
 # Module-level physics helpers
-# All callables comply with the CCModel contract: (t), (t, state), or
+# All callables comply with the Model contract: (t), (t, state), or
 # (t, state, model) with the first positional arg named 't' or 'time'.
 # ---------------------------------------------------------------------------
 
@@ -49,7 +49,7 @@ def OLR_func(pRad=650, ps=1000):
     Returns
     -------
     func : callable
-        A ``(t, state)`` callable compliant with the CCModel parameter
+        A ``(t, state)`` callable compliant with the Model parameter
         contract (see ``contracts/signal_model_contract.md``).  Returns OLR
         in W m⁻².
     """
@@ -93,7 +93,7 @@ def albedo_func1D(t, state, model, *, a2=0.25, alpha_ice=0.6, alpha_0=0.1, T1=26
     """P2-corrected latitudinal albedo using a Legendre polynomial parameterization.
 
     Uses the global-mean temperature to set the base albedo via the same
-    quadratic ice-line transition as :func:`albedo_func`, then adds a
+    quadratic ice-line transition as `albedo_func`, then adds a
     second-order Legendre polynomial correction to capture the equator-to-pole
     gradient.  Requires the model to expose a ``phi`` attribute (degrees).
 
@@ -150,7 +150,7 @@ class EBMBase(Model):
 
     See also
     --------
-    climatecritters.core.CCModel : Base class for all ClimateCritters models.
+    climatecritters.core.Model : Base class for all ClimateCritters models.
     EBM0D : Zero-dimensional EBM subclass.
     EBM1DLat : Latitudinally-resolved diffusive EBM subclass.
     """
@@ -477,7 +477,7 @@ class EBM1DLat(EBMBase):
     def validate_initial_state(self, y0):
         """Validate and normalize the initial temperature profile.
 
-        Overrides :meth:`CCModel.validate_initial_state` to accept a scalar
+        Overrides `Model.validate_initial_state` to accept a scalar
         initial condition and broadcast it uniformly across the latitude grid.
 
         Parameters
@@ -503,7 +503,7 @@ class EBM1DLat(EBMBase):
     def calc_albedo(self, T, t):
         """Compute the latitudinal ice-albedo with a linear transition zone.
 
-        Overrides :meth:`EBMBase.calc_albedo`.  Each grid point is assigned
+        Overrides `EBMBase.calc_albedo`.  Each grid point is assigned
         an albedo based on local temperature: 0.6 below -10 °C, 0.3 above
         0 °C, and a linear blend in between.
 
@@ -533,7 +533,7 @@ class EBM1DLat(EBMBase):
     def calc_OLR(self, T, t):
         """Compute the Budyko linear OLR: ``(A - CO2_forcing) + B * T``.
 
-        Overrides :meth:`EBMBase.calc_OLR`.  Parameters ``A``, ``B``, and
+        Overrides `EBMBase.calc_OLR`.  Parameters ``A``, ``B``, and
         ``CO2_forcing`` are resolved through ``get_param_value``, so they can
         be time-varying or Forcing objects.
 
@@ -699,7 +699,7 @@ class EBM1DLat(EBMBase):
 
         This method has **no side effects**: because ``uses_post_history = True``,
         all output is derived from the full solved trajectory in
-        :meth:`populate_diagnostics_from_history` rather than accumulated here.
+        `EBM1DLat.populate_diagnostics_from_history` rather than accumulated here.
 
         Parameters
         ----------
@@ -725,7 +725,7 @@ class EBM1DLat(EBMBase):
     def populate_diagnostics_from_history(self, time, history):
         """Compute diagnostic variables from the full solved trajectory.
 
-        Called automatically by :meth:`CCModel.post_integrate` after the
+        Called automatically by `Model.post_integrate` after the
         solver completes.  Populates ``self.diagnostic_variables`` with the
         global-mean temperature and ice-line latitude at every timestep.
 

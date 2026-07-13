@@ -487,7 +487,7 @@ class DoublePendulum(Model):
 
 @dataclass
 class PendulumRodBeta:
-    """Properties of one rod in a :class:`MultiPendulumBeta` chain.
+    """Properties of one rod in a `MultiPendulumBeta` chain.
 
     Parameters
     ----------
@@ -504,7 +504,7 @@ class PendulumRodBeta:
     Notes
     -----
     ``forcing`` is resolved at runtime using the same contract as
-    :class:`CCModel` parameters, so constants, ``lambda t: ...`` callables,
+    `Model` parameters, so constants, ``lambda t: ...`` callables,
     ``lambda t, state: ...`` callables, and forcing objects are all accepted.
     """
 
@@ -545,7 +545,7 @@ class MultiPendulumBeta(Model):
     Parameters
     ----------
     rods:
-        Sequence of :class:`PendulumRodBeta` in pivot-to-tip order. Must
+        Sequence of `PendulumRodBeta` in pivot-to-tip order. Must
         contain at least two rods.
     g:
         Gravitational acceleration in m/s^2. Must be > 0.

@@ -9,8 +9,8 @@ def seasonal_forcing(A=0.5, period=6.0):
     """Return a sinusoidal seasonal forcing callable for the ENSO recharge oscillator.
 
     The returned function computes ``A * sin(2π t / period)`` and can be
-    wrapped in a :class:`~climatecritters.core.Forcing` or passed directly to
-    :meth:`~climatecritters.core.CCModel.register_forcing`::
+    wrapped in a `Forcing` or passed directly to
+    `Model.register_forcing`::
 
         import climatecritters as cc
         from climatecritters.model_critters.enso_recharge import (
@@ -64,7 +64,7 @@ class ENSORechargeOscillator(Model):
     where ``b = b0*mu`` and ``R = gamma*b - c``.
 
     Seasonal or any other external forcing is added through the standard
-    :meth:`~climatecritters.core.CCModel.register_forcing` interface::
+    `Model.register_forcing` interface::
 
         from climatecritters.utils.forcing import create_sinusoid_forcing
 

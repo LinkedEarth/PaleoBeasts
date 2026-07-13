@@ -2,13 +2,13 @@ from __future__ import annotations
 
 """Generic box-model utilities for ClimateCritters.
 
-This module provides a small declarative layer on top of :class:`CCModel` for
+This module provides a small declarative layer on top of `Model` for
 building simple ODE box models without writing a full bespoke subclass each
 time.
 
 Two styles are supported:
 
-1. Explicit callable tendencies via :class:`BoxModelSpec.register_tendency`
+1. Explicit callable tendencies via `BoxModelSpec.register_tendency`
 2. Automatic box-network assembly via reciprocal exchange and directed
    transport relations
 
@@ -87,7 +87,7 @@ class BoxModelContext:
     The context exposes a compact, box-model-friendly API:
 
     - ``ctx["A"]`` for direct state lookup
-    - ``ctx.param("k")`` for parameters resolved through ``CCModel.get_param``
+    - ``ctx.param("k")`` for parameters resolved through ``Model.get_param``
     - ``ctx.input("R")`` for external prescribed inputs
     - ``ctx.volume("SP")`` and ``ctx.concentration("SP")`` for box-network
       models
@@ -128,7 +128,7 @@ class BoxModelSpec:
     inputs, diagnostics, and either:
 
     - explicit callable tendencies registered via
-      :meth:`register_tendency` / :meth:`register_relations`, or
+      `BoxModelSpec.register_tendency` / `BoxModelSpec.register_relations`, or
     - an automatic box network assembled from volumes, reciprocal exchange,
       and directed transport terms
 
@@ -140,13 +140,13 @@ class BoxModelSpec:
 
     Notes
     -----
-    Call :meth:`validate` (or :meth:`make_boxmodel`) before integrating.
+    Call `BoxModelSpec.validate` (or `make_boxmodel`) before integrating.
     Validation checks that every state variable has a tendency relation
     (explicit mode) or a registered volume (automatic mode).
 
     See also
     --------
-    GenericBoxModel : The ``CCModel`` subclass produced by :meth:`make_boxmodel`.
+    GenericBoxModel : The ``Model`` subclass produced by `make_boxmodel`.
     BoxModelContext : Evaluation context passed to callable tendencies.
 
     Examples
@@ -218,7 +218,7 @@ class BoxModelSpec:
         """Register default parameter values.
 
         Values may be constants, callables, or ``Forcing``-like objects
-        compatible with ``CCModel.get_param``.
+        compatible with ``Model.get_param``.
         """
         self.parameter_defaults.update(parameters)
         return self
@@ -280,7 +280,7 @@ class BoxModelSpec:
     def register_tendency(self, state_variable, relation):
         """Register a callable tendency for one state variable.
 
-        ``relation`` must accept a :class:`BoxModelContext` and return the
+        ``relation`` must accept a `BoxModelContext` and return the
         tendency for ``state_variable``.
         """
         self.tendency_relations[str(state_variable)] = relation
@@ -376,7 +376,7 @@ class BoxModelSpec:
             raise ValueError(f"Missing tendency relations for state variables: {missing}")
 
     def make_model(self, var_name=None, **parameter_overrides):
-        """Instantiate a :class:`GenericBoxModel` from this spec."""
+        """Instantiate a `GenericBoxModel` from this spec."""
         self.validate()
         return GenericBoxModel(
             self,
@@ -389,9 +389,9 @@ class BoxModelSpec:
 
 
 class GenericBoxModel(Model):
-    """``Model`` subclass produced by :class:`BoxModelSpec`.
+    """``Model`` subclass produced by `BoxModelSpec`.
 
-    Users construct this via :meth:`BoxModelSpec.make_boxmodel` rather than
+    Users construct this via `make_boxmodel` rather than
     instantiating it directly.  The resulting model integrates with
     ``model.integrate(...)``, exports to Pyleoclim via ``output.to_pyleo()``,
     and computes diagnostics from solved history via
@@ -427,7 +427,7 @@ class GenericBoxModel(Model):
             setattr(self, name, value)
 
     def uses_post_history(self):
-        """Route diagnostics through CCModel's post-history hooks."""
+        """Route diagnostics through Model's post-history hooks."""
         return True
 
     def resolve_input(self, name, t, state):

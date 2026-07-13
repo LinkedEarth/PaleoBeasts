@@ -48,7 +48,7 @@ class Model3(Model):
         model.register_forcing('insolation', cc.Forcing(calc_f))
 
     The internal derivative of forcing ``dfdt`` is computed via
-    :func:`calc_df` by default; supply a custom callable or
+    `calc_df` by default; supply a custom callable or
     ``cc.Forcing`` to override.
 
     Parameter defaults are taken from Ganopolski (2024).  Time-varying

@@ -111,7 +111,7 @@ class DampedSpring(Model):
         self.params = ()
 
     # ------------------------------------------------------------------
-    # CCModel interface
+    # Model interface
     # ------------------------------------------------------------------
 
     def uses_post_history(self):

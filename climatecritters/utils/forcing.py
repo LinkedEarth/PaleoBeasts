@@ -1,19 +1,19 @@
-"""Convenience factories for common :class:`~climatecritters.core.Forcing` patterns.
+"""Convenience factories for common `Forcing` patterns.
 
-All public functions return either a :class:`~climatecritters.core.Forcing`
-(when no ``duration`` is given) or a :class:`~climatecritters.core.ForcingElement`
-(when ``duration`` is given).  The unified entry point is :func:`create_forcing`;
+All public functions return either a `Forcing`
+(when no ``duration`` is given) or a `ForcingElement`
+(when ``duration`` is given).  The unified entry point is `create_forcing`;
 the named factories are ergonomic aliases that build their callable internally.
 
 .. rubric:: Duration gate
 
 Every factory accepts an optional ``duration`` keyword:
 
-* **No duration** → returns an indefinite :class:`~climatecritters.core.Forcing`
+* **No duration** → returns an indefinite `Forcing`
   backed by a lambda.  Suitable for perpetual signals (orbital forcing, seasonal
   cycle, noise) registered directly with a model.
-* **With duration** → returns a bounded :class:`~climatecritters.core.ForcingElement`
-  that can be composed into a :class:`~climatecritters.core.ForcingSequence` and
+* **With duration** → returns a bounded `ForcingElement`
+  that can be composed into a `ForcingSequence` and
   then compiled::
 
       elem = create_sinusoid_forcing(A=5.0, period=1.0, duration=10.0)
@@ -89,15 +89,15 @@ def create_forcing(func, duration=None):
     func : callable
         Function with signature ``f(t) -> float | ndarray``.
     duration : float, optional
-        If given, returns a bounded :class:`~climatecritters.core.ForcingElement`
+        If given, returns a bounded `ForcingElement`
         lasting ``duration`` time units.  If omitted, returns an indefinite
-        :class:`~climatecritters.core.Forcing`.
+        `Forcing`.
 
     Returns
     -------
     Forcing or ForcingElement
-        * No ``duration`` → :class:`~climatecritters.core.Forcing` (indefinite)
-        * With ``duration`` → :class:`~climatecritters.core.ForcingElement` (bounded)
+        * No ``duration`` → `Forcing` (indefinite)
+        * With ``duration`` → `ForcingElement` (bounded)
 
     Examples
     --------
@@ -134,8 +134,8 @@ def create_constant_forcing(value, duration=None):
     value : float
         The constant value returned for all ``t``.
     duration : float, optional
-        If given, returns a :class:`~climatecritters.core.ForcingElement`.
-        If omitted, returns an indefinite :class:`~climatecritters.core.Forcing`.
+        If given, returns a `ForcingElement`.
+        If omitted, returns an indefinite `Forcing`.
 
     Returns
     -------
@@ -173,8 +173,8 @@ def create_sinusoid_forcing(A, period, y0=0.0, duration=None):
     y0 : float
         Constant offset.  Default 0.0.
     duration : float, optional
-        If given, returns a :class:`~climatecritters.core.ForcingElement`.
-        If omitted, returns an indefinite :class:`~climatecritters.core.Forcing`.
+        If given, returns a `ForcingElement`.
+        If omitted, returns an indefinite `Forcing`.
 
     Returns
     -------
@@ -222,8 +222,8 @@ def create_periodic_forcing(periods_powers, desired_amplitude=1, y0=0, duration=
     y0 : float
         Constant offset.  Default 0.
     duration : float, optional
-        If given, returns a :class:`~climatecritters.core.ForcingElement`.
-        If omitted, returns an indefinite :class:`~climatecritters.core.Forcing`.
+        If given, returns a `ForcingElement`.
+        If omitted, returns an indefinite `Forcing`.
 
     Returns
     -------
@@ -250,17 +250,17 @@ def create_periodic_forcing(periods_powers, desired_amplitude=1, y0=0, duration=
 
 
 def create_piecewise_forcing(elements, label="forcing"):
-    """Build a piecewise forcing from a sequence of :class:`~climatecritters.core.ForcingElement` parts.
+    """Build a piecewise forcing from a sequence of `ForcingElement` parts.
 
     Compiles the sequence immediately and returns a callable
-    :class:`~climatecritters.core.Forcing`.
+    `Forcing`.
 
     Parameters
     ----------
     elements : sequence of ForcingElement
-        Ordered :class:`~climatecritters.core.Hold`, :class:`~climatecritters.core.Ramp`,
-        :class:`~climatecritters.core.Harmonic`, or general
-        :class:`~climatecritters.core.ForcingElement` instances.
+        Ordered `Hold`, `Ramp`,
+        `Harmonic`, or general
+        `ForcingElement` instances.
     label : str
         Human-readable label.  Default ``'forcing'``.
 
@@ -294,12 +294,12 @@ def create_piecewise_forcing(elements, label="forcing"):
 # ---------------------------------------------------------------------------
 
 def make_forcing_element(forcing, duration=None):
-    """Convert a :class:`~climatecritters.core.Forcing` into a bounded
-    :class:`~climatecritters.core.ForcingElement`.
+    """Convert a `Forcing` into a bounded
+    `ForcingElement`.
 
-    This is the reverse of :meth:`~climatecritters.core.ForcingSequence.compile` —
+    This is the reverse of `ForcingSequence.compile` —
     it lets you embed an existing ``Forcing`` as a timed segment inside a
-    :class:`~climatecritters.core.ForcingSequence`.
+    `ForcingSequence`.
 
     Parameters
     ----------

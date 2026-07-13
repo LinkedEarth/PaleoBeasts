@@ -1,4 +1,4 @@
-"""CCOutput — container for a single CCModel integration run.
+"""Output — container for a single Model integration run.
 
 Separating run output from model configuration lets the same model instance
 be re-run with different parameters or initial conditions while keeping each
@@ -13,9 +13,9 @@ import numpy as np
 
 
 class Output:
-    """Container for the results of one call to ``CCModel.integrate()``.
+    """Container for the results of one call to ``Model.integrate()``.
 
-    ``CCOutput`` carries the full trajectory produced by the solver and
+    ``Output`` carries the full trajectory produced by the solver and
     exposes output-focused operations (noise addition, pyleoclim export,
     time resampling).  Keeping these on the output rather than on the model
     means a single model instance can produce multiple independent outputs
