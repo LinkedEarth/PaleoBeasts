@@ -670,14 +670,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="climatecritters.utils.forcing.create_piecewise_forcing" class="level1">
 <h1>utils.forcing.create_piecewise_forcing</h1>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>utils.forcing.create_piecewise_forcing(elements, label<span class="op">=</span><span class="st">'forcing'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Build a piecewise forcing from a sequence of :class:<code>~climatecritters.core.ForcingElement</code> parts.</p>
-<p>Compiles the sequence immediately and returns a callable :class:<a href="../api/core.Forcing.html#climatecritters.core.Forcing" title="0"><code>~climatecritters.core.Forcing</code></a>.</p>
+<p>Build a piecewise forcing from a sequence of <a href="../api/core.forcing.ForcingElement.html#climatecritters.core.forcing.ForcingElement" title="0"><code>ForcingElement</code></a> parts.</p>
+<p>Compiles the sequence immediately and returns a callable <a href="../api/core.Forcing.html#climatecritters.core.Forcing" title="0"><code>Forcing</code></a>.</p>
 <section id="parameters" class="level2 doc-section doc-section-parameters">
 <h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <dl>
 <dt><code><span class="parameter-name"><strong>elements</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">sequence of ForcingElement</span></code></dt>
 <dd>
-<p>Ordered :class:<code>~climatecritters.core.Hold</code>, :class:<code>~climatecritters.core.Ramp</code>, :class:<code>~climatecritters.core.Harmonic</code>, or general :class:<code>~climatecritters.core.ForcingElement</code> instances.</p>
+<p>Ordered <a href="../api/core.forcing.Hold.html#climatecritters.core.forcing.Hold" title="0"><code>Hold</code></a>, <a href="../api/core.forcing.Ramp.html#climatecritters.core.forcing.Ramp" title="0"><code>Ramp</code></a>, <a href="../api/core.forcing.Harmonic.html#climatecritters.core.forcing.Harmonic" title="0"><code>Harmonic</code></a>, or general <a href="../api/core.forcing.ForcingElement.html#climatecritters.core.forcing.ForcingElement" title="0"><code>ForcingElement</code></a> instances.</p>
 </dd>
 <dt><code><span class="parameter-name"><strong>label</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">'forcing'</span></code></dt>
 <dd>

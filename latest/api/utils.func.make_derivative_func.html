@@ -680,8 +680,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Three usage modes:</p>
 <ol type="1">
 <li><strong>Pass-through</strong> — if <code>derivative</code> is already a callable, return it unchanged.</li>
-<li><strong>Numpy mode</strong> — compute a finite-difference derivative via <code>np.gradient</code>, then fit a :class:<code>scipy.interpolate.CubicSpline</code> to the result. Suitable for non-uniformly spaced data.</li>
-<li><strong>Scipy mode</strong> — fit a :class:<code>scipy.interpolate.CubicSpline</code> directly to <code>data</code>, then return its analytical first derivative. Slightly smoother than numpy mode for well-resolved data.</li>
+<li><strong>Numpy mode</strong> — compute a finite-difference derivative via <code>np.gradient</code>, then fit a <code>scipy.interpolate.CubicSpline</code> to the result. Suitable for non-uniformly spaced data.</li>
+<li><strong>Scipy mode</strong> — fit a <code>scipy.interpolate.CubicSpline</code> directly to <code>data</code>, then return its analytical first derivative. Slightly smoother than numpy mode for well-resolved data.</li>
 </ol>
 <section id="parameters" class="level2 doc-section doc-section-parameters">
 <h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
@@ -709,7 +709,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dl>
 <dt><code><span class="parameter-name"><strong>deriv_func</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/functions.html#callable">callable</a></span></code></dt>
 <dd>
-<p>Callable with signature <code>f(t) -&gt; float</code> that returns the derivative of the forcing at time <code>t</code>. In numpy and scipy modes this is a :class:<code>~scipy.interpolate.CubicSpline</code> (or its derivative object).</p>
+<p>Callable with signature <code>f(t) -&gt; float</code> that returns the derivative of the forcing at time <code>t</code>. In numpy and scipy modes this is a <code>scipy.interpolate.CubicSpline</code> (or its derivative object).</p>
 </dd>
 </dl>
 </section>

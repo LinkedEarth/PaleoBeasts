@@ -640,7 +640,7 @@ window.Quarto = {
 </section>
 <section id="seasonal-forcing" class="level2">
 <h2 class="anchored" data-anchor-id="seasonal-forcing">Seasonal forcing</h2>
-<p>Seasonal (or any other) external forcing is added via <code>register_forcing</code> with the <code>create_sinusoid_forcing</code> factory helper (additive, pre-step):</p>
+<p>Seasonal (or any other) external forcing is added via <code>register_forcing</code> with the <a href="../../api/utils.forcing.create_sinusoid_forcing.html#climatecritters.utils.forcing.create_sinusoid_forcing" title="0"><code>create_sinusoid_forcing</code></a> factory helper (additive, pre-step):</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ENSORechargeOscillator(mu<span class="op">=</span><span class="fl">0.7</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>model.register_forcing(</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'T'</span>,</span>
@@ -734,7 +734,7 @@ window.Quarto = {
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    attachment_style<span class="op">=</span><span class="st">'additive'</span>,</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    timing<span class="op">=</span><span class="st">'pre'</span>,</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The <code>create_sinusoid_forcing</code> factory returns a plain callable <code>f(t)</code>, so no <code>partial</code> wrapping is needed.</p>
+<p>The <a href="../../api/utils.forcing.create_sinusoid_forcing.html#climatecritters.utils.forcing.create_sinusoid_forcing" title="0"><code>create_sinusoid_forcing</code></a> factory returns a plain callable <code>f(t)</code>, so no <code>partial</code> wrapping is needed.</p>
 
 
 </section>

@@ -319,51 +319,92 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This page walks through a complete end-to-end example in about 15 lines of code. We’ll build a Lorenz 63 system, integrate it, and export the result to Pyleoclim for a quick spectral analysis.</p>
 <section id="create-a-model" class="level2">
 <h2 class="anchored" data-anchor-id="create-a-model">1. Create a model</h2>
-<p>Every ClimateCritters model takes a <code>forcing</code> argument. For the Lorenz 63 system the forcing adds an optional perturbation to the x-equation; here we set it to zero.</p>
+<p>Any model parameter or state variable can be driven by an external <a href="../api/core.Forcing.html#climatecritters.core.Forcing" title="0"><code>Forcing</code></a>. For the Lorenz 63 system we register a (zero, for now) forcing on the x-equation via <code>register_forcing</code>.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> climatecritters <span class="im">as</span> cc</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> climatecritters.model_critters <span class="im">import</span> Lorenz63</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>forcing <span class="op">=</span> cc.Forcing(<span class="kw">lambda</span> t: <span class="fl">0.0</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Lorenz63(forcing<span class="op">=</span>forcing, sigma<span class="op">=</span><span class="fl">10.0</span>, rho<span class="op">=</span><span class="fl">28.0</span>, beta<span class="op">=</span><span class="dv">8</span><span class="op">/</span><span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Lorenz63(sigma<span class="op">=</span><span class="fl">10.0</span>, rho<span class="op">=</span><span class="fl">28.0</span>, beta<span class="op">=</span><span class="dv">8</span><span class="op">/</span><span class="dv">3</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>forcing <span class="op">=</span> cc.Forcing(<span class="kw">lambda</span> t: <span class="fl">0.0</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>model.register_forcing(<span class="st">'x'</span>, forcing, attachment_style<span class="op">=</span><span class="st">'additive'</span>, timing<span class="op">=</span><span class="st">'pre'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="integrate" class="level2">
 <h2 class="anchored" data-anchor-id="integrate">2. Integrate</h2>
-<p>Call <code>integrate()</code> with an integration window, initial conditions, and a solver method. It returns an <code>Output</code> object containing the full trajectory.</p>
+<p>Call <code>integrate()</code> with an integration window, initial conditions, and a solver method. It returns an <a href="../api/core.Output.html#climatecritters.core.Output" title="0"><code>Output</code></a> object containing the full trajectory.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> model.integrate(</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    t_span<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">50</span>),</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    y0<span class="op">=</span>[<span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>],</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    method<span class="op">=</span><span class="st">'RK45'</span>,</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A quick look at the raw trajectory:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="fl">3.5</span>))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(output.state_variables[<span class="st">'x'</span>], output.state_variables[<span class="st">'z'</span>], lw<span class="op">=</span><span class="fl">0.3</span>, alpha<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">'x'</span>)<span class="op">;</span> axes[<span class="dv">0</span>].set_ylabel(<span class="st">'z'</span>)<span class="op">;</span> axes[<span class="dv">0</span>].set_title(<span class="st">'phase portrait'</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].plot(output.time, output.state_variables[<span class="st">'x'</span>], lw<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">'time'</span>)<span class="op">;</span> axes[<span class="dv">1</span>].set_ylabel(<span class="st">'x'</span>)<span class="op">;</span> axes[<span class="dv">1</span>].set_title(<span class="st">'x(t)'</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'figures/quickstart_integrate.png'</span>, dpi<span class="op">=</span><span class="dv">150</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/quickstart_integrate.png" class="img-fluid figure-img"></p>
+<figcaption>Lorenz 63 phase portrait and x(t) time series</figcaption>
+</figure>
+</div>
 </section>
 <section id="inspect-the-output" class="level2">
 <h2 class="anchored" data-anchor-id="inspect-the-output">3. Inspect the output</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(output.state_variables.dtype.names)   <span class="co"># ('x', 'y', 'z')</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(output.time[:<span class="dv">5</span>])                       <span class="co"># first five time points</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(output.state_variables.dtype.names)   <span class="co"># ('x', 'y', 'z')</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(output.time[:<span class="dv">5</span>])                       <span class="co"># first five time points</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="export-to-pyleoclim" class="level2">
 <h2 class="anchored" data-anchor-id="export-to-pyleoclim">4. Export to Pyleoclim</h2>
 <p><code>to_pyleo()</code> converts any state variable into a Pyleoclim <code>Series</code> (or <code>MultipleSeries</code> for a list of names), enabling the full suite of Pyleoclim analysis and plotting tools.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ts_x <span class="op">=</span> output.to_pyleo(var_names<span class="op">=</span><span class="st">'x'</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ts_x.plot()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>For a dashboard with spectral analysis:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ts_x.dashboard()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ts_x <span class="op">=</span> output.to_pyleo(var_names<span class="op">=</span><span class="st">'x'</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ts_x.plot(savefig_settings<span class="op">=</span>{<span class="st">'path'</span>: <span class="st">'figures/quickstart_pyleo_plot.png'</span>, <span class="st">'dpi'</span>: <span class="dv">150</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/quickstart_pyleo_plot.png" class="img-fluid figure-img"></p>
+<figcaption>Pyleoclim Series plot of the x variable</figcaption>
+</figure>
+</div>
+<p>For a quick spectral analysis:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>psd <span class="op">=</span> ts_x.spectral()</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>psd.plot(savefig_settings<span class="op">=</span>{<span class="st">'path'</span>: <span class="st">'figures/quickstart_pyleo_spectral.png'</span>, <span class="st">'dpi'</span>: <span class="dv">150</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/quickstart_pyleo_spectral.png" class="img-fluid figure-img"></p>
+<figcaption>Power spectral density of the x variable</figcaption>
+</figure>
+</div>
 </section>
 <section id="try-a-time-varying-parameter" class="level2">
 <h2 class="anchored" data-anchor-id="try-a-time-varying-parameter">5. Try a time-varying parameter</h2>
 <p>Any parameter can be replaced with a callable at construction time. The callable must have signature <code>(t)</code>, <code>(t, state)</code>, or <code>(t, state, model)</code>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rho increases linearly from 20 to 40 over the integration window</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>model_tv <span class="op">=</span> Lorenz63(</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    forcing<span class="op">=</span>forcing,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    sigma<span class="op">=</span><span class="fl">10.0</span>,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    rho<span class="op">=</span><span class="kw">lambda</span> t: <span class="fl">20.0</span> <span class="op">+</span> (<span class="fl">20.0</span> <span class="op">/</span> <span class="fl">50.0</span>) <span class="op">*</span> t,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    beta<span class="op">=</span><span class="dv">8</span><span class="op">/</span><span class="dv">3</span>,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>output_tv <span class="op">=</span> model_tv.integrate(t_span<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">50</span>), y0<span class="op">=</span>[<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>], method<span class="op">=</span><span class="st">'RK45'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rho increases linearly from 20 to 40 over the integration window</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>model_tv <span class="op">=</span> Lorenz63(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    sigma<span class="op">=</span><span class="fl">10.0</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    rho<span class="op">=</span><span class="kw">lambda</span> t: <span class="fl">20.0</span> <span class="op">+</span> (<span class="fl">20.0</span> <span class="op">/</span> <span class="fl">50.0</span>) <span class="op">*</span> t,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    beta<span class="op">=</span><span class="dv">8</span><span class="op">/</span><span class="dv">3</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>model_tv.register_forcing(<span class="st">'x'</span>, forcing, attachment_style<span class="op">=</span><span class="st">'additive'</span>, timing<span class="op">=</span><span class="st">'pre'</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>output_tv <span class="op">=</span> model_tv.integrate(t_span<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">50</span>), y0<span class="op">=</span>[<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>], method<span class="op">=</span><span class="st">'RK45'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">3.5</span>))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ax.plot(output_tv.time, output_tv.state_variables[<span class="st">'x'</span>], lw<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'time'</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">'x'</span>)<span class="op">;</span> ax.set_title(<span class="st">'x(t) with time-varying rho'</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'figures/quickstart_time_varying.png'</span>, dpi<span class="op">=</span><span class="dv">150</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/quickstart_time_varying.png" class="img-fluid figure-img"></p>
+<figcaption>x(t) trajectory under a linearly increasing rho</figcaption>
+</figure>
+</div>
 </section>
 <section id="next-steps" class="level2">
 <h2 class="anchored" data-anchor-id="next-steps">Next steps</h2>
 <ul>
-<li><a href="../get-started/concepts.html">Core concepts</a> — understand <code>Model</code>, <a href="../api/core.Forcing.html#climatecritters.core.Forcing" title="0"><code>Forcing</code></a>, and <code>Output</code> in depth</li>
+<li><a href="../get-started/concepts.html">Core concepts</a> — understand <a href="../api/core.Model.html#climatecritters.core.Model" title="0"><code>Model</code></a>, <a href="../api/core.Forcing.html#climatecritters.core.Forcing" title="0"><code>Forcing</code></a>, and <a href="../api/core.Output.html#climatecritters.core.Output" title="0"><code>Output</code></a> in depth</li>
 <li><a href="../tutorials/index.html">Tutorials</a> — worked examples for climate and dynamical systems models</li>
 <li><a href="../api/index.html">Reference</a> — full API documentation</li>
 </ul>

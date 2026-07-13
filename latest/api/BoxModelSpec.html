@@ -697,7 +697,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Declarative specification for simple ODE box models.</p>
 <p>A <code>BoxModelSpec</code> stores state names, parameter defaults, optional inputs, diagnostics, and either:</p>
 <ul>
-<li>explicit callable tendencies registered via :meth:<code>register_tendency</code> / :meth:<code>register_relations</code>, or</li>
+<li>explicit callable tendencies registered via <code>BoxModelSpec.register_tendency</code> / <code>BoxModelSpec.register_relations</code>, or</li>
 <li>an automatic box network assembled from volumes, reciprocal exchange, and directed transport terms</li>
 </ul>
 <section id="parameters" class="level2 doc-section doc-section-parameters">
@@ -711,11 +711,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="notes" class="level2 doc-section doc-section-notes">
 <h2 class="doc-section doc-section-notes anchored" data-anchor-id="notes">Notes</h2>
-<p>Call :meth:<code>validate</code> (or :meth:<code>make_boxmodel</code>) before integrating. Validation checks that every state variable has a tendency relation (explicit mode) or a registered volume (automatic mode).</p>
+<p>Call <code>BoxModelSpec.validate</code> (or <code>make_boxmodel</code>) before integrating. Validation checks that every state variable has a tendency relation (explicit mode) or a registered volume (automatic mode).</p>
 </section>
 <section id="see-also" class="level2 doc-section doc-section-see-also">
 <h2 class="doc-section doc-section-see-also anchored" data-anchor-id="see-also">See also</h2>
-<p>GenericBoxModel : The <code>CCModel</code> subclass produced by <code>make_boxmodel</code>. BoxModelContext : Evaluation context passed to callable tendencies.</p>
+<p>GenericBoxModel : The <a href="../api/core.Model.html#climatecritters.core.Model" title="0"><code>Model</code></a> subclass produced by <code>make_boxmodel</code>. BoxModelContext : Evaluation context passed to callable tendencies.</p>
 </section>
 <section id="examples" class="level2 doc-section doc-section-examples">
 <h2 class="doc-section doc-section-examples anchored" data-anchor-id="examples">Examples</h2>
@@ -750,7 +750,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td><a href="#climatecritters.BoxModelSpec.make_model">make_model</a></td>
-<td>Instantiate a :class:<code>GenericBoxModel</code> from this spec.</td>
+<td>Instantiate a <code>GenericBoxModel</code> from this spec.</td>
 </tr>
 <tr class="even">
 <td><a href="#climatecritters.BoxModelSpec.register_box_volumes">register_box_volumes</a></td>
@@ -809,7 +809,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="climatecritters.BoxModelSpec.make_model" class="level3">
 <h3 class="anchored" data-anchor-id="climatecritters.BoxModelSpec.make_model">make_model</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>BoxModelSpec.make_model(var_name<span class="op">=</span><span class="va">None</span>, <span class="op">**</span>parameter_overrides)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Instantiate a :class:<code>GenericBoxModel</code> from this spec.</p>
+<p>Instantiate a <code>GenericBoxModel</code> from this spec.</p>
 </section>
 <section id="climatecritters.BoxModelSpec.register_box_volumes" class="level3">
 <h3 class="anchored" data-anchor-id="climatecritters.BoxModelSpec.register_box_volumes">register_box_volumes</h3>
@@ -871,7 +871,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="climatecritters.BoxModelSpec.register_parameters">register_parameters</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>BoxModelSpec.register_parameters(<span class="op">**</span>parameters)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Register default parameter values.</p>
-<p>Values may be constants, callables, or <a href="../api/core.Forcing.html#climatecritters.core.Forcing" title="0"><code>Forcing</code></a>-like objects compatible with <code>CCModel.get_param</code>.</p>
+<p>Values may be constants, callables, or <a href="../api/core.Forcing.html#climatecritters.core.Forcing" title="0"><code>Forcing</code></a>-like objects compatible with <code>Model.get_param</code>.</p>
 </section>
 <section id="climatecritters.BoxModelSpec.register_relations" class="level3">
 <h3 class="anchored" data-anchor-id="climatecritters.BoxModelSpec.register_relations">register_relations</h3>
@@ -893,7 +893,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="climatecritters.BoxModelSpec.register_tendency">register_tendency</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>BoxModelSpec.register_tendency(state_variable, relation)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Register a callable tendency for one state variable.</p>
-<p><code>relation</code> must accept a :class:<code>BoxModelContext</code> and return the tendency for <code>state_variable</code>.</p>
+<p><code>relation</code> must accept a <code>BoxModelContext</code> and return the tendency for <code>state_variable</code>.</p>
 </section>
 <section id="climatecritters.BoxModelSpec.register_transport" class="level3">
 <h3 class="anchored" data-anchor-id="climatecritters.BoxModelSpec.register_transport">register_transport</h3>

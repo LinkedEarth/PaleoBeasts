@@ -325,10 +325,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This page explains the three building blocks that every ClimateCritters workflow uses: <code>Model</code>, <a href="../api/core.Forcing.html#climatecritters.core.Forcing" title="0"><code>Forcing</code></a>, and <code>Output</code>.</p>
+<p>This page explains the three building blocks that every ClimateCritters workflow uses: <a href="../api/core.Model.html#climatecritters.core.Model" title="0"><code>Model</code></a>, <a href="../api/core.Forcing.html#climatecritters.core.Forcing" title="0"><code>Forcing</code></a>, and <a href="../api/core.Output.html#climatecritters.core.Output" title="0"><code>Output</code></a>.</p>
 <section id="cc.model" class="level2">
 <h2 class="anchored" data-anchor-id="cc.model">cc.Model</h2>
-<p><code>Model</code> is the abstract base class for all signal models. You never instantiate it directly — instead you use one of the concrete subclasses (e.g.&nbsp;<code>Lorenz63</code>, <code>EBM</code>, <code>Stommel</code>).</p>
+<p><a href="../api/core.Model.html#climatecritters.core.Model" title="0"><code>Model</code></a> is the abstract base class for all signal models. You never instantiate it directly — instead you use one of the concrete subclasses (e.g.&nbsp;<code>Lorenz63</code>, <code>EBM</code>, <code>Stommel</code>).</p>
 <p>Every subclass shares the same integration interface:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> model.integrate(</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    t_span<span class="op">=</span>(t0, tf),   <span class="co"># integration window</span></span>
@@ -413,7 +413,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="cc.output" class="level2">
 <h2 class="anchored" data-anchor-id="cc.output">cc.Output</h2>
-<p><code>integrate()</code> always returns a <code>Output</code> object. It holds:</p>
+<p><code>integrate()</code> always returns a <a href="../api/core.Output.html#climatecritters.core.Output" title="0"><code>Output</code></a> object. It holds:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">

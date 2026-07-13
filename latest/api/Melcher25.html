@@ -757,7 +757,7 @@ dB/dt    = (db + alpha*B - gamma) / tau             +  sigma * dW</code></pre>
 </section>
 <section id="see-also" class="level2 doc-section doc-section-see-also">
 <h2 class="doc-section doc-section-see-also anchored" data-anchor-id="see-also">See also</h2>
-<p>cc.core.CCModel : Base class. classify_bistable_states : Reclassify a Δb signal post-hoc without re-running the SDE.</p>
+<p>cc.core.Model : Base class. classify_bistable_states : Reclassify a Δb signal post-hoc without re-running the SDE.</p>
 </section>
 <section id="examples" class="level2 doc-section doc-section-examples">
 <h2 class="doc-section doc-section-examples anchored" data-anchor-id="examples">Examples</h2>
@@ -923,7 +923,7 @@ dB/dt    = (db + alpha*B - gamma) / tau             +  sigma * dW</code></pre>
 <h3 class="anchored" data-anchor-id="climatecritters.Melcher25.populate_diagnostics_from_history">populate_diagnostics_from_history</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Melcher25.populate_diagnostics_from_history(time, history)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Classify states and compute thresholds from the full solved trajectory.</p>
-<p>Called automatically by <code>CCModel.post_integrate</code> after every <code>integrate()</code> call. Populates <code>diagnostic_variables['states']</code> with the hysteresis classification and sets <code>self.stadial_threshold</code> / <code>self.interstadial_threshold</code>.</p>
+<p>Called automatically by <a href="../api/core.Model.html#climatecritters.core.Model.post_integrate" title="0"><code>Model.post_integrate</code></a> after every <code>integrate()</code> call. Populates <code>diagnostic_variables['states']</code> with the hysteresis classification and sets <code>self.stadial_threshold</code> / <code>self.interstadial_threshold</code>.</p>
 <section id="parameters-3" class="level4 doc-section doc-section-parameters">
 <h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-3">Parameters</h4>
 <dl>

@@ -689,7 +689,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>dT/dt = R*T + gamma*h - en*(h + b*T)^3
 dh/dt = -r*h - alpha*b*T</code></pre>
 <p>where <code>b = b0*mu</code> and <code>R = gamma*b - c</code>.</p>
-<p>Seasonal or any other external forcing is added through the standard :meth:<code>~climatecritters.core.CCModel.register_forcing</code> interface::</p>
+<p>Seasonal or any other external forcing is added through the standard <a href="../api/core.Model.html#climatecritters.core.Model.register_forcing" title="0"><code>Model.register_forcing</code></a> interface::</p>
 <pre><code>from climatecritters.utils.forcing import create_sinusoid_forcing
 
 model = ENSORechargeOscillator()

@@ -716,7 +716,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    diagnostic_variables<span class="op">=</span><span class="va">None</span>,</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The overarching model structure for ClimateCritters.</p>
-<p>CCModel serves as the archetype/parent class for models within the <code>model_critters</code> directory. It is not meant to be instantiated directly.</p>
+<p>Model serves as the archetype/parent class for models within the <code>model_critters</code> directory. It is not meant to be instantiated directly.</p>
 <section id="parameter-handling" class="level2 doc-section doc-section-parameter-handling">
 <h2 class="doc-section doc-section-parameter-handling anchored" data-anchor-id="parameter-handling">Parameter handling</h2>
 <p>Models may define a <code>param_values</code> dict that maps parameter names to constants, callables, or <a href="../api/core.Forcing.html#climatecritters.core.Forcing" title="0"><code>Forcing</code></a> objects. Use <code>get_param_value(name, t, state)</code> inside <code>dydt</code> to resolve any of these uniformly.</p>
@@ -767,7 +767,7 @@ model.register_forcing('x', forcing_obj, 'additive', timing='pre')  # state</cod
 </tr>
 <tr class="odd">
 <td><a href="#climatecritters.core.Model.integrate">integrate</a></td>
-<td>Integrate the model over a time span and return a :class:<code>CCOutput</code>.</td>
+<td>Integrate the model over a time span and return an <a href="../api/core.Output.html#climatecritters.core.Output" title="0"><code>Output</code></a>.</td>
 </tr>
 <tr class="even">
 <td><a href="#climatecritters.core.Model.list">list</a></td>
@@ -875,7 +875,7 @@ model.register_forcing('x', forcing_obj, 'additive', timing='pre')  # state</cod
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    run_name<span class="op">=</span><span class="va">None</span>,</span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    kwargs<span class="op">=</span><span class="va">None</span>,</span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Integrate the model over a time span and return a :class:<code>CCOutput</code>.</p>
+<p>Integrate the model over a time span and return an <a href="../api/core.Output.html#climatecritters.core.Output" title="0"><code>Output</code></a>.</p>
 <section id="parameters-3" class="level4 doc-section doc-section-parameters">
 <h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-3">Parameters</h4>
 <dl>
@@ -897,7 +897,7 @@ model.register_forcing('x', forcing_obj, 'additive', timing='pre')  # state</cod
 </dd>
 <dt><code><span class="parameter-name"><strong>output_time</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/array.html#module-array">array</a> - <code>like</code></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
 <dd>
-<p>If provided, the returned <code>CCOutput</code> is immediately reframed onto this time axis (e.g.&nbsp;to exclude a spin-up period). <code>output.model_time</code> always retains the raw solver grid.</p>
+<p>If provided, the returned <a href="../api/core.Output.html#climatecritters.core.Output" title="0"><code>Output</code></a> is immediately reframed onto this time axis (e.g.&nbsp;to exclude a spin-up period). <code>output.model_time</code> always retains the raw solver grid.</p>
 </dd>
 <dt><code><span class="parameter-name"><strong>run_name</strong></span> <span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
 <dd>

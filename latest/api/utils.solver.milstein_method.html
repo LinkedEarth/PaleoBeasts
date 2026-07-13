@@ -682,7 +682,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    post_step<span class="op">=</span><span class="va">None</span>,</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Fixed-step Milstein integrator for stochastic differential equations.</p>
-<p>Achieves strong order 1.0 for both additive <em>and</em> multiplicative noise (diagonal diffusion), making it the right choice when <code>sde_noise</code> depends on the state. For additive noise it reduces to Euler-Maruyama plus a zero correction; prefer :func:<code>heun_maruyama_method</code> in that case as it also improves the drift approximation.</p>
+<p>Achieves strong order 1.0 for both additive <em>and</em> multiplicative noise (diagonal diffusion), making it the right choice when <code>sde_noise</code> depends on the state. For additive noise it reduces to Euler-Maruyama plus a zero correction; prefer <a href="../api/utils.solver.heun_maruyama_method.html#climatecritters.utils.solver.heun_maruyama_method" title="0"><code>heun_maruyama_method</code></a> in that case as it also improves the drift approximation.</p>
 <p>Solves:</p>
 <pre><code>dy = f(t, y) dt + g(t, y) dW</code></pre>
 <p>using the Milstein correction::</p>

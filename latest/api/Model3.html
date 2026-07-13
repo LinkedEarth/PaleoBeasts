@@ -751,7 +751,7 @@ dv/dt = -vc / t2             when k=2  (deglaciation)</code></pre>
 <p>State variables are <code>v</code> (ice volume, normalised) and <code>k</code> (regime index, non-integrated). The diagnostic variable <code>insolation</code> records <code>f(t)</code> at each output step.</p>
 <p>The <code>insolation</code> parameter (default 0.0) provides the orbital forcing value used by the model. Register a time-varying orbital signal via::</p>
 <pre><code>model.register_forcing('insolation', cc.Forcing(calc_f))</code></pre>
-<p>The internal derivative of forcing <code>dfdt</code> is computed via :func:<code>calc_df</code> by default; supply a custom callable or <code>cc.Forcing</code> to override.</p>
+<p>The internal derivative of forcing <code>dfdt</code> is computed via <code>calc_df</code> by default; supply a custom callable or <code>cc.Forcing</code> to override.</p>
 <p>Parameter defaults are taken from Ganopolski (2024). Time-varying parameters follow the standard callable contract <code>(t)</code>, <code>(t, state)</code>, or <code>(t, state, model)</code>.</p>
 </section>
 <section id="references" class="level2 doc-section doc-section-references">

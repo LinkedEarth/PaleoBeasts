@@ -782,7 +782,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="notes" class="level2 doc-section doc-section-notes">
 <h2 class="doc-section doc-section-notes anchored" data-anchor-id="notes">Notes</h2>
 <p>State variables are <code>T_0</code> through <code>T_{grid_n-1}</code> (one temperature per latitude band, ordered from south pole to north pole). Diagnostic variables <code>ice_line_lat</code> and <code>Tglobal</code> are derived after integration.</p>
-<p><code>validate_initial_state</code> accepts a scalar and broadcasts it uniformly to the full grid.</p>
+<p><a href="../api/utils.solver.validate_initial_state.html#climatecritters.utils.solver.validate_initial_state" title="0"><code>validate_initial_state</code></a> accepts a scalar and broadcasts it uniformly to the full grid.</p>
 <p>All parameters (<code>C</code>, <code>D</code>, <code>A</code>, <code>B</code>, <code>S0</code>, <code>CO2_forcing</code>) are registered in <code>param_values</code> and can be swapped for callables or Forcing objects. Callables must follow the contract <code>(t)</code>, <code>(t, state)</code>, or <code>(t, state, model)</code>.</p>
 </section>
 <section id="see-also" class="level2 doc-section doc-section-see-also">
@@ -925,7 +925,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="climatecritters.EBM1DLat.calc_OLR">calc_OLR</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>EBM1DLat.calc_OLR(T, t)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Compute the Budyko linear OLR: <code>(A - CO2_forcing) + B * T</code>.</p>
-<p>Overrides :meth:<code>EBMBase.calc_OLR</code>. Parameters <code>A</code>, <code>B</code>, and <code>CO2_forcing</code> are resolved through <code>get_param_value</code>, so they can be time-varying or Forcing objects.</p>
+<p>Overrides <code>EBMBase.calc_OLR</code>. Parameters <code>A</code>, <code>B</code>, and <code>CO2_forcing</code> are resolved through <code>get_param_value</code>, so they can be time-varying or Forcing objects.</p>
 <section id="parameters-2" class="level4 doc-section doc-section-parameters">
 <h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-2">Parameters</h4>
 <dl>
@@ -953,7 +953,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="climatecritters.EBM1DLat.calc_albedo">calc_albedo</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>EBM1DLat.calc_albedo(T, t)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Compute the latitudinal ice-albedo with a linear transition zone.</p>
-<p>Overrides :meth:<code>EBMBase.calc_albedo</code>. Each grid point is assigned an albedo based on local temperature: 0.6 below -10 °C, 0.3 above 0 °C, and a linear blend in between.</p>
+<p>Overrides <code>EBMBase.calc_albedo</code>. Each grid point is assigned an albedo based on local temperature: 0.6 below -10 °C, 0.3 above 0 °C, and a linear blend in between.</p>
 <section id="parameters-3" class="level4 doc-section doc-section-parameters">
 <h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-3">Parameters</h4>
 <dl>
@@ -1062,7 +1062,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>EBM1DLat.dydt(t, state)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Evaluate the right-hand side of the PDE at time t and state.</p>
 <p>Computes the net energy flux at each latitude grid point from insolation, ice-albedo feedback, Budyko OLR, and meridional diffusion.</p>
-<p>This method has <strong>no side effects</strong>: because <code>uses_post_history = True</code>, all output is derived from the full solved trajectory in :meth:<code>populate_diagnostics_from_history</code> rather than accumulated here.</p>
+<p>This method has <strong>no side effects</strong>: because <code>uses_post_history = True</code>, all output is derived from the full solved trajectory in <code>EBM1DLat.populate_diagnostics_from_history</code> rather than accumulated here.</p>
 <section id="parameters-7" class="level4 doc-section doc-section-parameters">
 <h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-7">Parameters</h4>
 <dl>
@@ -1090,7 +1090,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="climatecritters.EBM1DLat.populate_diagnostics_from_history">populate_diagnostics_from_history</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>EBM1DLat.populate_diagnostics_from_history(time, history)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Compute diagnostic variables from the full solved trajectory.</p>
-<p>Called automatically by :meth:<code>CCModel.post_integrate</code> after the solver completes. Populates <code>self.diagnostic_variables</code> with the global-mean temperature and ice-line latitude at every timestep.</p>
+<p>Called automatically by <a href="../api/core.Model.html#climatecritters.core.Model.post_integrate" title="0"><code>Model.post_integrate</code></a> after the solver completes. Populates <code>self.diagnostic_variables</code> with the global-mean temperature and ice-line latitude at every timestep.</p>
 <section id="parameters-8" class="level4 doc-section doc-section-parameters">
 <h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-8">Parameters</h4>
 <dl>
@@ -1109,7 +1109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="climatecritters.EBM1DLat.validate_initial_state">validate_initial_state</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>EBM1DLat.validate_initial_state(y0)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Validate and normalize the initial temperature profile.</p>
-<p>Overrides :meth:<code>CCModel.validate_initial_state</code> to accept a scalar initial condition and broadcast it uniformly across the latitude grid.</p>
+<p>Overrides <a href="../api/core.Model.html#climatecritters.core.Model.validate_initial_state" title="0"><code>Model.validate_initial_state</code></a> to accept a scalar initial condition and broadcast it uniformly across the latitude grid.</p>
 <section id="parameters-9" class="level4 doc-section doc-section-parameters">
 <h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-9">Parameters</h4>
 <dl>
