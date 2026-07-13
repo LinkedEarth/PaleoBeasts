@@ -7,14 +7,15 @@ This page walks through a complete end-to-end example in about 15 lines of code.
 
 ## 1. Create a model
 
-Every ClimateCritters model takes a `forcing` argument. For the Lorenz 63 system the forcing adds an optional perturbation to the x-equation; here we set it to zero.
+Any model parameter or state variable can be driven by an external `Forcing`. For the Lorenz 63 system we register a (zero, for now) forcing on the x-equation via `register_forcing`.
 
 ```python
 import climatecritters as cc
 from climatecritters.model_critters import Lorenz63
 
+model = Lorenz63(sigma=10.0, rho=28.0, beta=8/3)
 forcing = cc.Forcing(lambda t: 0.0)
-model = Lorenz63(forcing=forcing, sigma=10.0, rho=28.0, beta=8/3)
+model.register_forcing('x', forcing, attachment_style='additive', timing='pre')
 ```
 
 ## 2. Integrate
@@ -29,6 +30,22 @@ output = model.integrate(
 )
 ```
 
+A quick look at the raw trajectory:
+
+```python
+import matplotlib.pyplot as plt
+
+fig, axes = plt.subplots(1, 2, figsize=(9, 3.5))
+axes[0].plot(output.state_variables['x'], output.state_variables['z'], lw=0.3, alpha=0.8)
+axes[0].set_xlabel('x'); axes[0].set_ylabel('z'); axes[0].set_title('phase portrait')
+axes[1].plot(output.time, output.state_variables['x'], lw=0.8)
+axes[1].set_xlabel('time'); axes[1].set_ylabel('x'); axes[1].set_title('x(t)')
+fig.tight_layout()
+plt.savefig('figures/quickstart_integrate.png', dpi=150, bbox_inches='tight')
+```
+
+![Lorenz 63 phase portrait and x(t) time series](figures/quickstart_integrate.png)
+
 ## 3. Inspect the output
 
 ```python
@@ -42,14 +59,19 @@ print(output.time[:5])                       # first five time points
 
 ```python
 ts_x = output.to_pyleo(var_names='x')
-ts_x.plot()
+ts_x.plot(savefig_settings={'path': 'figures/quickstart_pyleo_plot.png', 'dpi': 150})
 ```
 
-For a dashboard with spectral analysis:
+![Pyleoclim Series plot of the x variable](figures/quickstart_pyleo_plot.png)
+
+For a quick spectral analysis:
 
 ```python
-ts_x.dashboard()
+psd = ts_x.spectral()
+psd.plot(savefig_settings={'path': 'figures/quickstart_pyleo_spectral.png', 'dpi': 150})
 ```
+
+![Power spectral density of the x variable](figures/quickstart_pyleo_spectral.png)
 
 ## 5. Try a time-varying parameter
 
@@ -58,13 +80,23 @@ Any parameter can be replaced with a callable at construction time. The callable
 ```python
 # rho increases linearly from 20 to 40 over the integration window
 model_tv = Lorenz63(
-    forcing=forcing,
     sigma=10.0,
     rho=lambda t: 20.0 + (20.0 / 50.0) * t,
     beta=8/3,
 )
+model_tv.register_forcing('x', forcing, attachment_style='additive', timing='pre')
 output_tv = model_tv.integrate(t_span=(0, 50), y0=[1, 1, 1], method='RK45')
 ```
+
+```python
+fig, ax = plt.subplots(figsize=(6, 3.5))
+ax.plot(output_tv.time, output_tv.state_variables['x'], lw=0.8)
+ax.set_xlabel('time'); ax.set_ylabel('x'); ax.set_title('x(t) with time-varying rho')
+fig.tight_layout()
+plt.savefig('figures/quickstart_time_varying.png', dpi=150, bbox_inches='tight')
+```
+
+![x(t) trajectory under a linearly increasing rho](figures/quickstart_time_varying.png)
 
 ## Next steps
 

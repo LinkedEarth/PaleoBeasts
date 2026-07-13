@@ -17,6 +17,7 @@ To rebuild the pages:
 cd docs
 python scripts/sync_notebooks.py
 python scripts/generate_tutorials_index.py
+python scripts/run_quickstart.py
 quartodoc build
 quarto render
 ```
