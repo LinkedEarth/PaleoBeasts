@@ -1,0 +1,47 @@
+# This CITATION.cff file was generated to make ClimateCritters citable.
+# Visit https://citation-file-format.github.io/ for more info.
+# Keep `version` and `date-released` in sync with pyproject.toml and each
+# GitHub release when cutting a new one.
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+title: "ClimateCritters"
+abstract: >-
+  A menagerie of minimal paleoclimate models and the scars that taphonomy
+  carves on their hides. ClimateCritters gathers simple, well-understood
+  climate "model organisms" (e.g. Lorenz63, Ganopolski2024, DO25) behind a
+  unified, object-oriented Python interface, making it easy to explore model
+  sensitivity, taphonomic effects (noise, bioturbation, age errors), and
+  timeseries analysis methods on systems with known, nonlinear behavior.
+type: software
+version: 0.1.0
+date-released: "2026-08-19"
+license: MIT
+repository-code: "https://github.com/LinkedEarth/ClimateCritters"
+url: "https://github.com/LinkedEarth/ClimateCritters"
+keywords:
+  - paleoclimate
+  - climate models
+  - chaos theory
+  - taphonomy
+  - timeseries analysis
+  - Python
+authors:
+  - family-names: Landers
+    given-names: Jordan
+    orcid: "https://orcid.org/0000-0001-9772-7617"
+    affiliation: "University of Southern California"
+  - family-names: Emile-Geay
+    given-names: Julien
+    orcid: "https://orcid.org/0000-0001-5920-4751"
+    affiliation: "University of Southern California"
+  - family-names: James
+    given-names: Alexander
+    orcid: "https://orcid.org/0000-0001-8561-3188"
+    affiliation: "University of Southern California"
+  - family-names: Niati
+    given-names: Maryam
+    affiliation: "University of Southern California"
+  - family-names: Khider
+    given-names: Deborah
+    orcid: "https://orcid.org/0000-0001-7501-8430"
+    affiliation: "University of Southern California"
