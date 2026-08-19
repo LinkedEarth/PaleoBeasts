@@ -1,5 +1,5 @@
 # ClimateCritters
-[[DOI](https://doi.org/10.5281/zenodo.22018981)]
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22018981.svg)](https://doi.org/10.5281/zenodo.22018981)
 
 A menagerie of minimal paleoclimate models and the scars that taphonomy carves on their hides.
 
@@ -34,8 +34,3 @@ If you use `ClimateCritters` in your work, please cite it. Citation metadata
 lives in [`CITATION.cff`](CITATION.cff) — GitHub's "Cite this repository"
 button in the sidebar reads it automatically, and it will also be used to
 mint a Zenodo DOI on release.
-
-<!-- Once the repo is connected to Zenodo and a first release is cut, replace
-this line with the DOI badge, e.g.:
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
--->
