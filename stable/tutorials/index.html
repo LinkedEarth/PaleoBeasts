@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,10 +12,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -34,17 +37,16 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../notebooks/base_classes/ccmodel_basics.html" rel="next">
-<link href="../thumbnails/ClimateCritters_logo.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-bba5ebae505b5c03f3f0d8040a416a6b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e3adbaa939bcd423dddc8c8a834270b4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -85,8 +87,9 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ClimateCritters</span>
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../thumbnails/logo_beta_horiz_cropped.png" alt="ClimateCritters" class="navbar-logo light-content">
+    <img src="../thumbnails/logo_beta_horiz_cropped.png" alt="ClimateCritters" class="navbar-logo dark-content">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -95,6 +98,10 @@ ul.task-list li input[type="checkbox"] {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../get-started/overview.html"> 
+<span class="menu-text">Overview</span></a>
+  </li>  
   <li class="nav-item">
     <a class="nav-link" href="../get-started/installation.html"> 
 <span class="menu-text">Get Started</span></a>
@@ -155,7 +162,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../notebooks/base_classes/ccmodel_basics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">CCModel Basics</span></a>
+ <span class="menu-text">Model Basics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -201,7 +208,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
- <span class="menu-text">Oscillators</span></a>
+ <span class="menu-text">Pendulums and Springs</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -233,19 +240,25 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../notebooks/model_demos/enso_recharge.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">ENSO</span></a>
+ <span class="menu-text">ENSO recharge oscillator (Jin, 1996)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../notebooks/model_demos/g24.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Ganopolski 2024, Model 3</span></a>
+ <span class="menu-text">Pleistocene Ice Volume (Ganopolski, 2024)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../notebooks/model_demos/stommel.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Stommel</span></a>
+ <span class="menu-text">Thermohaline Circulation (Stommel, 1961)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/model_demos/melcher25.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Thermohaline Circulation (Melcher et al 2025)</span></a>
   </div>
 </li>
       </ul>
@@ -253,7 +266,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
- <span class="menu-text">Attractors</span></a>
+ <span class="menu-text">Lorenz &amp; Rössler</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -358,9 +371,9 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#model-demos" id="toc-model-demos" class="nav-link" data-scroll-target="#model-demos">Model demos</a>
   <ul>
   <li><a href="#energy-balance-models" id="toc-energy-balance-models" class="nav-link" data-scroll-target="#energy-balance-models">Energy Balance Models</a></li>
-  <li><a href="#oscillators" id="toc-oscillators" class="nav-link" data-scroll-target="#oscillators">Oscillators</a></li>
+  <li><a href="#pendulums-and-springs" id="toc-pendulums-and-springs" class="nav-link" data-scroll-target="#pendulums-and-springs">Pendulums and Springs</a></li>
   <li><a href="#climate" id="toc-climate" class="nav-link" data-scroll-target="#climate">Climate</a></li>
-  <li><a href="#attractors" id="toc-attractors" class="nav-link" data-scroll-target="#attractors">Attractors</a></li>
+  <li><a href="#lorenz-rössler" id="toc-lorenz-rössler" class="nav-link" data-scroll-target="#lorenz-rössler">Lorenz &amp; Rössler</a></li>
   <li><a href="#box-models" id="toc-box-models" class="nav-link" data-scroll-target="#box-models">Box Models</a></li>
   </ul></li>
   <li><a href="#functionality-demos" id="toc-functionality-demos" class="nav-link" data-scroll-target="#functionality-demos">Functionality demos</a>
@@ -405,7 +418,7 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="../notebooks/base_classes/ccmodel_basics.html">CCModel Basics</a></td>
+<td><a href="../notebooks/base_classes/ccmodel_basics.html">Model Basics</a></td>
 <td>Base class interface: construction, <code>param_values</code>, integration, <code>CCOutput</code>, callable parameters, <code>register_forcing</code>, <code>set_function</code>, copying, <code>to_pyleo</code></td>
 </tr>
 <tr class="even">
@@ -438,8 +451,8 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 </section>
-<section id="oscillators" class="level3">
-<h3 class="anchored" data-anchor-id="oscillators">Oscillators</h3>
+<section id="pendulums-and-springs" class="level3">
+<h3 class="anchored" data-anchor-id="pendulums-and-springs">Pendulums and Springs</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -470,22 +483,26 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="../notebooks/model_demos/enso_recharge.html">ENSO</a></td>
+<td><a href="../notebooks/model_demos/enso_recharge.html">ENSO recharge oscillator (Jin, 1996)</a></td>
 <td>Recharge-discharge paradigm, Bjerknes coupling regimes (damped, self-sustained, nonlinear), thermocline depth anomaly, SST anomaly, seasonal forcing entrainment</td>
 </tr>
 <tr class="even">
-<td><a href="../notebooks/model_demos/g24.html">Ganopolski 2024, Model 3</a></td>
+<td><a href="../notebooks/model_demos/g24.html">Pleistocene Ice Volume (Ganopolski, 2024)</a></td>
 <td>Orbital forcing (precession + eccentricity modulation), discrete regime switching, ~100 kyr glacial cycles, Mid-Pleistocene Transition via <code>vc(t)</code> ramp, threshold-based initiation and termination</td>
 </tr>
 <tr class="odd">
-<td><a href="../notebooks/model_demos/stommel.html">Stommel</a></td>
+<td><a href="../notebooks/model_demos/stommel.html">Thermohaline Circulation (Stommel, 1961)</a></td>
 <td>Temperature-salinity density contrast, overturning strength diagnostic, freshwater forcing (two attachment styles), thermally-driven vs salinity-driven bifurcation, time-varying parameters</td>
+</tr>
+<tr class="even">
+<td><a href="../notebooks/model_demos/melcher25.html">Thermohaline Circulation (Melcher et al 2025)</a></td>
+<td>Synthetic bistable climate series, Dansgaard-Oeschger events, stadial/interstadial state detection, tipping points, stochastic SDE, AMOC, glacial climate</td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="attractors" class="level3">
-<h3 class="anchored" data-anchor-id="attractors">Attractors</h3>
+<section id="lorenz-rössler" class="level3">
+<h3 class="anchored" data-anchor-id="lorenz-rössler">Lorenz &amp; Rössler</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -540,11 +557,11 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="../notebooks/functionality_demos/noise_demo.html">Noise</a></td>
+<td><a href="../notebooks/functionality_demos/noise_demo.html">Noise Generation</a></td>
 <td><code>noise.from_series</code> (AR(1) emulation from target), <code>noise.from_param</code> (power-law, fractional Gaussian, white noise), ensemble generation</td>
 </tr>
 <tr class="even">
-<td><a href="../notebooks/functionality_demos/model_noise_starter.html">Model noise</a></td>
+<td><a href="../notebooks/functionality_demos/model_noise_starter.html">Noise in Models — Three Injection Modes</a></td>
 <td>Noisy forcing (input feedback), SDE integration with <code>euler_maruyama</code>/<code>heun_maruyama</code>/<code>milstein</code> (state feedback), post-integration observation noise; comparison on <code>EBM0D</code></td>
 </tr>
 </tbody>
@@ -577,71 +594,7 @@ ul.task-list li input[type="checkbox"] {
   #version-picker-menu { min-width: 0; width: auto; }
   #version-picker-menu .dropdown-item { padding: 0.25rem 0.75rem; }
 </style>
-<script>
-document.addEventListener('DOMContentLoaded', async () => {
-  const base = window.location.origin;
-  const pathParts = window.location.pathname.split('/').filter(Boolean);
-
-  const isVersion = p => ['stable', 'latest'].includes(p) || /^v\d/.test(p);
-  const versionIdx = pathParts.findIndex(isVersion);
-  const current = versionIdx >= 0 ? pathParts[versionIdx] : null;
-  const basePath = versionIdx > 0 ? '/' + pathParts.slice(0, versionIdx).join('/') : '';
-  const subPath = versionIdx >= 0 ? pathParts.slice(versionIdx + 1).join('/') : '';
-
-  const label = current || 'version';
-
-  const li = document.createElement('li');
-  li.className = 'nav-item dropdown';
-
-  const toggle = document.createElement('a');
-  toggle.className = 'nav-link dropdown-toggle';
-  toggle.href = '#';
-  toggle.setAttribute('role', 'button');
-  toggle.setAttribute('data-bs-toggle', 'dropdown');
-  toggle.setAttribute('aria-expanded', 'false');
-  toggle.textContent = label;
-
-  const menu = document.createElement('ul');
-  menu.className = 'dropdown-menu dropdown-menu-end';
-  menu.id = 'version-picker-menu';
-
-  const knownPrefixes = ['stable', 'latest'];
-
-  const addOption = (v) => {
-    const item = document.createElement('li');
-    const a = document.createElement('a');
-    a.className = 'dropdown-item' + (v === current ? ' active' : '');
-    a.href = '#';
-    a.textContent = v;
-    a.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.location.href = `${base}${basePath}/${v}/${subPath}`;
-    });
-    item.appendChild(a);
-    menu.appendChild(item);
-  };
-
-  for (const v of ['stable', 'latest']) addOption(v);
-  if (current && !knownPrefixes.includes(current)) addOption(current);
-
-  li.appendChild(toggle);
-  li.appendChild(menu);
-
-  const navbar = document.querySelector('.navbar-nav.ms-auto')
-               || document.querySelector('.navbar-nav')
-               || document.querySelector('nav');
-  if (navbar) navbar.appendChild(li);
-
-  try {
-    const res = await fetch(`${base}${basePath}/versions.json`);
-    if (!res.ok) return;
-    const versions = await res.json();
-    for (const v of versions) {
-      if (!menu.querySelector(`a[data-version="${v}"]`)) addOption(v);
-    }
-  } catch (_) {}
-});
-</script>
+<script src="https://linked.earth/ClimateCritters/version-picker.js"></script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -1046,8 +999,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../notebooks/base_classes/ccmodel_basics.html" class="pagination-link" aria-label="CCModel Basics">
-        <span class="nav-page-text">CCModel Basics</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../notebooks/base_classes/ccmodel_basics.html" class="pagination-link" aria-label="Model Basics">
+        <span class="nav-page-text">Model Basics</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

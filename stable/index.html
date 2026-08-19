@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,10 +12,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -68,17 +71,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./thumbnails/ClimateCritters_logo.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-bba5ebae505b5c03f3f0d8040a416a6b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-e3adbaa939bcd423dddc8c8a834270b4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -119,8 +121,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">ClimateCritters</span>
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./thumbnails/logo_beta_horiz_cropped.png" alt="ClimateCritters" class="navbar-logo light-content">
+    <img src="./thumbnails/logo_beta_horiz_cropped.png" alt="ClimateCritters" class="navbar-logo dark-content">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -129,6 +132,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./get-started/overview.html"> 
+<span class="menu-text">Overview</span></a>
+  </li>  
   <li class="nav-item">
     <a class="nav-link" href="./get-started/installation.html"> 
 <span class="menu-text">Get Started</span></a>
@@ -177,7 +184,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">ClimateCritters</h1>
-<p class="subtitle lead">Synthetic paleoclimate signal models</p>
+<p class="subtitle lead">A Ménagerie of Minimal Climate Models</p>
 </div>
 
 
@@ -194,13 +201,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>ClimateCritters is a Python package for generating synthetic paleoclimate time series from dynamical systems models. It provides a unified interface for integrating climate models, chaotic systems, and custom box models, with built-in support for time-varying parameters, stochastic forcing, and export to <a href="https://pyleoclim-util.readthedocs.io/">Pyleoclim</a> for analysis.</p>
+<p><code>ClimateCritters</code> is a Python package for experimenting with minimal climate models and well-known dynamical systems. It provides a unified interface for integrating climate models, chaotic systems, and custom box models, with built-in support for time-varying parameters, stochastic forcing, taphonomic alterations and export to <a href="https://pyleoclim-util.readthedocs.io/">Pyleoclim</a> for analysis.</p>
 <section id="features" class="level2">
 <h2 class="anchored" data-anchor-id="features">Features</h2>
 <ul>
-<li><strong>Unified model API</strong> — every model shares the same <code>integrate()</code> → <code>CCOutput</code> workflow</li>
+<li><strong>Unified model API</strong> — every model shares the same <code>integrate()</code> → <a href="./api/core.Output.html#climatecritters.core.Output" title="0"><code>Output</code></a> workflow</li>
 <li><strong>Flexible forcing</strong> — constants, callables, or composable <a href="./api/core.Forcing.html#climatecritters.core.Forcing" title="0"><code>Forcing</code></a> sequences (Hold, Ramp, Harmonic)</li>
-<li><strong>Time-varying parameters</strong> — any parameter can be swapped for a callable or Forcing object at runtime</li>
+<li><strong>Time-varying parameters</strong> — any parameter can be swapped for a callable or <a href="./api/core.Forcing.html#climatecritters.core.Forcing" title="0"><code>Forcing</code></a> object at runtime</li>
 <li><strong>Multiple solvers</strong> — Euler, RK4, RK45, Euler-Maruyama (SDE), and scipy adaptive methods</li>
 <li><strong>Pyleoclim integration</strong> — export directly to <code>Series</code> or <code>MultipleSeries</code> for spectral analysis and plotting</li>
 </ul>
@@ -213,11 +220,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="quick-example">Quick example</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> climatecritters <span class="im">as</span> cc</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> climatecritters.model_critters <span class="im">import</span> Lorenz63</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Lorenz63()</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> model.integrate(t_span<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">50</span>), y0<span class="op">=</span>[<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>], method<span class="op">=</span><span class="st">'RK45'</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>ts <span class="op">=</span> output.to_pyleo(var_names<span class="op">=</span><span class="st">'x'</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>ts.plot()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Lorenz63()</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> model.integrate(t_span<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">50</span>), y0<span class="op">=</span>[<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>], method<span class="op">=</span><span class="st">'RK45'</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>ts <span class="op">=</span> output.to_pyleo(var_names<span class="op">=</span><span class="st">'x'</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>ts.plot()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/Lorenz63_timeseries.png" class="img-fluid figure-img"></p>
+<figcaption>Lorenz63 x-component time series</figcaption>
+</figure>
+</div>
 </section>
 <section id="where-to-go-next" class="level2">
 <h2 class="anchored" data-anchor-id="where-to-go-next">Where to go next</h2>
@@ -246,71 +258,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   #version-picker-menu { min-width: 0; width: auto; }
   #version-picker-menu .dropdown-item { padding: 0.25rem 0.75rem; }
 </style>
-<script>
-document.addEventListener('DOMContentLoaded', async () => {
-  const base = window.location.origin;
-  const pathParts = window.location.pathname.split('/').filter(Boolean);
-
-  const isVersion = p => ['stable', 'latest'].includes(p) || /^v\d/.test(p);
-  const versionIdx = pathParts.findIndex(isVersion);
-  const current = versionIdx >= 0 ? pathParts[versionIdx] : null;
-  const basePath = versionIdx > 0 ? '/' + pathParts.slice(0, versionIdx).join('/') : '';
-  const subPath = versionIdx >= 0 ? pathParts.slice(versionIdx + 1).join('/') : '';
-
-  const label = current || 'version';
-
-  const li = document.createElement('li');
-  li.className = 'nav-item dropdown';
-
-  const toggle = document.createElement('a');
-  toggle.className = 'nav-link dropdown-toggle';
-  toggle.href = '#';
-  toggle.setAttribute('role', 'button');
-  toggle.setAttribute('data-bs-toggle', 'dropdown');
-  toggle.setAttribute('aria-expanded', 'false');
-  toggle.textContent = label;
-
-  const menu = document.createElement('ul');
-  menu.className = 'dropdown-menu dropdown-menu-end';
-  menu.id = 'version-picker-menu';
-
-  const knownPrefixes = ['stable', 'latest'];
-
-  const addOption = (v) => {
-    const item = document.createElement('li');
-    const a = document.createElement('a');
-    a.className = 'dropdown-item' + (v === current ? ' active' : '');
-    a.href = '#';
-    a.textContent = v;
-    a.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.location.href = `${base}${basePath}/${v}/${subPath}`;
-    });
-    item.appendChild(a);
-    menu.appendChild(item);
-  };
-
-  for (const v of ['stable', 'latest']) addOption(v);
-  if (current && !knownPrefixes.includes(current)) addOption(current);
-
-  li.appendChild(toggle);
-  li.appendChild(menu);
-
-  const navbar = document.querySelector('.navbar-nav.ms-auto')
-               || document.querySelector('.navbar-nav')
-               || document.querySelector('nav');
-  if (navbar) navbar.appendChild(li);
-
-  try {
-    const res = await fetch(`${base}${basePath}/versions.json`);
-    if (!res.ok) return;
-    const versions = await res.json();
-    for (const v of versions) {
-      if (!menu.querySelector(`a[data-version="${v}"]`)) addOption(v);
-    }
-  } catch (_) {}
-});
-</script>
+<script src="https://linked.earth/ClimateCritters/version-picker.js"></script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,10 +12,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -70,17 +73,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <link href="../get-started/models.html" rel="next">
 <link href="../get-started/quickstart.html" rel="prev">
-<link href="../thumbnails/ClimateCritters_logo.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-bba5ebae505b5c03f3f0d8040a416a6b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e3adbaa939bcd423dddc8c8a834270b4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -121,8 +123,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ClimateCritters</span>
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../thumbnails/logo_beta_horiz_cropped.png" alt="ClimateCritters" class="navbar-logo light-content">
+    <img src="../thumbnails/logo_beta_horiz_cropped.png" alt="ClimateCritters" class="navbar-logo dark-content">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -132,7 +135,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="../get-started/installation.html" aria-current="page"> 
+    <a class="nav-link active" href="../get-started/overview.html" aria-current="page"> 
+<span class="menu-text">Overview</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../get-started/installation.html"> 
 <span class="menu-text">Get Started</span></a>
   </li>  
   <li class="nav-item">
@@ -281,7 +288,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#ccmodel" id="toc-ccmodel" class="nav-link active" data-scroll-target="#ccmodel">CCModel</a>
+  <li><a href="#cc.model" id="toc-cc.model" class="nav-link active" data-scroll-target="#cc.model">cc.Model</a>
   <ul>
   <li><a href="#parameter-handling" id="toc-parameter-handling" class="nav-link" data-scroll-target="#parameter-handling">Parameter handling</a></li>
   </ul></li>
@@ -289,7 +296,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#composable-scenarios" id="toc-composable-scenarios" class="nav-link" data-scroll-target="#composable-scenarios">Composable scenarios</a></li>
   </ul></li>
-  <li><a href="#ccoutput" id="toc-ccoutput" class="nav-link" data-scroll-target="#ccoutput">CCOutput</a>
+  <li><a href="#cc.output" id="toc-cc.output" class="nav-link" data-scroll-target="#cc.output">cc.Output</a>
   <ul>
   <li><a href="#accessing-variables" id="toc-accessing-variables" class="nav-link" data-scroll-target="#accessing-variables">Accessing variables</a></li>
   <li><a href="#reframing-the-time-axis" id="toc-reframing-the-time-axis" class="nav-link" data-scroll-target="#reframing-the-time-axis">Reframing the time axis</a></li>
@@ -321,10 +328,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This page explains the three building blocks that every ClimateCritters workflow uses: <code>CCModel</code>, <a href="../api/core.Forcing.html#climatecritters.core.Forcing" title="0"><code>Forcing</code></a>, and <code>CCOutput</code>.</p>
-<section id="ccmodel" class="level2">
-<h2 class="anchored" data-anchor-id="ccmodel">CCModel</h2>
-<p><code>CCModel</code> is the abstract base class for all signal models. You never instantiate it directly — instead you use one of the concrete subclasses (e.g.&nbsp;<code>Lorenz63</code>, <code>EBM</code>, <code>Stommel</code>).</p>
+<p>This page explains the three building blocks that every ClimateCritters workflow uses: <a href="../api/core.Model.html#climatecritters.core.Model" title="0"><code>Model</code></a>, <a href="../api/core.Forcing.html#climatecritters.core.Forcing" title="0"><code>Forcing</code></a>, and <a href="../api/core.Output.html#climatecritters.core.Output" title="0"><code>Output</code></a>.</p>
+<section id="cc.model" class="level2">
+<h2 class="anchored" data-anchor-id="cc.model">cc.Model</h2>
+<p><a href="../api/core.Model.html#climatecritters.core.Model" title="0"><code>Model</code></a> is the abstract base class for all signal models. You never instantiate it directly — instead you use one of the concrete subclasses (e.g.&nbsp;<code>Lorenz63</code>, <code>EBM</code>, <code>Stommel</code>).</p>
 <p>Every subclass shares the same integration interface:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> model.integrate(</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    t_span<span class="op">=</span>(t0, tf),   <span class="co"># integration window</span></span>
@@ -407,9 +414,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="ccoutput" class="level2">
-<h2 class="anchored" data-anchor-id="ccoutput">CCOutput</h2>
-<p><code>integrate()</code> always returns a <code>CCOutput</code> object. It holds:</p>
+<section id="cc.output" class="level2">
+<h2 class="anchored" data-anchor-id="cc.output">cc.Output</h2>
+<p><code>integrate()</code> always returns a <a href="../api/core.Output.html#climatecritters.core.Output" title="0"><code>Output</code></a> object. It holds:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -490,71 +497,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   #version-picker-menu { min-width: 0; width: auto; }
   #version-picker-menu .dropdown-item { padding: 0.25rem 0.75rem; }
 </style>
-<script>
-document.addEventListener('DOMContentLoaded', async () => {
-  const base = window.location.origin;
-  const pathParts = window.location.pathname.split('/').filter(Boolean);
-
-  const isVersion = p => ['stable', 'latest'].includes(p) || /^v\d/.test(p);
-  const versionIdx = pathParts.findIndex(isVersion);
-  const current = versionIdx >= 0 ? pathParts[versionIdx] : null;
-  const basePath = versionIdx > 0 ? '/' + pathParts.slice(0, versionIdx).join('/') : '';
-  const subPath = versionIdx >= 0 ? pathParts.slice(versionIdx + 1).join('/') : '';
-
-  const label = current || 'version';
-
-  const li = document.createElement('li');
-  li.className = 'nav-item dropdown';
-
-  const toggle = document.createElement('a');
-  toggle.className = 'nav-link dropdown-toggle';
-  toggle.href = '#';
-  toggle.setAttribute('role', 'button');
-  toggle.setAttribute('data-bs-toggle', 'dropdown');
-  toggle.setAttribute('aria-expanded', 'false');
-  toggle.textContent = label;
-
-  const menu = document.createElement('ul');
-  menu.className = 'dropdown-menu dropdown-menu-end';
-  menu.id = 'version-picker-menu';
-
-  const knownPrefixes = ['stable', 'latest'];
-
-  const addOption = (v) => {
-    const item = document.createElement('li');
-    const a = document.createElement('a');
-    a.className = 'dropdown-item' + (v === current ? ' active' : '');
-    a.href = '#';
-    a.textContent = v;
-    a.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.location.href = `${base}${basePath}/${v}/${subPath}`;
-    });
-    item.appendChild(a);
-    menu.appendChild(item);
-  };
-
-  for (const v of ['stable', 'latest']) addOption(v);
-  if (current && !knownPrefixes.includes(current)) addOption(current);
-
-  li.appendChild(toggle);
-  li.appendChild(menu);
-
-  const navbar = document.querySelector('.navbar-nav.ms-auto')
-               || document.querySelector('.navbar-nav')
-               || document.querySelector('nav');
-  if (navbar) navbar.appendChild(li);
-
-  try {
-    const res = await fetch(`${base}${basePath}/versions.json`);
-    if (!res.ok) return;
-    const versions = await res.json();
-    for (const v of versions) {
-      if (!menu.querySelector(`a[data-version="${v}"]`)) addOption(v);
-    }
-  } catch (_) {}
-});
-</script>
+<script src="https://linked.earth/ClimateCritters/version-picker.js"></script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
