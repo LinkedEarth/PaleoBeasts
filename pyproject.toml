@@ -4,9 +4,12 @@ version = "0.1.0"
 description = "ClimateCritters: A package for generating synthetic paleoclimate data"
 requires-python = ">=3.12"
 readme = "README.md"
-license = { text = "GPL-3.0" }
+license = { text = "MIT" }
 authors = [
-    { name = "Jordan Landers" }
+    { name = "Julien Emile-Geay" },
+    { name = "Jordan Landers" },
+    { name = "Alexander James" },
+    { name = "Maryam Niati" }
 ]
 
 dependencies = [
