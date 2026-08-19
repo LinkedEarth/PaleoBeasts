@@ -1,4 +1,6 @@
 # ClimateCritters
+[[DOI](https://doi.org/10.5281/zenodo.22018981)]
+
 A menagerie of minimal paleoclimate models and the scars that taphonomy carves on their hides.
 
 ## Rationale
